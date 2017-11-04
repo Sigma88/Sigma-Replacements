@@ -36,9 +36,9 @@ namespace SigmaReplacements
 
                 ConfigNode[] RnDKerbals = UserSettings.ConfigNode.GetNodes("RnDKerbal");
 
-                for (int i = 0; i < MenuKerbals?.Length; i++)
+                for (int i = 0; i < RnDKerbals?.Length; i++)
                 {
-                    if (int.TryParse(MenuKerbals[i]?.GetValue("index"), out int index) && index < UIKerbal.menuKerbals?.Length)
+                    if (int.TryParse(RnDKerbals[i]?.GetValue("index"), out int index) && index < UIKerbal.rndKerbals?.Length)
                     {
                         UIKerbal.rndKerbals.Load(RnDKerbals[i], index);
                     }

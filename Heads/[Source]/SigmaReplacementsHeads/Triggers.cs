@@ -10,20 +10,29 @@ namespace SigmaReplacements
         {
             void Start()
             {
-                int i = 0;
-                foreach (var transform in Resources.FindObjectsOfTypeAll<Transform>().Where(r => r?.name == "Kerbals"))
+                Transform[] transforms = Resources.FindObjectsOfTypeAll<Transform>();
+
+                int menu = 0;
+                int rnd = 0;
+
+                for (int i = 0; i < transforms?.Length; i++)
                 {
-                    foreach (Transform child in transform)
+                    Transform transform = transforms[i];
+
+                    if (transform?.name == "Kerbals")
                     {
-                        if (child?.gameObject != null && child?.GetComponent<UIKerbal> () == null)
-                            child.gameObject.AddComponent<UIKerbal>();
+                        foreach (Transform child in transform)
+                        {
+                            if (child?.gameObject != null && child?.GetComponent<UIKerbal>() == null)
+                                child.gameObject.AddComponent<UIKerbal>();
 
-                        UIKerbal kerbal = child.GetComponent<UIKerbal>();
-                        kerbal.crewMember = UIKerbal.menuKerbals[i];
-                        i++;
+                            UIKerbal kerbal = child.GetComponent<UIKerbal>();
+                            kerbal.crewMember = UIKerbal.menuKerbals[menu];
+                            menu++;
 
-                        if (child?.gameObject != null && child?.GetComponent<CustomHead>() == null)
-                            child.gameObject.AddComponent<CustomHead>();
+                            if (child?.gameObject != null && child?.GetComponent<CustomHead>() == null)
+                                child.gameObject.AddComponent<CustomHead>();
+                        }
                     }
                 }
             }
