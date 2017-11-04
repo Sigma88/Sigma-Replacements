@@ -32,9 +32,9 @@ namespace SigmaReplacements
                     {
                         newTex.anisoLevel = oldTex.anisoLevel;
                         newTex.wrapMode = oldTex.wrapMode;
-
-                        material.mainTexture = newTex;
                     }
+
+                    material.mainTexture = newTex;
                 }
             }
 
@@ -48,9 +48,9 @@ namespace SigmaReplacements
                     {
                         newTex.anisoLevel = oldTex.anisoLevel;
                         newTex.wrapMode = oldTex.wrapMode;
-
-                        material.SetTexture("_BumpMap", newTex);
                     }
+
+                    material.SetTexture("_BumpMap", newTex);
                 }
             }
 
