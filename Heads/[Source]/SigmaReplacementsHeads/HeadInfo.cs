@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using Gender = ProtoCrewMember.Gender;
@@ -35,6 +36,9 @@ namespace SigmaReplacements
             float minStupidity = 0;
             float maxStupidity = 1;
 
+            // Collection
+            internal string collection = "";
+
             // Colors Lists
             internal List<Color> pupilLeft = new List<Color>();
             internal List<Color> pupilRight = new List<Color>();
@@ -42,6 +46,7 @@ namespace SigmaReplacements
             internal List<Color> eyeballRight = new List<Color>();
             internal List<Color> upTeeth01 = new List<Color>();
             internal List<Color> upTeeth02 = new List<Color>();
+            internal List<Color> tongue = new List<Color>();
             internal List<Color> head = new List<Color>();
             internal List<Color> hair = new List<Color>();
 
@@ -52,6 +57,7 @@ namespace SigmaReplacements
             internal List<Texture> eyeballRightTex = new List<Texture>();
             internal List<Texture> upTeeth01Tex = new List<Texture>();
             internal List<Texture> upTeeth02Tex = new List<Texture>();
+            internal List<Texture> tongueTex = new List<Texture>();
             internal List<Texture> headTex = new List<Texture>();
             internal List<Texture> hairTex = new List<Texture>();
 
@@ -62,6 +68,7 @@ namespace SigmaReplacements
             internal List<Texture> eyeballRightNrm = new List<Texture>();
             internal List<Texture> upTeeth01Nrm = new List<Texture>();
             internal List<Texture> upTeeth02Nrm = new List<Texture>();
+            internal List<Texture> tongueNrm = new List<Texture>();
             internal List<Texture> headNrm = new List<Texture>();
             internal List<Texture> hairNrm = new List<Texture>();
 
@@ -133,6 +140,9 @@ namespace SigmaReplacements
                 maxStupidity = Parse(requirements.GetValue("maxStupidity"), maxStupidity);
 
 
+                // Parse Collection
+                collection = info.GetValue("collection");
+
                 // Parse HeadInfo Colors
                 pupilLeft = Parse(info.GetValues("pupilLeft"), pupilLeft);
                 pupilRight = Parse(info.GetValues("pupilRight"), pupilRight);
@@ -140,6 +150,7 @@ namespace SigmaReplacements
                 eyeballRight = Parse(info.GetValues("eyeballRight"), eyeballRight);
                 upTeeth01 = Parse(info.GetValues("upTeeth01"), upTeeth01);
                 upTeeth02 = Parse(info.GetValues("upTeeth02"), upTeeth02);
+                tongue = Parse(info.GetValues("tongue"), tongue);
                 head = Parse(info.GetValues("head"), head);
                 hair = Parse(info.GetValues("hair"), hair);
 
@@ -150,6 +161,7 @@ namespace SigmaReplacements
                 eyeballRightTex = Parse(info.GetValues("eyeballRightTex"), eyeballRightTex);
                 upTeeth01Tex = Parse(info.GetValues("upTeeth01Tex"), upTeeth01Tex);
                 upTeeth02Tex = Parse(info.GetValues("upTeeth02Tex"), upTeeth02Tex);
+                tongueTex = Parse(info.GetValues("tongueTex"), tongueTex);
                 headTex = Parse(info.GetValues("headTex"), headTex);
                 hairTex = Parse(info.GetValues("hairTex"), hairTex);
 
@@ -160,8 +172,12 @@ namespace SigmaReplacements
                 eyeballRightNrm = Parse(info.GetValues("eyeballRightNrm"), eyeballRightNrm);
                 upTeeth01Nrm = Parse(info.GetValues("upTeeth01Nrm"), upTeeth01Nrm);
                 upTeeth02Nrm = Parse(info.GetValues("upTeeth02Nrm"), upTeeth02Nrm);
+                tongueNrm = Parse(info.GetValues("tongueNrm"), tongueNrm);
                 headNrm = Parse(info.GetValues("headNrm"), headNrm);
                 hairNrm = Parse(info.GetValues("hairNrm"), hairNrm);
+
+                // Parse Folders
+                ParseFolders(info.GetNode("Folders"));
             }
 
 
@@ -221,12 +237,76 @@ namespace SigmaReplacements
                 return defaultValue;
             }
 
+            void ParseFolders(ConfigNode node)
+            {
+                if (node == null) return;
+
+                // Parse Texture Folders
+                pupilLeftTex = ParseFolders(node.GetValues("pupilLeftTex"), pupilLeftTex);
+                pupilRightTex = ParseFolders(node.GetValues("pupilRightTex"), pupilRightTex);
+                eyeballLeftTex = ParseFolders(node.GetValues("eyeballLeftTex"), eyeballLeftTex);
+                eyeballRightTex = ParseFolders(node.GetValues("eyeballRightTex"), eyeballRightTex);
+                upTeeth01Tex = ParseFolders(node.GetValues("upTeeth01Tex"), upTeeth01Tex);
+                upTeeth02Tex = ParseFolders(node.GetValues("upTeeth02Tex"), upTeeth02Tex);
+                tongueTex = ParseFolders(node.GetValues("tongueTex"), tongueTex);
+                headTex = ParseFolders(node.GetValues("headTex"), headTex);
+                hairTex = ParseFolders(node.GetValues("hairTex"), hairTex);
+
+                // Parse Normal Folders
+                pupilLeftNrm = ParseFolders(node.GetValues("pupilLeftNrm"), pupilLeftNrm);
+                pupilRightNrm = ParseFolders(node.GetValues("pupilRightNrm"), pupilRightNrm);
+                eyeballLeftNrm = ParseFolders(node.GetValues("eyeballLeftNrm"), eyeballLeftNrm);
+                eyeballRightNrm = ParseFolders(node.GetValues("eyeballRightNrm"), eyeballRightNrm);
+                upTeeth01Nrm = ParseFolders(node.GetValues("upTeeth01Nrm"), upTeeth01Nrm);
+                upTeeth02Nrm = ParseFolders(node.GetValues("upTeeth02Nrm"), upTeeth02Nrm);
+                tongueNrm = ParseFolders(node.GetValues("tongueNrm"), tongueNrm);
+                headNrm = ParseFolders(node.GetValues("headNrm"), headNrm);
+                hairNrm = ParseFolders(node.GetValues("hairNrm"), hairNrm);
+            }
+
+            List<Texture> ParseFolders(string[] paths, List<Texture> list)
+            {
+                for (int i = 0; i < paths?.Length; i++)
+                {
+                    list.AddUniqueRange(ParseFolder(paths[i]));
+                }
+
+                return list;
+            }
+
+            List<Texture> ParseFolder(string path)
+            {
+                Texture[] textures = Resources.FindObjectsOfTypeAll<Texture>();
+                List<Texture> list = new List<Texture>();
+
+                if (Directory.Exists("GameData/" + path))
+                {
+                    string[] files = Directory.GetFiles("GameData/" + path)?.Where(f => Path.GetExtension(f) == ".dds" || Path.GetExtension(f) == ".png")?.ToArray();
+
+                    for (int i = 0; i < files?.Length; i++)
+                    {
+                        if (!string.IsNullOrEmpty(files[i]))
+                        {
+                            string name = path + Path.GetFileNameWithoutExtension(files[i]);
+                            Texture texture = textures.FirstOrDefault(t => t?.name == name);
+
+                            if (texture != null)
+                                list.AddUnique(texture);
+                        }
+                    }
+                }
+
+                return list;
+            }
+
 
             // Order DataBase
             internal static void OrderDB()
             {
-                DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name)));
-                DataBase.AddRange(List.Where(h => h != null && string.IsNullOrEmpty(h?.name)));
+                DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
+                DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
+                DataBase.AddRange(List.Where(h => string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
+                DataBase.AddRange(List.Where(h => h != null && string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
             }
         }
     }

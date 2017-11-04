@@ -15,6 +15,7 @@ namespace SigmaReplacements
             Color? eyeballRight = null;
             Color? upTeeth01 = null;
             Color? upTeeth02 = null;
+            Color? tongue = null;
             Color? head = null;
             Color? hair = null;
 
@@ -25,6 +26,7 @@ namespace SigmaReplacements
             Texture eyeballRightTex = null;
             Texture upTeeth01Tex = null;
             Texture upTeeth02Tex = null;
+            Texture tongueTex = null;
             Texture headTex = null;
             Texture hairTex = null;
 
@@ -35,14 +37,22 @@ namespace SigmaReplacements
             Texture eyeballRightNrm = null;
             Texture upTeeth01Nrm = null;
             Texture upTeeth02Nrm = null;
+            Texture tongueNrm = null;
             Texture headNrm = null;
             Texture hairNrm = null;
 
             void Start()
             {
+                UnityEngine.Debug.Log("SigmaLog: START");
+                UnityEngine.Debug.Log("SigmaLog: gameObject = " + gameObject);
+
                 KerbalEVA kerbalEVA = GetComponent<KerbalEVA>();
                 ProtoCrewMember kerbal = kerbalEVA?.part?.protoModuleCrew?.FirstOrDefault();
-                if (kerbal == null) kerbal = GetComponent<CrewMember>();
+                UnityEngine.Debug.Log("SigmaLog: kerbal = " + kerbal);
+                if (kerbal == null) kerbal = GetComponent<kerbalExpressionSystem>()?.protoCrewMember;
+                UnityEngine.Debug.Log("SigmaLog: kerbal = " + kerbal);
+                if (kerbal == null) kerbal = GetComponent<ProtoCrewMember>();
+                UnityEngine.Debug.Log("SigmaLog: kerbal = " + kerbal);
                 if (kerbal == null) return;
 
                 LoadFor(kerbal);
@@ -58,43 +68,53 @@ namespace SigmaReplacements
                 for (int i = 0; i < HeadInfo.DataBase?.Count; i++)
                 {
                     HeadInfo info = HeadInfo.DataBase[i].GetFor(kerbal);
+                    string collection = "";
 
                     if (info != null)
                     {
-                        if (info.useChance != 1)
-                            useChance = kerbal.Hash(info.useGameSeed) % 100;
-
-                        if (info.useChance == 1 || useChance < info.useChance * 100)
+                        if (string.IsNullOrEmpty(collection) || collection == info.collection)
                         {
-                            // Colors
-                            pupilLeft = pupilLeft ?? info.pupilLeft.Pick(kerbal, info.useGameSeed);
-                            pupilRight = pupilRight ?? info.pupilRight.Pick(kerbal, info.useGameSeed);
-                            eyeballLeft = eyeballLeft ?? info.eyeballLeft.Pick(kerbal, info.useGameSeed);
-                            eyeballRight = eyeballRight ?? info.eyeballRight.Pick(kerbal, info.useGameSeed);
-                            upTeeth01 = upTeeth01 ?? info.upTeeth01.Pick(kerbal, info.useGameSeed);
-                            upTeeth02 = upTeeth02 ?? info.upTeeth02.Pick(kerbal, info.useGameSeed);
-                            head = head ?? info.head.Pick(kerbal, info.useGameSeed);
-                            hair = hair ?? info.hair.Pick(kerbal, info.useGameSeed);
+                            if (info.useChance != 1)
+                                useChance = kerbal.Hash(info.useGameSeed) % 100;
 
-                            // Textures
-                            pupilLeftTex = pupilLeftTex ?? info.pupilLeftTex.Pick(kerbal, info.useGameSeed);
-                            pupilRightTex = pupilRightTex ?? info.pupilRightTex.Pick(kerbal, info.useGameSeed);
-                            eyeballLeftTex = eyeballLeftTex ?? info.eyeballLeftTex.Pick(kerbal, info.useGameSeed);
-                            eyeballRightTex = eyeballRightTex ?? info.eyeballRightTex.Pick(kerbal, info.useGameSeed);
-                            upTeeth01Tex = upTeeth01Tex ?? info.upTeeth01Tex.Pick(kerbal, info.useGameSeed);
-                            upTeeth02Tex = upTeeth02Tex ?? info.upTeeth02Tex.Pick(kerbal, info.useGameSeed);
-                            headTex = headTex ?? info.headTex.Pick(kerbal, info.useGameSeed);
-                            hairTex = hairTex ?? info.hairTex.Pick(kerbal, info.useGameSeed);
+                            if (info.useChance == 1 || useChance < info.useChance * 100)
+                            {
+                                // Collection
+                                collection = info.collection;
 
-                            // Normals
-                            pupilLeftNrm = pupilLeftNrm ?? info.pupilLeftNrm.Pick(kerbal, info.useGameSeed);
-                            pupilRightNrm = pupilRightNrm ?? info.pupilRightNrm.Pick(kerbal, info.useGameSeed);
-                            eyeballLeftNrm = eyeballLeftNrm ?? info.eyeballLeftNrm.Pick(kerbal, info.useGameSeed);
-                            eyeballRightNrm = eyeballRightNrm ?? info.eyeballRightNrm.Pick(kerbal, info.useGameSeed);
-                            upTeeth01Nrm = upTeeth01Nrm ?? info.upTeeth01Nrm.Pick(kerbal, info.useGameSeed);
-                            upTeeth02Nrm = upTeeth02Nrm ?? info.upTeeth02Nrm.Pick(kerbal, info.useGameSeed);
-                            headNrm = headNrm ?? info.headNrm.Pick(kerbal, info.useGameSeed);
-                            hairNrm = hairNrm ?? info.hairNrm.Pick(kerbal, info.useGameSeed);
+                                // Colors
+                                pupilLeft = pupilLeft ?? info.pupilLeft.Pick(kerbal, info.useGameSeed);
+                                pupilRight = pupilRight ?? info.pupilRight.At(pupilLeft, info.pupilLeft) ?? info.pupilRight.Pick(kerbal, info.useGameSeed);
+                                eyeballLeft = eyeballLeft ?? info.eyeballLeft.Pick(kerbal, info.useGameSeed);
+                                eyeballRight = eyeballRight ?? info.eyeballRight.At(eyeballLeft, info.eyeballLeft) ?? info.eyeballRight.Pick(kerbal, info.useGameSeed);
+                                upTeeth01 = upTeeth01 ?? info.upTeeth01.Pick(kerbal, info.useGameSeed);
+                                upTeeth02 = upTeeth02 ?? info.upTeeth02.At(upTeeth01, info.upTeeth01) ?? info.upTeeth02.Pick(kerbal, info.useGameSeed);
+                                tongue = tongue ?? info.tongue.Pick(kerbal, info.useGameSeed);
+                                head = head ?? info.head.Pick(kerbal, info.useGameSeed);
+                                hair = hair ?? info.hair.At(head, info.head) ?? info.hair.Pick(kerbal, info.useGameSeed);
+
+                                // Textures
+                                pupilLeftTex = pupilLeftTex ?? info.pupilLeftTex.Pick(kerbal, info.useGameSeed);
+                                pupilRightTex = pupilRightTex ?? info.pupilRightTex.At(pupilLeftTex, info.pupilLeftTex) ?? info.pupilRightTex.Pick(kerbal, info.useGameSeed);
+                                eyeballLeftTex = eyeballLeftTex ?? info.eyeballLeftTex.Pick(kerbal, info.useGameSeed);
+                                eyeballRightTex = eyeballRightTex ?? info.eyeballRightTex.At(eyeballLeftTex, info.eyeballLeftTex) ?? info.eyeballRightTex.Pick(kerbal, info.useGameSeed);
+                                upTeeth01Tex = upTeeth01Tex ?? info.upTeeth01Tex.Pick(kerbal, info.useGameSeed);
+                                upTeeth02Tex = upTeeth02Tex ?? info.upTeeth02Tex.At(upTeeth01Tex, info.upTeeth01Tex) ?? info.upTeeth02Tex.Pick(kerbal, info.useGameSeed);
+                                tongueTex = tongueTex ?? info.tongueTex.Pick(kerbal, info.useGameSeed);
+                                headTex = headTex ?? info.headTex.Pick(kerbal, info.useGameSeed);
+                                hairTex = hairTex ?? info.hairTex.At(headTex, info.headTex) ?? info.hairTex.Pick(kerbal, info.useGameSeed);
+
+                                // Normals
+                                pupilLeftNrm = pupilLeftNrm ?? info.pupilLeftNrm.Pick(kerbal, info.useGameSeed);
+                                pupilRightNrm = pupilRightNrm ?? info.pupilRightNrm.At(pupilLeftNrm, info.pupilLeftNrm) ?? info.pupilRightNrm.Pick(kerbal, info.useGameSeed);
+                                eyeballLeftNrm = eyeballLeftNrm ?? info.eyeballLeftNrm.Pick(kerbal, info.useGameSeed);
+                                eyeballRightNrm = eyeballRightNrm ?? info.eyeballRightNrm.At(eyeballLeftNrm, info.eyeballLeftNrm) ?? info.eyeballRightNrm.Pick(kerbal, info.useGameSeed);
+                                upTeeth01Nrm = upTeeth01Nrm ?? info.upTeeth01Nrm.Pick(kerbal, info.useGameSeed);
+                                upTeeth02Nrm = upTeeth02Nrm ?? info.upTeeth02Nrm.At(upTeeth01Nrm, info.upTeeth01Nrm) ?? info.upTeeth02Nrm.Pick(kerbal, info.useGameSeed);
+                                tongueNrm = tongueNrm ?? info.tongueNrm.Pick(kerbal, info.useGameSeed);
+                                headNrm = headNrm ?? info.headNrm.Pick(kerbal, info.useGameSeed);
+                                hairNrm = hairNrm ?? info.hairNrm.At(headNrm, info.headNrm) ?? info.hairNrm.Pick(kerbal, info.useGameSeed);
+                            }
                         }
                     }
                 }
@@ -112,84 +132,65 @@ namespace SigmaReplacements
 
                     if (name == "pupilLeft")
                     {
-                        if (pupilLeft != null)
-                        {
-                            material.color = (Color)pupilLeft;
-                        }
-                        if (pupilLeftTex != null)
-                            material.mainTexture = pupilLeftTex;
-                        if (pupilLeftNrm != null && material.HasProperty("_BumpMap"))
-                            material.SetTexture("_BumpMap", pupilLeftNrm);
+                        material.SetColor(pupilLeft);
+                        material.SetTexture(pupilLeftTex);
+                        material.SetNormal(pupilLeftNrm);
                     }
 
                     if (name == "pupilRight")
                     {
-                        if (pupilRight != null)
-                            material.color = (Color)pupilRight;
-                        if (pupilRightTex != null)
-                            material.mainTexture = pupilRightTex;
-                        if (pupilRightNrm != null && material.HasProperty("_BumpMap"))
-                            material.SetTexture("_BumpMap", pupilRightNrm);
+                        material.SetColor(pupilRight);
+                        material.SetTexture(pupilRightTex);
+                        material.SetNormal(pupilRightNrm);
                     }
 
                     if (name == "eyeballLeft")
                     {
-                        if (eyeballLeft != null)
-                            material.color = (Color)eyeballLeft;
-                        if (eyeballLeftTex != null)
-                            material.mainTexture = eyeballLeftTex;
-                        if (eyeballLeftNrm != null && material.HasProperty("_BumpMap"))
-                            material.SetTexture("_BumpMap", eyeballLeftNrm);
+                        material.SetColor(eyeballLeft);
+                        material.SetTexture(eyeballLeftTex);
+                        material.SetNormal(eyeballLeftNrm);
                     }
 
                     if (name == "eyeballRight")
                     {
-                        if (eyeballRight != null)
-                            material.color = (Color)eyeballRight;
-                        if (eyeballRightTex != null)
-                            material.mainTexture = eyeballRightTex;
-                        if (eyeballRightNrm != null && material.HasProperty("_BumpMap"))
-                            material.SetTexture("_BumpMap", eyeballRightNrm);
+                        material.SetColor(eyeballRight);
+                        material.SetTexture(eyeballRightTex);
+                        material.SetNormal(eyeballRightNrm);
                     }
 
                     if (name == "upTeeth01" || name == "downTeeth01")
                     {
-                        if (upTeeth01 != null)
-                            material.color = (Color)upTeeth01;
-                        if (upTeeth01Tex != null)
-                            material.mainTexture = upTeeth01Tex;
-                        if (upTeeth01Nrm != null && material.HasProperty("_BumpMap"))
-                            material.SetTexture("_BumpMap", upTeeth01Nrm);
+                        material.SetColor(upTeeth01);
+                        material.SetTexture(upTeeth01Tex);
+                        material.SetNormal(upTeeth01Nrm);
                     }
 
                     if (name == "upTeeth02" || name == "upTeeth01")
                     {
-                        if (upTeeth02 != null)
-                            material.color = (Color)upTeeth02;
-                        if (upTeeth02Tex != null)
-                            material.mainTexture = upTeeth02Tex;
-                        if (upTeeth02Nrm != null && material.HasProperty("_BumpMap"))
-                            material.SetTexture("_BumpMap", upTeeth02Nrm);
+                        material.SetColor(upTeeth02);
+                        material.SetTexture(upTeeth02Tex);
+                        material.SetNormal(upTeeth02Nrm);
+                    }
+
+                    if (name == "tongue")
+                    {
+                        material.SetColor(tongue);
+                        material.SetTexture(tongueTex);
+                        material.SetNormal(tongueNrm);
                     }
 
                     if (name == "headMesh01" || name == "headMesh")
                     {
-                        if (head != null)
-                            material.color = (Color)head;
-                        if (headTex != null)
-                            material.mainTexture = headTex;
-                        if (headNrm != null && material.HasProperty("_BumpMap"))
-                            material.SetTexture("_BumpMap", headNrm);
+                        material.SetColor(head);
+                        material.SetTexture(headTex);
+                        material.SetNormal(headNrm);
                     }
 
                     if (name == "ponytail")
                     {
-                        if (hair != null)
-                            material.color = (Color)hair;
-                        if (hairTex != null)
-                            material.mainTexture = hairTex;
-                        if (hairNrm != null && material.HasProperty("_BumpMap"))
-                            material.SetTexture("_BumpMap", hairNrm);
+                        material.SetColor(hair);
+                        material.SetTexture(hairTex);
+                        material.SetNormal(hairNrm);
                     }
                 }
             }

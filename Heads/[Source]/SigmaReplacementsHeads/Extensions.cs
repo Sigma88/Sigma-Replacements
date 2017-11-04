@@ -14,6 +14,60 @@ namespace SigmaReplacements
     {
         internal static class Extensions
         {
+            internal static void SetColor(this Material material, Color? color)
+            {
+                if (material != null && color != null)
+                {
+                    material.color = (Color)color;
+                }
+            }
+
+            internal static void SetTexture(this Material material, Texture newTex)
+            {
+                if (material != null && newTex != null)
+                {
+                    Texture oldTex = material?.mainTexture;
+
+                    if (oldTex != null)
+                    {
+                        newTex.anisoLevel = oldTex.anisoLevel;
+                        newTex.wrapMode = oldTex.wrapMode;
+
+                        material.mainTexture = newTex;
+                    }
+                }
+            }
+
+            internal static void SetNormal(this Material material, Texture newTex)
+            {
+                if (material != null && newTex != null && material.HasProperty("_BumpMap"))
+                {
+                    Texture oldTex = material.GetTexture("_BumpMap");
+
+                    if (oldTex != null)
+                    {
+                        newTex.anisoLevel = oldTex.anisoLevel;
+                        newTex.wrapMode = oldTex.wrapMode;
+
+                        material.SetTexture("_BumpMap", newTex);
+                    }
+                }
+            }
+
+            internal static Texture At(this List<Texture> right, Texture item, List<Texture> left)
+            {
+                if (item != null && left.Contains(item) && right?.Count > left.IndexOf(item))
+                    return right[left.IndexOf(item)];
+                return null;
+            }
+
+            internal static Color? At(this List<Color> right, Color? item, List<Color> left)
+            {
+                if (item != null && left.Contains((Color)item) && right?.Count > left.IndexOf((Color)item))
+                    return right[left.IndexOf((Color)item)];
+                return null;
+            }
+
             internal static Texture Pick(this List<Texture> list, ProtoCrewMember kerbal, bool useGameSeed)
             {
                 if (list.Count == 1)
