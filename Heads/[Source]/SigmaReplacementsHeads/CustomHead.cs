@@ -18,6 +18,7 @@ namespace SigmaReplacements
             Color? tongue = null;
             Color? head = null;
             Color? hair = null;
+            Color? arm = null;
 
             // Textures
             Texture pupilLeftTex = null;
@@ -29,6 +30,7 @@ namespace SigmaReplacements
             Texture tongueTex = null;
             Texture headTex = null;
             Texture hairTex = null;
+            Texture armTex = null;
 
             // Normals
             Texture pupilLeftNrm = null;
@@ -40,12 +42,22 @@ namespace SigmaReplacements
             Texture tongueNrm = null;
             Texture headNrm = null;
             Texture hairNrm = null;
+            Texture armNrm = null;
+
 
             void Start()
             {
+                Apply();
+            }
+
+            internal void Apply()
+            {
                 ProtoCrewMember kerbal = GetComponent<KerbalEVA>()?.part?.protoModuleCrew?.FirstOrDefault();
                 if (kerbal == null) kerbal = GetComponent<kerbalExpressionSystem>()?.protoCrewMember;
-                if (kerbal == null) kerbal = GetComponent<UIKerbal>()?.crewMember;
+                if (kerbal == null) kerbal = GetComponent<UIKerbalMenu>()?.crewMember;
+                if (kerbal == null) kerbal = GetComponent<UIKerbalWerner>()?.crewMember;
+                if (kerbal == null) kerbal = GetComponent<UIKerbalGene>()?.crewMember;
+                if (kerbal == null) kerbal = GetComponent<UIKerbalStrategy>()?.crewMember;
                 if (kerbal == null) return;
 
                 LoadFor(kerbal);
@@ -184,6 +196,13 @@ namespace SigmaReplacements
                         material.SetColor(hair);
                         material.SetTexture(hairTex);
                         material.SetNormal(hairNrm);
+                    }
+
+                    if (name == "arm")
+                    {
+                        material.SetColor(arm);
+                        material.SetTexture(armTex);
+                        material.SetNormal(armNrm);
                     }
                 }
             }

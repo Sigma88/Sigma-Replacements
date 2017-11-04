@@ -12,9 +12,7 @@ namespace SigmaReplacements
             internal static void Load(this CrewMember[] array, ConfigNode node, int index)
             {
                 CrewMember kerbal = array[index];
-                UnityEngine.Debug.Log("SigmaLog: oldkerbal = " + kerbal);
                 HeadInfo stats = new HeadInfo(node.GetNode("Stats") ?? new ConfigNode(), new ConfigNode());
-                UnityEngine.Debug.Log("SigmaLog: stats = " + stats);
 
                 array[index] = new CrewMember
                 (
