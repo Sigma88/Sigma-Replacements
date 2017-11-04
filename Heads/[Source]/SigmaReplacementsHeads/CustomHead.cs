@@ -43,10 +43,9 @@ namespace SigmaReplacements
 
             void Start()
             {
-                KerbalEVA kerbalEVA = GetComponent<KerbalEVA>();
-                ProtoCrewMember kerbal = kerbalEVA?.part?.protoModuleCrew?.FirstOrDefault();
+                ProtoCrewMember kerbal = GetComponent<KerbalEVA>()?.part?.protoModuleCrew?.FirstOrDefault();
                 if (kerbal == null) kerbal = GetComponent<kerbalExpressionSystem>()?.protoCrewMember;
-                if (kerbal == null) kerbal = GetComponent<ProtoCrewMember>();
+                if (kerbal == null) kerbal = GetComponent<UIKerbal>()?.crewMember;
                 if (kerbal == null) return;
 
                 LoadFor(kerbal);
@@ -124,42 +123,42 @@ namespace SigmaReplacements
                     Material material = renderers[i]?.material;
                     if (material == null) continue;
 
-                    if (name == "pupilLeft")
+                    if (name == "pupilLeft" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_pupilLeft")
                     {
                         material.SetColor(pupilLeft);
                         material.SetTexture(pupilLeftTex);
                         material.SetNormal(pupilLeftNrm);
                     }
 
-                    if (name == "pupilRight")
+                    if (name == "pupilRight" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_pupilRight")
                     {
                         material.SetColor(pupilRight);
                         material.SetTexture(pupilRightTex);
                         material.SetNormal(pupilRightNrm);
                     }
 
-                    if (name == "eyeballLeft")
+                    if (name == "eyeballLeft" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_eyeballLeft")
                     {
                         material.SetColor(eyeballLeft);
                         material.SetTexture(eyeballLeftTex);
                         material.SetNormal(eyeballLeftNrm);
                     }
 
-                    if (name == "eyeballRight")
+                    if (name == "eyeballRight" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_eyeballRight")
                     {
                         material.SetColor(eyeballRight);
                         material.SetTexture(eyeballRightTex);
                         material.SetNormal(eyeballRightNrm);
                     }
 
-                    if (name == "upTeeth01" || name == "downTeeth01")
+                    if (name == "upTeeth01" || name == "downTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_downTeeth01")
                     {
                         material.SetColor(upTeeth01);
                         material.SetTexture(upTeeth01Tex);
                         material.SetNormal(upTeeth01Nrm);
                     }
 
-                    if (name == "upTeeth02" || name == "upTeeth01")
+                    if (name == "upTeeth02" || name == "upTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_upTeeth01")
                     {
                         material.SetColor(upTeeth02);
                         material.SetTexture(upTeeth02Tex);
@@ -173,14 +172,14 @@ namespace SigmaReplacements
                         material.SetNormal(tongueNrm);
                     }
 
-                    if (name == "headMesh01" || name == "headMesh")
+                    if (name == "headMesh01" || name == "headMesh" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_polySurface51")
                     {
                         material.SetColor(head);
                         material.SetTexture(headTex);
                         material.SetNormal(headNrm);
                     }
 
-                    if (name == "ponytail")
+                    if (name == "ponytail" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_pCube1")
                     {
                         material.SetColor(hair);
                         material.SetTexture(hairTex);

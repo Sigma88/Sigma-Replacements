@@ -24,17 +24,21 @@ namespace SigmaReplacements
             // Requirements
             internal bool useGameSeed = false;
             internal float useChance = 1;
-            Type? rosterStatus = null;
-            Gender? gender = null;
-            string[] trait = null;
-            bool? veteran = null;
-            bool? isBadass = null;
+            internal Type? rosterStatus = null;
+            internal Gender? gender = null;
+            internal string[] trait = null;
+            internal bool? veteran = null;
+            internal bool? isBadass = null;
             int minLevel = 0;
             int maxLevel = 5;
             float minCourage = 0;
             float maxCourage = 1;
             float minStupidity = 0;
             float maxStupidity = 1;
+            // For MainMenuKerbals
+            internal float? courage = null;
+            internal float? stupidity = null;
+            internal int? experienceLevel = null;
 
             // Collection
             internal string collection = "";
@@ -138,6 +142,10 @@ namespace SigmaReplacements
                 maxCourage = Parse(requirements.GetValue("maxCourage"), maxCourage);
                 minStupidity = Parse(requirements.GetValue("minStupidity"), minStupidity);
                 maxStupidity = Parse(requirements.GetValue("maxStupidity"), maxStupidity);
+                // For MainMenuKerbals
+                experienceLevel = Parse(requirements.GetValue("level"), experienceLevel);
+                courage = Parse(requirements.GetValue("courage"), courage);
+                stupidity = Parse(requirements.GetValue("stupidity"), stupidity);
 
 
                 // Parse Collection

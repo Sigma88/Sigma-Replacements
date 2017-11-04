@@ -1,10 +1,35 @@
 ﻿using UnityEngine;
-
+using System.Linq;
 
 namespace SigmaReplacements
 {
     namespace Heads
     {
+        [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+        class MenuTriggers : MonoBehaviour
+        {
+            void Start()
+            {
+                int i = 0;
+                foreach (var transform in Resources.FindObjectsOfTypeAll<Transform>().Where(r => r?.name == "Kerbals"))
+                {
+                    foreach (Transform child in transform)
+                    {
+                        if (child?.gameObject != null && child?.GetComponent<UIKerbal> () == null)
+                            child.gameObject.AddComponent<UIKerbal>();
+
+                        UIKerbal kerbal = child.GetComponent<UIKerbal>();
+                        kerbal.crewMember = UIKerbal.menuKerbals[i];
+                        i++;
+
+                        if (child?.gameObject != null && child?.GetComponent<CustomHead>() == null)
+                            child.gameObject.AddComponent<CustomHead>();
+                    }
+                }
+            }
+        }
+
+
         [KSPAddon(KSPAddon.Startup.Flight, false)]
         class FlightTriggers : MonoBehaviour
         {
