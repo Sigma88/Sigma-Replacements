@@ -43,16 +43,10 @@ namespace SigmaReplacements
 
             void Start()
             {
-                UnityEngine.Debug.Log("SigmaLog: START");
-                UnityEngine.Debug.Log("SigmaLog: gameObject = " + gameObject);
-
                 KerbalEVA kerbalEVA = GetComponent<KerbalEVA>();
                 ProtoCrewMember kerbal = kerbalEVA?.part?.protoModuleCrew?.FirstOrDefault();
-                UnityEngine.Debug.Log("SigmaLog: kerbal = " + kerbal);
                 if (kerbal == null) kerbal = GetComponent<kerbalExpressionSystem>()?.protoCrewMember;
-                UnityEngine.Debug.Log("SigmaLog: kerbal = " + kerbal);
                 if (kerbal == null) kerbal = GetComponent<ProtoCrewMember>();
-                UnityEngine.Debug.Log("SigmaLog: kerbal = " + kerbal);
                 if (kerbal == null) return;
 
                 LoadFor(kerbal);
