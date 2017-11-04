@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 namespace SigmaReplacements
 {
     namespace Heads
@@ -13,6 +14,7 @@ namespace SigmaReplacements
             static CrewMember orbit4 = new CrewMember(ProtoCrewMember.KerbalType.Crew, "Valentina Kerman", ProtoCrewMember.Gender.Female, "Pilot", true, true, 0.55f, 0.4f, 0);
 
             internal static CrewMember[] menuKerbals = new[] { mun1, orbit1, orbit2, orbit3, orbit4 };
+            internal static CrewMember[] rndKerbals = new[] { mun1, orbit1, orbit2, orbit3, orbit4 };
 
             internal CrewMember crewMember;
         }
@@ -28,28 +30,19 @@ namespace SigmaReplacements
                 {
                     if (int.TryParse(MenuKerbals[i]?.GetValue("index"), out int index) && index < UIKerbal.menuKerbals?.Length)
                     {
-                        Load(MenuKerbals[i], index);
+                        UIKerbal.menuKerbals.Load(MenuKerbals[i], index);
                     }
                 }
-            }
 
-            void Load(ConfigNode node, int index)
-            {
-                CrewMember kerbal = UIKerbal.menuKerbals[index];
-                HeadInfo stats = new HeadInfo(node.GetNode("Stats"), new ConfigNode());
+                ConfigNode[] RnDKerbals = UserSettings.ConfigNode.GetNodes("RnDKerbal");
 
-                UIKerbal.menuKerbals[index] = new CrewMember
-                (
-                    stats.rosterStatus ?? kerbal.type,
-                    !string.IsNullOrEmpty(stats.name) ? stats.name : kerbal.name,
-                    kerbal.gender = stats.gender ?? kerbal.gender,
-                    kerbal.trait = stats.trait?.Length > 0 && !string.IsNullOrEmpty(stats.trait[0]) ? stats.trait[0] : kerbal.trait,
-                    kerbal.veteran = stats.veteran ?? kerbal.veteran,
-                    kerbal.isBadass = stats.isBadass ?? kerbal.isBadass,
-                    kerbal.courage = stats.courage ?? kerbal.courage,
-                    kerbal.stupidity = stats.stupidity ?? kerbal.stupidity,
-                    kerbal.experienceLevel = stats.experienceLevel ?? kerbal.experienceLevel
-                );
+                for (int i = 0; i < MenuKerbals?.Length; i++)
+                {
+                    if (int.TryParse(MenuKerbals[i]?.GetValue("index"), out int index) && index < UIKerbal.menuKerbals?.Length)
+                    {
+                        UIKerbal.rndKerbals.Load(RnDKerbals[i], index);
+                    }
+                }
             }
         }
 
@@ -70,14 +63,9 @@ namespace SigmaReplacements
                 this.experienceLevel = experienceLevel;
             }
 
-            internal CrewMember(KerbalType type, string name) : base(type, name)
-            {
-                this.name = name;
-                this.type = type;
-            }
-
             CrewMember(KerbalType type) : base(type) { }
             CrewMember(ProtoCrewMember copyOf) : base(copyOf) { }
+            CrewMember(KerbalType type, string name) : base(type, name) { }
             CrewMember(Game.Modes mode, ConfigNode node, KerbalType crewType = KerbalType.Crew) : base(mode, node, crewType) { }
         }
     }

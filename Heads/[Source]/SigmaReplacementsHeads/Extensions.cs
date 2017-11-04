@@ -9,6 +9,25 @@ namespace SigmaReplacements
     {
         internal static class Extensions
         {
+            internal static void Load(this CrewMember[] array, ConfigNode node, int index)
+            {
+                CrewMember kerbal = array[index];
+                HeadInfo stats = new HeadInfo(node.GetNode("Stats"), new ConfigNode());
+
+                array[index] = new CrewMember
+                (
+                    stats.rosterStatus ?? kerbal.type,
+                    !string.IsNullOrEmpty(stats.name) ? stats.name : kerbal.name,
+                    kerbal.gender = stats.gender ?? kerbal.gender,
+                    kerbal.trait = stats.trait?.Length > 0 && !string.IsNullOrEmpty(stats.trait[0]) ? stats.trait[0] : kerbal.trait,
+                    kerbal.veteran = stats.veteran ?? kerbal.veteran,
+                    kerbal.isBadass = stats.isBadass ?? kerbal.isBadass,
+                    kerbal.courage = stats.courage ?? kerbal.courage,
+                    kerbal.stupidity = stats.stupidity ?? kerbal.stupidity,
+                    kerbal.experienceLevel = stats.experienceLevel ?? kerbal.experienceLevel
+                );
+            }
+
             internal static void SetColor(this Material material, Color? color)
             {
                 if (material != null && color != null)
