@@ -276,6 +276,8 @@ namespace SigmaReplacements
 
             List<Texture> ParseFolder(string path)
             {
+                if (!path.EndsWith("/")) path += "/";
+
                 Texture[] textures = Resources.FindObjectsOfTypeAll<Texture>();
                 List<Texture> list = new List<Texture>();
 
