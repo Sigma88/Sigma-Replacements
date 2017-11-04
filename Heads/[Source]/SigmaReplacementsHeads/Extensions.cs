@@ -12,19 +12,21 @@ namespace SigmaReplacements
             internal static void Load(this CrewMember[] array, ConfigNode node, int index)
             {
                 CrewMember kerbal = array[index];
-                HeadInfo stats = new HeadInfo(node.GetNode("Stats"), new ConfigNode());
+                UnityEngine.Debug.Log("SigmaLog: oldkerbal = " + kerbal);
+                HeadInfo stats = new HeadInfo(node.GetNode("Stats") ?? new ConfigNode(), new ConfigNode());
+                UnityEngine.Debug.Log("SigmaLog: stats = " + stats);
 
                 array[index] = new CrewMember
                 (
-                    stats.rosterStatus ?? kerbal.type,
-                    !string.IsNullOrEmpty(stats.name) ? stats.name : kerbal.name,
-                    kerbal.gender = stats.gender ?? kerbal.gender,
-                    kerbal.trait = stats.trait?.Length > 0 && !string.IsNullOrEmpty(stats.trait[0]) ? stats.trait[0] : kerbal.trait,
-                    kerbal.veteran = stats.veteran ?? kerbal.veteran,
-                    kerbal.isBadass = stats.isBadass ?? kerbal.isBadass,
-                    kerbal.courage = stats.courage ?? kerbal.courage,
-                    kerbal.stupidity = stats.stupidity ?? kerbal.stupidity,
-                    kerbal.experienceLevel = stats.experienceLevel ?? kerbal.experienceLevel
+                    stats?.rosterStatus ?? kerbal.type,
+                    !string.IsNullOrEmpty(stats?.name) ? stats.name : kerbal.name,
+                    stats?.gender ?? kerbal.gender,
+                    stats?.trait?.Length > 0 && !string.IsNullOrEmpty(stats.trait[0]) ? stats.trait[0] : kerbal.trait,
+                    stats?.veteran ?? kerbal.veteran,
+                    stats?.isBadass ?? kerbal.isBadass,
+                    stats?.courage ?? kerbal.courage,
+                    stats?.stupidity ?? kerbal.stupidity,
+                    stats?.experienceLevel ?? kerbal.experienceLevel
                 );
             }
 
