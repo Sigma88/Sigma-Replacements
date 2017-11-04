@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
-using KSP.UI.Screens.Flight;
+﻿using UnityEngine;
 
 
 namespace SigmaReplacements
