@@ -54,8 +54,10 @@ namespace SigmaReplacements
 
             internal static void SetNormal(this Material material, Texture newTex)
             {
-                if (material != null && newTex != null && material.HasProperty("_BumpMap"))
+                if (material != null && newTex != null)
                 {
+                    material.shader = Shader.Find("Bumped Diffuse");
+
                     Texture oldTex = material.GetTexture("_BumpMap");
 
                     if (oldTex != null)
