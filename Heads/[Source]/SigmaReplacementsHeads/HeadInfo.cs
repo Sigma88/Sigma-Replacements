@@ -110,7 +110,7 @@ namespace SigmaReplacements
                                                 if (minStupidity <= kerbal.stupidity && maxStupidity >= kerbal.stupidity)
                                                 {
                                                     Debug.Log("HeadInfo.GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
-                                                    Debug.Log("Information.GetText", "Return this HeadInfo");
+                                                    Debug.Log("HeadInfo.GetFor", "Return this HeadInfo");
                                                     return this;
                                                 }
                                             }
@@ -122,7 +122,7 @@ namespace SigmaReplacements
                     }
                 }
 
-                Debug.Log("Information.GetText", "Return null");
+                Debug.Log("HeadInfo.GetFor", "Return null");
                 return null;
             }
 
@@ -130,6 +130,10 @@ namespace SigmaReplacements
             // New HeadInfo
             internal HeadInfo(ConfigNode requirements, ConfigNode info)
             {
+                Debug.Log("HeadInfo", "new HeadInfo from:");
+                Debug.Log("HeadInfo", "Requirements node = " + requirements);
+                Debug.Log("HeadInfo", "Head node = " + info);
+
                 // Parse HeadInfo Requirements
                 useGameSeed = Parse(requirements.GetValue("useGameSeed"), useGameSeed);
                 useChance = Parse(requirements.GetValue("useChance"), useChance);
@@ -319,11 +323,16 @@ namespace SigmaReplacements
             // Order DataBase
             internal static void OrderDB()
             {
+                Debug.Log("HeadInfo.OrderDB", "Total HeadInfo count = " + List?.Count);
+
                 DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
                 DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
                 DataBase.AddRange(List.Where(h => string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
                 DataBase.AddRange(List.Where(h => h != null && string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
+
+                Debug.Log("HeadInfo.OrderDB", "Valid HeadInfo count = " + DataBase?.Count);
             }
         }
     }
 }
+

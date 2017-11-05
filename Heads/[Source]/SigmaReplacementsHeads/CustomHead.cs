@@ -48,17 +48,21 @@ namespace SigmaReplacements
 
             void Start()
             {
+                Debug.Log("CustomHead.Start", "In gameObject = " + gameObject);
                 Apply();
             }
 
             internal void Apply()
             {
+                Debug.Log("CustomHead.Apply", "In gameObject = " + gameObject);
+
                 ProtoCrewMember kerbal = GetComponent<KerbalEVA>()?.part?.protoModuleCrew?.FirstOrDefault();
                 if (kerbal == null) kerbal = GetComponent<kerbalExpressionSystem>()?.protoCrewMember;
                 if (kerbal == null) kerbal = GetComponent<UIKerbalMenu>()?.crewMember;
                 if (kerbal == null) kerbal = GetComponent<UIKerbalWerner>()?.crewMember;
                 if (kerbal == null) kerbal = GetComponent<UIKerbalGene>()?.crewMember;
                 if (kerbal == null) kerbal = GetComponent<UIKerbalStrategy>()?.crewMember;
+                Debug.Log("CustomHead.Apply", "kerbal = " + kerbal);
                 if (kerbal == null) return;
 
                 LoadFor(kerbal);
@@ -68,6 +72,8 @@ namespace SigmaReplacements
 
             void LoadFor(ProtoCrewMember kerbal)
             {
+                Debug.Log("CustomHead.LoadFor", "kerbal = " + kerbal);
+
                 HeadInfo.hash = "";
                 int? useChance = null;
 
@@ -131,6 +137,8 @@ namespace SigmaReplacements
 
             void ApplyTo(ProtoCrewMember kerbal)
             {
+                Debug.Log("CustomHead.ApplyTo", "kerbal = " + kerbal);
+
                 Renderer[] renderers = GetComponentsInChildren<Renderer>();
 
                 for (int i = 0; i < renderers?.Length; i++)

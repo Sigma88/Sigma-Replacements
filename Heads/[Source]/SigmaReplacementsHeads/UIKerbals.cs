@@ -71,6 +71,8 @@ namespace SigmaReplacements
         {
             void Awake()
             {
+                Debug.Log("UIKerbalLoader", "Awake");
+
                 ConfigNode[] MenuKerbals = UserSettings.ConfigNode.GetNodes("MenuKerbal");
 
                 for (int i = 0; i < MenuKerbals?.Length; i++)
@@ -111,6 +113,8 @@ namespace SigmaReplacements
 
             internal CrewMember(KerbalType type, string name, Gender gender, string trait, bool veteran, bool isBadass, float courage, float stupidity, int experienceLevel) : base(type, name)
             {
+                Debug.Log("CrewMember", "new CrewMember from stats");
+
                 this.type = type;
                 this.name = name;
                 this.gender = gender;

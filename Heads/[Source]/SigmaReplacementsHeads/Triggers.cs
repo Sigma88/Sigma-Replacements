@@ -12,6 +12,8 @@ namespace SigmaReplacements
         {
             void Start()
             {
+                Debug.Log("MenuTriggers", "Start");
+
                 Transform[] transforms = Resources.FindObjectsOfTypeAll<Transform>();
 
                 int menu = 0;
@@ -53,6 +55,8 @@ namespace SigmaReplacements
         {
             void Start()
             {
+                Debug.Log("KSCTriggers", "Start");
+
                 Administration admin = Resources.FindObjectsOfTypeAll<Administration>().FirstOrDefault();
 
                 if (admin != null && admin.GetComponent<AdminTrigger>() == null)
@@ -96,6 +100,8 @@ namespace SigmaReplacements
         {
             void Start()
             {
+                Debug.Log("AdminTrigger", "Start");
+
                 UIKerbalStrategy[] strategies = GetComponentsInChildren<UIKerbalStrategy>();
 
                 for (int i = 0; i < strategies?.Length; i++)
@@ -111,12 +117,16 @@ namespace SigmaReplacements
         {
             void Start()
             {
+                Debug.Log("FlightTriggers", "Start");
+
                 GameEvents.onCrewOnEva.Add(OnCrewOnEva);
                 TimingManager.LateUpdateAdd(TimingManager.TimingStage.Normal, Add);
             }
 
             void OnCrewOnEva(GameEvents.FromToAction<Part, Part> action)
             {
+                Debug.Log("FlightTriggers", "OnCrewOnEva");
+
                 GameEvents.onCrewOnEva.Remove(OnCrewOnEva);
                 KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
                 if (kerbalEVA.GetComponent<CustomHead>() == null)
@@ -125,6 +135,8 @@ namespace SigmaReplacements
 
             void Add()
             {
+                Debug.Log("FlightTriggers", "Add");
+
                 TimingManager.LateUpdateRemove(TimingManager.TimingStage.Normal, Add);
                 KerbalEVA[] kerbalEVAs = Resources.FindObjectsOfTypeAll<KerbalEVA>();
 
