@@ -59,7 +59,7 @@ namespace SigmaReplacements
 
                 Administration admin = Resources.FindObjectsOfTypeAll<Administration>().FirstOrDefault();
 
-                if (admin != null && admin.GetComponent<AdminTrigger>() == null)
+                if (admin?.gameObject != null && admin.GetComponent<AdminTrigger>() == null)
                 {
                     admin.gameObject.AddComponent<AdminTrigger>();
                 }
@@ -112,47 +112,48 @@ namespace SigmaReplacements
             }
         }
 
-        [KSPAddon(KSPAddon.Startup.Flight, false)]
+        [KSPAddon(KSPAddon.Startup.MainMenu, true)]
         class FlightTriggers : MonoBehaviour
         {
             void Start()
             {
+                DontDestroyOnLoad(this);
+
                 Debug.Log("FlightTriggers", "Start");
 
+                GameEvents.onVesselLoaded.Add(OnVesselLoaded);
+                GameEvents.onVesselCreate.Add(OnVesselLoaded);
                 GameEvents.onCrewOnEva.Add(OnCrewOnEva);
-                TimingManager.LateUpdateAdd(TimingManager.TimingStage.Normal, Add);
             }
 
-            void OnCrewOnEva(GameEvents.FromToAction<Part, Part> action)
+            void OnVesselLoaded(Vessel vessel)
             {
-                Debug.Log("FlightTriggers", "OnCrewOnEva");
+                Debug.Log("FlightTriggers.OnVesselLoaded", "Vessel = " + vessel);
 
-                GameEvents.onCrewOnEva.Remove(OnCrewOnEva);
-                KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
-                if (kerbalEVA.GetComponent<CustomHead>() == null)
-                    kerbalEVA.gameObject.AddComponent<CustomHead>();
-            }
+                KerbalEVA[] kerbalEVAs = vessel.GetComponentsInChildren<KerbalEVA>(true);
 
-            void Add()
-            {
-                Debug.Log("FlightTriggers", "Add");
-
-                TimingManager.LateUpdateRemove(TimingManager.TimingStage.Normal, Add);
-                KerbalEVA[] kerbalEVAs = Resources.FindObjectsOfTypeAll<KerbalEVA>();
-
-                for (int i = 0; i < kerbalEVAs.Length; i++)
+                for (int i = 0; i < kerbalEVAs?.Length; i++)
                 {
-                    if (kerbalEVAs[i].GetComponent<CustomHead>() == null)
+                    if (kerbalEVAs[i]?.GetComponent<CustomHead>() == null)
                         kerbalEVAs[i].gameObject.AddComponent<CustomHead>();
                 }
 
                 kerbalExpressionSystem[] kerbalIVAs = Resources.FindObjectsOfTypeAll<kerbalExpressionSystem>();
 
-                for (int i = 0; i < kerbalIVAs.Length; i++)
+                for (int i = 0; i < kerbalIVAs?.Length; i++)
                 {
                     if (kerbalIVAs[i]?.GetComponent<CustomHead>() == null)
                         kerbalIVAs[i].gameObject.AddComponent<CustomHead>();
                 }
+            }
+
+            void OnCrewOnEva(GameEvents.FromToAction<Part, Part> action)
+            {
+                Debug.Log("FlightTriggers.OnCrewOnEva", "Part = " + action.to);
+
+                KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
+                if (kerbalEVA.GetComponent<CustomHead>() == null)
+                    kerbalEVA.gameObject.AddComponent<CustomHead>();
             }
         }
     }
