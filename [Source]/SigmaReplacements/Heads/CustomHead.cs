@@ -6,7 +6,7 @@ namespace SigmaReplacements
 {
     namespace Heads
     {
-        internal class CustomHead : MonoBehaviour
+        public class CustomHead : MonoBehaviour
         {
             // Colors
             Color? pupilLeft = null;

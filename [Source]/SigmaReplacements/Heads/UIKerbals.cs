@@ -27,9 +27,9 @@ namespace SigmaReplacements
             internal static CrewMember[] strategy = new[] { mort, linus, walt, gus };
         }
 
-        internal class UIKerbalMenu : MonoBehaviour
+        public class UIKerbalMenu : MonoBehaviour
         {
-            internal CrewMember crewMember;
+            public CrewMember crewMember;
         }
 
         internal class UIKerbalWerner : MonoBehaviour
@@ -107,11 +107,11 @@ namespace SigmaReplacements
             }
         }
 
-        internal class CrewMember : ProtoCrewMember
+        public class CrewMember : ProtoCrewMember
         {
             internal new string name = "";
 
-            internal CrewMember(KerbalType type, string name, Gender gender, string trait, bool veteran, bool isBadass, float courage, float stupidity, int experienceLevel) : base(type, name)
+            public CrewMember(KerbalType type, string name, Gender gender, string trait, bool veteran, bool isBadass, float courage, float stupidity, int experienceLevel) : base(type, name)
             {
                 Debug.Log("CrewMember", "new CrewMember from stats");
 
