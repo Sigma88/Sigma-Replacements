@@ -24,8 +24,13 @@ namespace SigmaReplacements
 
                     if (transform?.name == "Kerbals")
                     {
-                        foreach (Transform child in transform)
+                        int? kerbals = transform?.childCount;
+                        if (kerbals > 4) kerbals = 4;
+
+                        for (int j = 0; j < kerbals; j++)
                         {
+                            Transform child = transform.GetChild(j);
+
                             if (child?.gameObject != null && child?.GetComponent<UIKerbalMenu>() == null)
                                 child.gameObject.AddComponent<UIKerbalMenu>();
 
