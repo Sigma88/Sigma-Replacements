@@ -32,6 +32,7 @@ namespace SigmaReplacements
             Texture hairTex = null;
             Texture armTex = null;
 
+
             // Normals
             Texture pupilLeftNrm = null;
             Texture pupilRightNrm = null;
@@ -97,6 +98,7 @@ namespace SigmaReplacements
                                 tongue = tongue ?? info.tongue.Pick(kerbal, info.useGameSeed);
                                 head = head ?? info.head.Pick(kerbal, info.useGameSeed);
                                 hair = hair ?? info.hair.At(head, info.head) ?? info.hair.Pick(kerbal, info.useGameSeed);
+                                arm = arm ?? info.arm.Pick(kerbal, info.useGameSeed);
 
                                 // Textures
                                 pupilLeftTex = pupilLeftTex ?? info.pupilLeftTex.Pick(kerbal, info.useGameSeed);
@@ -108,6 +110,7 @@ namespace SigmaReplacements
                                 tongueTex = tongueTex ?? info.tongueTex.Pick(kerbal, info.useGameSeed);
                                 headTex = headTex ?? info.headTex.Pick(kerbal, info.useGameSeed);
                                 hairTex = hairTex ?? info.hairTex.At(headTex, info.headTex) ?? info.hairTex.Pick(kerbal, info.useGameSeed);
+                                armTex = armTex ?? info.armTex.Pick(kerbal, info.useGameSeed);
 
                                 // Normals
                                 pupilLeftNrm = pupilLeftNrm ?? info.pupilLeftNrm.Pick(kerbal, info.useGameSeed);
@@ -119,6 +122,7 @@ namespace SigmaReplacements
                                 tongueNrm = tongueNrm ?? info.tongueNrm.Pick(kerbal, info.useGameSeed);
                                 headNrm = headNrm ?? info.headNrm.Pick(kerbal, info.useGameSeed);
                                 hairNrm = hairNrm ?? info.hairNrm.At(headNrm, info.headNrm) ?? info.hairNrm.Pick(kerbal, info.useGameSeed);
+                                armNrm = armNrm ?? info.armNrm.Pick(kerbal, info.useGameSeed);
                             }
                         }
                     }
@@ -198,7 +202,7 @@ namespace SigmaReplacements
                         material.SetNormal(hairNrm);
                     }
 
-                    if (name == "arm")
+                    if (name == "hand_left01" || name == "hand_right01")
                     {
                         material.SetColor(arm);
                         material.SetTexture(armTex);

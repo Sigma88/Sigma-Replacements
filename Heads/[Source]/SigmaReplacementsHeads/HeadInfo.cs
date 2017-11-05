@@ -53,6 +53,7 @@ namespace SigmaReplacements
             internal List<Color> tongue = new List<Color>();
             internal List<Color> head = new List<Color>();
             internal List<Color> hair = new List<Color>();
+            internal List<Color> arm = new List<Color>();
 
             // Textures Lists
             internal List<Texture> pupilLeftTex = new List<Texture>();
@@ -64,6 +65,7 @@ namespace SigmaReplacements
             internal List<Texture> tongueTex = new List<Texture>();
             internal List<Texture> headTex = new List<Texture>();
             internal List<Texture> hairTex = new List<Texture>();
+            internal List<Texture> armTex = new List<Texture>();
 
             // Normals Lists
             internal List<Texture> pupilLeftNrm = new List<Texture>();
@@ -75,6 +77,7 @@ namespace SigmaReplacements
             internal List<Texture> tongueNrm = new List<Texture>();
             internal List<Texture> headNrm = new List<Texture>();
             internal List<Texture> hairNrm = new List<Texture>();
+            internal List<Texture> armNrm = new List<Texture>();
 
 
             // Get
@@ -161,6 +164,7 @@ namespace SigmaReplacements
                 tongue = Parse(info.GetValues("tongue"), tongue);
                 head = Parse(info.GetValues("head"), head);
                 hair = Parse(info.GetValues("hair"), hair);
+                arm = Parse(info.GetValues("arm"), arm);
 
                 // Parse HeadInfo Textures
                 pupilLeftTex = Parse(info.GetValues("pupilLeftTex"), pupilLeftTex);
@@ -172,6 +176,7 @@ namespace SigmaReplacements
                 tongueTex = Parse(info.GetValues("tongueTex"), tongueTex);
                 headTex = Parse(info.GetValues("headTex"), headTex);
                 hairTex = Parse(info.GetValues("hairTex"), hairTex);
+                armTex = Parse(info.GetValues("armTex"), armTex);
 
                 // Parse HeadInfo Normals
                 pupilLeftNrm = Parse(info.GetValues("pupilLeftNrm"), pupilLeftNrm);
@@ -183,6 +188,7 @@ namespace SigmaReplacements
                 tongueNrm = Parse(info.GetValues("tongueNrm"), tongueNrm);
                 headNrm = Parse(info.GetValues("headNrm"), headNrm);
                 hairNrm = Parse(info.GetValues("hairNrm"), hairNrm);
+                armNrm = Parse(info.GetValues("armNrm"), armNrm);
 
                 // Parse Folders
                 ParseFolders(info.GetNode("Folders"));

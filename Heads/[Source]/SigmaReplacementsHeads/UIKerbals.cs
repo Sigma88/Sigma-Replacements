@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Linq;
 
 
 namespace SigmaReplacements
@@ -46,7 +45,7 @@ namespace SigmaReplacements
         internal class UIKerbalStrategy : MonoBehaviour
         {
             static string[] names = new string[] { "Strategy_Mortimer(Clone)", "Strategy_ScienceGuy(Clone)", "Strategy_PRGuy(Clone)", "Strategy_MechanicGuy(Clone)" };
-            
+
             internal CrewMember crewMember
             {
                 get
