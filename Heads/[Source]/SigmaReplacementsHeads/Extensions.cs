@@ -112,7 +112,7 @@ namespace SigmaReplacements
 
                 int h = Math.Abs(hash.GetHashCode());
 
-                if (useGameSeed) h += Math.Abs(HighLogic.CurrentGame.Seed);
+                if (useGameSeed && HighLogic.CurrentGame != null) h += Math.Abs(HighLogic.CurrentGame.Seed);
 
                 HeadInfo.hash = h.ToString();
 
