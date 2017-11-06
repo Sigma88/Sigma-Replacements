@@ -40,32 +40,32 @@ namespace SigmaReplacements
         {
             if (name == null || name == kerbal.name)
             {
-                Debug.Log("HeadInfo.GetFor", "Matched name = " + name + " to kerbal name = " + kerbal.name);
+                Debug.Log("Info.GetFor", "Matched name = " + name + " to kerbal name = " + kerbal.name);
                 if (rosterStatus == null || rosterStatus == kerbal.type)
                 {
-                    Debug.Log("HeadInfo.GetFor", "Matched rosterStatus = " + rosterStatus + " to kerbal rosterStatus = " + kerbal.type);
+                    Debug.Log("Info.GetFor", "Matched rosterStatus = " + rosterStatus + " to kerbal rosterStatus = " + kerbal.type);
                     if (gender == null || gender == kerbal.gender)
                     {
-                        Debug.Log("HeadInfo.GetFor", "Matched gender = " + gender + " to kerbal gender = " + kerbal.gender);
+                        Debug.Log("Info.GetFor", "Matched gender = " + gender + " to kerbal gender = " + kerbal.gender);
                         if (trait == null || trait.Contains(kerbal.trait))
                         {
-                            Debug.Log("HeadInfo.GetFor", "Matched trait = " + trait + " to kerbal trait = " + kerbal.trait);
+                            Debug.Log("Info.GetFor", "Matched trait = " + trait + " to kerbal trait = " + kerbal.trait);
                             if (veteran == null || veteran == kerbal.veteran)
                             {
-                                Debug.Log("HeadInfo.GetFor", "Matched veteran = " + veteran + " to kerbal veteran = " + kerbal.veteran);
+                                Debug.Log("Info.GetFor", "Matched veteran = " + veteran + " to kerbal veteran = " + kerbal.veteran);
                                 if (isBadass == null || isBadass == kerbal.isBadass)
                                 {
-                                    Debug.Log("HeadInfo.GetFor", "Matched isBadass = " + isBadass + " to kerbal isBadass = " + kerbal.isBadass);
+                                    Debug.Log("Info.GetFor", "Matched isBadass = " + isBadass + " to kerbal isBadass = " + kerbal.isBadass);
                                     if (minLevel <= kerbal.experienceLevel && maxLevel >= kerbal.experienceLevel)
                                     {
-                                        Debug.Log("HeadInfo.GetFor", "Matched minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to kerbal level = " + kerbal.experienceLevel);
+                                        Debug.Log("Info.GetFor", "Matched minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to kerbal level = " + kerbal.experienceLevel);
                                         if (minCourage <= kerbal.courage && maxCourage >= kerbal.courage)
                                         {
-                                            Debug.Log("HeadInfo.GetFor", "Matched minCourage = " + minCourage + ", maxCourage = " + maxCourage + " to kerbal courage = " + kerbal.courage);
+                                            Debug.Log("Info.GetFor", "Matched minCourage = " + minCourage + ", maxCourage = " + maxCourage + " to kerbal courage = " + kerbal.courage);
                                             if (minStupidity <= kerbal.stupidity && maxStupidity >= kerbal.stupidity)
                                             {
-                                                Debug.Log("HeadInfo.GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
-                                                Debug.Log("HeadInfo.GetFor", "Return this HeadInfo");
+                                                Debug.Log("Info.GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
+                                                Debug.Log("Info.GetFor", "Return this Info");
                                                 return this;
                                             }
                                         }
@@ -77,7 +77,7 @@ namespace SigmaReplacements
                 }
             }
 
-            Debug.Log("HeadInfo.GetFor", "Return null");
+            Debug.Log("Info.GetFor", "Return null");
             return null;
         }
 
@@ -91,11 +91,11 @@ namespace SigmaReplacements
         // Parse from ConfigNode
         internal void Parse(ConfigNode requirements, ConfigNode info)
         {
-            Debug.Log("HeadInfo", "new HeadInfo from:");
-            Debug.Log("HeadInfo", "Requirements node = " + requirements);
-            Debug.Log("HeadInfo", "Head node = " + info);
+            Debug.Log("Info", "new Info from:");
+            Debug.Log("Info", "Requirements node = " + requirements);
+            Debug.Log("Info", "Info node = " + info);
 
-            // Parse HeadInfo Requirements
+            // Parse Info Requirements
             useGameSeed = Parse(requirements.GetValue("useGameSeed"), useGameSeed);
             useChance = Parse(requirements.GetValue("useChance"), useChance);
             name = requirements.GetValue("name");

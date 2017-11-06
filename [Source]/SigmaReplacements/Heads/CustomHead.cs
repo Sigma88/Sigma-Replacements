@@ -44,6 +44,13 @@ namespace SigmaReplacements
             Texture hairNrm = null;
             Texture armNrm = null;
 
+            void Start()
+            {
+                ProtoCrewMember kerbal = Apply();
+                LoadFor(kerbal);
+                ApplyTo(kerbal);
+            }
+
             void LoadFor(ProtoCrewMember kerbal)
             {
                 Debug.Log("CustomHead.LoadFor", "kerbal = " + kerbal);

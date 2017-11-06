@@ -6,14 +6,9 @@ namespace SigmaReplacements
 {
     public class CustomObject : MonoBehaviour
     {
-        void Start()
+        internal ProtoCrewMember Apply()
         {
-            Apply();
-        }
-
-        internal void Apply()
-        {
-            Debug.Log("CustomHead.Apply", "In gameObject = " + gameObject);
+            Debug.Log(GetType().Name + ".Apply", "In gameObject = " + gameObject);
 
             ProtoCrewMember kerbal = GetComponent<KerbalEVA>()?.part?.protoModuleCrew?.FirstOrDefault();
             if (kerbal == null) kerbal = GetComponent<kerbalExpressionSystem>()?.protoCrewMember;
@@ -21,20 +16,9 @@ namespace SigmaReplacements
             if (kerbal == null) kerbal = GetComponent<UIKerbalWerner>()?.crewMember;
             if (kerbal == null) kerbal = GetComponent<UIKerbalGene>()?.crewMember;
             if (kerbal == null) kerbal = GetComponent<UIKerbalStrategy>()?.crewMember;
-            Debug.Log("CustomHead.Apply", "kerbal = " + kerbal);
-            if (kerbal == null) return;
+            Debug.Log(GetType().Name + ".Apply", "kerbal = " + kerbal);
 
-            LoadFor(kerbal);
-
-            ApplyTo(kerbal);
-        }
-
-        void LoadFor(ProtoCrewMember kerbal)
-        {
-        }
-
-        void ApplyTo(ProtoCrewMember kerbal)
-        {
+            return kerbal;
         }
     }
 }
