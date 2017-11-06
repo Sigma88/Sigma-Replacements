@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 
@@ -6,7 +5,7 @@ namespace SigmaReplacements
 {
     namespace Heads
     {
-        internal class CustomHead : MonoBehaviour
+        public class CustomHead : CustomObject
         {
             // Colors
             Color? pupilLeft = null;
@@ -45,28 +44,10 @@ namespace SigmaReplacements
             Texture hairNrm = null;
             Texture armNrm = null;
 
-
             void Start()
             {
-                Debug.Log("CustomHead.Start", "In gameObject = " + gameObject);
-                Apply();
-            }
-
-            internal void Apply()
-            {
-                Debug.Log("CustomHead.Apply", "In gameObject = " + gameObject);
-
-                ProtoCrewMember kerbal = GetComponent<KerbalEVA>()?.part?.protoModuleCrew?.FirstOrDefault();
-                if (kerbal == null) kerbal = GetComponent<kerbalExpressionSystem>()?.protoCrewMember;
-                if (kerbal == null) kerbal = GetComponent<UIKerbalMenu>()?.crewMember;
-                if (kerbal == null) kerbal = GetComponent<UIKerbalWerner>()?.crewMember;
-                if (kerbal == null) kerbal = GetComponent<UIKerbalGene>()?.crewMember;
-                if (kerbal == null) kerbal = GetComponent<UIKerbalStrategy>()?.crewMember;
-                Debug.Log("CustomHead.Apply", "kerbal = " + kerbal);
-                if (kerbal == null) return;
-
+                ProtoCrewMember kerbal = Apply();
                 LoadFor(kerbal);
-
                 ApplyTo(kerbal);
             }
 
@@ -79,7 +60,7 @@ namespace SigmaReplacements
 
                 for (int i = 0; i < HeadInfo.DataBase?.Count; i++)
                 {
-                    HeadInfo info = HeadInfo.DataBase[i].GetFor(kerbal);
+                    HeadInfo info = (HeadInfo)HeadInfo.DataBase[i].GetFor(kerbal);
                     string collection = "";
 
                     if (info != null)

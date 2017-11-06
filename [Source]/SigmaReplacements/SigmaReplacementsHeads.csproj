@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D6D14E8B-1ED9-43D1-A9D2-4F3A4A6A6F4D}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AppDesignerFolder>Heads\Properties</AppDesignerFolder>
     <RootNamespace>SigmaReplacements.Heads</RootNamespace>
     <AssemblyName>SigmaReplacementsHeads</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -17,10 +17,11 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Distribution\</OutputPath>
+    <OutputPath>..\Distribution\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <BaseIntermediateOutputPath>Heads\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,25 +32,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="UIKerbals.cs" />
-    <Compile Include="CustomHead.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Version.cs" />
-    <Compile Include="UserSettings.cs" />
-    <Compile Include="SettingsLoader.cs" />
-    <Compile Include="DebugLogger.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="HeadInfo.cs" />
-    <Compile Include="Triggers.cs" />
+    <Compile Include="Common\CrewMember.cs" />
+    <Compile Include="Common\CustomObject.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\Info.cs" />
+    <Compile Include="Common\UIKerbals.cs" />
+    <Compile Include="Heads\CustomHead.cs" />
+    <Compile Include="Heads\Properties\AssemblyInfo.cs" />
+    <Compile Include="Heads\Version.cs" />
+    <Compile Include="Common\UserSettings.cs" />
+    <Compile Include="Heads\SettingsLoader.cs" />
+    <Compile Include="Common\DebugLogger.cs" />
+    <Compile Include="Heads\HeadInfo.cs" />
+    <Compile Include="Heads\Triggers.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\[References]\KerbalSpaceProgram\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\[References]\KerbalSpaceProgram\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

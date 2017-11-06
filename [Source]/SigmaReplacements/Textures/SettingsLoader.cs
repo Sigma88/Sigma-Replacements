@@ -3,8 +3,7 @@
 
 namespace SigmaReplacements
 {
-    namespace Suits
+    namespace Textures
     {
     }
 }
-
