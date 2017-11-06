@@ -43,7 +43,6 @@
     <Compile Include="Common\UserSettings.cs" />
     <Compile Include="Heads\SettingsLoader.cs" />
     <Compile Include="Common\DebugLogger.cs" />
-    <Compile Include="Heads\Extensions.cs" />
     <Compile Include="Heads\HeadInfo.cs" />
     <Compile Include="Heads\Triggers.cs" />
   </ItemGroup>

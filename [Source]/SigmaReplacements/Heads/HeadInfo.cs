@@ -11,7 +11,6 @@ namespace SigmaReplacements
         internal class HeadInfo : Info
         {
             // Static
-            internal static string hash = "";
             internal static List<Info> List = new List<Info>();
             internal static List<Info> DataBase = new List<Info>();
 

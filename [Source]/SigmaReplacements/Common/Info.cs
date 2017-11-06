@@ -10,6 +10,9 @@ namespace SigmaReplacements
 {
     internal class Info
     {
+        // Static
+        internal static string hash = "";
+
         // Identifiers
         internal string name = null;
 
