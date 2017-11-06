@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{85E7DC1E-15EA-4C98-B6D3-52CB27BB9526}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AppDesignerFolder>Textures\Properties</AppDesignerFolder>
     <RootNamespace>SigmaReplacements.Textures</RootNamespace>
     <AssemblyName>SigmaReplacementsTextures</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -17,11 +17,11 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Distribution\</OutputPath>
+    <OutputPath>..\Distribution\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\Utente\AppData\Local\Temp\vs741A.tmp\Debug\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>Textures\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,25 +30,31 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\Utente\AppData\Local\Temp\vs741A.tmp\Release\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>Textures\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Version.cs" />
-    <Compile Include="UserSettings.cs" />
-    <Compile Include="SettingsLoader.cs" />
-    <Compile Include="DebugLogger.cs" />
+    <Compile Include="Common\CrewMember.cs" />
+    <Compile Include="Common\CustomObject.cs" />
+    <Compile Include="Common\DebugLogger.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\Info.cs" />
+    <Compile Include="Common\UIKerbals.cs" />
+    <Compile Include="Common\UserSettings.cs" />
+    <Compile Include="Textures\Properties\AssemblyInfo.cs" />
+    <Compile Include="Textures\Version.cs" />
+    <Compile Include="Textures\SettingsLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\[References]\KerbalSpaceProgram\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\[References]\KerbalSpaceProgram\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
