@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B3769F47-5A16-43C9-995F-1B3B15BE97CC}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AppDesignerFolder>Suits\Properties</AppDesignerFolder>
     <RootNamespace>SigmaReplacements.Suits</RootNamespace>
     <AssemblyName>SigmaReplacementsSuits</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -17,11 +17,11 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Distribution\</OutputPath>
+    <OutputPath>..\Distribution\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\Utente\AppData\Local\Temp\vs741A.tmp\Debug\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>Suits\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,23 +30,28 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\Utente\AppData\Local\Temp\vs741A.tmp\Release\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>Suits\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Version.cs" />
-    <Compile Include="UserSettings.cs" />
-    <Compile Include="SettingsLoader.cs" />
-    <Compile Include="DebugLogger.cs" />
+    <Compile Include="Common\CrewMember.cs" />
+    <Compile Include="Common\CustomObject.cs" />
+    <Compile Include="Common\DebugLogger.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\Info.cs" />
+    <Compile Include="Common\UIKerbals.cs" />
+    <Compile Include="Common\UserSettings.cs" />
+    <Compile Include="Suits\Properties\AssemblyInfo.cs" />
+    <Compile Include="Suits\Version.cs" />
+    <Compile Include="Suits\SettingsLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\[References]\KerbalSpaceProgram\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\[References]\KerbalSpaceProgram\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
