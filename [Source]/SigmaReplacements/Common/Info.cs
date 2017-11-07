@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using Gender = ProtoCrewMember.Gender;
@@ -178,6 +179,43 @@ namespace SigmaReplacements
             }
 
             return defaultValue;
+        }
+        
+        internal List<Texture> ParseFolders(string[] paths, List<Texture> list)
+        {
+            for (int i = 0; i < paths?.Length; i++)
+            {
+                list.AddUniqueRange(ParseFolder(paths[i]));
+            }
+
+            return list;
+        }
+
+        internal List<Texture> ParseFolder(string path)
+        {
+            if (!path.EndsWith("/")) path += "/";
+
+            Texture[] textures = Resources.FindObjectsOfTypeAll<Texture>();
+            List<Texture> list = new List<Texture>();
+
+            if (Directory.Exists("GameData/" + path))
+            {
+                string[] files = Directory.GetFiles("GameData/" + path)?.Where(f => Path.GetExtension(f) == ".dds" || Path.GetExtension(f) == ".png")?.ToArray();
+
+                for (int i = 0; i < files?.Length; i++)
+                {
+                    if (!string.IsNullOrEmpty(files[i]))
+                    {
+                        string name = path + Path.GetFileNameWithoutExtension(files[i]);
+                        Texture texture = textures.FirstOrDefault(t => t?.name == name);
+
+                        if (texture != null)
+                            list.AddUnique(texture);
+                    }
+                }
+            }
+
+            return list;
         }
     }
 }

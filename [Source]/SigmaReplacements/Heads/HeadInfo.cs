@@ -123,57 +123,6 @@ namespace SigmaReplacements
                 headNrm = ParseFolders(node.GetValues("headNrm"), headNrm);
                 hairNrm = ParseFolders(node.GetValues("hairNrm"), hairNrm);
             }
-
-            List<Texture> ParseFolders(string[] paths, List<Texture> list)
-            {
-                for (int i = 0; i < paths?.Length; i++)
-                {
-                    list.AddUniqueRange(ParseFolder(paths[i]));
-                }
-
-                return list;
-            }
-
-            List<Texture> ParseFolder(string path)
-            {
-                if (!path.EndsWith("/")) path += "/";
-
-                Texture[] textures = Resources.FindObjectsOfTypeAll<Texture>();
-                List<Texture> list = new List<Texture>();
-
-                if (Directory.Exists("GameData/" + path))
-                {
-                    string[] files = Directory.GetFiles("GameData/" + path)?.Where(f => Path.GetExtension(f) == ".dds" || Path.GetExtension(f) == ".png")?.ToArray();
-
-                    for (int i = 0; i < files?.Length; i++)
-                    {
-                        if (!string.IsNullOrEmpty(files[i]))
-                        {
-                            string name = path + Path.GetFileNameWithoutExtension(files[i]);
-                            Texture texture = textures.FirstOrDefault(t => t?.name == name);
-
-                            if (texture != null)
-                                list.AddUnique(texture);
-                        }
-                    }
-                }
-
-                return list;
-            }
-
-
-            // Order DataBase
-            internal static void OrderDB()
-            {
-                Debug.Log("HeadInfo.OrderDB", "Total HeadInfo count = " + List?.Count);
-
-                DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
-                DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
-                DataBase.AddRange(List.Where(h => string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
-                DataBase.AddRange(List.Where(h => h != null && string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
-
-                Debug.Log("HeadInfo.OrderDB", "Valid HeadInfo count = " + DataBase?.Count);
-            }
         }
     }
 }

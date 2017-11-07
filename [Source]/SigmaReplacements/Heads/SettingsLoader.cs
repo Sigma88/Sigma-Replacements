@@ -27,8 +27,7 @@ namespace SigmaReplacements
                     }
                 }
 
-                if (HeadInfo.List?.Count > 0)
-                    HeadInfo.OrderDB();
+                if (HeadInfo.List?.Count > 0) HeadInfo.DataBase = HeadInfo.List.Order();
             }
         }
     }
