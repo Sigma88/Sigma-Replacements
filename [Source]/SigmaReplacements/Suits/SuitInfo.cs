@@ -25,6 +25,7 @@ namespace SigmaReplacements
             internal List<Color> visor = new List<Color>();
             internal List<Color> flares = new List<Color>();
             internal List<Color> jetpack = new List<Color>();
+            internal List<Color> flag = new List<Color>();
             internal List<Color> headset = new List<Color>();
             internal List<Color> mug = new List<Color>();
             internal List<Color> glasses = new List<Color>();
@@ -36,6 +37,7 @@ namespace SigmaReplacements
             internal List<Texture> visorTex = new List<Texture>();
             internal List<Texture> flaresTex = new List<Texture>();
             internal List<Texture> jetpackTex = new List<Texture>();
+            internal List<Texture> flagTex = new List<Texture>();
             internal List<Texture> gasjetsTex = new List<Texture>();
             internal List<Texture> headsetTex = new List<Texture>();
             internal List<Texture> mugTex = new List<Texture>();
@@ -47,6 +49,7 @@ namespace SigmaReplacements
             internal List<Texture> helmetNrm = new List<Texture>();
             internal List<Texture> visorNrm = new List<Texture>();
             internal List<Texture> jetpackNrm = new List<Texture>();
+            internal List<Texture> flagNrm = new List<Texture>();
             internal List<Texture> headsetNrm = new List<Texture>();
             internal List<Texture> mugNrm = new List<Texture>();
             internal List<Texture> glassesNrm = new List<Texture>();
@@ -71,6 +74,7 @@ namespace SigmaReplacements
                 visor = Parse(info.GetValues("visor"), visor);
                 flares = Parse(info.GetValues("flares"), flares);
                 jetpack = Parse(info.GetValues("jetpack"), jetpack);
+                flag = Parse(info.GetValues("flag"), flag);
                 headset = Parse(info.GetValues("headset"), headset);
                 mug = Parse(info.GetValues("mug"), mug);
                 glasses = Parse(info.GetValues("glasses"), glasses);
@@ -82,6 +86,7 @@ namespace SigmaReplacements
                 visorTex = Parse(info.GetValues("visorTex"), visorTex);
                 flaresTex = Parse(info.GetValues("flaresTex"), flaresTex);
                 jetpackTex = Parse(info.GetValues("jetpackTex"), jetpackTex);
+                flagTex = Parse(info.GetValues("flagTex"), flagTex);
                 gasjetsTex = Parse(info.GetValues("gasjetsTex"), gasjetsTex);
                 headsetTex = Parse(info.GetValues("headsetTex"), headsetTex);
                 mugTex = Parse(info.GetValues("mugTex"), mugTex);
@@ -93,6 +98,7 @@ namespace SigmaReplacements
                 helmetNrm = Parse(info.GetValues("helmetNrm"), helmetNrm);
                 visorNrm = Parse(info.GetValues("visorNrm"), visorNrm);
                 jetpackNrm = Parse(info.GetValues("jetpackNrm"), jetpackNrm);
+                flagNrm = Parse(info.GetValues("flagNrm"), flagNrm);
                 headsetNrm = Parse(info.GetValues("headsetNrm"), headsetNrm);
                 mugNrm = Parse(info.GetValues("mugNrm"), mugNrm);
                 glassesNrm = Parse(info.GetValues("glassesNrm"), glassesNrm);
@@ -120,6 +126,7 @@ namespace SigmaReplacements
                 visorTex = ParseFolders(node.GetValues("visorTex"), visorTex);
                 flaresTex = ParseFolders(node.GetValues("flaresTex"), flaresTex);
                 jetpackTex = ParseFolders(node.GetValues("jetpackTex"), jetpackTex);
+                flagTex = ParseFolders(node.GetValues("flagTex"), flagTex);
                 gasjetsTex = ParseFolders(node.GetValues("gasjetsTex"), gasjetsTex);
                 headsetTex = ParseFolders(node.GetValues("headsetTex"), headsetTex);
                 mugTex = ParseFolders(node.GetValues("mugTex"), mugTex);
@@ -131,6 +138,7 @@ namespace SigmaReplacements
                 helmetNrm = ParseFolders(node.GetValues("helmetNrm"), helmetNrm);
                 visorNrm = ParseFolders(node.GetValues("visorNrm"), visorNrm);
                 jetpackNrm = ParseFolders(node.GetValues("jetpackNrm"), jetpackNrm);
+                flagNrm = ParseFolders(node.GetValues("flagNrm"), flagNrm);
                 headsetNrm = ParseFolders(node.GetValues("headsetNrm"), headsetNrm);
                 mugNrm = ParseFolders(node.GetValues("mugNrm"), mugNrm);
                 glassesNrm = ParseFolders(node.GetValues("glassesNrm"), glassesNrm);

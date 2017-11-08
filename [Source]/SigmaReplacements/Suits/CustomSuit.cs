@@ -21,6 +21,7 @@ namespace SigmaReplacements
             Color? visor = null;
             Color? flares = null;
             Color? jetpack = null;
+            Color? flag = null;
             Color? headset = null;
             Color? mug = null;
             Color? glasses = null;
@@ -32,6 +33,7 @@ namespace SigmaReplacements
             Texture visorTex = null;
             Texture flaresTex = null;
             Texture jetpackTex = null;
+            Texture flagTex = null;
             Texture gasjetsTex = null;
             Texture headsetTex = null;
             Texture mugTex = null;
@@ -43,6 +45,7 @@ namespace SigmaReplacements
             Texture helmetNrm = null;
             Texture visorNrm = null;
             Texture jetpackNrm = null;
+            Texture flagNrm = null;
             Texture headsetNrm = null;
             Texture mugNrm = null;
             Texture glassesNrm = null;
@@ -157,6 +160,7 @@ namespace SigmaReplacements
                                 visor = visor ?? info.visor.Pick(kerbal, info.useGameSeed);
                                 flares = flares ?? info.flares.Pick(kerbal, info.useGameSeed);
                                 jetpack = jetpack ?? info.jetpack.Pick(kerbal, info.useGameSeed);
+                                flag = flag ?? info.flag.Pick(kerbal, info.useGameSeed);
                                 headset = headset ?? info.headset.Pick(kerbal, info.useGameSeed);
                                 mug = mug ?? info.mug.Pick(kerbal, info.useGameSeed);
                                 glasses = glasses ?? info.glasses.Pick(kerbal, info.useGameSeed);
@@ -168,6 +172,7 @@ namespace SigmaReplacements
                                 visorTex = visorTex ?? info.visorTex.Pick(kerbal, info.useGameSeed);
                                 flaresTex = flaresTex ?? info.flaresTex.Pick(kerbal, info.useGameSeed);
                                 jetpackTex = jetpackTex ?? info.jetpackTex.Pick(kerbal, info.useGameSeed);
+                                flagTex = flagTex ?? info.flagTex.Pick(kerbal, info.useGameSeed);
                                 gasjetsTex = gasjetsTex ?? info.gasjetsTex.Pick(kerbal, info.useGameSeed);
                                 headsetTex = headsetTex ?? info.headsetTex.Pick(kerbal, info.useGameSeed);
                                 mugTex = mugTex ?? info.mugTex.Pick(kerbal, info.useGameSeed);
@@ -179,6 +184,7 @@ namespace SigmaReplacements
                                 helmetNrm = helmetNrm ?? info.helmetNrm.Pick(kerbal, info.useGameSeed);
                                 visorNrm = visorNrm ?? info.visorNrm.Pick(kerbal, info.useGameSeed);
                                 jetpackNrm = jetpackNrm ?? info.jetpackNrm.Pick(kerbal, info.useGameSeed);
+                                flagNrm = flagNrm ?? info.flagNrm.Pick(kerbal, info.useGameSeed);
                                 headsetNrm = headsetNrm ?? info.headsetNrm.Pick(kerbal, info.useGameSeed);
                                 mugNrm = mugNrm ?? info.mugNrm.Pick(kerbal, info.useGameSeed);
                                 glassesNrm = glassesNrm ?? info.glassesNrm.Pick(kerbal, info.useGameSeed);
@@ -244,6 +250,15 @@ namespace SigmaReplacements
                         material.SetColor(jetpack);
                         material.SetTexture(jetpackTex);
                         material.SetNormal(jetpackNrm);
+                    }
+
+                    else
+
+                    if (name == "kbEVA_flagDecals")
+                    {
+                        material.SetColor(flag);
+                        material.SetTexture(flagTex);
+                        material.SetNormal(flagNrm);
                     }
 
                     else
