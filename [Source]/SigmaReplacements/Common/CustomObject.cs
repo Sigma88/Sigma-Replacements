@@ -16,7 +16,6 @@ namespace SigmaReplacements
             if (kerbal == null) kerbal = GetComponent<UIKerbalWerner>()?.crewMember;
             if (kerbal == null) kerbal = GetComponent<UIKerbalGene>()?.crewMember;
             if (kerbal == null) kerbal = GetComponent<UIKerbalStrategy>()?.crewMember;
-            Debug.Log(GetType().Name + ".Apply", "kerbal = " + kerbal);
 
             return kerbal;
         }

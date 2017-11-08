@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -7,6 +8,22 @@ namespace SigmaReplacements
 {
     internal static class Extensions
     {
+        internal static List<Info> Order(this List<Info> List)
+        {
+            Debug.Log(List?.GetType()?.Name + ".Order", "Total count = " + List?.Count);
+
+            List<Info> DataBase = new List<Info>();
+
+            DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
+            DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
+            DataBase.AddRange(List.Where(h => string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
+            DataBase.AddRange(List.Where(h => h != null && string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
+
+            Debug.Log(List?.GetType()?.Name + ".Order", "Valid count = " + List?.Count);
+
+            return DataBase;
+        }
+
         internal static void Load(this CrewMember[] array, ConfigNode node, int index)
         {
             CrewMember kerbal = array[index];

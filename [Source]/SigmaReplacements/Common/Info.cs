@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using Gender = ProtoCrewMember.Gender;
@@ -43,28 +44,28 @@ namespace SigmaReplacements
         {
             if (name == null || name == kerbal.name)
             {
-                Debug.Log("Info.GetFor", "Matched name = " + name + " to kerbal name = " + kerbal.name);
+                Debug.Log(GetType().Name + ".GetFor", "Matched name = " + name + " to kerbal name = " + kerbal.name);
                 if (rosterStatus == null || rosterStatus == kerbal.type)
                 {
-                    Debug.Log("Info.GetFor", "Matched rosterStatus = " + rosterStatus + " to kerbal rosterStatus = " + kerbal.type);
+                    Debug.Log(GetType().Name + ".GetFor", "Matched rosterStatus = " + rosterStatus + " to kerbal rosterStatus = " + kerbal.type);
                     if (gender == null || gender == kerbal.gender)
                     {
-                        Debug.Log("Info.GetFor", "Matched gender = " + gender + " to kerbal gender = " + kerbal.gender);
+                        Debug.Log(GetType().Name + ".GetFor", "Matched gender = " + gender + " to kerbal gender = " + kerbal.gender);
                         if (trait == null || trait.Contains(kerbal.trait))
                         {
-                            Debug.Log("Info.GetFor", "Matched trait = " + trait + " to kerbal trait = " + kerbal.trait);
+                            Debug.Log(GetType().Name + ".GetFor", "Matched trait = " + trait + " to kerbal trait = " + kerbal.trait);
                             if (veteran == null || veteran == kerbal.veteran)
                             {
-                                Debug.Log("Info.GetFor", "Matched veteran = " + veteran + " to kerbal veteran = " + kerbal.veteran);
+                                Debug.Log(GetType().Name + ".GetFor", "Matched veteran = " + veteran + " to kerbal veteran = " + kerbal.veteran);
                                 if (isBadass == null || isBadass == kerbal.isBadass)
                                 {
-                                    Debug.Log("Info.GetFor", "Matched isBadass = " + isBadass + " to kerbal isBadass = " + kerbal.isBadass);
+                                    Debug.Log(GetType().Name + ".GetFor", "Matched isBadass = " + isBadass + " to kerbal isBadass = " + kerbal.isBadass);
                                     if (minLevel <= kerbal.experienceLevel && maxLevel >= kerbal.experienceLevel)
                                     {
-                                        Debug.Log("Info.GetFor", "Matched minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to kerbal level = " + kerbal.experienceLevel);
+                                        Debug.Log(GetType().Name + ".GetFor", "Matched minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to kerbal level = " + kerbal.experienceLevel);
                                         if (minCourage <= kerbal.courage && maxCourage >= kerbal.courage)
                                         {
-                                            Debug.Log("Info.GetFor", "Matched minCourage = " + minCourage + ", maxCourage = " + maxCourage + " to kerbal courage = " + kerbal.courage);
+                                            Debug.Log(GetType().Name + ".GetFor", "Matched minCourage = " + minCourage + ", maxCourage = " + maxCourage + " to kerbal courage = " + kerbal.courage);
                                             if (minStupidity <= kerbal.stupidity && maxStupidity >= kerbal.stupidity)
                                             {
                                                 Debug.Log("Info.GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
@@ -80,7 +81,7 @@ namespace SigmaReplacements
                 }
             }
 
-            Debug.Log("Info.GetFor", "Return null");
+            Debug.Log(GetType().Name + ".GetFor", "Return null");
             return null;
         }
 
@@ -178,6 +179,43 @@ namespace SigmaReplacements
             }
 
             return defaultValue;
+        }
+        
+        internal List<Texture> ParseFolders(string[] paths, List<Texture> list)
+        {
+            for (int i = 0; i < paths?.Length; i++)
+            {
+                list.AddUniqueRange(ParseFolder(paths[i]));
+            }
+
+            return list;
+        }
+
+        internal List<Texture> ParseFolder(string path)
+        {
+            if (!path.EndsWith("/")) path += "/";
+
+            Texture[] textures = Resources.FindObjectsOfTypeAll<Texture>();
+            List<Texture> list = new List<Texture>();
+
+            if (Directory.Exists("GameData/" + path))
+            {
+                string[] files = Directory.GetFiles("GameData/" + path)?.Where(f => Path.GetExtension(f) == ".dds" || Path.GetExtension(f) == ".png")?.ToArray();
+
+                for (int i = 0; i < files?.Length; i++)
+                {
+                    if (!string.IsNullOrEmpty(files[i]))
+                    {
+                        string name = path + Path.GetFileNameWithoutExtension(files[i]);
+                        Texture texture = textures.FirstOrDefault(t => t?.name == name);
+
+                        if (texture != null)
+                            list.AddUnique(texture);
+                    }
+                }
+            }
+
+            return list;
         }
     }
 }
