@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,12 @@ namespace SigmaReplacements
             // Static
             internal static List<Info> List = new List<Info>();
             internal static List<Info> DataBase = new List<Info>();
+
+            // Suit Specific Requirements
+            internal Type? type = null;
+            internal float? helmetLowPressure = null;
+            internal float? helmetHighPressure = null;
+            internal float? jetpackMaxGravity = null;
 
             // Colors Lists
             internal List<Color> body = new List<Color>();
@@ -52,6 +59,12 @@ namespace SigmaReplacements
                 // Parse Requirements
                 Parse(requirements, info);
 
+                // Suit Specific Requirements
+                type = Parse(info.GetValue("type"), type);
+                helmetLowPressure = Parse(info.GetValue("helmetLowPressure"), helmetLowPressure);
+                helmetHighPressure = Parse(info.GetValue("helmetHighPressure"), helmetHighPressure);
+                jetpackMaxGravity = Parse(info.GetValue("jetpackMaxGravity"), jetpackMaxGravity);
+
                 // Parse SuitInfo Colors
                 body = Parse(info.GetValues("body"), body);
                 helmet = Parse(info.GetValues("helmet"), helmet);
@@ -87,6 +100,14 @@ namespace SigmaReplacements
 
                 // Parse Folders
                 ParseFolders(info.GetNode("Folders"));
+            }
+
+
+            // Parsers
+            internal Type? Parse(string s, Type? defaultValue)
+            {
+                try { return (Type)Enum.Parse(typeof(Type), s); }
+                catch { return defaultValue; }
             }
 
             void ParseFolders(ConfigNode node)
