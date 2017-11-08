@@ -7,6 +7,14 @@ namespace SigmaReplacements
     {
         public class CustomSuit : CustomObject
         {
+            // Suit Specific Restrictions
+            float? helmetLowPressure = null;
+            float? helmetHighPressure = null;
+            float? jetpackMaxGravity = null;
+            bool jetpackDeployed = true;
+            bool helmetHidden = false;
+            KerbalEVA eva = null;
+
             // Colors
             Color? body = null;
             Color? helmet = null;
@@ -44,8 +52,67 @@ namespace SigmaReplacements
             void Start()
             {
                 ProtoCrewMember kerbal = Apply();
+                Debug.Log("CustomSuit.Start", "kerbal = " + kerbal + " (" + kerbal.GetType() + ")");
+                if (kerbal == null) return;
+
+                eva = GetComponent<KerbalEVA>();
+
                 LoadFor(kerbal);
                 ApplyTo(kerbal);
+
+                if (HighLogic.LoadedScene == GameScenes.FLIGHT && eva != null)
+                {
+                    if (jetpackMaxGravity != null)
+                        TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, JetPack);
+                    if (helmetLowPressure != null || helmetHighPressure != null)
+                        TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, Helmet);
+                }
+            }
+
+            void JetPack()
+            {
+                if (eva.JetpackDeployed != jetpackDeployed)
+                {
+                    jetpackDeployed = eva.JetpackDeployed;
+
+                    Renderer[] renderers = eva.gameObject.GetChild("jetpack01").GetComponentsInChildren<Renderer>(true);
+
+                    for (int i = 0; i < renderers.Length; i++)
+                    {
+                        if (renderers[i]?.name?.StartsWith("fx_gasJet") == false)
+                            renderers[i].enabled = jetpackDeployed;
+                    }
+                }
+            }
+
+            void Helmet()
+            {
+                if (FlightGlobals.currentMainBody?.atmosphereContainsOxygen != true) return;
+
+                double pressure = FlightGlobals.getStaticPressure();
+
+                if (helmetHidden != !(pressure < helmetLowPressure || pressure > helmetHighPressure || helmetLowPressure == helmetHighPressure))
+                {
+                    helmetHidden = !helmetHidden;
+
+                    Renderer[] renderers = eva.gameObject.GetChild("helmet01").GetComponentsInChildren<Renderer>(true);
+
+                    for (int i = 0; i < renderers.Length; i++)
+                    {
+                        if (renderers[i]?.name == "helmet" || renderers[i]?.name == "visor" || renderers[i]?.name == "flare1" || renderers[i]?.name == "flare2")
+                            renderers[i].enabled = !helmetHidden;
+                    }
+
+                    eva.gameObject.GetChild("kbEVA_flagDecals").GetComponent<Renderer>().enabled = !helmetHidden;
+                }
+            }
+
+            void OnDestroy()
+            {
+                if (jetpackMaxGravity != null)
+                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, JetPack);
+                if (helmetLowPressure != null || helmetHighPressure != null)
+                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, Helmet);
             }
 
             void LoadFor(ProtoCrewMember kerbal)
@@ -62,6 +129,13 @@ namespace SigmaReplacements
 
                     if (info != null)
                     {
+                        Type type = Type.IVA;
+                        if (eva != null) type = Type.EVA;
+                        else if (kerbal.GetType() == typeof(CrewMember) && ((CrewMember)kerbal).activity == 0) type = Type.EVA;
+
+                        if (info.type != null && info.type != type) continue;
+                        Debug.Log("CustomSuit.LoadFor", "Matched suit type = " + info.type + " to current activity = " + type);
+
                         if (string.IsNullOrEmpty(collection) || collection == info.collection)
                         {
                             if (info.useChance != 1)
@@ -71,6 +145,11 @@ namespace SigmaReplacements
                             {
                                 // Collection
                                 collection = info.collection;
+
+                                // Suit Specific Requirements
+                                helmetLowPressure = helmetLowPressure ?? info.helmetLowPressure;
+                                helmetHighPressure = helmetHighPressure ?? info.helmetHighPressure;
+                                jetpackMaxGravity = jetpackMaxGravity ?? info.jetpackMaxGravity;
 
                                 // Colors
                                 body = body ?? info.body.Pick(kerbal, info.useGameSeed);
@@ -112,8 +191,6 @@ namespace SigmaReplacements
 
             void ApplyTo(ProtoCrewMember kerbal)
             {
-                Debug.Log("CustomSuit.ApplyTo", "kerbal = " + kerbal);
-
                 Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 
                 for (int i = 0; i < renderers?.Length; i++)
@@ -136,9 +213,6 @@ namespace SigmaReplacements
                         material.SetColor(helmet);
                         material.SetTexture(helmetTex);
                         material.SetNormal(helmetNrm);
-
-                        if (HighLogic.LoadedScene == GameScenes.FLIGHT && FlightGlobals.getStaticPressure() > 50)
-                            renderers[i].enabled = false;
                     }
 
                     else
@@ -148,9 +222,6 @@ namespace SigmaReplacements
                         material.SetColor(visor);
                         material.SetTexture(visorTex);
                         material.SetNormal(visorNrm);
-
-                        if (HighLogic.LoadedScene == GameScenes.FLIGHT && FlightGlobals.getStaticPressure() > 50)
-                            renderers[i].enabled = false;
                     }
 
                     else
@@ -164,9 +235,6 @@ namespace SigmaReplacements
                             Light lights = renderers[i].GetComponentInParent<Light>();
                             lights.color = (Color)flares;
                         }
-
-                        if (HighLogic.LoadedScene == GameScenes.FLIGHT && FlightGlobals.getStaticPressure() > 50)
-                            renderers[i].enabled = false;
                     }
 
                     else
@@ -222,6 +290,12 @@ namespace SigmaReplacements
                     }
                 }
             }
+        }
+
+        internal enum Type
+        {
+            EVA,
+            IVA
         }
     }
 }
