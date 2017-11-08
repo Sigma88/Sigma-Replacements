@@ -5,7 +5,7 @@ using KSP.UI.Screens;
 
 namespace SigmaReplacements
 {
-    namespace Heads
+    namespace Suits
     {
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
         class MenuTriggers : MonoBehaviour
@@ -38,8 +38,8 @@ namespace SigmaReplacements
                             kerbal.crewMember = UIKerbals.menuKerbals[menu];
                             menu++;
 
-                            if (child?.gameObject != null && child?.GetComponent<CustomHead>() == null)
-                                child.gameObject.AddComponent<CustomHead>();
+                            if (child?.gameObject != null && child?.GetComponent<CustomSuit>() == null)
+                                child.gameObject.AddComponent<CustomSuit>();
                         }
                     }
 
@@ -48,8 +48,8 @@ namespace SigmaReplacements
                         if (transform?.gameObject != null && transform?.GetComponent<UIKerbalWerner>() == null)
                             transform.gameObject.AddComponent<UIKerbalWerner>();
 
-                        if (transform?.gameObject != null && transform?.GetComponent<CustomHead>() == null)
-                            transform.gameObject.AddComponent<CustomHead>();
+                        if (transform?.gameObject != null && transform?.GetComponent<CustomSuit>() == null)
+                            transform.gameObject.AddComponent<CustomSuit>();
                     }
                 }
             }
@@ -85,8 +85,8 @@ namespace SigmaReplacements
                         if (transform?.gameObject != null && transform?.GetComponent<UIKerbalStrategy>() == null)
                             transform.gameObject.AddComponent<UIKerbalStrategy>();
 
-                        if (transform?.gameObject != null && transform?.GetComponent<CustomHead>() == null)
-                            transform.gameObject.AddComponent<CustomHead>();
+                        if (transform?.gameObject != null && transform?.GetComponent<CustomSuit>() == null)
+                            transform.gameObject.AddComponent<CustomSuit>();
                     }
 
                     if (transform?.name == "instructor_Gene")
@@ -94,8 +94,8 @@ namespace SigmaReplacements
                         if (transform?.gameObject != null && transform?.GetComponent<UIKerbalGene>() == null)
                             transform.gameObject.AddComponent<UIKerbalGene>();
 
-                        if (transform?.gameObject != null && transform?.GetComponent<CustomHead>() == null)
-                            transform.gameObject.AddComponent<CustomHead>();
+                        if (transform?.gameObject != null && transform?.GetComponent<CustomSuit>() == null)
+                            transform.gameObject.AddComponent<CustomSuit>();
                     }
                 }
             }
@@ -123,16 +123,16 @@ namespace SigmaReplacements
 
                 for (int i = 0; i < kerbalEVAs?.Length; i++)
                 {
-                    if (kerbalEVAs[i]?.GetComponent<CustomHead>() == null)
-                        kerbalEVAs[i].gameObject.AddComponent<CustomHead>();
+                    if (kerbalEVAs[i]?.GetComponent<CustomSuit>() == null)
+                        kerbalEVAs[i].gameObject.AddComponent<CustomSuit>();
                 }
 
                 kerbalExpressionSystem[] kerbalIVAs = Resources.FindObjectsOfTypeAll<kerbalExpressionSystem>();
 
                 for (int i = 0; i < kerbalIVAs?.Length; i++)
                 {
-                    if (kerbalIVAs[i]?.GetComponent<CustomHead>() == null)
-                        kerbalIVAs[i].gameObject.AddComponent<CustomHead>();
+                    if (kerbalIVAs[i]?.GetComponent<CustomSuit>() == null)
+                        kerbalIVAs[i].gameObject.AddComponent<CustomSuit>();
                 }
             }
 
@@ -141,8 +141,8 @@ namespace SigmaReplacements
                 Debug.Log("FlightTriggers.OnCrewOnEva", "Part = " + action.to);
 
                 KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
-                if (kerbalEVA.GetComponent<CustomHead>() == null)
-                    kerbalEVA.gameObject.AddComponent<CustomHead>();
+                if (kerbalEVA.GetComponent<CustomSuit>() == null)
+                    kerbalEVA.gameObject.AddComponent<CustomSuit>();
             }
         }
     }

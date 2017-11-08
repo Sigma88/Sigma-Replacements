@@ -38,9 +38,13 @@
     <Compile Include="Common\DebugLogger.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />
+    <Compile Include="Common\Triggers.cs" />
     <Compile Include="Common\UIKerbals.cs" />
     <Compile Include="Common\UserSettings.cs" />
+    <Compile Include="Suits\CustomSuit.cs" />
     <Compile Include="Suits\Properties\AssemblyInfo.cs" />
+    <Compile Include="Suits\SuitInfo.cs" />
+    <Compile Include="Suits\Triggers.cs" />
     <Compile Include="Suits\Version.cs" />
     <Compile Include="Suits\SettingsLoader.cs" />
   </ItemGroup>

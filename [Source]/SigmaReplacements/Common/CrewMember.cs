@@ -6,8 +6,9 @@ namespace SigmaReplacements
     public class CrewMember : ProtoCrewMember
     {
         internal new string name = "";
+        internal int activity = 0;
 
-        public CrewMember(Type type, string name, Gender gender, string trait, bool veteran, bool isBadass, float courage, float stupidity, int experienceLevel) : base(type, name)
+        public CrewMember(Type type, string name, Gender gender, string trait, bool veteran, bool isBadass, float courage, float stupidity, int experienceLevel , int activity = 0) : base(type, name)
         {
             Debug.Log("CrewMember", "new CrewMember from stats");
 
@@ -20,6 +21,7 @@ namespace SigmaReplacements
             this.courage = courage;
             this.stupidity = stupidity;
             this.experienceLevel = experienceLevel;
+            this.activity = activity;
         }
 
         CrewMember(Type type) : base(type) { }
