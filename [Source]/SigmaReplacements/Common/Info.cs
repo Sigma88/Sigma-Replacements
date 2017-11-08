@@ -81,7 +81,7 @@ namespace SigmaReplacements
                 }
             }
 
-            Debug.Log("Info.GetFor", "Return null");
+            Debug.Log(GetType().Name + ".GetFor", "Return null");
             return null;
         }
 
