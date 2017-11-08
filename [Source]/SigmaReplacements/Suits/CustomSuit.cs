@@ -74,7 +74,7 @@ namespace SigmaReplacements
 
             void JetPack()
             {
-                if (eva.JetpackDeployed != jetpackDeployed)
+                if (eva.JetpackDeployed != jetpackDeployed && FlightGlobals.ship_geeForce > jetpackMaxGravity)
                 {
                     jetpackDeployed = eva.JetpackDeployed;
 
