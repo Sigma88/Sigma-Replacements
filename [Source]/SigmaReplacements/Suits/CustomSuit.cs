@@ -82,6 +82,8 @@ namespace SigmaReplacements
                         if (renderers[i]?.name?.StartsWith("fx_gasJet") == false)
                             renderers[i].enabled = jetpackDeployed;
                     }
+
+                    eva.gameObject.GetChild("kbEVA_flagDecals").GetComponent<Renderer>().enabled = jetpackDeployed;
                 }
             }
 
@@ -102,8 +104,6 @@ namespace SigmaReplacements
                         if (renderers[i]?.name == "helmet" || renderers[i]?.name == "visor" || renderers[i]?.name == "flare1" || renderers[i]?.name == "flare2")
                             renderers[i].enabled = !helmetHidden;
                     }
-
-                    eva.gameObject.GetChild("kbEVA_flagDecals").GetComponent<Renderer>().enabled = !helmetHidden;
                 }
             }
 
