@@ -55,13 +55,13 @@ namespace SigmaReplacements
             {
                 Debug.Log("CustomHead.LoadFor", "kerbal = " + kerbal);
 
-                HeadInfo.hash = "";
+                Info.hash = "";
                 int? useChance = null;
+                string collection = "";
 
                 for (int i = 0; i < HeadInfo.DataBase?.Count; i++)
                 {
                     HeadInfo info = (HeadInfo)HeadInfo.DataBase[i].GetFor(kerbal);
-                    string collection = "";
 
                     if (info != null)
                     {
@@ -72,6 +72,8 @@ namespace SigmaReplacements
 
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
+                                Debug.Log("CustomSuit.LoadFor", "Matched suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
+                                Debug.Log("CustomSuit.LoadFor", "Matched suit collection = " + info.collection + " to current collection = " + collection);
                                 // Collection
                                 collection = info.collection;
 
