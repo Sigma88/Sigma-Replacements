@@ -124,11 +124,11 @@ namespace SigmaReplacements
 
                 Info.hash = "";
                 int? useChance = null;
+                string collection = "";
 
                 for (int i = 0; i < SuitInfo.DataBase?.Count; i++)
                 {
                     SuitInfo info = (SuitInfo)SuitInfo.DataBase[i].GetFor(kerbal);
-                    string collection = "";
 
                     if (info != null)
                     {
@@ -139,6 +139,15 @@ namespace SigmaReplacements
                         if (info.type != null && info.type != type) continue;
                         Debug.Log("CustomSuit.LoadFor", "Matched suit type = " + info.type + " to current activity = " + type);
 
+                        bool useSuit = true;
+                        if (eva != null)
+                        {
+                            double pressure = FlightGlobals.getStaticPressure();
+                            useSuit = !(pressure < info.suitMinPressure) && !(pressure > info.suitMaxPressure);
+                            if (useSuit) Debug.Log("CustomSuit.LoadFor", "Matched suitMinPressure = " + info.suitMinPressure + ", suitMaxPressure = " + info.suitMaxPressure + " to current atmospheric pressure = " + pressure);
+                        }
+
+
                         if (string.IsNullOrEmpty(collection) || collection == info.collection)
                         {
                             if (info.useChance != 1)
@@ -146,19 +155,27 @@ namespace SigmaReplacements
 
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
+                                Debug.Log("CustomSuit.LoadFor", "Matched suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
+                                Debug.Log("CustomSuit.LoadFor", "Matched suit collection = " + info.collection + " to current collection = " + collection);
                                 // Collection
                                 collection = info.collection;
 
                                 // Suit Specific Requirements
-                                helmetLowPressure = helmetLowPressure ?? info.helmetLowPressure;
-                                helmetHighPressure = helmetHighPressure ?? info.helmetHighPressure;
+                                if (useSuit)
+                                {
+                                    helmetLowPressure = helmetLowPressure ?? info.helmetLowPressure;
+                                    helmetHighPressure = helmetHighPressure ?? info.helmetHighPressure;
+                                }
                                 jetpackMaxGravity = jetpackMaxGravity ?? info.jetpackMaxGravity;
 
                                 // Colors
-                                body = body ?? info.body.Pick(kerbal, info.useGameSeed);
-                                helmet = helmet ?? info.helmet.Pick(kerbal, info.useGameSeed);
-                                visor = visor ?? info.visor.Pick(kerbal, info.useGameSeed);
-                                flares = flares ?? info.flares.Pick(kerbal, info.useGameSeed);
+                                if (useSuit)
+                                {
+                                    body = body ?? info.body.Pick(kerbal, info.useGameSeed);
+                                    helmet = helmet ?? info.helmet.Pick(kerbal, info.useGameSeed);
+                                    visor = visor ?? info.visor.Pick(kerbal, info.useGameSeed);
+                                    flares = flares ?? info.flares.Pick(kerbal, info.useGameSeed);
+                                }
                                 jetpack = jetpack ?? info.jetpack.Pick(kerbal, info.useGameSeed);
                                 flag = flag ?? info.flag.Pick(kerbal, info.useGameSeed);
                                 headset = headset ?? info.headset.Pick(kerbal, info.useGameSeed);
@@ -167,10 +184,13 @@ namespace SigmaReplacements
                                 backdrop = backdrop ?? info.backdrop.Pick(kerbal, info.useGameSeed);
 
                                 // Textures
-                                bodyTex = bodyTex ?? info.bodyTex.Pick(kerbal, info.useGameSeed);
-                                helmetTex = helmetTex ?? info.helmetTex.Pick(kerbal, info.useGameSeed);
-                                visorTex = visorTex ?? info.visorTex.Pick(kerbal, info.useGameSeed);
-                                flaresTex = flaresTex ?? info.flaresTex.Pick(kerbal, info.useGameSeed);
+                                if (useSuit)
+                                {
+                                    bodyTex = bodyTex ?? info.bodyTex.Pick(kerbal, info.useGameSeed);
+                                    helmetTex = helmetTex ?? info.helmetTex.Pick(kerbal, info.useGameSeed);
+                                    visorTex = visorTex ?? info.visorTex.Pick(kerbal, info.useGameSeed);
+                                    flaresTex = flaresTex ?? info.flaresTex.Pick(kerbal, info.useGameSeed);
+                                }
                                 jetpackTex = jetpackTex ?? info.jetpackTex.Pick(kerbal, info.useGameSeed);
                                 flagTex = flagTex ?? info.flagTex.Pick(kerbal, info.useGameSeed);
                                 gasjetsTex = gasjetsTex ?? info.gasjetsTex.Pick(kerbal, info.useGameSeed);
@@ -180,9 +200,12 @@ namespace SigmaReplacements
                                 backdropTex = backdropTex ?? info.backdropTex.Pick(kerbal, info.useGameSeed);
 
                                 // Normals
-                                bodyNrm = bodyNrm ?? info.bodyNrm.Pick(kerbal, info.useGameSeed);
-                                helmetNrm = helmetNrm ?? info.helmetNrm.Pick(kerbal, info.useGameSeed);
-                                visorNrm = visorNrm ?? info.visorNrm.Pick(kerbal, info.useGameSeed);
+                                if (useSuit)
+                                {
+                                    bodyNrm = bodyNrm ?? info.bodyNrm.Pick(kerbal, info.useGameSeed);
+                                    helmetNrm = helmetNrm ?? info.helmetNrm.Pick(kerbal, info.useGameSeed);
+                                    visorNrm = visorNrm ?? info.visorNrm.Pick(kerbal, info.useGameSeed);
+                                }
                                 jetpackNrm = jetpackNrm ?? info.jetpackNrm.Pick(kerbal, info.useGameSeed);
                                 flagNrm = flagNrm ?? info.flagNrm.Pick(kerbal, info.useGameSeed);
                                 headsetNrm = headsetNrm ?? info.headsetNrm.Pick(kerbal, info.useGameSeed);
