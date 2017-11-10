@@ -158,14 +158,14 @@ namespace SigmaReplacements
                         material.SetNormal(eyeballRightNrm);
                     }
 
-                    if (name == "upTeeth01" || name == "downTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_downTeeth01")
+                    if (name == "upTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_upTeeth01")
                     {
                         material.SetColor(upTeeth01);
                         material.SetTexture(upTeeth01Tex);
                         material.SetNormal(upTeeth01Nrm);
                     }
 
-                    if (name == "upTeeth02" || name == "upTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_upTeeth01")
+                    if (name == "upTeeth02" || name == "downTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_downTeeth01")
                     {
                         material.SetColor(upTeeth02);
                         material.SetTexture(upTeeth02Tex);
