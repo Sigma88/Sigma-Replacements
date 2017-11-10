@@ -15,6 +15,8 @@ namespace SigmaReplacements
 
             // Suit Specific Requirements
             internal Type? type = null;
+            internal float? suitMinPressure = null;
+            internal float? suitMaxPressure = null;
             internal float? helmetLowPressure = null;
             internal float? helmetHighPressure = null;
             internal float? jetpackMaxGravity = null;
@@ -64,6 +66,8 @@ namespace SigmaReplacements
 
                 // Suit Specific Requirements
                 type = Parse(info.GetValue("type"), type);
+                suitMinPressure = Parse(info.GetValue("suitMinPressure"), suitMinPressure);
+                suitMaxPressure = Parse(info.GetValue("suitMaxPressure"), suitMaxPressure);
                 helmetLowPressure = Parse(info.GetValue("helmetLowPressure"), helmetLowPressure);
                 helmetHighPressure = Parse(info.GetValue("helmetHighPressure"), helmetHighPressure);
                 jetpackMaxGravity = Parse(info.GetValue("jetpackMaxGravity"), jetpackMaxGravity);
