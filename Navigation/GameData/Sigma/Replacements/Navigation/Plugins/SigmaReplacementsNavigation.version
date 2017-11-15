@@ -1,0 +1,25 @@
+{
+	"NAME": "<b><color=#9B59B6>Sigma Replacements: Navigation</color></b>",
+	"URL": "https://raw.githubusercontent.com/Sigma88/Sigma-Replacements/master/Navigation/GameData/Sigma/Replacements/Navigation/Plugins/SigmaReplacementsNavigation.version",
+	"DOWNLOAD": "http://forum.kerbalspaceprogram.com/index.php?/topic/167233-0",
+	"CHANGE_LOG_URL": "https://raw.githubusercontent.com/Sigma88/Sigma-Replacements/master/Navigation/Changelog.txt",
+	"GITHUB":
+	{
+		"USERNAME": "Sigma88",
+		"REPOSITORY": "Sigma-Replacements",
+		"ALLOW_PRE_RELEASE": false
+	},
+	"VERSION":
+	{
+		"MAJOR": 0,
+		"MINOR": 1,
+		"PATCH": 0,
+		"BUILD": 0
+	},
+	"KSP_VERSION":
+	{
+		"MAJOR": 1,
+		"MINOR": 3,
+		"PATCH": 1
+	}
+}
