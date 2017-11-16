@@ -14,7 +14,7 @@ namespace SigmaReplacements
     {
         internal static List<Info> Order(this List<Info> List)
         {
-            Debug.Log(List?.GetType()?.Name + ".Order", "Total count = " + List?.Count);
+            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Total count = " + List?.Count);
 
             List<Info> DataBase = new List<Info>();
 
@@ -23,7 +23,7 @@ namespace SigmaReplacements
             DataBase.AddRange(List.Where(h => string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
             DataBase.AddRange(List.Where(h => h != null && string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
 
-            Debug.Log(List?.GetType()?.Name + ".Order", "Valid count = " + List?.Count);
+            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Valid count = " + DataBase?.Count);
 
             return DataBase;
         }
