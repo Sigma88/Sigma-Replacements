@@ -9,7 +9,6 @@ namespace SigmaReplacements
         class DefaultNavBall : MonoBehaviour
         {
             internal static CustomNavBall Stock = null;
-
             internal static GameObject Instance = null;
 
             void Awake()

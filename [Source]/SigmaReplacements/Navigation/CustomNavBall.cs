@@ -155,7 +155,7 @@ namespace SigmaReplacements
 
                 Material newNavball = controller?.gameObject?.GetChild("NavBall")?.GetComponent<Renderer>()?.material;
                 Material stockNavball = original?.gameObject?.GetChild("NavBall")?.GetComponent<Renderer>()?.material;
-
+                Debug.Log("StockTexturesAndColors", "NavBall = " + stockNavball?.GetColor("_TintColor") + "NavBallTex = " + stockNavball?.GetTexture("_MainTexture"));
                 if (newNavball != null)
                 {
                     newNavball.SetTintColor(NavBall, stockNavball);
@@ -170,7 +170,7 @@ namespace SigmaReplacements
                 {
                     Image newShading = newShadingObj?.GetChild("shadingOverlay")?.GetComponent<Image>();
                     Image stockShading = stockShadingObj?.GetChild("shadingOverlay")?.GetComponent<Image>();
-
+                    Debug.Log("StockTexturesAndColors", "Shading = " + stockShading?.color + "ShadingTex = " + stockShading?.sprite?.texture);
                     if (newShading != null)
                     {
                         newShading.SetColor(Shading, stockShading);
@@ -179,7 +179,7 @@ namespace SigmaReplacements
 
                     Image newShadingMask = newShadingObj.GetComponent<Image>();
                     Image stockShadingMask = stockShadingObj.GetComponent<Image>();
-
+                    Debug.Log("StockTexturesAndColors", "ShadingMask = " + stockShadingMask?.color + "ShadingMaskTex = " + stockShadingMask?.sprite?.texture);
                     if (newShadingMask != null)
                     {
                         newShadingMask.SetColor(ShadingMask, stockShadingMask);
@@ -190,7 +190,7 @@ namespace SigmaReplacements
 
                 Image newCursor = controller?.gameObject?.GetChild("NavBallCursor")?.GetComponent<Image>();
                 Image stockCursor = original?.gameObject?.GetChild("NavBallCursor")?.GetComponent<Image>();
-
+                Debug.Log("StockTexturesAndColors", "Cursor = " + stockCursor?.color + "CursorTex = " + stockCursor?.sprite?.texture);
                 if (newCursor != null)
                 {
                     newCursor.SetColor(Cursor, stockCursor);
@@ -212,6 +212,7 @@ namespace SigmaReplacements
 
                     if (name == "ProgradeVector")
                     {
+                        Debug.Log("StockTexturesAndColors", "ProgradeVector = " + stock?.GetColor("_TintColor") + "ProgradeVectorTex = " + stock?.GetTexture("_MainTexture"));
                         material.SetTintColor(ProgradeVector ?? Vectors, stock);
                         material.SetMainTexture(ProgradeVectorTex ?? VectorsTex, stock);
                     }
@@ -220,6 +221,7 @@ namespace SigmaReplacements
 
                     if (name == "ProgradeWaypoint")
                     {
+                        Debug.Log("StockTexturesAndColors", "ProgradeWaypoint = " + stock?.GetColor("_TintColor") + "ProgradeWaypointTex = " + stock?.GetTexture("_MainTexture"));
                         material.SetTintColor(ProgradeWaypoint ?? Vectors, stock);
                         material.SetMainTexture(ProgradeWaypointTex ?? VectorsTex, stock);
                     }
@@ -228,6 +230,7 @@ namespace SigmaReplacements
 
                     if (name == "RetrogradeVector")
                     {
+                        Debug.Log("StockTexturesAndColors", "RetrogradeVector = " + stock?.GetColor("_TintColor") + "RetrogradeVectorTex = " + stock?.GetTexture("_MainTexture"));
                         material.SetTintColor(RetrogradeVector ?? Vectors, stock);
                         material.SetMainTexture(RetrogradeVectorTex ?? VectorsTex, stock);
                     }
@@ -236,6 +239,7 @@ namespace SigmaReplacements
 
                     if (name == "RetrogradeWaypoint")
                     {
+                        Debug.Log("StockTexturesAndColors", "RetrogradeWaypoint = " + stock?.GetColor("_TintColor") + "RetrogradeWaypointTex = " + stock?.GetTexture("_MainTexture"));
                         material.SetTintColor(RetrogradeWaypoint ?? Vectors, stock);
                         material.SetMainTexture(RetrogradeWaypointTex ?? VectorsTex, stock);
                     }
@@ -244,6 +248,7 @@ namespace SigmaReplacements
 
                     if (name == "RadialInVector")
                     {
+                        Debug.Log("StockTexturesAndColors", "RadialInVector = " + stock?.GetColor("_TintColor") + "RadialInVectorTex = " + stock?.GetTexture("_MainTexture"));
                         material.SetTintColor(RadialInVector ?? Maneuvers, stock);
                         material.SetMainTexture(RadialInVectorTex ?? ManeuversTex, stock);
                     }
@@ -252,6 +257,7 @@ namespace SigmaReplacements
 
                     if (name == "RadialOutVector")
                     {
+                        Debug.Log("StockTexturesAndColors", "RadialOutVector = " + stock?.GetColor("_TintColor") + "RadialOutVectorTex = " + stock?.GetTexture("_MainTexture"));
                         material.SetTintColor(RadialOutVector ?? Maneuvers, stock);
                         material.SetMainTexture(RadialOutVectorTex ?? ManeuversTex, stock);
                     }
@@ -260,6 +266,7 @@ namespace SigmaReplacements
 
                     if (name == "NormalVector")
                     {
+                        Debug.Log("StockTexturesAndColors", "NormalVector = " + stock?.GetColor("_TintColor") + "NormalVectorTex = " + stock?.GetTexture("_MainTexture"));
                         material.SetTintColor(NormalVector ?? Maneuvers, stock);
                         material.SetMainTexture(NormalVectorTex ?? ManeuversTex, stock);
                     }
@@ -268,6 +275,7 @@ namespace SigmaReplacements
 
                     if (name == "AntiNormalVector")
                     {
+                        Debug.Log("StockTexturesAndColors", "AntiNormalVector = " + stock?.GetColor("_TintColor") + "AntiNormalVectorTex = " + stock?.GetTexture("_MainTexture"));
                         material.SetTintColor(AntiNormalVector ?? Maneuvers, stock);
                         material.SetMainTexture(AntiNormalVectorTex ?? ManeuversTex, stock);
                     }
@@ -276,6 +284,7 @@ namespace SigmaReplacements
 
                     if (name == "BurnVector")
                     {
+                        Debug.Log("StockTexturesAndColors", "BurnVector = " + stock?.GetColor("_TintColor") + "BurnVectorTex = " + stock?.GetTexture("_MainTexture"));
                         material.SetTintColor(BurnVector ?? Maneuvers, stock);
                         material.SetMainTexture(BurnVectorTex ?? ManeuversTex, stock);
                     }
@@ -309,7 +318,7 @@ namespace SigmaReplacements
 
                 Image newToggle = controller?.gameObject?.GetChild("ButtonTabToggle")?.GetComponent<Image>();
                 Image stockToggle = original?.gameObject?.GetChild("ButtonTabToggle")?.GetComponent<Image>();
-
+                Debug.Log("StockTexturesAndColors", "ButtonsTex = " + stockToggle?.sprite?.texture);
                 if (newToggle != null)
                 {
                     newToggle.SetColor(Buttons, stockToggle);
@@ -348,7 +357,7 @@ namespace SigmaReplacements
 
                 Image newFrame = controller?.gameObject?.GetChild("Frame")?.GetComponent<Image>();
                 Image stockFrame = original?.gameObject?.GetChild("Frame")?.GetComponent<Image>();
-
+                Debug.Log("StockTexturesAndColors", "Frame = " + stockFrame?.color + ", FrameTex = " + stockFrame?.sprite?.texture);
                 if (newFrame != null)
                 {
                     newFrame.SetColor(Frame, stockFrame);
