@@ -29,9 +29,7 @@ namespace SigmaReplacements
             void OnCrewOnIva(GameEvents.FromToAction<Part, Part> action)
             {
                 Debug.Log("FlightTriggers.OnCrewOnIva", "Part = " + action.to);
-                // DestroyImmediate(FlightUIModeController.Instance);
-                // FlightUIModeController.Instance = new FlightUIModeController();
-                //VesselNavBall(action.to.vessel);
+                PartNavBall(action.to);
             }
 
             void OnControlSwitch(Transform from, Transform to)
