@@ -8,14 +8,14 @@ namespace SigmaReplacements
         [KSPAddon(KSPAddon.Startup.Flight, false)]
         class DefaultNavBall : MonoBehaviour
         {
-            internal static GameObject Instance = null;
-
             internal static CustomNavBall Stock = null;
+
+            internal static GameObject Instance = null;
 
             void Awake()
             {
-                Instance = Instantiate(FlightUIModeController.Instance.gameObject);
                 Stock = gameObject.AddComponent<CustomNavBall>();
+                Instance = Instantiate(FlightUIModeController.Instance.gameObject.GetChild("NavballFrame"));
                 Instance.gameObject.SetActive(false);
             }
         }
