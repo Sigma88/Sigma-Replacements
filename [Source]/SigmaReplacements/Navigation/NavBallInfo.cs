@@ -15,6 +15,7 @@ namespace SigmaReplacements
             // Colors Lists
             internal List<Color> NavBall = new List<Color>();
             internal List<Color> Shading = new List<Color>();
+            internal List<Color> ShadingMask = new List<Color>();
             internal List<Color> Cursor = new List<Color>();
             internal List<Color> Vectors = new List<Color>();
             internal List<Color> ProgradeVector = new List<Color>();
@@ -34,6 +35,7 @@ namespace SigmaReplacements
             // Textures Lists
             internal List<Texture> NavBallTex = new List<Texture>();
             internal List<Texture> ShadingTex = new List<Texture>();
+            internal List<Texture> ShadingMaskTex = new List<Texture>();
             internal List<Texture> CursorTex = new List<Texture>();
             internal List<Texture> VectorsTex = new List<Texture>();
             internal List<Texture> ProgradeVectorTex = new List<Texture>();
@@ -60,6 +62,7 @@ namespace SigmaReplacements
                 // Parse NavBallInfo Colors
                 NavBall = Parse(info.GetValues("NavBall"), NavBall);
                 Shading = Parse(info.GetValues("Shading"), Shading);
+                ShadingMask = Parse(info.GetValues("ShadingMask"), ShadingMask);
                 Cursor = Parse(info.GetValues("Cursor"), Cursor);
                 Vectors = Parse(info.GetValues("Vectors"), Vectors);
                 ProgradeVector = Parse(info.GetValues("ProgradeVector"), ProgradeVector);
@@ -79,6 +82,7 @@ namespace SigmaReplacements
                 // Parse NavBallInfo Textures
                 NavBallTex = Parse(info.GetValues("NavBallTex"), NavBallTex);
                 ShadingTex = Parse(info.GetValues("ShadingTex"), ShadingTex);
+                ShadingMaskTex = Parse(info.GetValues("ShadingMaskTex"), ShadingMaskTex);
                 CursorTex = Parse(info.GetValues("CursorTex"), CursorTex);
                 VectorsTex = Parse(info.GetValues("VectorsTex"), VectorsTex);
                 ProgradeVectorTex = Parse(info.GetValues("ProgradeVectorTex"), ProgradeVectorTex);
@@ -108,6 +112,7 @@ namespace SigmaReplacements
                 // Parse Texture Folders
                 NavBallTex = ParseFolders(node.GetValues("NavBallTex"), NavBallTex);
                 ShadingTex = ParseFolders(node.GetValues("ShadingTex"), ShadingTex);
+                ShadingMaskTex = ParseFolders(node.GetValues("ShadingMaskTex"), ShadingMaskTex);
                 CursorTex = ParseFolders(node.GetValues("CursorTex"), CursorTex);
                 VectorsTex = ParseFolders(node.GetValues("VectorsTex"), VectorsTex);
                 ProgradeVectorTex = ParseFolders(node.GetValues("ProgradeVectorTex"), ProgradeVectorTex);

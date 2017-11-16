@@ -12,6 +12,7 @@ namespace SigmaReplacements
             // Colors
             internal Color? NavBall = null;
             internal Color? Shading = null;
+            internal Color? ShadingMask = null;
             internal Color? Cursor = null;
             internal Color? Vectors = null;
             internal Color? ProgradeVector = null;
@@ -31,6 +32,7 @@ namespace SigmaReplacements
             // Textures
             internal Texture NavBallTex = null;
             internal Texture ShadingTex = null;
+            internal Texture ShadingMaskTex = null;
             internal Texture CursorTex = null;
             internal Texture VectorsTex = null;
             internal Texture ProgradeVectorTex = null;
@@ -98,6 +100,7 @@ namespace SigmaReplacements
                 // Colors
                 NavBall = NavBall ?? info.NavBall.Pick(kerbal, info.useGameSeed);
                 Shading = Shading ?? info.Shading.Pick(kerbal, info.useGameSeed);
+                ShadingMask = ShadingMask ?? info.ShadingMask.Pick(kerbal, info.useGameSeed);
                 Cursor = Cursor ?? info.Cursor.Pick(kerbal, info.useGameSeed);
                 Vectors = Vectors ?? info.Vectors.Pick(kerbal, info.useGameSeed);
                 ProgradeVector = ProgradeVector ?? info.ProgradeVector.Pick(kerbal, info.useGameSeed);
@@ -117,6 +120,7 @@ namespace SigmaReplacements
                 // Textures
                 NavBallTex = NavBallTex ?? info.NavBallTex.Pick(kerbal, info.useGameSeed);
                 ShadingTex = ShadingTex ?? info.ShadingTex.Pick(kerbal, info.useGameSeed);
+                ShadingMaskTex = ShadingMaskTex ?? info.ShadingMaskTex.Pick(kerbal, info.useGameSeed);
                 CursorTex = CursorTex ?? info.CursorTex.Pick(kerbal, info.useGameSeed);
                 VectorsTex = VectorsTex ?? info.VectorsTex.Pick(kerbal, info.useGameSeed);
                 ProgradeVectorTex = ProgradeVectorTex ?? info.ProgradeVectorTex.Pick(kerbal, info.useGameSeed);
@@ -151,13 +155,28 @@ namespace SigmaReplacements
                 }
 
 
-                Image newShading = controller?.gameObject?.GetChild("NavBall_OverlayMask")?.GetChild("shadingOverlay").GetComponent<Image>();
-                Image stockShading = original?.gameObject?.GetChild("NavBall_OverlayMask")?.GetChild("shadingOverlay").GetComponent<Image>();
+                GameObject newShadingObj = controller?.gameObject?.GetChild("NavBall_OverlayMask");
+                GameObject stockShadingObj = original?.gameObject?.GetChild("NavBall_OverlayMask");
 
-                if (newShading != null)
+                if (newShadingObj != null)
                 {
-                    newShading.SetColor(Shading, stockShading);
-                    newShading.SetTexture(ShadingTex, stockShading);
+                    Image newShading = newShadingObj.GetComponentInChildren<Image>();
+                    Image stockShading = stockShadingObj.GetComponentInChildren<Image>();
+
+                    if (newShading != null)
+                    {
+                        newShading.SetColor(Shading, stockShading);
+                        newShading.SetTexture(ShadingTex, stockShading);
+                    }
+
+                    Image newShadingMask = newShadingObj.GetComponent<Image>();
+                    Image stockShadingMask = stockShadingObj.GetComponent<Image>();
+
+                    if (newShadingMask != null)
+                    {
+                        newShadingMask.SetColor(ShadingMask, stockShadingMask);
+                        newShadingMask.SetTexture(ShadingMaskTex, stockShadingMask);
+                    }
                 }
 
 
