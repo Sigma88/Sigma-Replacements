@@ -89,6 +89,22 @@ namespace SigmaReplacements
             }
         }
 
+        internal static void SetEmissive(this Material material, Texture newTex)
+        {
+            if (material?.HasProperty("_Emissive") == true && newTex != null)
+            {
+                Texture oldTex = material.GetTexture("_Emissive");
+
+                if (oldTex != null)
+                {
+                    newTex.anisoLevel = oldTex.anisoLevel;
+                    newTex.wrapMode = oldTex.wrapMode;
+                }
+
+                material.SetTexture("_Emissive", newTex);
+            }
+        }
+
         internal static void SetTintColor(this Material material, Color? color, Material stockMaterial = null)
         {
             if (material != null)
