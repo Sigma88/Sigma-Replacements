@@ -12,11 +12,12 @@ namespace SigmaReplacements
             {
                 DontDestroyOnLoad(this);
 
-                Debug.Log("FlightTriggers", "Start");
+                Debug.Log("FlightTriggers.Start", "Active Vessel = " + FlightGlobals.ActiveVessel);
 
                 GameEvents.onVesselReferenceTransformSwitch.Add(OnControlSwitch);
                 GameEvents.onCrewOnEva.Add(OnCrewOnEva);
                 GameEvents.onCrewBoardVessel.Add(OnCrewOnIva);
+                GameEvents.onVesselChange.Add(OnChangeVessel);
             }
 
             void OnCrewOnEva(GameEvents.FromToAction<Part, Part> action)
@@ -35,10 +36,32 @@ namespace SigmaReplacements
             void OnControlSwitch(Transform from, Transform to)
             {
                 Part part = to?.GetComponent<Part>();
-                Debug.Log("FlightTriggers.OnControlSwitch", "Part = " + part);
-                PartNavBall(part);
+                if (part?.vessel == FlightGlobals.ActiveVessel)
+                {
+                    Debug.Log("FlightTriggers.OnControlSwitch", "Part = " + part);
+                    PartNavBall(part);
+                }
             }
 
+            void OnChangeVessel(Vessel vessel)
+            {
+                Debug.Log("FlightTriggers.OnChangeVessel", "Vessel = " + vessel);
+
+                if (vessel?.isEVA == true)
+                {
+                    KerbalEVA kerbal = FlightGlobals.ActiveVessel?.evaController;
+                    Debug.Log("FlightTriggers.OnChangeVessel", "Kerbal = " + kerbal);
+
+                    KerbalNavBall(kerbal);
+                }
+                else
+                {
+                    Part part = vessel?.GetReferenceTransformPart();
+                    Debug.Log("FlightTriggers.OnChangeVessel", "Part = " + part);
+
+                    PartNavBall(part);
+                }
+            }
 
             void PartNavBall(Part part)
             {
@@ -60,8 +83,14 @@ namespace SigmaReplacements
 
             void KerbalNavBall(KerbalEVA kerbal)
             {
-                if (kerbal != null && kerbal.GetComponent<CustomNavBall>() == null)
-                    kerbal.gameObject.AddComponent<CustomNavBall>();
+                if (kerbal != null)
+                {
+                    Debug.Log("FlightTriggers.KerbalNavBall", "Loading CustomNavBall for Kerbal = " + kerbal);
+
+                    CustomNavBall evaNavBall = kerbal?.gameObject?.GetComponent<CustomNavBall>() ?? FlightGlobals.ActiveVessel?.evaController?.gameObject?.AddComponent<CustomNavBall>();
+                    if (evaNavBall != null) evaNavBall.OnStart();
+                    DestroyImmediate(evaNavBall);
+                }
             }
         }
     }

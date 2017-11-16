@@ -48,7 +48,7 @@ namespace SigmaReplacements
             internal Texture FrameTex = null;
 
 
-            void Start()
+            internal void OnStart()
             {
                 ProtoCrewMember kerbal = Apply();
                 Debug.Log("CustomNavBall.Start", "kerbal = " + kerbal + " (" + kerbal?.GetType() + ")");
@@ -136,7 +136,6 @@ namespace SigmaReplacements
 
             internal void ApplyTo(FlightUIModeController controller)
             {
-                UnityEngine.Debug.Log("SigmaLog: >>> 0");
                 if (controller == null) return;
 
                 Transform original = DefaultNavBall.Instance?.transform;
@@ -154,6 +153,7 @@ namespace SigmaReplacements
 
                 Image newShading = controller?.gameObject?.GetChild("NavBall_OverlayMask")?.GetChild("shadingOverlay").GetComponent<Image>();
                 Image stockShading = original?.gameObject?.GetChild("NavBall_OverlayMask")?.GetChild("shadingOverlay").GetComponent<Image>();
+
                 if (newShading != null)
                 {
                     newShading.SetColor(Shading, stockShading);
