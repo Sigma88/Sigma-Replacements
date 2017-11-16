@@ -18,6 +18,14 @@ namespace SigmaReplacements
                 GameEvents.onCrewOnEva.Add(OnCrewOnEva);
                 GameEvents.onCrewBoardVessel.Add(OnCrewOnIva);
                 GameEvents.onVesselChange.Add(OnChangeVessel);
+
+                InternalNavBall[] internals = Resources.FindObjectsOfTypeAll<InternalNavBall>();
+                for (int i = 0; i < internals?.Length; i++)
+                {
+                    if (internals[i] == null) continue;
+
+                    IVAnavball iva = internals[i]?.gameObject?.GetComponent<IVAnavball>() ?? internals[i].gameObject.AddComponent<IVAnavball>();
+                }
             }
 
             void OnCrewOnEva(GameEvents.FromToAction<Part, Part> action)
@@ -30,6 +38,7 @@ namespace SigmaReplacements
             void OnCrewOnIva(GameEvents.FromToAction<Part, Part> action)
             {
                 Debug.Log("FlightTriggers.OnCrewOnIva", "Part = " + action.to);
+
                 PartNavBall(action.to);
             }
 

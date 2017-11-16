@@ -31,6 +31,8 @@ namespace SigmaReplacements
             internal List<Color> Arrows = new List<Color>();
             internal List<Color> Buttons = new List<Color>();
             internal List<Color> Frame = new List<Color>();
+            internal List<Color> IVAbase = new List<Color>();
+            internal List<Color> IVAprograde = new List<Color>();
 
             // Textures Lists
             internal List<Texture> NavBallTex = new List<Texture>();
@@ -51,6 +53,8 @@ namespace SigmaReplacements
             internal List<Texture> ArrowsTex = new List<Texture>();
             internal List<Texture> ButtonsTex = new List<Texture>();
             internal List<Texture> FrameTex = new List<Texture>();
+            internal List<Texture> IVAbaseTex = new List<Texture>();
+            internal List<Texture> IVAprogradeTex = new List<Texture>();
 
 
             // New NavBallInfo
@@ -78,6 +82,8 @@ namespace SigmaReplacements
                 Arrows = Parse(info.GetValues("Arrows"), Arrows);
                 Buttons = Parse(info.GetValues("Buttons"), Buttons);
                 Frame = Parse(info.GetValues("Frame"), Frame);
+                IVAbase = Parse(info.GetValues("IVAbase"), IVAbase);
+                IVAprograde = Parse(info.GetValues("IVAprograde"), IVAprograde);
 
                 // Parse NavBallInfo Textures
                 NavBallTex = Parse(info.GetValues("NavBallTex"), NavBallTex);
@@ -98,6 +104,8 @@ namespace SigmaReplacements
                 ArrowsTex = Parse(info.GetValues("ArrowsTex"), ArrowsTex);
                 ButtonsTex = Parse(info.GetValues("ButtonsTex"), ButtonsTex);
                 FrameTex = Parse(info.GetValues("FrameTex"), FrameTex);
+                IVAbaseTex = Parse(info.GetValues("IVAbaseTex"), IVAbaseTex);
+                IVAprogradeTex = Parse(info.GetValues("IVAprogradeTex"), IVAprogradeTex);
 
                 // Parse Folders
                 ParseFolders(info.GetNode("Folders"));
@@ -128,6 +136,8 @@ namespace SigmaReplacements
                 ArrowsTex = ParseFolders(node.GetValues("ArrowsTex"), ArrowsTex);
                 ButtonsTex = ParseFolders(node.GetValues("ButtonsTex"), ButtonsTex);
                 FrameTex = ParseFolders(node.GetValues("FrameTex"), FrameTex);
+                IVAbaseTex = ParseFolders(node.GetValues("IVAbaseTex"), IVAbaseTex);
+                IVAprogradeTex = ParseFolders(node.GetValues("IVAprogradeTex"), IVAprogradeTex);
             }
         }
     }

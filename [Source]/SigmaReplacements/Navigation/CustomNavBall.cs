@@ -28,6 +28,8 @@ namespace SigmaReplacements
             internal Color? Arrows = null;
             internal Color? Buttons = null;
             internal Color? Frame = null;
+            internal Color? IVAbase = null;
+            internal Color? IVAprograde = null;
 
             // Textures
             internal Texture NavBallTex = null;
@@ -48,6 +50,8 @@ namespace SigmaReplacements
             internal Texture ArrowsTex = null;
             internal Texture ButtonsTex = null;
             internal Texture FrameTex = null;
+            internal Texture IVAbaseTex = null;
+            internal Texture IVAprogradeTex = null;
 
 
             internal void OnStart()
@@ -116,6 +120,8 @@ namespace SigmaReplacements
                 Arrows = Arrows ?? info.Arrows.Pick(kerbal, info.useGameSeed);
                 Buttons = Buttons ?? info.Buttons.Pick(kerbal, info.useGameSeed);
                 Frame = Frame ?? info.Frame.Pick(kerbal, info.useGameSeed);
+                IVAbase = IVAbase ?? info.IVAbase.Pick(kerbal, info.useGameSeed);
+                IVAprograde = IVAprograde ?? info.IVAprograde.Pick(kerbal, info.useGameSeed);
 
                 // Textures
                 NavBallTex = NavBallTex ?? info.NavBallTex.Pick(kerbal, info.useGameSeed);
@@ -136,6 +142,8 @@ namespace SigmaReplacements
                 ArrowsTex = ArrowsTex ?? info.ArrowsTex.Pick(kerbal, info.useGameSeed);
                 ButtonsTex = ButtonsTex ?? info.ButtonsTex.Pick(kerbal, info.useGameSeed);
                 FrameTex = FrameTex ?? info.FrameTex.Pick(kerbal, info.useGameSeed);
+                IVAbaseTex = IVAbaseTex ?? info.IVAbaseTex.Pick(kerbal, info.useGameSeed);
+                IVAprogradeTex = IVAprogradeTex ?? info.IVAprogradeTex.Pick(kerbal, info.useGameSeed);
             }
 
             internal void ApplyTo(FlightUIModeController controller)
@@ -353,6 +361,120 @@ namespace SigmaReplacements
                 if (headingframe != null)
                 {
                     headingframe.color = new Color(0, 0, 0, 0);
+                }
+            }
+
+            internal void FixIVA(Renderer[] renderers)
+            {
+                for (int i = 0; i < renderers?.Length; i++)
+                {
+                    string name = renderers[i]?.name;
+
+                    Material material = renderers[i]?.material;
+                    if (material == null) continue;
+
+
+                    if (name == "NavSphere")
+                    {
+                        material.SetColor(NavBall);
+                        material.SetTexture(NavBallTex);
+                    }
+
+                    else
+
+                    if (name == "IVAbase")
+                    {
+                        material.SetColor(IVAbase);
+                        material.SetTexture(IVAbaseTex);
+                    }
+
+                    else
+
+                    if (name == "IVAprograde")
+                    {
+                        material.SetColor(IVAprograde);
+                        material.SetTexture(IVAprogradeTex);
+                    }
+
+                    else
+
+                    if (name == "progradeVector")
+                    {
+                        material.SetColor(ProgradeVector ?? Vectors);
+                        material.SetMainTexture(ProgradeVectorTex ?? VectorsTex);
+                    }
+
+                    else
+
+                    if (name == "progradeWaypoint")
+                    {
+                        material.SetColor(ProgradeWaypoint ?? Vectors);
+                        material.SetMainTexture(ProgradeWaypointTex ?? VectorsTex);
+                    }
+
+                    else
+
+                    if (name == "retrogradeVector")
+                    {
+                        material.SetColor(RetrogradeVector ?? Vectors);
+                        material.SetMainTexture(RetrogradeVectorTex ?? VectorsTex);
+                    }
+
+                    else
+
+                    if (name == "retrogradeWaypoint" || name == "retrogradeDeltaV")
+                    {
+                        material.SetColor(RetrogradeWaypoint ?? Vectors);
+                        material.SetMainTexture(RetrogradeWaypointTex ?? VectorsTex);
+                    }
+
+                    else
+
+                    if (name == "RadialInVector")
+                    {
+                        material.SetColor(RadialInVector ?? Maneuvers);
+                        material.SetMainTexture(RadialInVectorTex ?? ManeuversTex);
+                    }
+
+                    else
+
+                    if (name == "RadialOutVector")
+                    {
+                        material.SetColor(RadialOutVector ?? Maneuvers);
+                        material.SetMainTexture(RadialOutVectorTex ?? ManeuversTex);
+                    }
+
+                    else
+
+                    if (name == "NormalVector")
+                    {
+                        material.SetColor(NormalVector ?? Maneuvers);
+                        material.SetMainTexture(NormalVectorTex ?? ManeuversTex);
+                    }
+
+                    else
+
+                    if (name == "antiNormalVector")
+                    {
+                        material.SetColor(AntiNormalVector ?? Maneuvers);
+                        material.SetMainTexture(AntiNormalVectorTex ?? ManeuversTex);
+                    }
+
+                    else
+
+                    if (name == "NavWaypointVector")
+                    {
+                        material.SetColor(BurnVector ?? Maneuvers);
+                        material.SetTexture(BurnVectorTex ?? ManeuversTex);
+                    }
+
+                    else
+
+                    if (name == "ManeuverArrow")
+                    {
+                        material.SetColor(Arrows);
+                        material.SetMainTexture(ArrowsTex);
+                    }
                 }
             }
         }

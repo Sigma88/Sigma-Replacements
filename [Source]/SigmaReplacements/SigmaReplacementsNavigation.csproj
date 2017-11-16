@@ -43,6 +43,7 @@
     <Compile Include="Common\UIKerbals.cs" />
     <Compile Include="Common\UserSettings.cs" />
     <Compile Include="Navigation\CustomNavBall.cs" />
+    <Compile Include="Navigation\IVAnavball.cs" />
     <Compile Include="Navigation\ModuleNavBall.cs" />
     <Compile Include="Navigation\Properties\AssemblyInfo.cs" />
     <Compile Include="Navigation\NavBallInfo.cs" />
