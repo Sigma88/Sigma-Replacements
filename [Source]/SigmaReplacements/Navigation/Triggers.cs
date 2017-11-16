@@ -21,11 +21,9 @@ namespace SigmaReplacements
 
             void OnCrewOnEva(GameEvents.FromToAction<Part, Part> action)
             {
-                Debug.Log("FlightTriggers.OnCrewOnEva", "Part = " + action.to);
-                /*
-                KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
-                if (kerbalEVA.GetComponent<CustomNavBall>() == null)
-                    kerbalEVA.gameObject.AddComponent<CustomNavBall>();*/
+                Debug.Log("FlightTriggers.OnCrewOnEva", "Kerbal = " + action.to);
+
+                KerbalNavBall(action.to?.GetComponent<KerbalEVA>());
             }
 
             void OnCrewOnIva(GameEvents.FromToAction<Part, Part> action)
