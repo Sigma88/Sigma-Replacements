@@ -160,8 +160,8 @@ namespace SigmaReplacements
 
                 if (newShadingObj != null)
                 {
-                    Image newShading = newShadingObj.GetComponentInChildren<Image>();
-                    Image stockShading = stockShadingObj.GetComponentInChildren<Image>();
+                    Image newShading = newShadingObj?.GetChild("shadingOverlay")?.GetComponent<Image>();
+                    Image stockShading = stockShadingObj?.GetChild("shadingOverlay")?.GetComponent<Image>();
 
                     if (newShading != null)
                     {
