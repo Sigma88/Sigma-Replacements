@@ -54,7 +54,7 @@ namespace SigmaReplacements
             internal List<Texture> ButtonsTex = new List<Texture>();
             internal List<Texture> FrameTex = new List<Texture>();
             internal List<Texture> IVAbaseTex = new List<Texture>();
-            internal List<Texture> IVAemissive = new List<Texture>();
+            internal List<Texture> IVAemissiveTex = new List<Texture>();
             internal List<Texture> IVAprogradeTex = new List<Texture>();
 
 
@@ -106,7 +106,7 @@ namespace SigmaReplacements
                 ButtonsTex = Parse(info.GetValues("ButtonsTex"), ButtonsTex);
                 FrameTex = Parse(info.GetValues("FrameTex"), FrameTex);
                 IVAbaseTex = Parse(info.GetValues("IVAbaseTex"), IVAbaseTex);
-                IVAemissive = Parse(info.GetValues("IVAemissive"), IVAemissive);
+                IVAemissiveTex = Parse(info.GetValues("IVAemissiveTex"), IVAemissiveTex);
                 IVAprogradeTex = Parse(info.GetValues("IVAprogradeTex"), IVAprogradeTex);
 
                 // Parse Folders
@@ -139,7 +139,7 @@ namespace SigmaReplacements
                 ButtonsTex = ParseFolders(node.GetValues("ButtonsTex"), ButtonsTex);
                 FrameTex = ParseFolders(node.GetValues("FrameTex"), FrameTex);
                 IVAbaseTex = ParseFolders(node.GetValues("IVAbaseTex"), IVAbaseTex);
-                IVAemissive = ParseFolders(node.GetValues("IVAemissive"), IVAemissive);
+                IVAemissiveTex = ParseFolders(node.GetValues("IVAemissiveTex"), IVAemissiveTex);
                 IVAprogradeTex = ParseFolders(node.GetValues("IVAprogradeTex"), IVAprogradeTex);
             }
         }

@@ -51,7 +51,7 @@ namespace SigmaReplacements
             internal Texture ButtonsTex = null;
             internal Texture FrameTex = null;
             internal Texture IVAbaseTex = null;
-            internal Texture IVAemissive = null;
+            internal Texture IVAemissiveTex = null;
             internal Texture IVAprogradeTex = null;
 
 
@@ -144,7 +144,7 @@ namespace SigmaReplacements
                 ButtonsTex = ButtonsTex ?? info.ButtonsTex.Pick(kerbal, info.useGameSeed);
                 FrameTex = FrameTex ?? info.FrameTex.Pick(kerbal, info.useGameSeed);
                 IVAbaseTex = IVAbaseTex ?? info.IVAbaseTex.Pick(kerbal, info.useGameSeed);
-                IVAemissive = IVAemissive ?? info.IVAemissive.Pick(kerbal, info.useGameSeed);
+                IVAemissiveTex = IVAemissiveTex ?? info.IVAemissiveTex.Pick(kerbal, info.useGameSeed);
                 IVAprogradeTex = IVAprogradeTex ?? info.IVAprogradeTex.Pick(kerbal, info.useGameSeed);
             }
 
@@ -389,7 +389,7 @@ namespace SigmaReplacements
                     {
                         material.SetColor(NavBall);
                         material.SetTexture(NavBallTex);
-                        material.SetEmissive(IVAemissive);
+                        material.SetEmissive(IVAemissiveTex);
                     }
 
                     else
