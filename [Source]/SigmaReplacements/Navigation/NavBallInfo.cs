@@ -15,7 +15,6 @@ namespace SigmaReplacements
             // Colors Lists
             internal List<Color?> NavBall = new List<Color?>();
             internal List<Color?> Shading = new List<Color?>();
-            internal List<Color?> ShadingMask = new List<Color?>();
             internal List<Color?> Cursor = new List<Color?>();
             internal List<Color?> Vectors = new List<Color?>();
             internal List<Color?> ProgradeVector = new List<Color?>();
@@ -68,7 +67,6 @@ namespace SigmaReplacements
                 // Parse NavBallInfo Colors
                 NavBall = Parse(info.GetValues("NavBall"), NavBall);
                 Shading = Parse(info.GetValues("Shading"), Shading);
-                ShadingMask = Parse(info.GetValues("ShadingMask"), ShadingMask);
                 Cursor = Parse(info.GetValues("Cursor"), Cursor);
                 Vectors = Parse(info.GetValues("Vectors"), Vectors);
                 ProgradeVector = Parse(info.GetValues("ProgradeVector"), ProgradeVector);

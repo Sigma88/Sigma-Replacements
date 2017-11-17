@@ -12,7 +12,6 @@ namespace SigmaReplacements
             // Colors
             internal Color? NavBall = null;
             internal Color? Shading = null;
-            internal Color? ShadingMask = null;
             internal Color? Cursor = null;
             internal Color? Vectors = null;
             internal Color? ProgradeVector = null;
@@ -106,7 +105,6 @@ namespace SigmaReplacements
                 // Colors
                 NavBall = NavBall ?? info.NavBall.Pick(kerbal, info.useGameSeed);
                 Shading = Shading ?? info.Shading.Pick(kerbal, info.useGameSeed);
-                ShadingMask = ShadingMask ?? info.ShadingMask.Pick(kerbal, info.useGameSeed);
                 Cursor = Cursor ?? info.Cursor.Pick(kerbal, info.useGameSeed);
                 Vectors = Vectors ?? info.Vectors.Pick(kerbal, info.useGameSeed);
                 ProgradeVector = ProgradeVector ?? info.ProgradeVector.Pick(kerbal, info.useGameSeed);
@@ -183,10 +181,9 @@ namespace SigmaReplacements
 
                     Image newShadingMask = newShadingObj.GetComponent<Image>();
                     Image stockShadingMask = stockShadingObj.GetComponent<Image>();
-                    Debug.Log("StockTexturesAndColors", "ShadingMask = " + stockShadingMask?.color + "ShadingMaskTex = " + stockShadingMask?.sprite?.texture);
+                    Debug.Log("StockTexturesAndColors", "ShadingMaskTex = " + stockShadingMask?.sprite?.texture);
                     if (newShadingMask != null)
                     {
-                        newShadingMask.SetColor(ShadingMask, stockShadingMask);
                         newShadingMask.SetTexture(ShadingMaskTex, stockShadingMask, true);
                     }
                 }
