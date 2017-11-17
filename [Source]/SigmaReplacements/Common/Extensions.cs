@@ -150,11 +150,20 @@ namespace SigmaReplacements
             }
         }
 
-        internal static void SetTexture(this Image image, Texture newTex, Image stockImage = null)
+        internal static void SetTexture(this Image image, Texture newTex, Image stockImage = null, bool fit = false, bool resize = false, Vector2? resolution = null)
         {
             if (image?.sprite != null)
             {
-                image.sprite = image.sprite.SetTexture(newTex ?? stockImage?.sprite?.texture);
+                Vector2 scale = new Vector2(image.sprite.rect.width, image.sprite.rect.height);
+
+                image.sprite = image.sprite.SetTexture(newTex ?? stockImage?.sprite?.texture, fit);
+
+                if (resize)
+                {
+                    scale.x /= image.sprite.rect.width * resolution?.x ?? 1;
+                    scale.y /= image.sprite.rect.height * resolution?.y ?? 1;
+                    image.rectTransform.localScale = new Vector3(image.rectTransform.localScale.x / scale.x, image.rectTransform.localScale.y / scale.y, image.rectTransform.localScale.z);
+                }
             }
         }
 
@@ -211,7 +220,7 @@ namespace SigmaReplacements
             }
         }
 
-        internal static Sprite SetTexture(this Sprite sprite, Texture newTex)
+        internal static Sprite SetTexture(this Sprite sprite, Texture newTex, bool fit = false)
         {
             if (sprite == null || newTex == null) return sprite;
             if (sprite.texture == newTex) return sprite;
@@ -224,21 +233,41 @@ namespace SigmaReplacements
                 newTex.wrapMode = oldTex.wrapMode;
             }
 
-            return Sprite.Create((Texture2D)newTex, sprite.rect, sprite.pivot);
+            Rect rect = sprite.rect;
+            Vector2 pivot = sprite.pivot;
+
+            if (fit)
+            {
+                rect.width = newTex.width;
+                rect.height = newTex.height;
+                pivot = new Vector2(newTex.width * 0.5f, newTex.height * 0.5f);
+            }
+
+            return Sprite.Create((Texture2D)newTex, rect, pivot);
         }
 
-        internal static Texture At(this List<Texture> right, Texture item, List<Texture> left)
+        internal static Color? At(this List<Color?> list, Color? element, List<Color?> reference, ProtoCrewMember kerbal, bool useGameSeed)
         {
-            if (item != null && left.Contains(item) && right?.Count > left.IndexOf(item))
-                return right[left.IndexOf(item)];
-            return null;
+            if (reference.Contains(element) && list?.Count > reference.IndexOf(element))
+                return list[reference.IndexOf(element)];
+            else
+                return list.Pick(kerbal, useGameSeed);
         }
 
-        internal static Color? At(this List<Color> right, Color? item, List<Color> left)
+        internal static Texture At(this List<Texture> list, Texture element, List<Texture> reference, ProtoCrewMember kerbal, bool useGameSeed)
         {
-            if (item != null && left.Contains((Color)item) && right?.Count > left.IndexOf((Color)item))
-                return right[left.IndexOf((Color)item)];
-            return null;
+            if (reference.Contains(element) && list?.Count > reference.IndexOf(element))
+                return list[reference.IndexOf(element)];
+            else
+                return list.Pick(kerbal, useGameSeed);
+        }
+
+        internal static Vector2? At(this List<Vector2?> list, Texture element, List<Texture> reference, ProtoCrewMember kerbal, bool useGameSeed)
+        {
+            if (reference.Contains(element) && list?.Count > reference.IndexOf(element))
+                return list[reference.IndexOf(element)];
+            else
+                return list.Pick(kerbal, useGameSeed);
         }
 
         internal static Texture Pick(this List<Texture> list, ProtoCrewMember kerbal, bool useGameSeed)
@@ -251,7 +280,17 @@ namespace SigmaReplacements
                 return null;
         }
 
-        internal static Color? Pick(this List<Color> list, ProtoCrewMember kerbal, bool useGameSeed)
+        internal static Color? Pick(this List<Color?> list, ProtoCrewMember kerbal, bool useGameSeed)
+        {
+            if (list.Count > 1 && kerbal != null)
+                return list[kerbal.Hash(useGameSeed) % list.Count];
+            else if (list.Count > 0)
+                return list[0];
+            else
+                return null;
+        }
+
+        internal static Vector2? Pick(this List<Vector2?> list, ProtoCrewMember kerbal, bool useGameSeed)
         {
             if (list.Count > 1 && kerbal != null)
                 return list[kerbal.Hash(useGameSeed) % list.Count];
