@@ -50,6 +50,7 @@ namespace SigmaReplacements
             internal Texture ArrowsTex = null;
             internal Texture ButtonsTex = null;
             internal Texture FrameTex = null;
+            internal Vector2? FrameTexRes = null;
             internal Texture IVAbaseTex = null;
             internal Texture IVAemissiveTex = null;
             internal Texture IVAprogradeTex = null;
@@ -143,6 +144,7 @@ namespace SigmaReplacements
                 ArrowsTex = ArrowsTex ?? info.ArrowsTex.Pick(kerbal, info.useGameSeed);
                 ButtonsTex = ButtonsTex ?? info.ButtonsTex.Pick(kerbal, info.useGameSeed);
                 FrameTex = FrameTex ?? info.FrameTex.Pick(kerbal, info.useGameSeed);
+                FrameTexRes = FrameTexRes ?? info.FrameTexRes.At(FrameTex, info.FrameTex, kerbal, info.useGameSeed);
                 IVAbaseTex = IVAbaseTex ?? info.IVAbaseTex.Pick(kerbal, info.useGameSeed);
                 IVAemissiveTex = IVAemissiveTex ?? info.IVAemissiveTex.Pick(kerbal, info.useGameSeed);
                 IVAprogradeTex = IVAprogradeTex ?? info.IVAprogradeTex.Pick(kerbal, info.useGameSeed);
@@ -176,7 +178,7 @@ namespace SigmaReplacements
                     if (newShading != null)
                     {
                         newShading.SetColor(Shading, stockShading);
-                        newShading.SetTexture(ShadingTex, stockShading);
+                        newShading.SetTexture(ShadingTex, stockShading, true);
                     }
 
                     Image newShadingMask = newShadingObj.GetComponent<Image>();
@@ -185,7 +187,7 @@ namespace SigmaReplacements
                     if (newShadingMask != null)
                     {
                         newShadingMask.SetColor(ShadingMask, stockShadingMask);
-                        newShadingMask.SetTexture(ShadingMaskTex, stockShadingMask);
+                        newShadingMask.SetTexture(ShadingMaskTex, stockShadingMask, true);
                     }
                 }
 
@@ -325,6 +327,7 @@ namespace SigmaReplacements
                 {
                     newToggle.SetColor(Buttons, stockToggle);
                     newToggle.SetTexture(ButtonsTex, stockToggle);
+                    newToggle.rectTransform.SetAsLastSibling();
                 }
 
 
@@ -363,7 +366,7 @@ namespace SigmaReplacements
                 if (newFrame != null)
                 {
                     newFrame.SetColor(Frame, stockFrame);
-                    newFrame.SetTexture(FrameTex, stockFrame);
+                    newFrame.SetTexture(FrameTex, stockFrame, true, true, FrameTexRes);
                 }
 
 
