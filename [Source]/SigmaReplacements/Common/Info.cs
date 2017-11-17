@@ -65,36 +65,36 @@ namespace SigmaReplacements
                         if (rosterStatus == 0)
                             Debug.Log(GetType().Name + ".GetFor", "Matched rosterStatus = " + rosterStatus + " to kerbal rosterStatus = " + kerbal.rosterStatus);
 
-                    if (gender == null || gender == kerbal.gender)
-                    {
-                        Debug.Log(GetType().Name + ".GetFor", "Matched gender = " + gender + " to kerbal gender = " + kerbal.gender);
-                        if (trait == null || trait.Contains(kerbal.trait))
+                        if (gender == null || gender == kerbal.gender)
                         {
-                            Debug.Log(GetType().Name + ".GetFor", "Matched trait = " + trait + " to kerbal trait = " + kerbal.trait);
-                            if (veteran == null || veteran == kerbal.veteran)
+                            Debug.Log(GetType().Name + ".GetFor", "Matched gender = " + gender + " to kerbal gender = " + kerbal.gender);
+                            if (trait == null || trait.Contains(kerbal.trait))
                             {
-                                Debug.Log(GetType().Name + ".GetFor", "Matched veteran = " + veteran + " to kerbal veteran = " + kerbal.veteran);
-                                if (isBadass == null || isBadass == kerbal.isBadass)
+                                Debug.Log(GetType().Name + ".GetFor", "Matched trait = " + trait + " to kerbal trait = " + kerbal.trait);
+                                if (veteran == null || veteran == kerbal.veteran)
                                 {
-                                    Debug.Log(GetType().Name + ".GetFor", "Matched isBadass = " + isBadass + " to kerbal isBadass = " + kerbal.isBadass);
-                                    if (minLevel <= kerbal.experienceLevel && maxLevel >= kerbal.experienceLevel)
+                                    Debug.Log(GetType().Name + ".GetFor", "Matched veteran = " + veteran + " to kerbal veteran = " + kerbal.veteran);
+                                    if (isBadass == null || isBadass == kerbal.isBadass)
                                     {
-                                        Debug.Log(GetType().Name + ".GetFor", "Matched minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to kerbal level = " + kerbal.experienceLevel);
-                                        if (minCourage <= kerbal.courage && maxCourage >= kerbal.courage)
+                                        Debug.Log(GetType().Name + ".GetFor", "Matched isBadass = " + isBadass + " to kerbal isBadass = " + kerbal.isBadass);
+                                        if (minLevel <= kerbal.experienceLevel && maxLevel >= kerbal.experienceLevel)
                                         {
-                                            Debug.Log(GetType().Name + ".GetFor", "Matched minCourage = " + minCourage + ", maxCourage = " + maxCourage + " to kerbal courage = " + kerbal.courage);
-                                            if (minStupidity <= kerbal.stupidity && maxStupidity >= kerbal.stupidity)
+                                            Debug.Log(GetType().Name + ".GetFor", "Matched minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to kerbal level = " + kerbal.experienceLevel);
+                                            if (minCourage <= kerbal.courage && maxCourage >= kerbal.courage)
                                             {
-                                                Debug.Log("Info.GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
-                                                Debug.Log("Info.GetFor", "Return this Info");
-                                                return this;
+                                                Debug.Log(GetType().Name + ".GetFor", "Matched minCourage = " + minCourage + ", maxCourage = " + maxCourage + " to kerbal courage = " + kerbal.courage);
+                                                if (minStupidity <= kerbal.stupidity && maxStupidity >= kerbal.stupidity)
+                                                {
+                                                    Debug.Log("Info.GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
+                                                    Debug.Log("Info.GetFor", "Return this Info");
+                                                    return this;
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
                     }
                 }
             }
