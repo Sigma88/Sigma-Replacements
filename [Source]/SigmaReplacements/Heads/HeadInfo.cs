@@ -15,16 +15,16 @@ namespace SigmaReplacements
             internal static List<Info> DataBase = new List<Info>();
 
             // Colors Lists
-            internal List<Color> pupilLeft = new List<Color>();
-            internal List<Color> pupilRight = new List<Color>();
-            internal List<Color> eyeballLeft = new List<Color>();
-            internal List<Color> eyeballRight = new List<Color>();
-            internal List<Color> upTeeth01 = new List<Color>();
-            internal List<Color> upTeeth02 = new List<Color>();
-            internal List<Color> tongue = new List<Color>();
-            internal List<Color> head = new List<Color>();
-            internal List<Color> hair = new List<Color>();
-            internal List<Color> arm = new List<Color>();
+            internal List<Color?> pupilLeft = new List<Color?>();
+            internal List<Color?> pupilRight = new List<Color?>();
+            internal List<Color?> eyeballLeft = new List<Color?>();
+            internal List<Color?> eyeballRight = new List<Color?>();
+            internal List<Color?> upTeeth01 = new List<Color?>();
+            internal List<Color?> upTeeth02 = new List<Color?>();
+            internal List<Color?> tongue = new List<Color?>();
+            internal List<Color?> head = new List<Color?>();
+            internal List<Color?> hair = new List<Color?>();
+            internal List<Color?> arm = new List<Color?>();
 
             // Textures Lists
             internal List<Texture> pupilLeftTex = new List<Texture>();
