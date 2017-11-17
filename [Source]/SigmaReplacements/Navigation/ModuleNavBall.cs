@@ -13,7 +13,7 @@ namespace SigmaReplacements
             {
                 if (HighLogic.LoadedScene == GameScenes.LOADING)
                 {
-                    ConfigNode CustomNavBall = node.GetNode("CustomNavBall");
+                    ConfigNode CustomNavBall = node.GetNode("NavBall");
 
                     CustomNavBall NavBall = gameObject.AddComponent<CustomNavBall>();
 
