@@ -9,6 +9,18 @@ using Type = ProtoCrewMember.KerbalType;
 
 namespace SigmaReplacements
 {
+    public enum Status
+    {
+        Crew = 0,
+        Available = 0,
+        Assigned = 0,
+        Dead = 0,
+        Missing = 0,
+        Applicant = 1,
+        Unowned = 2,
+        Tourist = 3
+    }
+
     internal class Info
     {
         // Static
@@ -20,7 +32,7 @@ namespace SigmaReplacements
         // Requirements
         internal bool useGameSeed = false;
         internal float useChance = 1;
-        internal Type? rosterStatus = null;
+        internal Status? rosterStatus = null;
         internal Gender? gender = null;
         internal string[] trait = null;
         internal bool? veteran = null;
@@ -45,9 +57,14 @@ namespace SigmaReplacements
             if (name == null || name == kerbal.name)
             {
                 Debug.Log(GetType().Name + ".GetFor", "Matched name = " + name + " to kerbal name = " + kerbal.name);
-                if (rosterStatus == null || rosterStatus == kerbal.type)
+                if (rosterStatus == null || (Type)rosterStatus == kerbal.type)
                 {
-                    Debug.Log(GetType().Name + ".GetFor", "Matched rosterStatus = " + rosterStatus + " to kerbal rosterStatus = " + kerbal.type);
+                    Debug.Log(GetType().Name + ".GetFor", "Matched rosterStatus = " + rosterStatus + " to kerbal type = " + kerbal.type);
+                    if (rosterStatus != 0 || rosterStatus.Description() == "Crew" || rosterStatus.Description() == kerbal.rosterStatus.Description())
+                    {
+                        if (rosterStatus == 0)
+                            Debug.Log(GetType().Name + ".GetFor", "Matched rosterStatus = " + rosterStatus + " to kerbal rosterStatus = " + kerbal.rosterStatus);
+
                     if (gender == null || gender == kerbal.gender)
                     {
                         Debug.Log(GetType().Name + ".GetFor", "Matched gender = " + gender + " to kerbal gender = " + kerbal.gender);
@@ -77,6 +94,7 @@ namespace SigmaReplacements
                                 }
                             }
                         }
+                    }
                     }
                 }
             }
@@ -133,9 +151,9 @@ namespace SigmaReplacements
         internal int Parse(string s, int defaultValue) { return int.TryParse(s, out int b) ? b : defaultValue; }
         internal int? Parse(string s, int? defaultValue) { return int.TryParse(s, out int b) ? b : defaultValue; }
 
-        internal Type? Parse(string s, Type? defaultValue)
+        internal Status? Parse(string s, Status? defaultValue)
         {
-            try { return (Type)Enum.Parse(typeof(Type), s); }
+            try { return (Status)Enum.Parse(typeof(Status), s); }
             catch { return defaultValue; }
         }
 
