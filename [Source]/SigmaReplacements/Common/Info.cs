@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Gender = ProtoCrewMember.Gender;
 using Type = ProtoCrewMember.KerbalType;
+using Roster = ProtoCrewMember.RosterStatus;
 
 
 namespace SigmaReplacements
@@ -154,6 +155,12 @@ namespace SigmaReplacements
         internal Status? Parse(string s, Status? defaultValue)
         {
             try { return (Status)Enum.Parse(typeof(Status), s); }
+            catch { return defaultValue; }
+        }
+
+        internal Roster Parse(string s, Roster defaultValue)
+        {
+            try { return (Roster)Enum.Parse(typeof(Roster), s); }
             catch { return defaultValue; }
         }
 

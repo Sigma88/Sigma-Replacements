@@ -35,8 +35,8 @@ namespace SigmaReplacements
 
             array[index] = new CrewMember
             (
-                (ProtoCrewMember.KerbalType?)(int?)stats?.rosterStatus ?? kerbal.type,
-                (ProtoCrewMember.RosterStatus?)stats.rosterStatus ?? kerbal.rosterStatus,
+                (ProtoCrewMember.KerbalType?)stats?.rosterStatus ?? kerbal.type,
+                stats.Parse(stats?.rosterStatus?.Description(), kerbal.rosterStatus),
                 !string.IsNullOrEmpty(stats?.name) ? stats.name : kerbal.name,
                 stats?.gender ?? kerbal.gender,
                 stats?.trait?.Length > 0 && !string.IsNullOrEmpty(stats.trait[0]) ? stats.trait[0] : kerbal.trait,
