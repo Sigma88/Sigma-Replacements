@@ -55,13 +55,13 @@ namespace SigmaReplacements
             {
                 Debug.Log("CustomHead.LoadFor", "kerbal = " + kerbal);
 
-                HeadInfo.hash = "";
+                Info.hash = "";
                 int? useChance = null;
+                string collection = "";
 
                 for (int i = 0; i < HeadInfo.DataBase?.Count; i++)
                 {
                     HeadInfo info = (HeadInfo)HeadInfo.DataBase[i].GetFor(kerbal);
-                    string collection = "";
 
                     if (info != null)
                     {
@@ -72,6 +72,8 @@ namespace SigmaReplacements
 
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
+                                Debug.Log("CustomSuit.LoadFor", "Matched suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
+                                Debug.Log("CustomSuit.LoadFor", "Matched suit collection = " + info.collection + " to current collection = " + collection);
                                 // Collection
                                 collection = info.collection;
 
@@ -156,14 +158,14 @@ namespace SigmaReplacements
                         material.SetNormal(eyeballRightNrm);
                     }
 
-                    if (name == "upTeeth01" || name == "downTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_downTeeth01")
+                    if (name == "upTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_upTeeth01")
                     {
                         material.SetColor(upTeeth01);
                         material.SetTexture(upTeeth01Tex);
                         material.SetNormal(upTeeth01Nrm);
                     }
 
-                    if (name == "upTeeth02" || name == "upTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_upTeeth01")
+                    if (name == "upTeeth02" || name == "downTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_downTeeth01")
                     {
                         material.SetColor(upTeeth02);
                         material.SetTexture(upTeeth02Tex);
