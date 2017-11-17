@@ -202,16 +202,16 @@ namespace SigmaReplacements
                                 // Normals
                                 if (useSuit)
                                 {
-                                    bodyNrm = bodyNrm ?? info.bodyNrm.Pick(kerbal, info.useGameSeed);
-                                    helmetNrm = helmetNrm ?? info.helmetNrm.Pick(kerbal, info.useGameSeed);
-                                    visorNrm = visorNrm ?? info.visorNrm.Pick(kerbal, info.useGameSeed);
+                                    bodyNrm = bodyNrm ?? info.bodyNrm.At(bodyTex, info.bodyTex, kerbal, info.useGameSeed);
+                                    helmetNrm = helmetNrm ?? info.helmetNrm.At(helmetTex, info.helmetTex, kerbal, info.useGameSeed);
+                                    visorNrm = visorNrm ?? info.visorNrm.At(visorTex, info.visorTex, kerbal, info.useGameSeed);
                                 }
-                                jetpackNrm = jetpackNrm ?? info.jetpackNrm.Pick(kerbal, info.useGameSeed);
-                                flagNrm = flagNrm ?? info.flagNrm.Pick(kerbal, info.useGameSeed);
-                                headsetNrm = headsetNrm ?? info.headsetNrm.Pick(kerbal, info.useGameSeed);
-                                mugNrm = mugNrm ?? info.mugNrm.Pick(kerbal, info.useGameSeed);
-                                glassesNrm = glassesNrm ?? info.glassesNrm.Pick(kerbal, info.useGameSeed);
-                                backdropNrm = backdropNrm ?? info.backdropNrm.Pick(kerbal, info.useGameSeed);
+                                jetpackNrm = jetpackNrm ?? info.jetpackNrm.At(jetpackTex, info.jetpackTex, kerbal, info.useGameSeed);
+                                flagNrm = flagNrm ?? info.flagNrm.At(flagTex, info.flagTex, kerbal, info.useGameSeed);
+                                headsetNrm = headsetNrm ?? info.headsetNrm.At(headsetTex, info.headsetTex, kerbal, info.useGameSeed);
+                                mugNrm = mugNrm ?? info.mugNrm.At(mugTex, info.mugTex, kerbal, info.useGameSeed);
+                                glassesNrm = glassesNrm ?? info.glassesNrm.At(glassesTex, info.glassesTex, kerbal, info.useGameSeed);
+                                backdropNrm = backdropNrm ?? info.backdropNrm.At(backdropTex, info.backdropTex, kerbal, info.useGameSeed);
                             }
                         }
                     }
