@@ -145,9 +145,31 @@ namespace SigmaReplacements
             catch { return defaultValue; }
         }
 
+        internal Color? Parse(string s, Color? defaultValue)
+        {
+            try { return ConfigNode.ParseColor(s); }
+            catch { return defaultValue; }
+        }
+
         internal Texture Parse(string s, Texture defaultValue)
         {
             return Resources.FindObjectsOfTypeAll<Texture>().FirstOrDefault(t => t.name == s) ?? defaultValue;
+        }
+
+        internal Vector2? Parse(string s, Vector2? defaultValue)
+        {
+            try { return ConfigNode.ParseVector2(s); }
+            catch { return defaultValue; }
+        }
+
+        internal List<Color?> Parse(string[] s, List<Color?> defaultValue)
+        {
+            for (int i = 0; i < s.Length; i++)
+            {
+                Color? col = null;
+                defaultValue.Add(Parse(s[i], col));
+            }
+            return defaultValue;
         }
 
         internal List<Texture> Parse(string[] s, List<Texture> defaultValue)
@@ -155,32 +177,23 @@ namespace SigmaReplacements
             for (int i = 0; i < s.Length; i++)
             {
                 Texture tex = null;
-                tex = Parse(s[i], tex);
-                if (tex != null && !defaultValue.Contains(tex))
-                    defaultValue.Add(tex);
+                defaultValue.Add(Parse(s[i], tex));
             }
             return defaultValue;
         }
 
-        internal Color? Parse(string s, Color? defaultValue)
-        {
-            try { return ConfigNode.ParseColor(s); }
-            catch { return defaultValue; }
-        }
-
-        internal List<Color> Parse(string[] s, List<Color> defaultValue)
+        internal List<Vector2?> Parse(string[] s, List<Vector2?> defaultValue)
         {
             for (int i = 0; i < s.Length; i++)
             {
-                Color? col = null;
-                col = Parse(s[i], col);
-                if (!defaultValue.Contains((Color)col))
-                    defaultValue.Add((Color)col);
+                Vector2? v = null;
+                defaultValue.Add(Parse(s[i], v));
             }
-
             return defaultValue;
         }
-        
+
+        // Parse Folders
+
         internal List<Texture> ParseFolders(string[] paths, List<Texture> list)
         {
             for (int i = 0; i < paths?.Length; i++)
@@ -208,9 +221,7 @@ namespace SigmaReplacements
                     {
                         string name = path + Path.GetFileNameWithoutExtension(files[i]);
                         Texture texture = textures.FirstOrDefault(t => t?.name == name);
-
-                        if (texture != null)
-                            list.AddUnique(texture);
+                        list.Add(texture);
                     }
                 }
             }
