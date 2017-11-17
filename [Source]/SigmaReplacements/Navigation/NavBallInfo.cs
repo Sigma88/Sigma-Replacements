@@ -13,26 +13,26 @@ namespace SigmaReplacements
             internal static List<Info> DataBase = new List<Info>();
 
             // Colors Lists
-            internal List<Color> NavBall = new List<Color>();
-            internal List<Color> Shading = new List<Color>();
-            internal List<Color> ShadingMask = new List<Color>();
-            internal List<Color> Cursor = new List<Color>();
-            internal List<Color> Vectors = new List<Color>();
-            internal List<Color> ProgradeVector = new List<Color>();
-            internal List<Color> ProgradeWaypoint = new List<Color>();
-            internal List<Color> RetrogradeVector = new List<Color>();
-            internal List<Color> RetrogradeWaypoint = new List<Color>();
-            internal List<Color> Maneuvers = new List<Color>();
-            internal List<Color> RadialInVector = new List<Color>();
-            internal List<Color> RadialOutVector = new List<Color>();
-            internal List<Color> NormalVector = new List<Color>();
-            internal List<Color> AntiNormalVector = new List<Color>();
-            internal List<Color> BurnVector = new List<Color>();
-            internal List<Color> Arrows = new List<Color>();
-            internal List<Color> Buttons = new List<Color>();
-            internal List<Color> Frame = new List<Color>();
-            internal List<Color> IVAbase = new List<Color>();
-            internal List<Color> IVAprograde = new List<Color>();
+            internal List<Color?> NavBall = new List<Color?>();
+            internal List<Color?> Shading = new List<Color?>();
+            internal List<Color?> ShadingMask = new List<Color?>();
+            internal List<Color?> Cursor = new List<Color?>();
+            internal List<Color?> Vectors = new List<Color?>();
+            internal List<Color?> ProgradeVector = new List<Color?>();
+            internal List<Color?> ProgradeWaypoint = new List<Color?>();
+            internal List<Color?> RetrogradeVector = new List<Color?>();
+            internal List<Color?> RetrogradeWaypoint = new List<Color?>();
+            internal List<Color?> Maneuvers = new List<Color?>();
+            internal List<Color?> RadialInVector = new List<Color?>();
+            internal List<Color?> RadialOutVector = new List<Color?>();
+            internal List<Color?> NormalVector = new List<Color?>();
+            internal List<Color?> AntiNormalVector = new List<Color?>();
+            internal List<Color?> BurnVector = new List<Color?>();
+            internal List<Color?> Arrows = new List<Color?>();
+            internal List<Color?> Buttons = new List<Color?>();
+            internal List<Color?> Frame = new List<Color?>();
+            internal List<Color?> IVAbase = new List<Color?>();
+            internal List<Color?> IVAprograde = new List<Color?>();
 
             // Textures Lists
             internal List<Texture> NavBallTex = new List<Texture>();
@@ -53,6 +53,7 @@ namespace SigmaReplacements
             internal List<Texture> ArrowsTex = new List<Texture>();
             internal List<Texture> ButtonsTex = new List<Texture>();
             internal List<Texture> FrameTex = new List<Texture>();
+            internal List<Vector2?> FrameTexRes = new List<Vector2?>();
             internal List<Texture> IVAbaseTex = new List<Texture>();
             internal List<Texture> IVAemissiveTex = new List<Texture>();
             internal List<Texture> IVAprogradeTex = new List<Texture>();
@@ -105,6 +106,7 @@ namespace SigmaReplacements
                 ArrowsTex = Parse(info.GetValues("ArrowsTex"), ArrowsTex);
                 ButtonsTex = Parse(info.GetValues("ButtonsTex"), ButtonsTex);
                 FrameTex = Parse(info.GetValues("FrameTex"), FrameTex);
+                FrameTexRes = Parse(info.GetValues("FrameTexRes"), FrameTexRes);
                 IVAbaseTex = Parse(info.GetValues("IVAbaseTex"), IVAbaseTex);
                 IVAemissiveTex = Parse(info.GetValues("IVAemissiveTex"), IVAemissiveTex);
                 IVAprogradeTex = Parse(info.GetValues("IVAprogradeTex"), IVAprogradeTex);
