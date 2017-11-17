@@ -33,7 +33,7 @@ namespace SigmaReplacements
         // Requirements
         internal bool useGameSeed = false;
         internal float useChance = 1;
-        internal Status? rosterStatus = null;
+        internal Status? status = null;
         internal Gender? gender = null;
         internal string[] trait = null;
         internal bool? veteran = null;
@@ -58,13 +58,13 @@ namespace SigmaReplacements
             if (name == null || name == kerbal.name)
             {
                 Debug.Log(GetType().Name + ".GetFor", "Matched name = " + name + " to kerbal name = " + kerbal.name);
-                if (rosterStatus == null || (Type)rosterStatus == kerbal.type)
+                if (status == null || (Type)status == kerbal.type || (int?)status > 3 && kerbal.type == 0)
                 {
-                    Debug.Log(GetType().Name + ".GetFor", "Matched rosterStatus = " + rosterStatus + " to kerbal type = " + kerbal.type);
-                    if (rosterStatus != 0 || rosterStatus.Description() == "Crew" || rosterStatus.Description() == kerbal.rosterStatus.Description())
+                    Debug.Log(GetType().Name + ".GetFor", "Matched status = " + status + " to kerbal type = " + kerbal.type);
+                    if (!((int?)status > 3 && kerbal.type == 0 && (int?)status - 4 != (int)kerbal.rosterStatus))
                     {
-                        if (rosterStatus == 0)
-                            Debug.Log(GetType().Name + ".GetFor", "Matched rosterStatus = " + rosterStatus + " to kerbal rosterStatus = " + kerbal.rosterStatus);
+                        if ((int?)status > 3)
+                            Debug.Log(GetType().Name + ".GetFor", "Matched status = " + status + " to kerbal rosterStatus = " + kerbal.rosterStatus);
 
                         if (gender == null || gender == kerbal.gender)
                         {
@@ -122,7 +122,7 @@ namespace SigmaReplacements
             useGameSeed = Parse(requirements.GetValue("useGameSeed"), useGameSeed);
             useChance = Parse(requirements.GetValue("useChance"), useChance);
             name = requirements.GetValue("name");
-            rosterStatus = Parse(requirements.GetValue("rosterStatus"), rosterStatus);
+            status = Parse(requirements.GetValue("status"), status);
             gender = Parse(requirements.GetValue("gender"), gender);
             trait = requirements.HasValue("trait") ? requirements.GetValues("trait") : null;
             veteran = Parse(requirements.GetValue("veteran"), veteran);
