@@ -1,4 +1,5 @@
 using Type = ProtoCrewMember.KerbalType;
+using Roster = ProtoCrewMember.RosterStatus;
 
 
 namespace SigmaReplacements
@@ -8,11 +9,12 @@ namespace SigmaReplacements
         internal new string name = "";
         internal int activity = 0;
 
-        public CrewMember(Type type, string name, Gender gender, string trait, bool veteran, bool isBadass, float courage, float stupidity, int experienceLevel , int activity = 0) : base(type, name)
+        public CrewMember(Type type, Roster status, string name, Gender gender, string trait, bool veteran, bool isBadass, float courage, float stupidity, int experienceLevel, int activity = 0) : base(type, name)
         {
             Debug.Log("CrewMember", "new CrewMember from stats");
 
             this.type = type;
+            this.rosterStatus = status;
             this.name = name;
             this.gender = gender;
             this.trait = trait;
