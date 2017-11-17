@@ -154,14 +154,23 @@ namespace SigmaReplacements
         {
             if (image?.sprite != null)
             {
-                Vector2 scale = new Vector2(image.sprite.rect.width, image.sprite.rect.height);
+                Vector2 scale = new Vector2(1, 1);
+                if (stockImage?.sprite?.rect != null)
+                {
+                    scale.x = stockImage.sprite.rect.width;
+                    scale.y = stockImage.sprite.rect.height;
+                }
 
                 image.sprite = image.sprite.SetTexture(newTex ?? stockImage?.sprite?.texture, fit);
 
                 if (resize)
                 {
-                    scale.x /= image.sprite.rect.width * resolution?.x ?? 1;
-                    scale.y /= image.sprite.rect.height * resolution?.y ?? 1;
+                    scale.x /= image.sprite.rect.width / (resolution?.x ?? 1);
+                    scale.y /= image.sprite.rect.height / (resolution?.y ?? 1);
+
+                    if (stockImage?.rectTransform?.localScale != null)
+                        image.rectTransform.localScale = stockImage.rectTransform.localScale;
+
                     image.rectTransform.localScale = new Vector3(image.rectTransform.localScale.x / scale.x, image.rectTransform.localScale.y / scale.y, image.rectTransform.localScale.z);
                 }
             }
