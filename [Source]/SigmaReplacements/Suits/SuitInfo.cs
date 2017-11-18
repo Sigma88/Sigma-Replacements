@@ -22,16 +22,16 @@ namespace SigmaReplacements
             internal float? jetpackMaxGravity = null;
 
             // Colors Lists
-            internal List<Color> body = new List<Color>();
-            internal List<Color> helmet = new List<Color>();
-            internal List<Color> visor = new List<Color>();
-            internal List<Color> flares = new List<Color>();
-            internal List<Color> jetpack = new List<Color>();
-            internal List<Color> flag = new List<Color>();
-            internal List<Color> headset = new List<Color>();
-            internal List<Color> mug = new List<Color>();
-            internal List<Color> glasses = new List<Color>();
-            internal List<Color> backdrop = new List<Color>();
+            internal List<Color?> body = new List<Color?>();
+            internal List<Color?> helmet = new List<Color?>();
+            internal List<Color?> visor = new List<Color?>();
+            internal List<Color?> flares = new List<Color?>();
+            internal List<Color?> jetpack = new List<Color?>();
+            internal List<Color?> flag = new List<Color?>();
+            internal List<Color?> headset = new List<Color?>();
+            internal List<Color?> mug = new List<Color?>();
+            internal List<Color?> glasses = new List<Color?>();
+            internal List<Color?> backdrop = new List<Color?>();
 
             // Textures Lists
             internal List<Texture> bodyTex = new List<Texture>();

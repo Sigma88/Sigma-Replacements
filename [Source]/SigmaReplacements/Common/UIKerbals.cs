@@ -1,4 +1,7 @@
 using UnityEngine;
+using Type = ProtoCrewMember.KerbalType;
+using Roster = ProtoCrewMember.RosterStatus;
+using Gender = ProtoCrewMember.Gender;
 
 
 namespace SigmaReplacements
@@ -6,19 +9,19 @@ namespace SigmaReplacements
     internal class UIKerbals : MonoBehaviour
     {
         // Main Menu
-        static CrewMember mun1 = new CrewMember(ProtoCrewMember.KerbalType.Crew, "Bob Kerman", ProtoCrewMember.Gender.Male, "Scientist", true, false, 0.3f, 0.1f, 0);
-        static CrewMember orbit1 = new CrewMember(ProtoCrewMember.KerbalType.Crew, "Bill Kerman", ProtoCrewMember.Gender.Male, "Engineer", true, false, 0.5f, 0.8f, 0);
-        static CrewMember orbit2 = new CrewMember(ProtoCrewMember.KerbalType.Crew, "Bob Kerman", ProtoCrewMember.Gender.Male, "Scientist", true, false, 0.3f, 0.1f, 0);
-        static CrewMember orbit3 = new CrewMember(ProtoCrewMember.KerbalType.Crew, "Jebediah Kerman", ProtoCrewMember.Gender.Male, "Pilot", true, true, 0.5f, 0.5f, 0);
-        static CrewMember orbit4 = new CrewMember(ProtoCrewMember.KerbalType.Crew, "Valentina Kerman", ProtoCrewMember.Gender.Female, "Pilot", true, true, 0.55f, 0.4f, 0);
+        static CrewMember mun1 = new CrewMember(Type.Crew, Roster.Assigned, "Bob Kerman", Gender.Male, "Scientist", true, false, 0.3f, 0.1f, 0);
+        static CrewMember orbit1 = new CrewMember(Type.Crew, Roster.Assigned, "Bill Kerman", Gender.Male, "Engineer", true, false, 0.5f, 0.8f, 0);
+        static CrewMember orbit2 = new CrewMember(Type.Crew, Roster.Assigned, "Bob Kerman", Gender.Male, "Scientist", true, false, 0.3f, 0.1f, 0);
+        static CrewMember orbit3 = new CrewMember(Type.Crew, Roster.Assigned, "Jebediah Kerman", Gender.Male, "Pilot", true, true, 0.5f, 0.5f, 0);
+        static CrewMember orbit4 = new CrewMember(Type.Crew, Roster.Assigned, "Valentina Kerman", Gender.Female, "Pilot", true, true, 0.55f, 0.4f, 0);
         // Instructors
-        static CrewMember gene = new CrewMember(ProtoCrewMember.KerbalType.Unowned, "Gene Kerman", ProtoCrewMember.Gender.Male, "Instructor", false, false, 0.6f, 0.45f, 0);
-        static CrewMember werner = new CrewMember(ProtoCrewMember.KerbalType.Unowned, "Wernher von Kerman", ProtoCrewMember.Gender.Male, "Instructor", false, false, 0.25f, 0.25f, 0);
+        static CrewMember gene = new CrewMember(Type.Unowned, Roster.Available, "Gene Kerman", Gender.Male, "Instructor", false, false, 0.6f, 0.45f, 0);
+        static CrewMember werner = new CrewMember(Type.Unowned, Roster.Available, "Wernher von Kerman", Gender.Male, "Instructor", false, false, 0.25f, 0.25f, 0);
         // Strategy
-        static CrewMember mort = new CrewMember(ProtoCrewMember.KerbalType.Unowned, "Mortimer Kerman", ProtoCrewMember.Gender.Male, "StrategyKerbal", false, false, 0.65f, 0.35f, 0);
-        static CrewMember linus = new CrewMember(ProtoCrewMember.KerbalType.Unowned, "Linus Kerman", ProtoCrewMember.Gender.Male, "StrategyKerbal", false, false, 0.35f, 0.3f, 0);
-        static CrewMember walt = new CrewMember(ProtoCrewMember.KerbalType.Unowned, "Walt Kerman", ProtoCrewMember.Gender.Male, "StrategyKerbal", false, false, 0.45f, 0.9f, 0);
-        static CrewMember gus = new CrewMember(ProtoCrewMember.KerbalType.Unowned, "Gus Kerman", ProtoCrewMember.Gender.Male, "StrategyKerbal", false, false, 0.45f, 0.45f, 0);
+        static CrewMember mort = new CrewMember(Type.Unowned, Roster.Available, "Mortimer Kerman", Gender.Male, "StrategyKerbal", false, false, 0.65f, 0.35f, 0);
+        static CrewMember linus = new CrewMember(Type.Unowned, Roster.Available, "Linus Kerman", Gender.Male, "StrategyKerbal", false, false, 0.35f, 0.3f, 0);
+        static CrewMember walt = new CrewMember(Type.Unowned, Roster.Available, "Walt Kerman", Gender.Male, "StrategyKerbal", false, false, 0.45f, 0.9f, 0);
+        static CrewMember gus = new CrewMember(Type.Unowned, Roster.Available, "Gus Kerman", Gender.Male, "StrategyKerbal", false, false, 0.45f, 0.45f, 0);
 
         internal static CrewMember[] menuKerbals = new[] { mun1, orbit1, orbit2, orbit3, orbit4 };
         internal static CrewMember[] instructors = new[] { gene, werner };
