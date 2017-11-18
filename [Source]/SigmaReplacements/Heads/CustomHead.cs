@@ -79,39 +79,39 @@ namespace SigmaReplacements
 
                                 // Colors
                                 pupilLeft = pupilLeft ?? info.pupilLeft.Pick(kerbal, info.useGameSeed);
-                                pupilRight = pupilRight ?? info.pupilRight.At(pupilLeft, info.pupilLeft) ?? info.pupilRight.Pick(kerbal, info.useGameSeed);
+                                pupilRight = pupilRight ?? info.pupilRight.At(pupilLeft, info.pupilLeft, kerbal, info.useGameSeed);
                                 eyeballLeft = eyeballLeft ?? info.eyeballLeft.Pick(kerbal, info.useGameSeed);
-                                eyeballRight = eyeballRight ?? info.eyeballRight.At(eyeballLeft, info.eyeballLeft) ?? info.eyeballRight.Pick(kerbal, info.useGameSeed);
+                                eyeballRight = eyeballRight ?? info.eyeballRight.At(eyeballLeft, info.eyeballLeft, kerbal, info.useGameSeed);
                                 upTeeth01 = upTeeth01 ?? info.upTeeth01.Pick(kerbal, info.useGameSeed);
-                                upTeeth02 = upTeeth02 ?? info.upTeeth02.At(upTeeth01, info.upTeeth01) ?? info.upTeeth02.Pick(kerbal, info.useGameSeed);
+                                upTeeth02 = upTeeth02 ?? info.upTeeth02.At(upTeeth01, info.upTeeth01, kerbal, info.useGameSeed);
                                 tongue = tongue ?? info.tongue.Pick(kerbal, info.useGameSeed);
                                 head = head ?? info.head.Pick(kerbal, info.useGameSeed);
-                                hair = hair ?? info.hair.At(head, info.head) ?? info.hair.Pick(kerbal, info.useGameSeed);
+                                hair = hair ?? info.hair.At(head, info.head, kerbal, info.useGameSeed);
                                 arm = arm ?? info.arm.Pick(kerbal, info.useGameSeed);
 
                                 // Textures
                                 pupilLeftTex = pupilLeftTex ?? info.pupilLeftTex.Pick(kerbal, info.useGameSeed);
-                                pupilRightTex = pupilRightTex ?? info.pupilRightTex.At(pupilLeftTex, info.pupilLeftTex) ?? info.pupilRightTex.Pick(kerbal, info.useGameSeed);
+                                pupilRightTex = pupilRightTex ?? info.pupilRightTex.At(pupilLeftTex, info.pupilLeftTex, kerbal, info.useGameSeed);
                                 eyeballLeftTex = eyeballLeftTex ?? info.eyeballLeftTex.Pick(kerbal, info.useGameSeed);
-                                eyeballRightTex = eyeballRightTex ?? info.eyeballRightTex.At(eyeballLeftTex, info.eyeballLeftTex) ?? info.eyeballRightTex.Pick(kerbal, info.useGameSeed);
+                                eyeballRightTex = eyeballRightTex ?? info.eyeballRightTex.At(eyeballLeftTex, info.eyeballLeftTex, kerbal, info.useGameSeed);
                                 upTeeth01Tex = upTeeth01Tex ?? info.upTeeth01Tex.Pick(kerbal, info.useGameSeed);
-                                upTeeth02Tex = upTeeth02Tex ?? info.upTeeth02Tex.At(upTeeth01Tex, info.upTeeth01Tex) ?? info.upTeeth02Tex.Pick(kerbal, info.useGameSeed);
+                                upTeeth02Tex = upTeeth02Tex ?? info.upTeeth02Tex.At(upTeeth01Tex, info.upTeeth01Tex, kerbal, info.useGameSeed);
                                 tongueTex = tongueTex ?? info.tongueTex.Pick(kerbal, info.useGameSeed);
                                 headTex = headTex ?? info.headTex.Pick(kerbal, info.useGameSeed);
-                                hairTex = hairTex ?? info.hairTex.At(headTex, info.headTex) ?? info.hairTex.Pick(kerbal, info.useGameSeed);
+                                hairTex = hairTex ?? info.hairTex.At(headTex, info.headTex, kerbal, info.useGameSeed);
                                 armTex = armTex ?? info.armTex.Pick(kerbal, info.useGameSeed);
 
                                 // Normals
-                                pupilLeftNrm = pupilLeftNrm ?? info.pupilLeftNrm.At(pupilLeftTex, info.pupilLeftTex) ?? info.pupilLeftNrm.Pick(kerbal, info.useGameSeed);
-                                pupilRightNrm = pupilRightNrm ?? info.pupilRightNrm.At(pupilRightTex, info.pupilRightTex) ?? info.pupilRightNrm.Pick(kerbal, info.useGameSeed);
-                                eyeballLeftNrm = eyeballLeftNrm ?? info.eyeballLeftNrm.At(eyeballLeftTex, info.eyeballLeftTex) ?? info.eyeballLeftNrm.Pick(kerbal, info.useGameSeed);
-                                eyeballRightNrm = eyeballRightNrm ?? info.eyeballRightNrm.At(eyeballRightTex, info.eyeballRightTex) ?? info.eyeballRightNrm.Pick(kerbal, info.useGameSeed);
-                                upTeeth01Nrm = upTeeth01Nrm ?? info.upTeeth01Nrm.At(upTeeth01Tex, info.upTeeth01Tex) ?? info.upTeeth01Nrm.Pick(kerbal, info.useGameSeed);
-                                upTeeth02Nrm = upTeeth02Nrm ?? info.upTeeth02Nrm.At(upTeeth02Tex, info.upTeeth02Tex) ?? info.upTeeth02Nrm.Pick(kerbal, info.useGameSeed);
-                                tongueNrm = tongueNrm ?? info.tongueNrm.At(tongueTex, info.tongueTex) ?? info.tongueNrm.Pick(kerbal, info.useGameSeed);
-                                headNrm = headNrm ?? info.headNrm.At(headTex, info.headTex) ?? info.headNrm.Pick(kerbal, info.useGameSeed);
-                                hairNrm = hairNrm ?? info.hairNrm.At(hairTex, info.hairTex) ?? info.hairNrm.Pick(kerbal, info.useGameSeed);
-                                armNrm = armNrm ?? info.armNrm.At(armTex, info.armTex) ?? info.armNrm.Pick(kerbal, info.useGameSeed);
+                                pupilLeftNrm = pupilLeftNrm ?? info.pupilLeftNrm.At(pupilLeftTex, info.pupilLeftTex, kerbal, info.useGameSeed);
+                                pupilRightNrm = pupilRightNrm ?? info.pupilRightNrm.At(pupilRightTex, info.pupilRightTex, kerbal, info.useGameSeed);
+                                eyeballLeftNrm = eyeballLeftNrm ?? info.eyeballLeftNrm.At(eyeballLeftTex, info.eyeballLeftTex, kerbal, info.useGameSeed);
+                                eyeballRightNrm = eyeballRightNrm ?? info.eyeballRightNrm.At(eyeballRightTex, info.eyeballRightTex, kerbal, info.useGameSeed);
+                                upTeeth01Nrm = upTeeth01Nrm ?? info.upTeeth01Nrm.At(upTeeth01Tex, info.upTeeth01Tex, kerbal, info.useGameSeed);
+                                upTeeth02Nrm = upTeeth02Nrm ?? info.upTeeth02Nrm.At(upTeeth02Tex, info.upTeeth02Tex, kerbal, info.useGameSeed);
+                                tongueNrm = tongueNrm ?? info.tongueNrm.At(tongueTex, info.tongueTex, kerbal, info.useGameSeed);
+                                headNrm = headNrm ?? info.headNrm.At(headTex, info.headTex, kerbal, info.useGameSeed);
+                                hairNrm = hairNrm ?? info.hairNrm.At(hairTex, info.hairTex, kerbal, info.useGameSeed);
+                                armNrm = armNrm ?? info.armNrm.At(armTex, info.armTex, kerbal, info.useGameSeed);
                             }
                         }
                     }

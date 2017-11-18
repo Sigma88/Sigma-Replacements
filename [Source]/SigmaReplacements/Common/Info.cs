@@ -5,10 +5,23 @@ using System.Linq;
 using UnityEngine;
 using Gender = ProtoCrewMember.Gender;
 using Type = ProtoCrewMember.KerbalType;
+using Roster = ProtoCrewMember.RosterStatus;
 
 
 namespace SigmaReplacements
 {
+    public enum Status
+    {
+        Crew = 0,
+        Available = 0,
+        Assigned = 0,
+        Dead = 0,
+        Missing = 0,
+        Applicant = 1,
+        Unowned = 2,
+        Tourist = 3
+    }
+
     internal class Info
     {
         // Static
@@ -20,7 +33,7 @@ namespace SigmaReplacements
         // Requirements
         internal bool useGameSeed = false;
         internal float useChance = 1;
-        internal Type? rosterStatus = null;
+        internal Status? status = null;
         internal Gender? gender = null;
         internal string[] trait = null;
         internal bool? veteran = null;
@@ -45,32 +58,38 @@ namespace SigmaReplacements
             if (name == null || name == kerbal.name)
             {
                 Debug.Log(GetType().Name + ".GetFor", "Matched name = " + name + " to kerbal name = " + kerbal.name);
-                if (rosterStatus == null || rosterStatus == kerbal.type)
+                if (status == null || (Type)status == kerbal.type || (int?)status > 3 && kerbal.type == 0)
                 {
-                    Debug.Log(GetType().Name + ".GetFor", "Matched rosterStatus = " + rosterStatus + " to kerbal rosterStatus = " + kerbal.type);
-                    if (gender == null || gender == kerbal.gender)
+                    Debug.Log(GetType().Name + ".GetFor", "Matched status = " + status + " to kerbal type = " + kerbal.type);
+                    if (!((int?)status > 3 && kerbal.type == 0 && (int?)status - 4 != (int)kerbal.rosterStatus))
                     {
-                        Debug.Log(GetType().Name + ".GetFor", "Matched gender = " + gender + " to kerbal gender = " + kerbal.gender);
-                        if (trait == null || trait.Contains(kerbal.trait))
+                        if ((int?)status > 3)
+                            Debug.Log(GetType().Name + ".GetFor", "Matched status = " + status + " to kerbal rosterStatus = " + kerbal.rosterStatus);
+
+                        if (gender == null || gender == kerbal.gender)
                         {
-                            Debug.Log(GetType().Name + ".GetFor", "Matched trait = " + trait + " to kerbal trait = " + kerbal.trait);
-                            if (veteran == null || veteran == kerbal.veteran)
+                            Debug.Log(GetType().Name + ".GetFor", "Matched gender = " + gender + " to kerbal gender = " + kerbal.gender);
+                            if (trait == null || trait.Contains(kerbal.trait))
                             {
-                                Debug.Log(GetType().Name + ".GetFor", "Matched veteran = " + veteran + " to kerbal veteran = " + kerbal.veteran);
-                                if (isBadass == null || isBadass == kerbal.isBadass)
+                                Debug.Log(GetType().Name + ".GetFor", "Matched trait = " + trait + " to kerbal trait = " + kerbal.trait);
+                                if (veteran == null || veteran == kerbal.veteran)
                                 {
-                                    Debug.Log(GetType().Name + ".GetFor", "Matched isBadass = " + isBadass + " to kerbal isBadass = " + kerbal.isBadass);
-                                    if (minLevel <= kerbal.experienceLevel && maxLevel >= kerbal.experienceLevel)
+                                    Debug.Log(GetType().Name + ".GetFor", "Matched veteran = " + veteran + " to kerbal veteran = " + kerbal.veteran);
+                                    if (isBadass == null || isBadass == kerbal.isBadass)
                                     {
-                                        Debug.Log(GetType().Name + ".GetFor", "Matched minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to kerbal level = " + kerbal.experienceLevel);
-                                        if (minCourage <= kerbal.courage && maxCourage >= kerbal.courage)
+                                        Debug.Log(GetType().Name + ".GetFor", "Matched isBadass = " + isBadass + " to kerbal isBadass = " + kerbal.isBadass);
+                                        if (minLevel <= kerbal.experienceLevel && maxLevel >= kerbal.experienceLevel)
                                         {
-                                            Debug.Log(GetType().Name + ".GetFor", "Matched minCourage = " + minCourage + ", maxCourage = " + maxCourage + " to kerbal courage = " + kerbal.courage);
-                                            if (minStupidity <= kerbal.stupidity && maxStupidity >= kerbal.stupidity)
+                                            Debug.Log(GetType().Name + ".GetFor", "Matched minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to kerbal level = " + kerbal.experienceLevel);
+                                            if (minCourage <= kerbal.courage && maxCourage >= kerbal.courage)
                                             {
-                                                Debug.Log("Info.GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
-                                                Debug.Log("Info.GetFor", "Return this Info");
-                                                return this;
+                                                Debug.Log(GetType().Name + ".GetFor", "Matched minCourage = " + minCourage + ", maxCourage = " + maxCourage + " to kerbal courage = " + kerbal.courage);
+                                                if (minStupidity <= kerbal.stupidity && maxStupidity >= kerbal.stupidity)
+                                                {
+                                                    Debug.Log("Info.GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
+                                                    Debug.Log("Info.GetFor", "Return this Info");
+                                                    return this;
+                                                }
                                             }
                                         }
                                     }
@@ -103,7 +122,7 @@ namespace SigmaReplacements
             useGameSeed = Parse(requirements.GetValue("useGameSeed"), useGameSeed);
             useChance = Parse(requirements.GetValue("useChance"), useChance);
             name = requirements.GetValue("name");
-            rosterStatus = Parse(requirements.GetValue("rosterStatus"), rosterStatus);
+            status = Parse(requirements.GetValue("status"), status);
             gender = Parse(requirements.GetValue("gender"), gender);
             trait = requirements.HasValue("trait") ? requirements.GetValues("trait") : null;
             veteran = Parse(requirements.GetValue("veteran"), veteran);
@@ -133,9 +152,15 @@ namespace SigmaReplacements
         internal int Parse(string s, int defaultValue) { return int.TryParse(s, out int b) ? b : defaultValue; }
         internal int? Parse(string s, int? defaultValue) { return int.TryParse(s, out int b) ? b : defaultValue; }
 
-        internal Type? Parse(string s, Type? defaultValue)
+        internal Status? Parse(string s, Status? defaultValue)
         {
-            try { return (Type)Enum.Parse(typeof(Type), s); }
+            try { return (Status)Enum.Parse(typeof(Status), s); }
+            catch { return defaultValue; }
+        }
+
+        internal Roster Parse(string s, Roster defaultValue)
+        {
+            try { return (Roster)Enum.Parse(typeof(Roster), s); }
             catch { return defaultValue; }
         }
 
@@ -145,9 +170,31 @@ namespace SigmaReplacements
             catch { return defaultValue; }
         }
 
+        internal Color? Parse(string s, Color? defaultValue)
+        {
+            try { return ConfigNode.ParseColor(s); }
+            catch { return defaultValue; }
+        }
+
         internal Texture Parse(string s, Texture defaultValue)
         {
             return Resources.FindObjectsOfTypeAll<Texture>().FirstOrDefault(t => t.name == s) ?? defaultValue;
+        }
+
+        internal Vector2? Parse(string s, Vector2? defaultValue)
+        {
+            try { return ConfigNode.ParseVector2(s); }
+            catch { return defaultValue; }
+        }
+
+        internal List<Color?> Parse(string[] s, List<Color?> defaultValue)
+        {
+            for (int i = 0; i < s.Length; i++)
+            {
+                Color? col = null;
+                defaultValue.Add(Parse(s[i], col));
+            }
+            return defaultValue;
         }
 
         internal List<Texture> Parse(string[] s, List<Texture> defaultValue)
@@ -155,32 +202,23 @@ namespace SigmaReplacements
             for (int i = 0; i < s.Length; i++)
             {
                 Texture tex = null;
-                tex = Parse(s[i], tex);
-                if (tex != null && !defaultValue.Contains(tex))
-                    defaultValue.Add(tex);
+                defaultValue.Add(Parse(s[i], tex));
             }
             return defaultValue;
         }
 
-        internal Color? Parse(string s, Color? defaultValue)
-        {
-            try { return ConfigNode.ParseColor(s); }
-            catch { return defaultValue; }
-        }
-
-        internal List<Color> Parse(string[] s, List<Color> defaultValue)
+        internal List<Vector2?> Parse(string[] s, List<Vector2?> defaultValue)
         {
             for (int i = 0; i < s.Length; i++)
             {
-                Color? col = null;
-                col = Parse(s[i], col);
-                if (!defaultValue.Contains((Color)col))
-                    defaultValue.Add((Color)col);
+                Vector2? v = null;
+                defaultValue.Add(Parse(s[i], v));
             }
-
             return defaultValue;
         }
-        
+
+        // Parse Folders
+
         internal List<Texture> ParseFolders(string[] paths, List<Texture> list)
         {
             for (int i = 0; i < paths?.Length; i++)
@@ -208,9 +246,7 @@ namespace SigmaReplacements
                     {
                         string name = path + Path.GetFileNameWithoutExtension(files[i]);
                         Texture texture = textures.FirstOrDefault(t => t?.name == name);
-
-                        if (texture != null)
-                            list.AddUnique(texture);
+                        list.Add(texture);
                     }
                 }
             }
