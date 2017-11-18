@@ -388,8 +388,8 @@ namespace SigmaReplacements
                     if (name == "NavSphere")
                     {
                         material.SetColor(NavBall);
-                        material.SetTexture(NavBallTex);
-                        material.SetEmissive(IVAemissiveTex);
+                        material.SetTexture(NavBallTex, true);
+                        material.SetEmissive(IVAemissiveTex, true);
                     }
 
                     else

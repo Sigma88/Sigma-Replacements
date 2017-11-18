@@ -58,7 +58,7 @@ namespace SigmaReplacements
             }
         }
 
-        internal static void SetTexture(this Material material, Texture newTex)
+        internal static void SetTexture(this Material material, Texture newTex, bool flip = false)
         {
             if (material != null && newTex != null)
             {
@@ -71,6 +71,13 @@ namespace SigmaReplacements
                 }
 
                 material.mainTexture = newTex;
+
+                if (flip)
+                {
+                    Vector2 scale = material.GetTextureScale("_MainTex");
+                    scale.x *= -1;
+                    material.SetTextureScale("_MainTex", scale);
+                }
             }
         }
 
@@ -92,7 +99,7 @@ namespace SigmaReplacements
             }
         }
 
-        internal static void SetEmissive(this Material material, Texture newTex)
+        internal static void SetEmissive(this Material material, Texture newTex, bool flip = false)
         {
             if (material?.HasProperty("_Emissive") == true && newTex != null)
             {
@@ -105,6 +112,13 @@ namespace SigmaReplacements
                 }
 
                 material.SetTexture("_Emissive", newTex);
+
+                if (flip)
+                {
+                    Vector2 scale = material.GetTextureScale("_Emissive");
+                    scale.x *= -1;
+                    material.SetTextureScale("_Emissive", scale);
+                }
             }
         }
 
