@@ -7,7 +7,7 @@ namespace SigmaReplacements
     {
         public class ModuleNavBall : PartModule
         {
-            internal static Dictionary<string, CustomNavBall> DataBase = new Dictionary<string, Navigation.CustomNavBall>();
+            internal static Dictionary<string, CustomNavBall> DataBase = new Dictionary<string, CustomNavBall>();
 
             public override void OnLoad(ConfigNode node)
             {
@@ -19,7 +19,7 @@ namespace SigmaReplacements
 
                     NavBallInfo info = new NavBallInfo(new ConfigNode(), NavBallNode ?? new ConfigNode());
 
-                    NavBall.Pick(info);
+                    NavBall.Pick(info, name: part.name);
 
                     if (!DataBase.ContainsKey(part.name))
                         DataBase.Add(part.name, NavBall);

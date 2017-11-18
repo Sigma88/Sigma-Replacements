@@ -100,52 +100,52 @@ namespace SigmaReplacements
                 }
             }
 
-            internal void Pick(NavBallInfo info, ProtoCrewMember kerbal = null)
+            internal void Pick(NavBallInfo info, ProtoCrewMember kerbal = null, string name = null)
             {
                 // Colors
-                NavBall = NavBall ?? info.NavBall.Pick(kerbal, info.useGameSeed);
-                Shading = Shading ?? info.Shading.Pick(kerbal, info.useGameSeed);
-                Cursor = Cursor ?? info.Cursor.Pick(kerbal, info.useGameSeed);
-                Vectors = Vectors ?? info.Vectors.Pick(kerbal, info.useGameSeed);
-                ProgradeVector = ProgradeVector ?? info.ProgradeVector.Pick(kerbal, info.useGameSeed);
-                ProgradeWaypoint = ProgradeWaypoint ?? info.ProgradeWaypoint.Pick(kerbal, info.useGameSeed);
-                RetrogradeVector = RetrogradeVector ?? info.RetrogradeVector.Pick(kerbal, info.useGameSeed);
-                RetrogradeWaypoint = RetrogradeWaypoint ?? info.RetrogradeWaypoint.Pick(kerbal, info.useGameSeed);
-                Maneuvers = Maneuvers ?? info.Maneuvers.Pick(kerbal, info.useGameSeed);
-                RadialInVector = RadialInVector ?? info.RadialInVector.Pick(kerbal, info.useGameSeed);
-                RadialOutVector = RadialOutVector ?? info.RadialOutVector.Pick(kerbal, info.useGameSeed);
-                NormalVector = NormalVector ?? info.NormalVector.Pick(kerbal, info.useGameSeed);
-                AntiNormalVector = AntiNormalVector ?? info.AntiNormalVector.Pick(kerbal, info.useGameSeed);
-                BurnVector = BurnVector ?? info.BurnVector.Pick(kerbal, info.useGameSeed);
-                Arrows = Arrows ?? info.Arrows.Pick(kerbal, info.useGameSeed);
-                Buttons = Buttons ?? info.Buttons.Pick(kerbal, info.useGameSeed);
-                Frame = Frame ?? info.Frame.Pick(kerbal, info.useGameSeed);
-                IVAbase = IVAbase ?? info.IVAbase.Pick(kerbal, info.useGameSeed);
-                IVAprograde = IVAprograde ?? info.IVAprograde.Pick(kerbal, info.useGameSeed);
+                NavBall = NavBall ?? info.NavBall.Pick(kerbal, info.useGameSeed, name);
+                Shading = Shading ?? info.Shading.Pick(kerbal, info.useGameSeed, name);
+                Cursor = Cursor ?? info.Cursor.Pick(kerbal, info.useGameSeed, name);
+                Vectors = Vectors ?? info.Vectors.Pick(kerbal, info.useGameSeed, name);
+                ProgradeVector = ProgradeVector ?? info.ProgradeVector.Pick(kerbal, info.useGameSeed, name);
+                ProgradeWaypoint = ProgradeWaypoint ?? info.ProgradeWaypoint.Pick(kerbal, info.useGameSeed, name);
+                RetrogradeVector = RetrogradeVector ?? info.RetrogradeVector.Pick(kerbal, info.useGameSeed, name);
+                RetrogradeWaypoint = RetrogradeWaypoint ?? info.RetrogradeWaypoint.Pick(kerbal, info.useGameSeed, name);
+                Maneuvers = Maneuvers ?? info.Maneuvers.Pick(kerbal, info.useGameSeed, name);
+                RadialInVector = RadialInVector ?? info.RadialInVector.Pick(kerbal, info.useGameSeed, name);
+                RadialOutVector = RadialOutVector ?? info.RadialOutVector.Pick(kerbal, info.useGameSeed, name);
+                NormalVector = NormalVector ?? info.NormalVector.Pick(kerbal, info.useGameSeed, name);
+                AntiNormalVector = AntiNormalVector ?? info.AntiNormalVector.Pick(kerbal, info.useGameSeed, name);
+                BurnVector = BurnVector ?? info.BurnVector.Pick(kerbal, info.useGameSeed, name);
+                Arrows = Arrows ?? info.Arrows.Pick(kerbal, info.useGameSeed, name);
+                Buttons = Buttons ?? info.Buttons.Pick(kerbal, info.useGameSeed, name);
+                Frame = Frame ?? info.Frame.Pick(kerbal, info.useGameSeed, name);
+                IVAbase = IVAbase ?? info.IVAbase.Pick(kerbal, info.useGameSeed, name);
+                IVAprograde = IVAprograde ?? info.IVAprograde.Pick(kerbal, info.useGameSeed, name);
 
                 // Textures
-                NavBallTex = NavBallTex ?? info.NavBallTex.Pick(kerbal, info.useGameSeed);
-                ShadingTex = ShadingTex ?? info.ShadingTex.Pick(kerbal, info.useGameSeed);
-                ShadingMaskTex = ShadingMaskTex ?? info.ShadingMaskTex.Pick(kerbal, info.useGameSeed);
-                CursorTex = CursorTex ?? info.CursorTex.Pick(kerbal, info.useGameSeed);
-                VectorsTex = VectorsTex ?? info.VectorsTex.Pick(kerbal, info.useGameSeed);
-                ProgradeVectorTex = ProgradeVectorTex ?? info.ProgradeVectorTex.Pick(kerbal, info.useGameSeed);
-                ProgradeWaypointTex = ProgradeWaypointTex ?? info.ProgradeWaypointTex.Pick(kerbal, info.useGameSeed);
-                RetrogradeVectorTex = RetrogradeVectorTex ?? info.RetrogradeVectorTex.Pick(kerbal, info.useGameSeed);
-                RetrogradeWaypointTex = RetrogradeWaypointTex ?? info.RetrogradeWaypointTex.Pick(kerbal, info.useGameSeed);
-                ManeuversTex = ManeuversTex ?? info.ManeuversTex.Pick(kerbal, info.useGameSeed);
-                RadialInVectorTex = RadialInVectorTex ?? info.RadialInVectorTex.Pick(kerbal, info.useGameSeed);
-                RadialOutVectorTex = RadialOutVectorTex ?? info.RadialOutVectorTex.Pick(kerbal, info.useGameSeed);
-                NormalVectorTex = NormalVectorTex ?? info.NormalVectorTex.Pick(kerbal, info.useGameSeed);
-                AntiNormalVectorTex = AntiNormalVectorTex ?? info.AntiNormalVectorTex.Pick(kerbal, info.useGameSeed);
-                BurnVectorTex = BurnVectorTex ?? info.BurnVectorTex.Pick(kerbal, info.useGameSeed);
-                ArrowsTex = ArrowsTex ?? info.ArrowsTex.Pick(kerbal, info.useGameSeed);
-                ButtonsTex = ButtonsTex ?? info.ButtonsTex.Pick(kerbal, info.useGameSeed);
-                FrameTex = FrameTex ?? info.FrameTex.Pick(kerbal, info.useGameSeed);
-                FrameTexRes = FrameTexRes ?? info.FrameTexRes.At(FrameTex, info.FrameTex, kerbal, info.useGameSeed);
-                IVAbaseTex = IVAbaseTex ?? info.IVAbaseTex.Pick(kerbal, info.useGameSeed);
-                IVAemissiveTex = IVAemissiveTex ?? info.IVAemissiveTex.Pick(kerbal, info.useGameSeed);
-                IVAprogradeTex = IVAprogradeTex ?? info.IVAprogradeTex.Pick(kerbal, info.useGameSeed);
+                NavBallTex = NavBallTex ?? info.NavBallTex.Pick(kerbal, info.useGameSeed, name);
+                ShadingTex = ShadingTex ?? info.ShadingTex.Pick(kerbal, info.useGameSeed, name);
+                ShadingMaskTex = ShadingMaskTex ?? info.ShadingMaskTex.Pick(kerbal, info.useGameSeed, name);
+                CursorTex = CursorTex ?? info.CursorTex.Pick(kerbal, info.useGameSeed, name);
+                VectorsTex = VectorsTex ?? info.VectorsTex.Pick(kerbal, info.useGameSeed, name);
+                ProgradeVectorTex = ProgradeVectorTex ?? info.ProgradeVectorTex.Pick(kerbal, info.useGameSeed, name);
+                ProgradeWaypointTex = ProgradeWaypointTex ?? info.ProgradeWaypointTex.Pick(kerbal, info.useGameSeed, name);
+                RetrogradeVectorTex = RetrogradeVectorTex ?? info.RetrogradeVectorTex.Pick(kerbal, info.useGameSeed, name);
+                RetrogradeWaypointTex = RetrogradeWaypointTex ?? info.RetrogradeWaypointTex.Pick(kerbal, info.useGameSeed, name);
+                ManeuversTex = ManeuversTex ?? info.ManeuversTex.Pick(kerbal, info.useGameSeed, name);
+                RadialInVectorTex = RadialInVectorTex ?? info.RadialInVectorTex.Pick(kerbal, info.useGameSeed, name);
+                RadialOutVectorTex = RadialOutVectorTex ?? info.RadialOutVectorTex.Pick(kerbal, info.useGameSeed, name);
+                NormalVectorTex = NormalVectorTex ?? info.NormalVectorTex.Pick(kerbal, info.useGameSeed, name);
+                AntiNormalVectorTex = AntiNormalVectorTex ?? info.AntiNormalVectorTex.Pick(kerbal, info.useGameSeed, name);
+                BurnVectorTex = BurnVectorTex ?? info.BurnVectorTex.Pick(kerbal, info.useGameSeed, name);
+                ArrowsTex = ArrowsTex ?? info.ArrowsTex.Pick(kerbal, info.useGameSeed, name);
+                ButtonsTex = ButtonsTex ?? info.ButtonsTex.Pick(kerbal, info.useGameSeed, name);
+                FrameTex = FrameTex ?? info.FrameTex.Pick(kerbal, info.useGameSeed, name);
+                FrameTexRes = FrameTexRes ?? info.FrameTexRes.At(FrameTex, info.FrameTex, kerbal, info.useGameSeed, name);
+                IVAbaseTex = IVAbaseTex ?? info.IVAbaseTex.Pick(kerbal, info.useGameSeed, name);
+                IVAemissiveTex = IVAemissiveTex ?? info.IVAemissiveTex.Pick(kerbal, info.useGameSeed, name);
+                IVAprogradeTex = IVAprogradeTex ?? info.IVAprogradeTex.Pick(kerbal, info.useGameSeed, name);
             }
 
             internal void ApplyTo(FlightUIModeController controller)

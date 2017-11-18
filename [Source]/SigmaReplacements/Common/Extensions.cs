@@ -288,7 +288,7 @@ namespace SigmaReplacements
                 return list.Pick(kerbal, useGameSeed);
         }
 
-        internal static Vector2? At(this List<Vector2?> list, Texture element, List<Texture> reference, ProtoCrewMember kerbal, bool useGameSeed)
+        internal static Vector2? At(this List<Vector2?> list, Texture element, List<Texture> reference, ProtoCrewMember kerbal, bool useGameSeed, string name = "")
         {
             if (reference.Contains(element) && list?.Count > reference.IndexOf(element))
                 return list[reference.IndexOf(element)];
@@ -296,22 +296,25 @@ namespace SigmaReplacements
                 return list.Pick(kerbal, useGameSeed);
         }
 
-        internal static Texture Pick(this List<Texture> list, ProtoCrewMember kerbal, bool useGameSeed)
+        internal static Texture Pick(this List<Texture> list, ProtoCrewMember kerbal, bool useGameSeed, string name = "")
         {
-            if (list.Count > 1 && kerbal != null)
+            if (list?.Count > 1 && kerbal != null)
                 return list[kerbal.Hash(useGameSeed) % list.Count];
-            else if (list.Count > 0)
-                return list[0];
+            else if (list?.Count > 0)
+            {
+                UnityEngine.Debug.Log("SigmaLog: GET HASH FROM NAME = " + name + " > " + (name.Hash(useGameSeed) % list.Count) + " > AVAILABLE ITEMS = " + list?.Count);
+                return list[name.Hash(useGameSeed) % list.Count];
+            }
             else
                 return null;
         }
 
-        internal static Color? Pick(this List<Color?> list, ProtoCrewMember kerbal, bool useGameSeed)
+        internal static Color? Pick(this List<Color?> list, ProtoCrewMember kerbal, bool useGameSeed, string name = "")
         {
             if (list.Count > 1 && kerbal != null)
                 return list[kerbal.Hash(useGameSeed) % list.Count];
             else if (list.Count > 0)
-                return list[0];
+                return list[Math.Abs(name.GetHashCode()) % list.Count];
             else
                 return null;
         }
@@ -337,6 +340,17 @@ namespace SigmaReplacements
             if (useGameSeed && HighLogic.CurrentGame != null) h += Math.Abs(HighLogic.CurrentGame.Seed);
 
             Info.hash = h.ToString();
+
+            return h;
+        }
+
+        internal static int Hash(this string name, bool useGameSeed)
+        {
+            name = name ?? "";
+
+            int h = Math.Abs(name.GetHashCode());
+
+            if (useGameSeed && HighLogic.CurrentGame != null) h += Math.Abs(HighLogic.CurrentGame.Seed);
 
             return h;
         }
