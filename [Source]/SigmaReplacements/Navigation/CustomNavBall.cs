@@ -144,7 +144,7 @@ namespace SigmaReplacements
                 FrameTex = FrameTex ?? info.FrameTex.Pick(kerbal, info.useGameSeed, name);
                 FrameTexRes = FrameTexRes ?? info.FrameTexRes.At(FrameTex, info.FrameTex, kerbal, info.useGameSeed, name);
                 IVAbaseTex = IVAbaseTex ?? info.IVAbaseTex.Pick(kerbal, info.useGameSeed, name);
-                IVAemissiveTex = IVAemissiveTex ?? info.IVAemissiveTex.Pick(kerbal, info.useGameSeed, name);
+                IVAemissiveTex = IVAemissiveTex ?? info.IVAemissiveTex.At(NavBallTex, info.NavBallTex, kerbal, info.useGameSeed, name);
                 IVAprogradeTex = IVAprogradeTex ?? info.IVAprogradeTex.Pick(kerbal, info.useGameSeed, name);
             }
 

@@ -272,20 +272,20 @@ namespace SigmaReplacements
             return Sprite.Create((Texture2D)newTex, rect, pivot);
         }
 
-        internal static Color? At(this List<Color?> list, Color? element, List<Color?> reference, ProtoCrewMember kerbal, bool useGameSeed)
+        internal static Color? At(this List<Color?> list, Color? element, List<Color?> reference, ProtoCrewMember kerbal, bool useGameSeed, string name = "")
         {
             if (reference.Contains(element) && list?.Count > reference.IndexOf(element))
                 return list[reference.IndexOf(element)];
             else
-                return list.Pick(kerbal, useGameSeed);
+                return list.Pick(kerbal, useGameSeed, name);
         }
 
-        internal static Texture At(this List<Texture> list, Texture element, List<Texture> reference, ProtoCrewMember kerbal, bool useGameSeed)
+        internal static Texture At(this List<Texture> list, Texture element, List<Texture> reference, ProtoCrewMember kerbal, bool useGameSeed, string name = "")
         {
             if (reference.Contains(element) && list?.Count > reference.IndexOf(element))
                 return list[reference.IndexOf(element)];
             else
-                return list.Pick(kerbal, useGameSeed);
+                return list.Pick(kerbal, useGameSeed, name);
         }
 
         internal static Vector2? At(this List<Vector2?> list, Texture element, List<Texture> reference, ProtoCrewMember kerbal, bool useGameSeed, string name = "")
@@ -293,7 +293,7 @@ namespace SigmaReplacements
             if (reference.Contains(element) && list?.Count > reference.IndexOf(element))
                 return list[reference.IndexOf(element)];
             else
-                return list.Pick(kerbal, useGameSeed);
+                return list.Pick(kerbal, useGameSeed, name);
         }
 
         internal static Texture Pick(this List<Texture> list, ProtoCrewMember kerbal, bool useGameSeed, string name = "")
@@ -301,30 +301,27 @@ namespace SigmaReplacements
             if (list?.Count > 1 && kerbal != null)
                 return list[kerbal.Hash(useGameSeed) % list.Count];
             else if (list?.Count > 0)
-            {
-                UnityEngine.Debug.Log("SigmaLog: GET HASH FROM NAME = " + name + " > " + (name.Hash(useGameSeed) % list.Count) + " > AVAILABLE ITEMS = " + list?.Count);
                 return list[name.Hash(useGameSeed) % list.Count];
-            }
             else
                 return null;
         }
 
         internal static Color? Pick(this List<Color?> list, ProtoCrewMember kerbal, bool useGameSeed, string name = "")
         {
-            if (list.Count > 1 && kerbal != null)
+            if (list?.Count > 1 && kerbal != null)
                 return list[kerbal.Hash(useGameSeed) % list.Count];
-            else if (list.Count > 0)
-                return list[Math.Abs(name.GetHashCode()) % list.Count];
+            else if (list?.Count > 0)
+                return list[name.Hash(useGameSeed) % list.Count];
             else
                 return null;
         }
 
-        internal static Vector2? Pick(this List<Vector2?> list, ProtoCrewMember kerbal, bool useGameSeed)
+        internal static Vector2? Pick(this List<Vector2?> list, ProtoCrewMember kerbal, bool useGameSeed, string name = "")
         {
-            if (list.Count > 1 && kerbal != null)
+            if (list?.Count > 1 && kerbal != null)
                 return list[kerbal.Hash(useGameSeed) % list.Count];
-            else if (list.Count > 0)
-                return list[0];
+            else if (list?.Count > 0)
+                return list[name.Hash(useGameSeed) % list.Count];
             else
                 return null;
         }
