@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigmaReplacementsSuits", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigmaReplacementsTextures", "SigmaReplacementsTextures.csproj", "{85E7DC1E-15EA-4C98-B6D3-52CB27BB9526}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigmaReplacementsNavigation", "SigmaReplacementsNavigation.csproj", "{C89C4149-3AFE-4F47-90DE-08C6A508E788}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{85E7DC1E-15EA-4C98-B6D3-52CB27BB9526}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85E7DC1E-15EA-4C98-B6D3-52CB27BB9526}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85E7DC1E-15EA-4C98-B6D3-52CB27BB9526}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C89C4149-3AFE-4F47-90DE-08C6A508E788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C89C4149-3AFE-4F47-90DE-08C6A508E788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C89C4149-3AFE-4F47-90DE-08C6A508E788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C89C4149-3AFE-4F47-90DE-08C6A508E788}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
