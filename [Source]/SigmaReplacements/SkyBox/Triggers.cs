@@ -6,6 +6,15 @@ namespace SigmaReplacements
     namespace SkyBox
     {
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+        class MenuTriggers : MonoBehaviour
+        {
+            void Start()
+            {
+                GalaxyCubeControl.Instance?.Reset();
+            }
+        }
+
+        [KSPAddon(KSPAddon.Startup.MainMenu, false)]
         class MainMenuGalaxy : MonoBehaviour
         {
             static Material oldMaterial;
@@ -19,7 +28,7 @@ namespace SigmaReplacements
                 skybox.ApplyTo(galaxy);
             }
 
-            internal static void Flip(Material newMaterial)
+            internal static void Swap(Material newMaterial)
             {
                 if (oldMaterial == null)
                 {
@@ -31,15 +40,6 @@ namespace SigmaReplacements
                     oldMaterial.mainTexture = newMaterial.mainTexture;
                     newMaterial.mainTexture = oldTex;
                 }
-            }
-        }
-
-        [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-        class MenuTriggers : MonoBehaviour
-        {
-            void Start()
-            {
-                GalaxyCubeControl.Instance?.Reset();
             }
         }
 
