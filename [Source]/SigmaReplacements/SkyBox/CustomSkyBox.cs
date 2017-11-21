@@ -15,9 +15,6 @@ namespace SigmaReplacements
             // Textures
             Texture[] SkyBox = null;
 
-            // Normals
-            Texture[] SkyBoxNrm = null;
-
             internal CustomSkyBox(Mode gameMode, int seed)
             {
                 Debug.Log("CustomSkyBox.LoadFor", "Mode = " + gameMode);
@@ -52,7 +49,6 @@ namespace SigmaReplacements
 
                                 // Textures
                                 SkyBox = SkyBox ?? info.SkyBox.Pick();
-                                SkyBoxNrm = SkyBoxNrm ?? info.SkyBoxNrm.At(SkyBox, info.SkyBox);
                             }
                         }
                     }
@@ -89,22 +85,6 @@ namespace SigmaReplacements
                             material.SetTexture(SkyBox[4]);
                         else if (name == "ZN")
                             material.SetTexture(SkyBox[5]);
-
-                        if (SkyBoxNrm != null)
-                        {
-                            if (name == "XP")
-                                material.SetNormal(mirror == true ? SkyBoxNrm[1] : SkyBoxNrm[0]);
-                            else if (name == "XN")
-                                material.SetNormal(mirror == true ? SkyBoxNrm[0] : SkyBoxNrm[1]);
-                            else if (name == "YP") // SQUAD inverts YP with YN
-                                material.SetNormal(SkyBoxNrm[3]);
-                            else if (name == "YN") // SQUAD inverts YN with YP
-                                material.SetNormal(SkyBoxNrm[2]);
-                            else if (name == "ZP")
-                                material.SetNormal(SkyBoxNrm[4]);
-                            else if (name == "ZN")
-                                material.SetNormal(SkyBoxNrm[5]);
-                        }
                     }
                     else if (mirror == true)
                     {

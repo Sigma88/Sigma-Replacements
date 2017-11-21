@@ -42,7 +42,6 @@ namespace SigmaReplacements
 
             // Textures Lists
             internal List<Texture[]> SkyBox = new List<Texture[]>();
-            internal List<Texture[]> SkyBoxNrm = new List<Texture[]>();
 
 
             // Get
@@ -80,12 +79,8 @@ namespace SigmaReplacements
                 // Parse Textures
                 SkyBox = Parse(info.GetValues("SkyBox"), SkyBox);
 
-                // Parse Normals
-                SkyBoxNrm = Parse(info.GetValues("SkyBoxNrm"), SkyBoxNrm);
-
                 // Parse Folders
                 SkyBox = ParseFolders(info?.GetNode("Folders")?.GetValues("SkyBox"), SkyBox);
-                SkyBoxNrm = ParseFolders(info?.GetNode("Folders")?.GetValues("SkyBoxNrm"), SkyBoxNrm);
             }
 
 
