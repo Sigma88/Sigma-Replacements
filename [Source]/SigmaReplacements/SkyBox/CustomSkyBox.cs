@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -21,6 +22,7 @@ namespace SigmaReplacements
 
                 int? useChance = null;
                 string collection = "";
+                List<Texture[]> SkyBoxList = new List<Texture[]>();
 
                 for (int i = 0; i < SkyBoxInfo.DataBase?.Count; i++)
                 {
@@ -48,11 +50,14 @@ namespace SigmaReplacements
                                 mirror = mirror ?? info.mirror == true ? (Math.Abs(seed % 2) == 1) : info.mirror;
 
                                 // Textures
-                                SkyBox = SkyBox ?? info.SkyBox.Pick();
+                                if (info.SkyBox?.Count > 0)
+                                    SkyBoxList.AddRange(info.SkyBox);
                             }
                         }
                     }
                 }
+
+                SkyBox = SkyBoxList.Pick();
             }
 
             internal void ApplyTo(GameObject skybox)
@@ -94,10 +99,6 @@ namespace SigmaReplacements
                                 material.SetTexture(DefaultSkyBox.XN);
                             if (name == "XN")
                                 material.SetTexture(DefaultSkyBox.XP);
-                        }
-                        else if (name == "XP" || name == "XN")
-                        {
-                            MainMenuGalaxy.Swap(material);
                         }
                     }
 

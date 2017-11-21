@@ -34,7 +34,7 @@ namespace SigmaReplacements
             internal static List<Info> DataBase = new List<Info>();
 
             // SkyBox Specific Restrictions
-            List<Mode> mode = null;
+            List<Mode> mode = new List<Mode>();
 
             // SkyBox Settings
             internal bool? rotate = null;
@@ -51,7 +51,7 @@ namespace SigmaReplacements
                 {
                     Debug.Log("SkyBoxInfo.GetFor", "Game is not null. Mode = " + gameMode + ", SkyBoxInfo mode = " + mode);
 
-                    if (mode == null || mode.Contains((Mode)gameMode))
+                    if (!(mode?.Count > 0) || mode.Contains((Mode)gameMode))
                     {
                         Debug.Log(GetType().Name + ".GetFor", "Matched mode = " + mode + " to game mode = " + gameMode);
                         Debug.Log(GetType().Name + ".GetFor", "Return this " + GetType().Name);

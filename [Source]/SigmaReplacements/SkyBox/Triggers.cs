@@ -17,8 +17,6 @@ namespace SigmaReplacements
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
         class MainMenuGalaxy : MonoBehaviour
         {
-            static Material oldMaterial;
-
             void Start()
             {
                 Debug.Log("MainMenuGalaxy", "Start");
@@ -26,20 +24,6 @@ namespace SigmaReplacements
 
                 CustomSkyBox skybox = new CustomSkyBox(Mode.MAINMENU, "Menu".GetHashCode());
                 skybox.ApplyTo(galaxy);
-            }
-
-            internal static void Swap(Material newMaterial)
-            {
-                if (oldMaterial == null)
-                {
-                    oldMaterial = newMaterial;
-                }
-                else
-                {
-                    Texture oldTex = oldMaterial.mainTexture;
-                    oldMaterial.mainTexture = newMaterial.mainTexture;
-                    newMaterial.mainTexture = oldTex;
-                }
             }
         }
 
