@@ -52,7 +52,7 @@ namespace SigmaReplacements
 
                                 // Textures
                                 SkyBox = SkyBox ?? info.SkyBox.Pick();
-                                SkyBoxNrm = SkyBox ?? info.SkyBox.At(SkyBox, info.SkyBox);
+                                SkyBoxNrm = SkyBoxNrm ?? info.SkyBoxNrm.At(SkyBox, info.SkyBox);
                             }
                         }
                     }
@@ -78,52 +78,32 @@ namespace SigmaReplacements
                     if (SkyBox != null)
                     {
                         if (name == "XP")
+                            material.SetTexture(mirror == true ? SkyBox[1] : SkyBox[0]);
+                        else if (name == "XN")
+                            material.SetTexture(mirror == true ? SkyBox[0] : SkyBox[1]);
+                        else if (name == "YP") // SQUAD inverts YP with YN
+                            material.SetTexture(SkyBox[3]);
+                        else if (name == "YN") // SQUAD inverts YN with YP
+                            material.SetTexture(SkyBox[2]);
+                        else if (name == "ZP")
+                            material.SetTexture(SkyBox[4]);
+                        else if (name == "ZN")
+                            material.SetTexture(SkyBox[5]);
+
+                        if (SkyBoxNrm != null)
                         {
-                            material.mainTexture = mirror == true ? SkyBox[1] : SkyBox[0];
-                            material.SetNormal(mirror == true ? SkyBoxNrm[1] : SkyBoxNrm[0]);
-                        }
-
-                        else
-
-                        if (name == "XN")
-                        {
-                            material.mainTexture = mirror == true ? SkyBox[0] : SkyBox[1];
-                            material.SetNormal(mirror == true ? SkyBoxNrm[0] : SkyBoxNrm[1]);
-                        }
-
-                        else
-
-                        if (name == "YP")
-                        {
-                            material.mainTexture = SkyBox[2];
-                            material.SetNormal(SkyBoxNrm[2]);
-                        }
-
-                        else
-
-                        if (name == "YN")
-                        {
-                            material.mainTexture = SkyBox[3];
-                            material.SetNormal(SkyBoxNrm[3]);
-
-                        }
-
-                        else
-
-                        if (name == "ZP")
-                        {
-                            material.mainTexture = SkyBox[4];
-                            material.SetNormal(SkyBoxNrm[4]);
-
-                        }
-
-                        else
-
-                        if (name == "ZN")
-                        {
-                            material.mainTexture = SkyBox[5];
-                            material.SetNormal(SkyBoxNrm[5]);
-
+                            if (name == "XP")
+                                material.SetNormal(mirror == true ? SkyBoxNrm[1] : SkyBoxNrm[0]);
+                            else if (name == "XN")
+                                material.SetNormal(mirror == true ? SkyBoxNrm[0] : SkyBoxNrm[1]);
+                            else if (name == "YP") // SQUAD inverts YP with YN
+                                material.SetNormal(SkyBoxNrm[3]);
+                            else if (name == "YN") // SQUAD inverts YN with YP
+                                material.SetNormal(SkyBoxNrm[2]);
+                            else if (name == "ZP")
+                                material.SetNormal(SkyBoxNrm[4]);
+                            else if (name == "ZN")
+                                material.SetNormal(SkyBoxNrm[5]);
                         }
                     }
                     else if (mirror == true)
@@ -131,14 +111,13 @@ namespace SigmaReplacements
                         if (DefaultSkyBox.XP != null && DefaultSkyBox.XN != null)
                         {
                             if (name == "XP")
-                                material.mainTexture = DefaultSkyBox.XN;
+                                material.SetTexture(DefaultSkyBox.XN);
                             if (name == "XN")
-                                material.mainTexture = DefaultSkyBox.XP;
+                                material.SetTexture(DefaultSkyBox.XP);
                         }
-                        else
+                        else if (name == "XP" || name == "XN")
                         {
-                            if (name == "XP" || name == "XN")
-                                MainMenuGalaxy.Flip(material);
+                            MainMenuGalaxy.Swap(material);
                         }
                     }
 
