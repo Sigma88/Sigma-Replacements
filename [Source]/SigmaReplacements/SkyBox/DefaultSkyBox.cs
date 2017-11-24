@@ -17,16 +17,23 @@ namespace SigmaReplacements
 
             public static void Reset(this GalaxyCubeControl skybox)
             {
+                Debug.Log("DefaultSkyBox.Reset", "GalaxyCubeControl = " + skybox);
                 KSCTriggers.skip = false;
 
                 if (skybox != null)
                 {
                     if (initRot == null)
+                    {
                         initRot = skybox.initRot;
+                        Debug.Log("DefaultSkyBox.Reset", "Saved initRot = " + initRot);
+                    }
                     else
+                    {
                         skybox.initRot = initRot;
+                        Debug.Log("DefaultSkyBox.Reset", "Loaded initRot = " + skybox.initRot);
+                    }
 
-                    Renderer[] renderers = skybox?.gameObject?.GetComponentsInChildren<Renderer>();
+                    Renderer[] renderers = skybox?.gameObject?.GetComponentsInChildren<Renderer>(true);
 
                     for (int i = 0; i < renderers?.Length; i++)
                     {
@@ -37,9 +44,15 @@ namespace SigmaReplacements
                         if (name == "XP")
                         {
                             if (XP == null)
+                            {
                                 XP = material.mainTexture;
+                                Debug.Log("DefaultSkyBox.Reset", "Saved Stock XP texture = " + XP);
+                            }
                             else
+                            {
                                 material.mainTexture = XP;
+                                Debug.Log("DefaultSkyBox.Reset", "Loaded Stock XP texture = " + material.mainTexture);
+                            }
                         }
 
                         else
@@ -47,9 +60,15 @@ namespace SigmaReplacements
                         if (name == "XN")
                         {
                             if (XN == null)
+                            {
                                 XN = material.mainTexture;
+                                Debug.Log("DefaultSkyBox.Reset", "Saved Stock XN texture = " + XN);
+                            }
                             else
+                            {
                                 material.mainTexture = XN;
+                                Debug.Log("DefaultSkyBox.Reset", "Loaded Stock XN texture = " + material.mainTexture);
+                            }
                         }
 
                         else
@@ -57,9 +76,15 @@ namespace SigmaReplacements
                         if (name == "YP")
                         {
                             if (YP == null)
+                            {
                                 YP = material.mainTexture;
+                                Debug.Log("DefaultSkyBox.Reset", "Saved Stock YP texture = " + YP);
+                            }
                             else
+                            {
                                 material.mainTexture = YP;
+                                Debug.Log("DefaultSkyBox.Reset", "Loaded Stock YP texture = " + material.mainTexture);
+                            }
                         }
 
                         else
@@ -67,9 +92,15 @@ namespace SigmaReplacements
                         if (name == "YN")
                         {
                             if (YN == null)
+                            {
                                 YN = material.mainTexture;
+                                Debug.Log("DefaultSkyBox.Reset", "Saved Stock YN texture = " + YN);
+                            }
                             else
+                            {
                                 material.mainTexture = YN;
+                                Debug.Log("DefaultSkyBox.Reset", "Loaded Stock YN texture = " + material.mainTexture);
+                            }
                         }
 
                         else
@@ -77,9 +108,15 @@ namespace SigmaReplacements
                         if (name == "ZP")
                         {
                             if (ZP == null)
+                            {
                                 ZP = material.mainTexture;
+                                Debug.Log("DefaultSkyBox.Reset", "Saved Stock ZP texture = " + ZP);
+                            }
                             else
+                            {
                                 material.mainTexture = ZP;
+                                Debug.Log("DefaultSkyBox.Reset", "Loaded Stock ZP texture = " + material.mainTexture);
+                            }
                         }
 
                         else
@@ -87,9 +124,15 @@ namespace SigmaReplacements
                         if (name == "ZN")
                         {
                             if (ZN == null)
+                            {
                                 ZN = material.mainTexture;
+                                Debug.Log("DefaultSkyBox.Reset", "Saved Stock ZN texture = " + ZN);
+                            }
                             else
+                            {
                                 material.mainTexture = ZN;
+                                Debug.Log("DefaultSkyBox.Reset", "Loaded Stock ZN texture = " + material.mainTexture);
+                            }
                         }
                     }
                 }

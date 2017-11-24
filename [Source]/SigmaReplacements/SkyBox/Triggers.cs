@@ -10,17 +10,14 @@ namespace SigmaReplacements
         {
             void Start()
             {
-                GalaxyCubeControl.Instance?.Reset();
-            }
-        }
+                Debug.Log("MenuTriggers", "");
+                Debug.Log("MenuTriggers", ">>>>>  START  <<<<<");
 
-        [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-        class MainMenuGalaxy : MonoBehaviour
-        {
-            void Start()
-            {
-                Debug.Log("MainMenuGalaxy", "Start");
+                Debug.Log("MenuTriggers.Start", "Resetting GalaxyCubeControl");
+                GalaxyCubeControl.Instance?.Reset();
+
                 GameObject galaxy = GameObject.Find("MainMenuGalaxy");
+                Debug.Log("MenuTriggers.Start", "MainMenuGalaxy = " + galaxy);
 
                 CustomSkyBox skybox = new CustomSkyBox(Mode.MAINMENU, "Menu".GetHashCode());
                 skybox.ApplyTo(galaxy);
@@ -34,9 +31,12 @@ namespace SigmaReplacements
 
             void Start()
             {
+                Debug.Log("KSCTriggers", "");
+                Debug.Log("KSCTriggers", ">>>>>  START  <<<<<");
+
                 if (!skip && HighLogic.CurrentGame != null)
                 {
-                    Debug.Log("KSCTriggers.Start", "Current game = " + HighLogic.CurrentGame + ", mode = " + HighLogic.CurrentGame?.Mode);
+                    Debug.Log("KSCTriggers.Start", "Current game mode = " + HighLogic.CurrentGame?.Mode + ", seed = " + HighLogic.CurrentGame?.Seed);
                     CustomSkyBox skybox = new CustomSkyBox((Mode)HighLogic.CurrentGame.Mode, HighLogic.CurrentGame.Seed);
                     skybox.ApplyTo(GalaxyCubeControl.Instance?.gameObject);
                 }

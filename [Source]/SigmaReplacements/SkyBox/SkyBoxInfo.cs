@@ -49,11 +49,11 @@ namespace SigmaReplacements
             {
                 if (gameMode != null)
                 {
-                    Debug.Log("SkyBoxInfo.GetFor", "Game is not null. Mode = " + gameMode + ", SkyBoxInfo mode = " + mode);
+                    Debug.Log("SkyBoxInfo.GetFor", "Mode = " + gameMode + ", SkyBoxInfo mode count = " + mode?.Count);
 
                     if (!(mode?.Count > 0) || mode.Contains((Mode)gameMode))
                     {
-                        Debug.Log(GetType().Name + ".GetFor", "Matched mode = " + mode + " to game mode = " + gameMode);
+                        Debug.Log(GetType().Name + ".GetFor", "Matched mode list to game mode = " + gameMode);
                         Debug.Log(GetType().Name + ".GetFor", "Return this " + GetType().Name);
                         return this;
                     }

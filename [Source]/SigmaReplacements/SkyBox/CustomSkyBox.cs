@@ -18,7 +18,7 @@ namespace SigmaReplacements
 
             internal CustomSkyBox(Mode gameMode, int seed)
             {
-                Debug.Log("CustomSkyBox.LoadFor", "Mode = " + gameMode);
+                Debug.Log("new CustomSkyBox", "Generating new CustomSkyBox for game mode = " + gameMode);
 
                 int? useChance = null;
                 string collection = "";
@@ -40,8 +40,9 @@ namespace SigmaReplacements
 
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
-                                Debug.Log("CustomSkyBox.LoadFor", "Matched suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
-                                Debug.Log("CustomSkyBox.LoadFor", "Matched suit collection = " + info.collection + " to current collection = " + collection);
+                                Debug.Log("new CustomSkyBox", "SkyBoxInfo nr. " + i + ", matched useChance = " + info.useChance + " to generated chance = " + useChance + " %");
+                                Debug.Log("new CustomSkyBox", "SkyBoxInfo nr. " + i + ", matched collection = " + info.collection + " to current collection = " + collection);
+
                                 // Collection
                                 collection = info.collection;
 
@@ -58,6 +59,7 @@ namespace SigmaReplacements
                 }
 
                 SkyBox = SkyBoxList.Pick();
+                Debug.Log("new CustomSkyBox", "Generated new CustomSkyBox. rotate = " + rotate + ", mirror = " + (mirror == true) + ", SkyBox = " + (SkyBox == null ? "STOCK" : ((SkyBoxList.IndexOf(SkyBox) + 1) + "/" + SkyBoxList.Count)));
             }
 
             internal void ApplyTo(GameObject skybox)
@@ -70,6 +72,7 @@ namespace SigmaReplacements
 
                 for (int i = 0; i < renderers?.Length; i++)
                 {
+                    Debug.Log("CustomSkyBox.ApplyTo", "Renderer = " + renderers[i]);
                     string name = renderers[i]?.name;
                     Material material = renderers[i]?.material;
 
@@ -78,6 +81,8 @@ namespace SigmaReplacements
                     // Select Texture
                     if (SkyBox != null)
                     {
+                        Debug.Log("CustomSkyBox.ApplyTo", "Old Texture = " + material.mainTexture);
+
                         if (name == "XP")
                             material.SetTexture(mirror == true ? SkyBox[1] : SkyBox[0]);
                         else if (name == "XN")
@@ -90,9 +95,13 @@ namespace SigmaReplacements
                             material.SetTexture(SkyBox[4]);
                         else if (name == "ZN")
                             material.SetTexture(SkyBox[5]);
+
+                        Debug.Log("CustomSkyBox.ApplyTo", "New Texture = " + material.mainTexture);
                     }
                     else if (mirror == true)
                     {
+                        Debug.Log("CustomSkyBox.ApplyTo", "Mirroring Stock SkyBox Texture");
+
                         if (DefaultSkyBox.XP != null && DefaultSkyBox.XN != null)
                         {
                             if (name == "XP")
@@ -105,6 +114,8 @@ namespace SigmaReplacements
                     // Flip Texture
                     if (mirror == true)
                     {
+                        Debug.Log("CustomSkyBox.ApplyTo", "Mirroring SkyBox Texture");
+
                         material.SetTextureScale("_MainTex", new Vector2(-1, 1));
                     }
                 }
@@ -113,7 +124,13 @@ namespace SigmaReplacements
                 // Rotate CubeMap
                 if (rotate == true)
                 {
-                    string hash = "" + HighLogic.CurrentGame?.Seed;
+                    Debug.Log("CustomSkyBox.ApplyTo", "Rotating SkyBox Transform");
+
+                    string hash = "";
+                    if (HighLogic.LoadedScene == GameScenes.SPACECENTER && HighLogic.CurrentGame != null)
+                        hash += HighLogic.CurrentGame.Seed;
+                    else
+                        hash += DateTime.Today;
 
                     int x = hash.GetHashCode();
                     hash = x.ToString();
@@ -121,6 +138,8 @@ namespace SigmaReplacements
                     hash = y.ToString();
                     int z = hash.GetHashCode();
                     hash = z.ToString();
+
+                    Debug.Log("CustomSkyBox.ApplyTo", "Rotatation = {" + (x % 360) + "°, " + (y % 360) + "°, " + (z % 360) + "°}");
 
                     GalaxyCubeControl cube = skybox.GetComponent<GalaxyCubeControl>();
                     if (cube != null)
