@@ -86,8 +86,8 @@ namespace SigmaReplacements
                                                 Debug.Log(GetType().Name + ".GetFor", "Matched minCourage = " + minCourage + ", maxCourage = " + maxCourage + " to kerbal courage = " + kerbal.courage);
                                                 if (minStupidity <= kerbal.stupidity && maxStupidity >= kerbal.stupidity)
                                                 {
-                                                    Debug.Log("Info.GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
-                                                    Debug.Log("Info.GetFor", "Return this Info");
+                                                    Debug.Log(GetType().Name + ".GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
+                                                    Debug.Log(GetType().Name + ".GetFor", "Return this Info");
                                                     return this;
                                                 }
                                             }
