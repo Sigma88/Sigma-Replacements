@@ -14,6 +14,7 @@ namespace SigmaReplacements
             static Texture ZP;
             static Texture ZN;
             static QuaternionD initRot;
+            static Vector3 initScale;
 
             public static void Reset(this GalaxyCubeControl skybox)
             {
@@ -22,6 +23,7 @@ namespace SigmaReplacements
 
                 if (skybox != null)
                 {
+                    // Rotation
                     if (initRot == null)
                     {
                         initRot = skybox.initRot;
@@ -33,6 +35,23 @@ namespace SigmaReplacements
                         Debug.Log("DefaultSkyBox.Reset", "Loaded initRot = " + skybox.initRot);
                     }
 
+                    // Scale
+                    GameObject cube = skybox.gameObject.GetChild("GalaxyCube");
+                    if (cube != null)
+                    {
+                        if (initScale == null)
+                        {
+                            initScale = cube.transform.localScale;
+                            Debug.Log("DefaultSkyBox.Reset", "Saved initScale = " + initScale);
+                        }
+                        else
+                        {
+                            cube.transform.localScale = initScale;
+                            Debug.Log("DefaultSkyBox.Reset", "Loaded initScale = " + cube.transform.localScale);
+                        }
+                    }
+
+                    // Textures
                     Renderer[] renderers = skybox?.gameObject?.GetComponentsInChildren<Renderer>(true);
 
                     for (int i = 0; i < renderers?.Length; i++)

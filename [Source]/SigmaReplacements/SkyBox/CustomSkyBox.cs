@@ -84,9 +84,9 @@ namespace SigmaReplacements
                         Debug.Log("CustomSkyBox.ApplyTo", "Old Texture = " + material.mainTexture);
 
                         if (name == "XP")
-                            material.SetTexture(mirror == true ? SkyBox[1] : SkyBox[0]);
+                            material.SetTexture(SkyBox[0]);
                         else if (name == "XN")
-                            material.SetTexture(mirror == true ? SkyBox[0] : SkyBox[1]);
+                            material.SetTexture(SkyBox[1]);
                         else if (name == "YP") // SQUAD inverts YP with YN
                             material.SetTexture(SkyBox[3]);
                         else if (name == "YN") // SQUAD inverts YN with YP
@@ -98,26 +98,25 @@ namespace SigmaReplacements
 
                         Debug.Log("CustomSkyBox.ApplyTo", "New Texture = " + material.mainTexture);
                     }
-                    else if (mirror == true)
-                    {
-                        Debug.Log("CustomSkyBox.ApplyTo", "Mirroring Stock SkyBox Texture");
+                }
 
-                        if (DefaultSkyBox.XP != null && DefaultSkyBox.XN != null)
-                        {
-                            if (name == "XP")
-                                material.SetTexture(DefaultSkyBox.XN);
-                            if (name == "XN")
-                                material.SetTexture(DefaultSkyBox.XP);
-                        }
-                    }
 
-                    // Flip Texture
-                    if (mirror == true)
-                    {
-                        Debug.Log("CustomSkyBox.ApplyTo", "Mirroring SkyBox Texture");
+                // Mirror CubeMap
+                if (mirror == true)
+                {
+                    Debug.Log("CustomSkyBox.ApplyTo", "Mirroring SkyBox Texture");
 
-                        material.SetTextureScale("_MainTex", new Vector2(-1, 1));
-                    }
+                    GameObject cube = skybox.GetChild("GalaxyCube");
+                    if (cube != null)
+                        cube.transform.localScale *= -1;
+                    else
+                        skybox.transform.localScale *= -1;
+
+                    GalaxyCubeControl control = skybox.GetComponent<GalaxyCubeControl>();
+                    if (control != null)
+                        control.initRot = Quaternion.AngleAxis(180, Vector3.forward);
+                    else
+                        skybox.transform.Rotate(cube.transform.forward, 180);
                 }
 
 
