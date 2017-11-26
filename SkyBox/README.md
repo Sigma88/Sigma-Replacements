@@ -1,7 +1,7 @@
 # Sigma Replacements: SkyBox
 
 
-**Customizeable Crew SkyBox**
+**Customizeable SkyBox**
 
 
 KSP Forum Thread: http://forum.kerbalspaceprogram.com/index.php?/topic/167233-0/
