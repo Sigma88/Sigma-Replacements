@@ -1,3 +1,8 @@
+**v0.1.1**
+
+- Fixed SkyBox mirroring
+
+
 **v0.1.0**
 
 - First Beta Release
