@@ -47,9 +47,7 @@
     <Compile Include="Common\DebugLogger.cs" />
     <Compile Include="Heads\HeadInfo.cs" />
     <Compile Include="Heads\Triggers.cs" />
-    <Compile Include="Heads\Nyan.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
+    <Compile Include="Heads\Nyan.cs">
       <DependentUpon>Nyan.resx</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -68,11 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Heads\Nyan.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Nyan.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Heads\Nyan.resx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="[Nyan]\nyanHead" />
