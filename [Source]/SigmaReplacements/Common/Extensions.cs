@@ -85,7 +85,8 @@ namespace SigmaReplacements
         {
             if (material != null && newTex != null)
             {
-                material.shader = Shader.Find("Bumped Diffuse");
+                if (!material.HasProperty("_BumpMap"))
+                    material.shader = Shader.Find("Bumped Diffuse");
 
                 Texture oldTex = material.GetTexture("_BumpMap");
 
