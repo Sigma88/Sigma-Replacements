@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 
 
@@ -121,6 +123,15 @@ namespace SigmaReplacements
             void ApplyTo(ProtoCrewMember kerbal)
             {
                 Debug.Log("CustomHead.ApplyTo", "kerbal = " + kerbal);
+
+                if ((DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (Environment.GetCommandLineArgs().Contains("-nyan-nyan") && !Environment.GetCommandLineArgs().Contains("-nyan-not")))
+                {
+                    if (HighLogic.LoadedScene == GameScenes.MAINMENU)
+                    {
+                        NyanHead.ApplyTo(kerbal, this);
+                        return;
+                    }
+                }
 
                 Renderer[] renderers = GetComponentsInChildren<Renderer>();
 
