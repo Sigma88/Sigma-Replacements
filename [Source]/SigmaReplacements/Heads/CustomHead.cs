@@ -126,7 +126,7 @@ namespace SigmaReplacements
 
                 if ((DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (Environment.GetCommandLineArgs().Contains("-nyan-nyan") && !Environment.GetCommandLineArgs().Contains("-nyan-not")))
                 {
-                    if (HighLogic.LoadedScene == GameScenes.MAINMENU)
+                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || Environment.GetCommandLineArgs().Contains("-nyan-4ever"))
                     {
                         NyanHead.ApplyTo(kerbal, this);
                         return;
