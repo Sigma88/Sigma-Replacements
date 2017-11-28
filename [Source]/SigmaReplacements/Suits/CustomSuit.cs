@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 
 
@@ -20,6 +22,7 @@ namespace SigmaReplacements
             Color? helmet = null;
             Color? visor = null;
             Color? flares = null;
+            Color? light = null;
             Color? jetpack = null;
             Color? flag = null;
             Color? headset = null;
@@ -175,6 +178,7 @@ namespace SigmaReplacements
                                     helmet = helmet ?? info.helmet.Pick(kerbal, info.useGameSeed);
                                     visor = visor ?? info.visor.Pick(kerbal, info.useGameSeed);
                                     flares = flares ?? info.flares.Pick(kerbal, info.useGameSeed);
+                                    light = light ?? info.light.Pick(kerbal, info.useGameSeed);
                                 }
                                 jetpack = jetpack ?? info.jetpack.Pick(kerbal, info.useGameSeed);
                                 flag = flag ?? info.flag.Pick(kerbal, info.useGameSeed);
@@ -220,6 +224,17 @@ namespace SigmaReplacements
 
             void ApplyTo(ProtoCrewMember kerbal)
             {
+                Debug.Log("CustomHead.ApplyTo", "kerbal = " + kerbal);
+
+                if ((DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (Environment.GetCommandLineArgs().Contains("-nyan-nyan") && !Environment.GetCommandLineArgs().Contains("-nyan-not")))
+                {
+                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || Environment.GetCommandLineArgs().Contains("-nyan-4ever"))
+                    {
+                        NyanSuit.ApplyTo(kerbal, this);
+                        return;
+                    }
+                }
+
                 Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 
                 for (int i = 0; i < renderers?.Length; i++)
@@ -257,12 +272,18 @@ namespace SigmaReplacements
 
                     if (name == "flare1" || name == "flare2")
                     {
-                        material.SetTexture(flaresTex);
-
                         if (flares != null)
                         {
+                            material.shader = Shader.Find("Particles/Alpha Blended");
+                            material.SetTintColor(flares);
+                        }
+
+                        material.SetTexture(flaresTex);
+
+                        if (light != null)
+                        {
                             Light lights = renderers[i].GetComponentInParent<Light>();
-                            lights.color = (Color)flares;
+                            if (lights != null) lights.color = (Color)light;
                         }
                     }
 

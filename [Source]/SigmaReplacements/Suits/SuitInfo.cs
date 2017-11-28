@@ -26,6 +26,7 @@ namespace SigmaReplacements
             internal List<Color?> helmet = new List<Color?>();
             internal List<Color?> visor = new List<Color?>();
             internal List<Color?> flares = new List<Color?>();
+            internal List<Color?> light = new List<Color?>();
             internal List<Color?> jetpack = new List<Color?>();
             internal List<Color?> flag = new List<Color?>();
             internal List<Color?> headset = new List<Color?>();
@@ -77,6 +78,7 @@ namespace SigmaReplacements
                 helmet = Parse(info.GetValues("helmet"), helmet);
                 visor = Parse(info.GetValues("visor"), visor);
                 flares = Parse(info.GetValues("flares"), flares);
+                light = Parse(info.GetValues("light"), light);
                 jetpack = Parse(info.GetValues("jetpack"), jetpack);
                 flag = Parse(info.GetValues("flag"), flag);
                 headset = Parse(info.GetValues("headset"), headset);
