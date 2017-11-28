@@ -9,6 +9,8 @@ namespace SigmaReplacements
         {
             void Start()
             {
+                Debug.Log("IVAnavball", "Fixing IVA navballs for " + gameObject);
+
                 if (Nyan.forever)
                 {
                     NyanNavBall.FixIVA(GetComponentsInChildren<Renderer>(true));
