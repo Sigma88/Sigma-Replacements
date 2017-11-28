@@ -24,8 +24,8 @@ namespace SigmaReplacements
                         material.SetTexture(Nyan.nyanHead);
                         if (kerbal.gender == ProtoCrewMember.Gender.Female)
                         {
-                            material.SetTextureOffset("_MainTex", new Vector2(-0.225f, -0.325f));
-                            material.SetTextureScale("_MainTex", new Vector2(1.5f, 1.5f));
+                            material.SetTextureOffset("_MainTex", new Vector2(-0.225f, -0.5f));
+                            material.SetTextureScale("_MainTex", new Vector2(1.5f, 1.75f));
                         }
                     }
                 }
