@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SigmaReplacements
 {
-    namespace Suits
+    namespace Navigation
     {
         internal class Nyan
         {
@@ -23,27 +23,18 @@ namespace SigmaReplacements
                 {
                     if (object.ReferenceEquals(resourceMan, null))
                     {
-                        ResourceManager temp = new ResourceManager("SigmaReplacements.Suits.Nyan", typeof(Nyan).Assembly);
+                        ResourceManager temp = new ResourceManager("SigmaReplacements.Navigation.Nyan", typeof(Nyan).Assembly);
                         resourceMan = temp;
                     }
                     return resourceMan;
                 }
             }
 
-            internal static Texture2D nyanHelmet
+            internal static Texture2D nyanBall
             {
                 get
                 {
-                    byte[] bytes = (byte[])ResourceManager.GetObject("nyanHelmet");
-                    return bytes.ToDDS();
-                }
-            }
-
-            internal static Texture2D nyanSuit
-            {
-                get
-                {
-                    byte[] bytes = (byte[])ResourceManager.GetObject("nyanSuit");
+                    byte[] bytes = (byte[])ResourceManager.GetObject("nyanBall");
                     return bytes.ToDDS();
                 }
             }

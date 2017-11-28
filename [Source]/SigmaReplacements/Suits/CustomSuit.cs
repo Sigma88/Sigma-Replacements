@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using UnityEngine;
 
 
@@ -226,9 +224,9 @@ namespace SigmaReplacements
             {
                 Debug.Log("CustomHead.ApplyTo", "kerbal = " + kerbal);
 
-                if ((DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (Environment.GetCommandLineArgs().Contains("-nyan-nyan") && !Environment.GetCommandLineArgs().Contains("-nyan-not")))
+                if (Nyan.nyan)
                 {
-                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || Environment.GetCommandLineArgs().Contains("-nyan-4ever"))
+                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || Nyan.forever)
                     {
                         NyanSuit.ApplyTo(kerbal, this);
                         return;

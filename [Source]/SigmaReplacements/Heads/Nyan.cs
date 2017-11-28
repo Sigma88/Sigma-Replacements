@@ -8,13 +8,16 @@ namespace SigmaReplacements
     {
         internal class Nyan
         {
+            internal static bool nyan = false;
+            internal static bool forever = false;
+
             private static ResourceManager resourceMan;
 
-            internal Nyan()
+            private Nyan()
             {
             }
 
-            internal static ResourceManager ResourceManager
+            private static ResourceManager ResourceManager
             {
                 get
                 {

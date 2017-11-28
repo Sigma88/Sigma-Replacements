@@ -150,6 +150,14 @@ namespace SigmaReplacements
 
             internal void ApplyTo(FlightUIModeController controller)
             {
+                Debug.Log("CustomNavBall.ApplyTo", "controller = " + controller);
+
+                if (Nyan.forever)
+                {
+                    NyanNavBall.ApplyTo(controller);
+                    return;
+                }
+
                 if (controller == null) return;
 
                 Transform original = DefaultNavBall.Instance?.transform;
@@ -377,6 +385,8 @@ namespace SigmaReplacements
 
             internal void FixIVA(Renderer[] renderers)
             {
+                Debug.Log("CustomNavBall.FixIVA", "renderers count = " + renderers?.Length);
+
                 for (int i = 0; i < renderers?.Length; i++)
                 {
                     string name = renderers[i]?.name;

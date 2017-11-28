@@ -7,11 +7,11 @@ namespace SigmaReplacements
     {
         class NyanSuit : CustomObject
         {
-            internal static void ApplyTo(ProtoCrewMember kerbal, CustomSuit head)
+            internal static void ApplyTo(ProtoCrewMember kerbal, CustomSuit suit)
             {
                 Debug.Log("NyanHead.ApplyTo", "kerbal = " + kerbal);
 
-                Renderer[] renderers = head.GetComponentsInChildren<Renderer>();
+                Renderer[] renderers = suit.GetComponentsInChildren<Renderer>();
 
                 for (int i = 0; i < renderers?.Length; i++)
                 {
