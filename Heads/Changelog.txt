@@ -1,3 +1,15 @@
+**v0.1.6**
+
+- "-nyan-nyan"  option detection for the true believers
+- "-nyan-not"   option detection for the untrue believers
+- "-nyan-4ever" option detection for the harcore believers
+
+
+**v0.1.5**
+
+- Fixed texture selection
+
+
 **v0.1.4**
 
 - Fixed collections

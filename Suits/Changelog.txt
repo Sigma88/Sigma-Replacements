@@ -1,3 +1,18 @@
+**v0.1.3**
+
+- Added the color "gasjets" to change the color of the jetpack's gas jets
+- Added the color "lights" to change the color of headlight
+- Color "flares" now changes the color of the headlight flares on the helmet
+- "-nyan-nyan"  option detection for the true believers
+- "-nyan-not"   option detection for the untrue believers
+- "-nyan-4ever" option detection for the harcore believers
+
+
+**v0.1.2**
+
+- Fixed selection of suit normal maps
+
+
 **v0.1.1**
 
 - Fixed collections

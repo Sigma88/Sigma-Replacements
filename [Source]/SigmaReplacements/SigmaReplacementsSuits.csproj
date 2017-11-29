@@ -7,7 +7,7 @@
     <ProjectGuid>{B3769F47-5A16-43C9-995F-1B3B15BE97CC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Suits\Properties</AppDesignerFolder>
-    <RootNamespace>SigmaReplacements.Suits</RootNamespace>
+    <RootNamespace>SigmaReplacements</RootNamespace>
     <AssemblyName>SigmaReplacementsSuits</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -42,11 +42,15 @@
     <Compile Include="Common\UIKerbals.cs" />
     <Compile Include="Common\UserSettings.cs" />
     <Compile Include="Suits\CustomSuit.cs" />
+    <Compile Include="Suits\NyanSuit.cs" />
     <Compile Include="Suits\Properties\AssemblyInfo.cs" />
     <Compile Include="Suits\SuitInfo.cs" />
     <Compile Include="Suits\Triggers.cs" />
     <Compile Include="Suits\Version.cs" />
     <Compile Include="Suits\SettingsLoader.cs" />
+    <Compile Include="Suits\Nyan.cs">
+      <DependentUpon>Nyan.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -61,6 +65,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.UI.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Suits\Nyan.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="[Nyan]\nyanHelmet" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="[Nyan]\nyanSuit" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

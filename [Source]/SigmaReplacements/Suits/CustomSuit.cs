@@ -20,8 +20,10 @@ namespace SigmaReplacements
             Color? helmet = null;
             Color? visor = null;
             Color? flares = null;
+            Color? light = null;
             Color? jetpack = null;
             Color? flag = null;
+            Color? gasjets = null;
             Color? headset = null;
             Color? mug = null;
             Color? glasses = null;
@@ -175,9 +177,11 @@ namespace SigmaReplacements
                                     helmet = helmet ?? info.helmet.Pick(kerbal, info.useGameSeed);
                                     visor = visor ?? info.visor.Pick(kerbal, info.useGameSeed);
                                     flares = flares ?? info.flares.Pick(kerbal, info.useGameSeed);
+                                    light = light ?? info.light.Pick(kerbal, info.useGameSeed);
                                 }
                                 jetpack = jetpack ?? info.jetpack.Pick(kerbal, info.useGameSeed);
                                 flag = flag ?? info.flag.Pick(kerbal, info.useGameSeed);
+                                gasjets = gasjets ?? info.gasjets.Pick(kerbal, info.useGameSeed);
                                 headset = headset ?? info.headset.Pick(kerbal, info.useGameSeed);
                                 mug = mug ?? info.mug.Pick(kerbal, info.useGameSeed);
                                 glasses = glasses ?? info.glasses.Pick(kerbal, info.useGameSeed);
@@ -220,6 +224,17 @@ namespace SigmaReplacements
 
             void ApplyTo(ProtoCrewMember kerbal)
             {
+                Debug.Log("CustomHead.ApplyTo", "kerbal = " + kerbal);
+
+                if (Nyan.nyan)
+                {
+                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || Nyan.forever)
+                    {
+                        NyanSuit.ApplyTo(kerbal, this);
+                        return;
+                    }
+                }
+
                 Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 
                 for (int i = 0; i < renderers?.Length; i++)
@@ -257,12 +272,18 @@ namespace SigmaReplacements
 
                     if (name == "flare1" || name == "flare2")
                     {
-                        material.SetTexture(flaresTex);
-
                         if (flares != null)
                         {
+                            material.shader = Shader.Find("Particles/Alpha Blended");
+                            material.SetTintColor(flares);
+                        }
+
+                        material.SetTexture(flaresTex);
+
+                        if (light != null)
+                        {
                             Light lights = renderers[i].GetComponentInParent<Light>();
-                            lights.color = (Color)flares;
+                            if (lights != null) lights.color = (Color)light;
                         }
                     }
 
@@ -288,6 +309,7 @@ namespace SigmaReplacements
 
                     if (material.mainTexture?.name == "fairydust")
                     {
+                        material.SetTintColor(gasjets);
                         material.SetTexture(gasjetsTex);
                     }
 

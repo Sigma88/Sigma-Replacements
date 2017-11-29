@@ -85,7 +85,8 @@ namespace SigmaReplacements
         {
             if (material != null && newTex != null)
             {
-                material.shader = Shader.Find("Bumped Diffuse");
+                if (!material.HasProperty("_BumpMap"))
+                    material.shader = Shader.Find("Bumped Diffuse");
 
                 Texture oldTex = material.GetTexture("_BumpMap");
 
@@ -350,6 +351,45 @@ namespace SigmaReplacements
             if (useGameSeed && HighLogic.CurrentGame != null) h += Math.Abs(HighLogic.CurrentGame.Seed);
 
             return h;
+        }
+        
+        internal static Texture2D ToDDS(this byte[] bytes)
+        {
+            try
+            {
+                if (bytes[4] != 124) return null; //this byte should be 124 for DDS image files
+
+                int height = bytes[13] * 256 + bytes[12];
+                int width = bytes[17] * 256 + bytes[16];
+
+                int header = 128;
+                byte[] data = new byte[bytes.Length - header];
+                Buffer.BlockCopy(bytes, header, data, 0, bytes.Length - header);
+
+                TextureFormat format;
+                switch ((double)height * width / data.Length)
+                {
+                    case 1d:
+                        format = TextureFormat.DXT5;
+                        break;
+                    case 2d:
+                        format = TextureFormat.DXT1;
+                        break;
+                    default:
+                        return null;
+                }
+
+                Texture2D texture = new Texture2D(width, height, format, false);
+
+                texture.LoadRawTextureData(data);
+                texture.Apply();
+
+                return (texture);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
