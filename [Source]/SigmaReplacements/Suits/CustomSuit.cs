@@ -23,6 +23,7 @@ namespace SigmaReplacements
             Color? light = null;
             Color? jetpack = null;
             Color? flag = null;
+            Color? gasjets = null;
             Color? headset = null;
             Color? mug = null;
             Color? glasses = null;
@@ -180,6 +181,7 @@ namespace SigmaReplacements
                                 }
                                 jetpack = jetpack ?? info.jetpack.Pick(kerbal, info.useGameSeed);
                                 flag = flag ?? info.flag.Pick(kerbal, info.useGameSeed);
+                                gasjets = gasjets ?? info.gasjets.Pick(kerbal, info.useGameSeed);
                                 headset = headset ?? info.headset.Pick(kerbal, info.useGameSeed);
                                 mug = mug ?? info.mug.Pick(kerbal, info.useGameSeed);
                                 glasses = glasses ?? info.glasses.Pick(kerbal, info.useGameSeed);
@@ -307,6 +309,7 @@ namespace SigmaReplacements
 
                     if (material.mainTexture?.name == "fairydust")
                     {
+                        material.SetTintColor(gasjets);
                         material.SetTexture(gasjetsTex);
                     }
 
