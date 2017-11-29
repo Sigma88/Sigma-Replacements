@@ -113,7 +113,6 @@ namespace SigmaReplacements
 
             void Start()
             {
-                UnityEngine.Debug.Log("SigmaLog: LOADED SCENE = " + HighLogic.LoadedScene);
                 if (Nyan.forever)
                 {
                     TimingManager.LateUpdateAdd(TimingManager.TimingStage.BetterLateThanNever, UpdateBox);
