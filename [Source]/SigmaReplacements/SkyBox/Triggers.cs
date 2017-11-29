@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 
 
 namespace SigmaReplacements
@@ -40,6 +42,16 @@ namespace SigmaReplacements
                     CustomSkyBox skybox = new CustomSkyBox((Mode)HighLogic.CurrentGame.Mode, HighLogic.CurrentGame.Seed);
                     skybox.ApplyTo(GalaxyCubeControl.Instance?.gameObject);
                 }
+            }
+        }
+
+        [KSPAddon(KSPAddon.Startup.Instantly, true)]
+        class NyanSettings : MonoBehaviour
+        {
+            void Start()
+            {
+                Nyan.nyan = (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (Environment.GetCommandLineArgs().Contains("-nyan-nyan") && !Environment.GetCommandLineArgs().Contains("-nyan-not"));
+                Nyan.forever = Nyan.nyan && Environment.GetCommandLineArgs().Contains("-nyan-4ever");
             }
         }
     }

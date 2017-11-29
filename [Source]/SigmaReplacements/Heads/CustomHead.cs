@@ -122,6 +122,15 @@ namespace SigmaReplacements
             {
                 Debug.Log("CustomHead.ApplyTo", "kerbal = " + kerbal);
 
+                if (Nyan.nyan)
+                {
+                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || Nyan.forever)
+                    {
+                        NyanHead.ApplyTo(kerbal, this);
+                        return;
+                    }
+                }
+
                 Renderer[] renderers = GetComponentsInChildren<Renderer>();
 
                 for (int i = 0; i < renderers?.Length; i++)

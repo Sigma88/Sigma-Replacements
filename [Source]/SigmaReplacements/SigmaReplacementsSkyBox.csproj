@@ -7,7 +7,7 @@
     <ProjectGuid>{979BE10F-7173-461A-84F7-EEFF2BD52148}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>SkyBox\Properties</AppDesignerFolder>
-    <RootNamespace>SigmaReplacements.SkyBox</RootNamespace>
+    <RootNamespace>SigmaReplacements</RootNamespace>
     <AssemblyName>SigmaReplacementsSkyBox</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,6 +40,7 @@
     <Compile Include="Common\UIKerbals.cs" />
     <Compile Include="SkyBox\CustomSkyBox.cs" />
     <Compile Include="SkyBox\DefaultSkyBox.cs" />
+    <Compile Include="SkyBox\NyanSkyBox.cs" />
     <Compile Include="SkyBox\Extensions.cs" />
     <Compile Include="SkyBox\Properties\AssemblyInfo.cs" />
     <Compile Include="SkyBox\Version.cs" />
@@ -48,6 +49,9 @@
     <Compile Include="Common\DebugLogger.cs" />
     <Compile Include="SkyBox\SkyBoxInfo.cs" />
     <Compile Include="SkyBox\Triggers.cs" />
+    <Compile Include="SkyBox\Nyan.cs">
+      <DependentUpon>Nyan.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -62,6 +66,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.UI.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SkyBox\Nyan.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="[Nyan]\SkyBox\nyanXP0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="[Nyan]\SkyBox\nyanXP1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="[Nyan]\SkyBox\nyanXP2" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="[Nyan]\SkyBox\nyanXP3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
