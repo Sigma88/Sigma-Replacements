@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Linq;
+using UnityEngine;
 using KSP.UI.Screens;
 
 
@@ -143,6 +144,16 @@ namespace SigmaReplacements
                 KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
                 if (kerbalEVA.GetComponent<CustomSuit>() == null)
                     kerbalEVA.gameObject.AddComponent<CustomSuit>();
+            }
+        }
+
+        [KSPAddon(KSPAddon.Startup.Instantly, true)]
+        class NyanSettings : MonoBehaviour
+        {
+            void Start()
+            {
+                Nyan.nyan = (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (Environment.GetCommandLineArgs().Contains("-nyan-nyan") && !Environment.GetCommandLineArgs().Contains("-nyan-not"));
+                Nyan.forever = Nyan.nyan && Environment.GetCommandLineArgs().Contains("-nyan-4ever");
             }
         }
     }

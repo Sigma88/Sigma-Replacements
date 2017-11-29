@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 
 
 namespace SigmaReplacements
@@ -99,6 +101,51 @@ namespace SigmaReplacements
                     CustomNavBall evaNavBall = kerbal?.gameObject?.GetComponent<CustomNavBall>() ?? FlightGlobals.ActiveVessel?.evaController?.gameObject?.AddComponent<CustomNavBall>();
                     if (evaNavBall != null) evaNavBall.OnStart();
                     DestroyImmediate(evaNavBall);
+                }
+            }
+        }
+
+        [KSPAddon(KSPAddon.Startup.Instantly, true)]
+        class NyanSettings : MonoBehaviour
+        {
+            void Start()
+            {
+                Nyan.nyan = (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (Environment.GetCommandLineArgs().Contains("-nyan-nyan") && !Environment.GetCommandLineArgs().Contains("-nyan-not"));
+                Nyan.forever = Nyan.nyan && Environment.GetCommandLineArgs().Contains("-nyan-4ever");
+            }
+        }
+
+        [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+        class NyanTriggers : MonoBehaviour
+        {
+            void Start()
+            {
+                if (Nyan.nyan)
+                {
+                    Texture nyanBall = Nyan.nyanBall;
+
+                    Texture2D white = new Texture2D(1, 1);
+                    white.SetPixel(1, 1, new Color(0.5f, 0.5f, 0.5f, 0.5f));
+                    white.Apply();
+
+                    Renderer Kerbin1 = GameObject.Find("OrbitScene")?.GetChild("Kerbin")?.GetComponent<Renderer>();
+                    if (Kerbin1 != null)
+                    {
+                        Kerbin1.material.shader = Shader.Find("Terrain/Scaled Planet (Simple)");
+                        Kerbin1.material.SetTexture("_MainTex", nyanBall);
+                        Kerbin1.material.SetTextureScale("_MainTex", new Vector2(-1, 1));
+                        Kerbin1.material.SetTextureOffset("_MainTex", new Vector2(-0.425f, 0));
+                        Kerbin1.material.SetTexture("_BumpMap", white);
+                    }
+
+                    Renderer Kerbin2 = GameObject.Find("MunScene")?.GetChild("Kerbin")?.GetComponent<Renderer>();
+                    if (Kerbin2 != null)
+                    {
+                        Kerbin2.material.shader = Shader.Find("Terrain/Scaled Planet (Simple)");
+                        Kerbin2.material.SetTexture("_MainTex", nyanBall);
+                        Kerbin2.material.SetTextureScale("_MainTex", new Vector2(-1, 1));
+                        Kerbin2.material.SetTexture("_BumpMap", white);
+                    }
                 }
             }
         }
