@@ -134,6 +134,7 @@ namespace SigmaReplacements
                         Kerbin1.material.shader = Shader.Find("Terrain/Scaled Planet (Simple)");
                         Kerbin1.material.SetTexture("_MainTex", nyanBall);
                         Kerbin1.material.SetTextureScale("_MainTex", new Vector2(-1, 1));
+                        Kerbin1.material.SetTextureOffset("_MainTex", new Vector2(-0.425f, 0));
                         Kerbin1.material.SetTexture("_BumpMap", white);
                     }
 
