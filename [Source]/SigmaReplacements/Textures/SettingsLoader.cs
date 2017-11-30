@@ -5,10 +5,10 @@ namespace SigmaReplacements
 {
     namespace Textures
     {
-        [KSPAddon(KSPAddon.Startup.MainMenu, true)]
+        [KSPAddon(KSPAddon.Startup.Instantly, true)]
         class SettingsLoader : MonoBehaviour
         {
-            void Awake()
+            void OnDestroy()
             {
                 // User Settings
                 ConfigNode[] InfoNodes = UserSettings.ConfigNode.GetNodes("Texture");
