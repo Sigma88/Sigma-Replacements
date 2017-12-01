@@ -1,3 +1,14 @@
+**v0.1.8**
+
+- Fixed status requirements
+- "-nyan-heads" option detection for the selective believers
+
+
+**v0.1.7**
+
+- Improved modularity
+
+
 **v0.1.6**
 
 - "-nyan-nyan"  option detection for the true believers

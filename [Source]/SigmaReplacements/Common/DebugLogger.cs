@@ -25,10 +25,10 @@ namespace SigmaReplacements
         }
     }
 
-    [KSPAddon(KSPAddon.Startup.MainMenu, true)]
+    [KSPAddon(KSPAddon.Startup.Instantly, true)]
     class DebugLoader : MonoBehaviour
     {
-        void Start()
+        void OnDestroy()
         {
             // Debug Spam
             if (bool.TryParse(UserSettings.ConfigNode?.GetValue("debug"), out bool debug) && debug) Debug.debug = true;
