@@ -84,8 +84,10 @@ namespace SigmaReplacements
 
             void Start()
             {
-                Nyan.nyan = (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (Environment.GetCommandLineArgs().Contains("-nyan-nyan") && !Environment.GetCommandLineArgs().Contains("-nyan-not"));
-                Nyan.forever = Nyan.nyan && Environment.GetCommandLineArgs().Contains("-nyan-4ever");
+                string[] args = Environment.GetCommandLineArgs();
+
+                Nyan.nyan = (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (args.Contains("-nyan-nyan") && !args.Contains("-nyan-not") || args.Contains("-nyan-tex"));
+                Nyan.forever = Nyan.nyan && (args.Contains("-nyan-4ever") || args.Contains("-nyan-tex"));
             }
 
             void OnDestroy()

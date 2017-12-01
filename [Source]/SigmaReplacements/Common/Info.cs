@@ -13,13 +13,13 @@ namespace SigmaReplacements
     public enum Status
     {
         Crew = 0,
-        Available = 0,
-        Assigned = 0,
-        Dead = 0,
-        Missing = 0,
         Applicant = 1,
         Unowned = 2,
-        Tourist = 3
+        Tourist = 3,
+        Available = 4,
+        Assigned = 5,
+        Dead = 6,
+        Missing = 7
     }
 
     internal class Info
