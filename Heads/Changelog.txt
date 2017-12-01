@@ -1,3 +1,8 @@
+**v0.1.7**
+
+- Improved modularity
+
+
 **v0.1.6**
 
 - "-nyan-nyan"  option detection for the true believers
