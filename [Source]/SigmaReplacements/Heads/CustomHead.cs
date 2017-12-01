@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 
@@ -6,7 +5,7 @@ namespace SigmaReplacements
 {
     namespace Heads
     {
-        internal class CustomHead : MonoBehaviour
+        public class CustomHead : CustomObject
         {
             // Colors
             Color? pupilLeft = null;
@@ -45,28 +44,10 @@ namespace SigmaReplacements
             Texture hairNrm = null;
             Texture armNrm = null;
 
-
             void Start()
             {
-                Debug.Log("CustomHead.Start", "In gameObject = " + gameObject);
-                Apply();
-            }
-
-            internal void Apply()
-            {
-                Debug.Log("CustomHead.Apply", "In gameObject = " + gameObject);
-
-                ProtoCrewMember kerbal = GetComponent<KerbalEVA>()?.part?.protoModuleCrew?.FirstOrDefault();
-                if (kerbal == null) kerbal = GetComponent<kerbalExpressionSystem>()?.protoCrewMember;
-                if (kerbal == null) kerbal = GetComponent<UIKerbalMenu>()?.crewMember;
-                if (kerbal == null) kerbal = GetComponent<UIKerbalWerner>()?.crewMember;
-                if (kerbal == null) kerbal = GetComponent<UIKerbalGene>()?.crewMember;
-                if (kerbal == null) kerbal = GetComponent<UIKerbalStrategy>()?.crewMember;
-                Debug.Log("CustomHead.Apply", "kerbal = " + kerbal);
-                if (kerbal == null) return;
-
+                ProtoCrewMember kerbal = Apply();
                 LoadFor(kerbal);
-
                 ApplyTo(kerbal);
             }
 
@@ -74,13 +55,13 @@ namespace SigmaReplacements
             {
                 Debug.Log("CustomHead.LoadFor", "kerbal = " + kerbal);
 
-                HeadInfo.hash = "";
+                Info.hash = "";
                 int? useChance = null;
+                string collection = "";
 
                 for (int i = 0; i < HeadInfo.DataBase?.Count; i++)
                 {
-                    HeadInfo info = HeadInfo.DataBase[i].GetFor(kerbal);
-                    string collection = "";
+                    HeadInfo info = (HeadInfo)HeadInfo.DataBase[i].GetFor(kerbal);
 
                     if (info != null)
                     {
@@ -91,44 +72,46 @@ namespace SigmaReplacements
 
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
+                                Debug.Log("CustomSuit.LoadFor", "Matched suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
+                                Debug.Log("CustomSuit.LoadFor", "Matched suit collection = " + info.collection + " to current collection = " + collection);
                                 // Collection
                                 collection = info.collection;
 
                                 // Colors
                                 pupilLeft = pupilLeft ?? info.pupilLeft.Pick(kerbal, info.useGameSeed);
-                                pupilRight = pupilRight ?? info.pupilRight.At(pupilLeft, info.pupilLeft) ?? info.pupilRight.Pick(kerbal, info.useGameSeed);
+                                pupilRight = pupilRight ?? info.pupilRight.At(pupilLeft, info.pupilLeft, kerbal, info.useGameSeed);
                                 eyeballLeft = eyeballLeft ?? info.eyeballLeft.Pick(kerbal, info.useGameSeed);
-                                eyeballRight = eyeballRight ?? info.eyeballRight.At(eyeballLeft, info.eyeballLeft) ?? info.eyeballRight.Pick(kerbal, info.useGameSeed);
+                                eyeballRight = eyeballRight ?? info.eyeballRight.At(eyeballLeft, info.eyeballLeft, kerbal, info.useGameSeed);
                                 upTeeth01 = upTeeth01 ?? info.upTeeth01.Pick(kerbal, info.useGameSeed);
-                                upTeeth02 = upTeeth02 ?? info.upTeeth02.At(upTeeth01, info.upTeeth01) ?? info.upTeeth02.Pick(kerbal, info.useGameSeed);
+                                upTeeth02 = upTeeth02 ?? info.upTeeth02.At(upTeeth01, info.upTeeth01, kerbal, info.useGameSeed);
                                 tongue = tongue ?? info.tongue.Pick(kerbal, info.useGameSeed);
                                 head = head ?? info.head.Pick(kerbal, info.useGameSeed);
-                                hair = hair ?? info.hair.At(head, info.head) ?? info.hair.Pick(kerbal, info.useGameSeed);
+                                hair = hair ?? info.hair.At(head, info.head, kerbal, info.useGameSeed);
                                 arm = arm ?? info.arm.Pick(kerbal, info.useGameSeed);
 
                                 // Textures
                                 pupilLeftTex = pupilLeftTex ?? info.pupilLeftTex.Pick(kerbal, info.useGameSeed);
-                                pupilRightTex = pupilRightTex ?? info.pupilRightTex.At(pupilLeftTex, info.pupilLeftTex) ?? info.pupilRightTex.Pick(kerbal, info.useGameSeed);
+                                pupilRightTex = pupilRightTex ?? info.pupilRightTex.At(pupilLeftTex, info.pupilLeftTex, kerbal, info.useGameSeed);
                                 eyeballLeftTex = eyeballLeftTex ?? info.eyeballLeftTex.Pick(kerbal, info.useGameSeed);
-                                eyeballRightTex = eyeballRightTex ?? info.eyeballRightTex.At(eyeballLeftTex, info.eyeballLeftTex) ?? info.eyeballRightTex.Pick(kerbal, info.useGameSeed);
+                                eyeballRightTex = eyeballRightTex ?? info.eyeballRightTex.At(eyeballLeftTex, info.eyeballLeftTex, kerbal, info.useGameSeed);
                                 upTeeth01Tex = upTeeth01Tex ?? info.upTeeth01Tex.Pick(kerbal, info.useGameSeed);
-                                upTeeth02Tex = upTeeth02Tex ?? info.upTeeth02Tex.At(upTeeth01Tex, info.upTeeth01Tex) ?? info.upTeeth02Tex.Pick(kerbal, info.useGameSeed);
+                                upTeeth02Tex = upTeeth02Tex ?? info.upTeeth02Tex.At(upTeeth01Tex, info.upTeeth01Tex, kerbal, info.useGameSeed);
                                 tongueTex = tongueTex ?? info.tongueTex.Pick(kerbal, info.useGameSeed);
                                 headTex = headTex ?? info.headTex.Pick(kerbal, info.useGameSeed);
-                                hairTex = hairTex ?? info.hairTex.At(headTex, info.headTex) ?? info.hairTex.Pick(kerbal, info.useGameSeed);
+                                hairTex = hairTex ?? info.hairTex.At(headTex, info.headTex, kerbal, info.useGameSeed);
                                 armTex = armTex ?? info.armTex.Pick(kerbal, info.useGameSeed);
 
                                 // Normals
-                                pupilLeftNrm = pupilLeftNrm ?? info.pupilLeftNrm.At(pupilLeftTex, info.pupilLeftTex) ?? info.pupilLeftNrm.Pick(kerbal, info.useGameSeed);
-                                pupilRightNrm = pupilRightNrm ?? info.pupilRightNrm.At(pupilRightTex, info.pupilRightTex) ?? info.pupilRightNrm.Pick(kerbal, info.useGameSeed);
-                                eyeballLeftNrm = eyeballLeftNrm ?? info.eyeballLeftNrm.At(eyeballLeftTex, info.eyeballLeftTex) ?? info.eyeballLeftNrm.Pick(kerbal, info.useGameSeed);
-                                eyeballRightNrm = eyeballRightNrm ?? info.eyeballRightNrm.At(eyeballRightTex, info.eyeballRightTex) ?? info.eyeballRightNrm.Pick(kerbal, info.useGameSeed);
-                                upTeeth01Nrm = upTeeth01Nrm ?? info.upTeeth01Nrm.At(upTeeth01Tex, info.upTeeth01Tex) ?? info.upTeeth01Nrm.Pick(kerbal, info.useGameSeed);
-                                upTeeth02Nrm = upTeeth02Nrm ?? info.upTeeth02Nrm.At(upTeeth02Tex, info.upTeeth02Tex) ?? info.upTeeth02Nrm.Pick(kerbal, info.useGameSeed);
-                                tongueNrm = tongueNrm ?? info.tongueNrm.At(tongueTex, info.tongueTex) ?? info.tongueNrm.Pick(kerbal, info.useGameSeed);
-                                headNrm = headNrm ?? info.headNrm.At(headTex, info.headTex) ?? info.headNrm.Pick(kerbal, info.useGameSeed);
-                                hairNrm = hairNrm ?? info.hairNrm.At(hairTex, info.hairTex) ?? info.hairNrm.Pick(kerbal, info.useGameSeed);
-                                armNrm = armNrm ?? info.armNrm.At(armTex, info.armTex) ?? info.armNrm.Pick(kerbal, info.useGameSeed);
+                                pupilLeftNrm = pupilLeftNrm ?? info.pupilLeftNrm.At(pupilLeftTex, info.pupilLeftTex, kerbal, info.useGameSeed);
+                                pupilRightNrm = pupilRightNrm ?? info.pupilRightNrm.At(pupilRightTex, info.pupilRightTex, kerbal, info.useGameSeed);
+                                eyeballLeftNrm = eyeballLeftNrm ?? info.eyeballLeftNrm.At(eyeballLeftTex, info.eyeballLeftTex, kerbal, info.useGameSeed);
+                                eyeballRightNrm = eyeballRightNrm ?? info.eyeballRightNrm.At(eyeballRightTex, info.eyeballRightTex, kerbal, info.useGameSeed);
+                                upTeeth01Nrm = upTeeth01Nrm ?? info.upTeeth01Nrm.At(upTeeth01Tex, info.upTeeth01Tex, kerbal, info.useGameSeed);
+                                upTeeth02Nrm = upTeeth02Nrm ?? info.upTeeth02Nrm.At(upTeeth02Tex, info.upTeeth02Tex, kerbal, info.useGameSeed);
+                                tongueNrm = tongueNrm ?? info.tongueNrm.At(tongueTex, info.tongueTex, kerbal, info.useGameSeed);
+                                headNrm = headNrm ?? info.headNrm.At(headTex, info.headTex, kerbal, info.useGameSeed);
+                                hairNrm = hairNrm ?? info.hairNrm.At(hairTex, info.hairTex, kerbal, info.useGameSeed);
+                                armNrm = armNrm ?? info.armNrm.At(armTex, info.armTex, kerbal, info.useGameSeed);
                             }
                         }
                     }
@@ -138,6 +121,15 @@ namespace SigmaReplacements
             void ApplyTo(ProtoCrewMember kerbal)
             {
                 Debug.Log("CustomHead.ApplyTo", "kerbal = " + kerbal);
+
+                if (Nyan.nyan)
+                {
+                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || Nyan.forever)
+                    {
+                        NyanHead.ApplyTo(kerbal, this);
+                        return;
+                    }
+                }
 
                 Renderer[] renderers = GetComponentsInChildren<Renderer>();
 
@@ -175,14 +167,14 @@ namespace SigmaReplacements
                         material.SetNormal(eyeballRightNrm);
                     }
 
-                    if (name == "upTeeth01" || name == "downTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_downTeeth01")
+                    if (name == "upTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_upTeeth01")
                     {
                         material.SetColor(upTeeth01);
                         material.SetTexture(upTeeth01Tex);
                         material.SetNormal(upTeeth01Nrm);
                     }
 
-                    if (name == "upTeeth02" || name == "upTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_upTeeth01")
+                    if (name == "upTeeth02" || name == "downTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_downTeeth01")
                     {
                         material.SetColor(upTeeth02);
                         material.SetTexture(upTeeth02Tex);

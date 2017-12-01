@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Linq;
+using UnityEngine;
 using KSP.UI.Screens;
 
 
@@ -24,8 +25,13 @@ namespace SigmaReplacements
 
                     if (transform?.name == "Kerbals")
                     {
-                        foreach (Transform child in transform)
+                        int? kerbals = transform?.childCount;
+                        if (kerbals > 4) kerbals = 4;
+
+                        for (int j = 0; j < kerbals; j++)
                         {
+                            Transform child = transform.GetChild(j);
+
                             if (child?.gameObject != null && child?.GetComponent<UIKerbalMenu>() == null)
                                 child.gameObject.AddComponent<UIKerbalMenu>();
 
@@ -96,22 +102,6 @@ namespace SigmaReplacements
             }
         }
 
-        internal class AdminTrigger : MonoBehaviour
-        {
-            void Start()
-            {
-                Debug.Log("AdminTrigger", "Start");
-
-                UIKerbalStrategy[] strategies = GetComponentsInChildren<UIKerbalStrategy>();
-
-                for (int i = 0; i < strategies?.Length; i++)
-                {
-                    if (strategies[i] != null)
-                        strategies[i].Apply();
-                }
-            }
-        }
-
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
         class FlightTriggers : MonoBehaviour
         {
@@ -154,6 +144,18 @@ namespace SigmaReplacements
                 KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
                 if (kerbalEVA.GetComponent<CustomHead>() == null)
                     kerbalEVA.gameObject.AddComponent<CustomHead>();
+            }
+        }
+
+        [KSPAddon(KSPAddon.Startup.Instantly, true)]
+        class NyanSettings : MonoBehaviour
+        {
+            void Start()
+            {
+                string[] args = Environment.GetCommandLineArgs();
+
+                Nyan.nyan = (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (args.Contains("-nyan-nyan") && !args.Contains("-nyan-not") || args.Contains("-nyan-heads"));
+                Nyan.forever = Nyan.nyan && (args.Contains("-nyan-4ever") || args.Contains("-nyan-heads"));
             }
         }
     }

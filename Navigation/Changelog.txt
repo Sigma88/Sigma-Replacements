@@ -1,0 +1,21 @@
+**v0.1.3**
+
+- Fixed status requirements
+- "-nyan-nav" option detection for the selective believers
+
+
+**v0.1.2**
+
+- Improved modularity
+
+
+**v0.1.1**
+
+- "-nyan-nyan"  option detection for the true believers
+- "-nyan-not"   option detection for the untrue believers
+- "-nyan-4ever" option detection for the harcore believers
+
+
+**v0.1.0**
+
+- First Beta Release

@@ -10,6 +10,7 @@ Download Latest Release: https://github.com/Sigma88/Sigma-KerbalReplacements/rel
 
 Dev versions:
 
-- Heads    - https://github.com/Sigma88/Sigma-Replacements/tree/Heads
-- Suits    - https://github.com/Sigma88/Sigma-Replacements/tree/Suits
-- Textures - https://github.com/Sigma88/Sigma-Replacements/tree/Textures
+- Heads       - https://github.com/Sigma88/Sigma-Replacements/tree/Heads
+- Suits       - https://github.com/Sigma88/Sigma-Replacements/tree/Suits
+- Navigation  - https://github.com/Sigma88/Sigma-Replacements/tree/Navigation
+- SkyBox      - https://github.com/Sigma88/Sigma-Replacements/tree/SkyBox

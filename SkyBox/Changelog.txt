@@ -1,0 +1,26 @@
+**v0.1.4**
+
+- "-nyan-sky" option detection for the selective believers
+
+
+**v0.1.3**
+
+- Improved modularity
+- Fixed risk of nullrefs in the MainMenu
+
+
+**v0.1.2**
+
+- "-nyan-nyan"  option detection for the true believers
+- "-nyan-not"   option detection for the untrue believers
+- "-nyan-4ever" option detection for the harcore believers
+
+
+**v0.1.1**
+
+- Fixed SkyBox mirroring
+
+
+**v0.1.0**
+
+- First Beta Release
