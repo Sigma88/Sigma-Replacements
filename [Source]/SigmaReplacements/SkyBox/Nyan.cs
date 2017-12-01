@@ -25,7 +25,7 @@ namespace SigmaReplacements
             {
                 get
                 {
-                    if (object.ReferenceEquals(resourceMan, null))
+                    if (ReferenceEquals(resourceMan, null))
                     {
                         ResourceManager temp = new ResourceManager("SigmaReplacements.SkyBox.Nyan", typeof(Nyan).Assembly);
                         resourceMan = temp;

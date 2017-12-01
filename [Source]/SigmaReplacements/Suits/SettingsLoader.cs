@@ -16,16 +16,16 @@ namespace SigmaReplacements
                 for (int i = 0; i < InfoNodes?.Length; i++)
                 {
                     ConfigNode[] requirements = InfoNodes[i].GetNodes("Requirements");
-                    ConfigNode[] suits = InfoNodes[i].GetNodes("Suit");
+                    ConfigNode[] info = InfoNodes[i].GetNodes("Suit");
 
                     if (requirements.Length == 0)
                         requirements = new[] { new ConfigNode() };
 
                     for (int j = 0; j < requirements.Length; j++)
                     {
-                        for (int k = 0; k < suits.Length; k++)
+                        for (int k = 0; k < info.Length; k++)
                         {
-                            SuitInfo.List.Add(new SuitInfo(requirements[j], suits[k]));
+                            SuitInfo.List.Add(new SuitInfo(requirements[j], info[k]));
                         }
                     }
                 }

@@ -30,7 +30,6 @@ namespace SigmaReplacements
                     nyanMenu.transform.SetParent(galaxy.transform.parent);
                     nyanMenu.transform.position = galaxy.transform.position;
                     nyanMenu.transform.localScale = galaxy.transform.localScale * 0.9f;
-                    //nyanMenu.transform.rotation = Quaternion.Euler(0, -5, 60);
 
                     frames = Nyan.nyanSkyBox;
                     none.SetPixel(1, 1, new Color(0, 0, 0, 0));
@@ -67,36 +66,24 @@ namespace SigmaReplacements
 
             void Update()
             {
-                nyanMenu.transform.rotation = Quaternion.Euler(0, -5, 60);
-                nyanMenu.transform.localRotation *= Quaternion.Euler(0, angle, 0);
-                angle = (angle + 30f * Time.deltaTime) % 360;
-
-                if (wait > 0.025)
+                if (Nyan.nyan)
                 {
-                    XP.SetTexture(frames[frame]);
+                    nyanMenu.transform.rotation = Quaternion.Euler(0, -5, 60);
+                    nyanMenu.transform.localRotation *= Quaternion.Euler(0, angle, 0);
+                    angle = (angle + 30f * Time.deltaTime) % 360;
 
-                    frame = (frame + 1) % 4;
-                    wait = 0;
-                }
-                else
-                {
-                    wait += Time.deltaTime;
-                }
+                    if (wait > 0.025)
+                    {
+                        XP.SetTexture(frames[frame]);
 
-                /*
-                if (Nyan.nyan && wait == 0)
-                {
-                    XP.SetTexture(frames[frame]);
-                    nyanMenu.transform.localRotation *= Quaternion.Euler(0, 1, 0);
-
-                    frame = frame == 3 ? 0 : frame + 1;
-                    wait = 1;
+                        frame = (frame + 1) % 4;
+                        wait = 0;
+                    }
+                    else
+                    {
+                        wait += Time.deltaTime;
+                    }
                 }
-                else if (Nyan.nyan)
-                {
-                    wait--;
-                }
-                */
             }
         }
 
