@@ -1,0 +1,44 @@
+**v0.2.0**
+
+- Renamed and incorporated into Sigma Replacements
+- "-nyan-nyan"  option detection for the true believers
+- "-nyan-not"   option detection for the untrue believers
+- "-nyan-4ever" option detection for the harcore believers
+- "-nyan-descr"  option detection for the selective believers
+
+
+**v0.1.4**
+
+- Expanded 'rosterStatus' and changed it to 'status'
+
+
+**v0.1.3**
+
+- Fixed nullrefs for non career games
+
+
+**v0.1.2**
+
+- Fixed the tooltips after leaving the KSC
+- Added warnings when hiring an applicant is not allowed
+- Added new Entities:
+   > &seed;
+   > &ColorHi;
+   > &ColorLo;
+
+
+**v0.1.1**
+
+- Added new Requirements:
+   > last
+   > unique
+
+- Added new Entities:
+   > &trait;
+   > &missions;
+   > &visited;
+
+
+**v0.1.0**
+
+- First Beta Release
