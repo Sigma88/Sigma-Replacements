@@ -3,16 +3,16 @@
 
 namespace SigmaReplacements
 {
-    namespace Textures
+    namespace Descriptions
     {
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
         public class Version : MonoBehaviour
         {
-            public static readonly System.Version number = new System.Version("0.1.1");
+            public static readonly System.Version number = new System.Version("0.2.0");
 
             void Awake()
             {
-                UnityEngine.Debug.Log("[SigmaLog] Version Check:   Sigma Replacements: Textures v" + number);
+                UnityEngine.Debug.Log("[SigmaLog] Version Check:   Sigma Replacements: Descriptions v" + number);
             }
         }
     }

@@ -71,6 +71,8 @@ namespace SigmaReplacements
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, JetPack);
                     if (helmetLowPressure != null || helmetHighPressure != null)
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, Helmet);
+                    if (Nyan.forever)
+                        TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, RainbowJets);
                 }
             }
 
@@ -85,7 +87,9 @@ namespace SigmaReplacements
                     for (int i = 0; i < renderers.Length; i++)
                     {
                         if (renderers[i]?.name?.StartsWith("fx_gasJet") == false)
+                        {
                             renderers[i].enabled = jetpackDeployed;
+                        }
                     }
 
                     eva.gameObject.GetChild("kbEVA_flagDecals").GetComponent<Renderer>().enabled = jetpackDeployed;
@@ -118,6 +122,8 @@ namespace SigmaReplacements
                     TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, JetPack);
                 if (helmetLowPressure != null || helmetHighPressure != null)
                     TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, Helmet);
+                if (Nyan.forever)
+                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, RainbowJets);
             }
 
             void LoadFor(ProtoCrewMember kerbal)
@@ -348,6 +354,35 @@ namespace SigmaReplacements
                         material.SetTexture(backdropTex);
                         material.SetNormal(backdropNrm);
                     }
+                }
+            }
+
+
+            // Nyan
+            int index = 0;
+            float wait = 0;
+            Color[] rainbow = new[] { new Color(1, 0, 0, 0.5f), new Color(1, 0.6f, 0, 0.5f), new Color(1, 1, 0, 0.5f), new Color(0.2f, 1, 0, 0.5f), new Color(0, 0.6f, 1, 0.5f), new Color(0.4f, 0.2f, 1, 0.5f) };
+
+            void RainbowJets()
+            {
+                if (wait > 0.1)
+                {
+                    Renderer[] renderers = eva.gameObject.GetChild("jetpack01").GetComponentsInChildren<Renderer>(true);
+
+                    for (int i = 0; i < renderers.Length; i++)
+                    {
+                        if (renderers[i]?.name?.StartsWith("fx_gasJet") == true)
+                        {
+                            renderers[i].material.SetTintColor(rainbow[index]);
+                        }
+                    }
+
+                    index = (index + 1) % 6;
+                    wait = 0;
+                }
+                else
+                {
+                    wait += Time.deltaTime;
                 }
             }
         }

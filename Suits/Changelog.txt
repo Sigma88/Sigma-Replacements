@@ -1,3 +1,9 @@
+**v0.1.5**
+
+- Fixed status requirements
+- "-nyan-suits" option detection for the selective believers
+
+
 **v0.1.4**
 
 - Improved modularity
