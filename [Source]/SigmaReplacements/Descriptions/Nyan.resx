@@ -92,11 +92,14 @@
   <data name="ninja" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\[Nyan]\Sprites\ninja;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="pat" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\[Nyan]\Sprites\pat;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="party" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\[Nyan]\Sprites\party;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="pirate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\[Nyan]\Sprites\pirate;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="stpat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\[Nyan]\Sprites\stpat;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="tacnayn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\[Nyan]\Sprites\tacnayn;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

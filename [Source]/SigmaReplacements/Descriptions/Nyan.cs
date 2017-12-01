@@ -11,8 +11,8 @@ namespace SigmaReplacements
         {
             internal static bool nyan = false;
             internal static bool forever = false;
-            static Texture[] sprites = new Texture[17] { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null };
-            static string[] names = new string[17] { "bob", "bunny", "cat", "coin", "game", "grumpy", "jack", "jazz", "mex", "mummy", "ninja", "pat", "pirate", "tacnayn", "vday", "xmas", "zombie" };
+            static Texture[] sprites = new Texture[18] { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null };
+            static string[] names = new string[18] { "bob", "bunny", "cat", "coin", "game", "grumpy", "jack", "jazz", "mex", "mummy", "ninja", "party", "pirate", "stpat", "tacnayn", "vday", "xmas", "zombie" };
 
             private static ResourceManager resourceMan;
 
@@ -43,6 +43,7 @@ namespace SigmaReplacements
                         {
                             byte[] bytes = (byte[])ResourceManager.GetObject(names[i]);
                             sprites[i] = bytes.ToDDS();
+                            sprites[i].name = "nyan-" + names[i];
                             DontDestroyOnLoad(sprites[i]);
                         }
                     }

@@ -1,10 +1,11 @@
 **v0.2.0**
 
 - Renamed and incorporated into Sigma Replacements
+- Fixed extra kerbalicon_suit appearing behind available crew sprites
 - "-nyan-nyan"  option detection for the true believers
 - "-nyan-not"   option detection for the untrue believers
 - "-nyan-4ever" option detection for the harcore believers
-- "-nyan-descr"  option detection for the selective believers
+- "-nyan-descr" option detection for the selective believers
 
 
 **v0.1.4**

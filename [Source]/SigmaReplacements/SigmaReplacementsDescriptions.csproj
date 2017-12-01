@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Descriptions\Properties</AppDesignerFolder>
     <RootNamespace>SigmaReplacements</RootNamespace>
-    <AssemblyName>SigmaReplacementsHeads</AssemblyName>
+    <AssemblyName>SigmaReplacementsDescriptions</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -37,8 +37,14 @@
     <Compile Include="Common\Info.cs" />
     <Compile Include="Common\UserSettings.cs" />
     <Compile Include="Common\DebugLogger.cs" />
+    <Compile Include="Descriptions\Components.cs" />
+    <Compile Include="Descriptions\Container.cs" />
+    <Compile Include="Descriptions\CustomDescription.cs" />
     <Compile Include="Descriptions\DescriptionInfo.cs" />
+    <Compile Include="Descriptions\Extensions.cs" />
     <Compile Include="Descriptions\Properties\AssemblyInfo.cs" />
+    <Compile Include="Descriptions\TooltipErrors.cs" />
+    <Compile Include="Descriptions\Triggers.cs" />
     <Compile Include="Descriptions\Version.cs" />
     <Compile Include="Descriptions\SettingsLoader.cs" />
     <Compile Include="Descriptions\Nyan.cs">
@@ -98,10 +104,13 @@
     <None Include="[Nyan]\Sprites\ninja" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="[Nyan]\Sprites\pat" />
+    <None Include="[Nyan]\Sprites\party" />
   </ItemGroup>
   <ItemGroup>
     <None Include="[Nyan]\Sprites\pirate" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="[Nyan]\Sprites\stpat" />
   </ItemGroup>
   <ItemGroup>
     <None Include="[Nyan]\Sprites\tacnayn" />

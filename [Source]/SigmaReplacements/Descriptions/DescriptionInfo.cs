@@ -19,10 +19,10 @@ namespace SigmaReplacements
             internal bool last = false;
 
             // Define
-            string displayName = null;
-            string tooltipName = null;
-            Texture sprite = null;
-            string[] informations = new string[] { };
+            internal string displayName = null;
+            internal string tooltipName = null;
+            internal Texture sprite = null;
+            internal string[] informations = new string[] { };
 
 
             // New CrewInfo
