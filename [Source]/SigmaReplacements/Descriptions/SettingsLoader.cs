@@ -3,7 +3,7 @@
 
 namespace SigmaReplacements
 {
-    namespace Heads
+    namespace Descriptions
     {
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
         class SettingsLoader : MonoBehaviour
@@ -16,7 +16,7 @@ namespace SigmaReplacements
                 for (int i = 0; i < InfoNodes?.Length; i++)
                 {
                     ConfigNode[] requirements = InfoNodes[i].GetNodes("Requirements");
-                    ConfigNode[] info = InfoNodes[i].GetNodes("Head");
+                    ConfigNode[] info = InfoNodes[i].GetNodes("Description");
 
                     if (requirements.Length == 0)
                         requirements = new[] { new ConfigNode() };
@@ -25,12 +25,12 @@ namespace SigmaReplacements
                     {
                         for (int k = 0; k < info.Length; k++)
                         {
-                            HeadInfo.List.Add(new HeadInfo(requirements[j], info[k]));
+                            DescriptionInfo.List.Add(new DescriptionInfo(requirements[j], info[k]));
                         }
                     }
                 }
 
-                if (HeadInfo.List?.Count > 0) HeadInfo.DataBase = HeadInfo.List.Order();
+                if (DescriptionInfo.List?.Count > 0) DescriptionInfo.OrderDB();
             }
         }
     }

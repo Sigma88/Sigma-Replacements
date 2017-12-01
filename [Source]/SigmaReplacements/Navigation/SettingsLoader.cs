@@ -16,16 +16,16 @@ namespace SigmaReplacements
                 for (int i = 0; i < InfoNodes?.Length; i++)
                 {
                     ConfigNode[] requirements = InfoNodes[i].GetNodes("Requirements");
-                    ConfigNode[] Navigation = InfoNodes[i].GetNodes("NavBall");
+                    ConfigNode[] info = InfoNodes[i].GetNodes("NavBall");
 
                     if (requirements.Length == 0)
                         requirements = new[] { new ConfigNode() };
 
                     for (int j = 0; j < requirements.Length; j++)
                     {
-                        for (int k = 0; k < Navigation.Length; k++)
+                        for (int k = 0; k < info.Length; k++)
                         {
-                            NavBallInfo.List.Add(new NavBallInfo(requirements[j], Navigation[k]));
+                            NavBallInfo.List.Add(new NavBallInfo(requirements[j], info[k]));
                         }
                     }
                 }

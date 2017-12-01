@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigmaReplacementsNavigation
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigmaReplacementsSkyBox", "SigmaReplacementsSkyBox.csproj", "{979BE10F-7173-461A-84F7-EEFF2BD52148}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SigmaReplacementsDescriptions", "SigmaReplacementsDescriptions.csproj", "{B704939D-9B29-443A-BBAE-33A8C59B7D76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{979BE10F-7173-461A-84F7-EEFF2BD52148}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{979BE10F-7173-461A-84F7-EEFF2BD52148}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{979BE10F-7173-461A-84F7-EEFF2BD52148}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B704939D-9B29-443A-BBAE-33A8C59B7D76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B704939D-9B29-443A-BBAE-33A8C59B7D76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B704939D-9B29-443A-BBAE-33A8C59B7D76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B704939D-9B29-443A-BBAE-33A8C59B7D76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
