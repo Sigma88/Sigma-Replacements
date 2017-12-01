@@ -37,7 +37,7 @@
     <Compile Include="Common\Info.cs" />
     <Compile Include="Common\UserSettings.cs" />
     <Compile Include="Common\DebugLogger.cs" />
-    <Compile Include="Descriptions\CrewInfo.cs" />
+    <Compile Include="Descriptions\DescriptionInfo.cs" />
     <Compile Include="Descriptions\Properties\AssemblyInfo.cs" />
     <Compile Include="Descriptions\Version.cs" />
     <Compile Include="Descriptions\SettingsLoader.cs" />

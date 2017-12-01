@@ -25,12 +25,12 @@ namespace SigmaReplacements
                     {
                         for (int k = 0; k < info.Length; k++)
                         {
-                            CrewInfo.List.Add(new CrewInfo(requirements[j], info[k]));
+                            DescriptionInfo.List.Add(new DescriptionInfo(requirements[j], info[k]));
                         }
                     }
                 }
 
-                if (CrewInfo.List?.Count > 0) CrewInfo.OrderDB();
+                if (DescriptionInfo.List?.Count > 0) DescriptionInfo.OrderDB();
             }
         }
     }

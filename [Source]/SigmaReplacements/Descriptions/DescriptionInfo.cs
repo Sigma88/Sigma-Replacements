@@ -7,11 +7,11 @@ namespace SigmaReplacements
 {
     namespace Descriptions
     {
-        class CrewInfo : Info
+        class DescriptionInfo : Info
         {
             // Static
-            internal static List<CrewInfo> List = new List<CrewInfo>();
-            internal static List<CrewInfo> DataBase = new List<CrewInfo>();
+            internal static List<DescriptionInfo> List = new List<DescriptionInfo>();
+            internal static List<DescriptionInfo> DataBase = new List<DescriptionInfo>();
 
             // CrewInfo Specific Requirements
             internal int? index = null;
@@ -26,7 +26,7 @@ namespace SigmaReplacements
 
 
             // New CrewInfo
-            internal CrewInfo(ConfigNode requirements, ConfigNode info) : base(requirements, info)
+            internal DescriptionInfo(ConfigNode requirements, ConfigNode info) : base(requirements, info)
             {
                 // Parse Requirements
                 Parse(requirements, info);
@@ -45,18 +45,18 @@ namespace SigmaReplacements
 
             internal static void OrderDB()
             {
-                Debug.Log("CrewInfo.OrderDB", "Total Information Nodes Loaded = " + List.Count);
+                Debug.Log("DescriptionInfo.OrderDB", "Total Information Nodes Loaded = " + List.Count);
                 List = List.Where(i => i.informations.Length > 0 || !string.IsNullOrEmpty(i.tooltipName) || !string.IsNullOrEmpty(i.displayName) || i.sprite != null).ToList();
-                Debug.Log("CrewInfo.OrderDB", "Valid Information Nodes Loaded = " + List.Count);
-                Debug.Log("CrewInfo.OrderDB", "Initial DataBase count = " + DataBase.Count);
+                Debug.Log("DescriptionInfo.OrderDB", "Valid Information Nodes Loaded = " + List.Count);
+                Debug.Log("DescriptionInfo.OrderDB", "Initial DataBase count = " + DataBase.Count);
                 DataBase.AddRange(List.Where(i => i.name != null && i.index != null).OrderBy(i => i.index).ThenBy(i => i.useChance));
-                Debug.Log("CrewInfo.OrderDB", "Added withName, withIndex to DataBase count = " + DataBase.Count);
+                Debug.Log("DescriptionInfo.OrderDB", "Added withName, withIndex to DataBase count = " + DataBase.Count);
                 DataBase.AddRange(List.Where(i => i.name != null && i.index == null).OrderBy(i => i.index).ThenBy(i => i.useChance));
-                Debug.Log("CrewInfo.OrderDB", "Added withName, noIndex to DataBase count = " + DataBase.Count);
+                Debug.Log("DescriptionInfo.OrderDB", "Added withName, noIndex to DataBase count = " + DataBase.Count);
                 DataBase.AddRange(List.Where(i => i.name == null && i.index != null).OrderBy(i => i.index).ThenBy(i => i.useChance));
-                Debug.Log("CrewInfo.OrderDB", "Added noName, withIndex to DataBase count = " + DataBase.Count);
+                Debug.Log("DescriptionInfo.OrderDB", "Added noName, withIndex to DataBase count = " + DataBase.Count);
                 DataBase.AddRange(List.Where(i => i.name == null && i.index == null).OrderBy(i => i.index).ThenBy(i => i.useChance));
-                Debug.Log("CrewInfo.OrderDB", "Added noName, noIndex to DataBase count = " + DataBase.Count);
+                Debug.Log("DescriptionInfo.OrderDB", "Added noName, noIndex to DataBase count = " + DataBase.Count);
             }
         }
     }
