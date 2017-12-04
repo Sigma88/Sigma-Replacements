@@ -1,3 +1,8 @@
+**v0.2.1**
+
+- Fixed behaviour of the parameters: "index", "last" and "unique"
+
+
 **v0.2.0**
 
 - Renamed and incorporated into Sigma Replacements
