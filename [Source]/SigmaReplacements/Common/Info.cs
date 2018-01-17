@@ -6,6 +6,7 @@ using UnityEngine;
 using Gender = ProtoCrewMember.Gender;
 using Type = ProtoCrewMember.KerbalType;
 using Roster = ProtoCrewMember.RosterStatus;
+using RAD = ResearchAndDevelopment;
 
 
 namespace SigmaReplacements
@@ -48,6 +49,11 @@ namespace SigmaReplacements
         internal float? courage = null;
         internal float? stupidity = null;
         internal int? experienceLevel = null;
+        // Additional Requirements
+        Dictionary<string, Building> Building = new Dictionary<string, Building>();
+        string[] researchRequired = null;
+        string[] partPurchased = null;
+        string[] upgradeUnlocked = null;
 
         // Collection
         internal string collection = "";
@@ -55,6 +61,8 @@ namespace SigmaReplacements
         // Get
         internal Info GetFor(ProtoCrewMember kerbal)
         {
+            Debug.Log(GetType().Name + ".GetFor", "Kerbal = " + kerbal);
+
             if (name == null || name == kerbal.name)
             {
                 Debug.Log(GetType().Name + ".GetFor", "Matched name = " + name + " to kerbal name = " + kerbal.name);
@@ -71,7 +79,7 @@ namespace SigmaReplacements
                             Debug.Log(GetType().Name + ".GetFor", "Matched gender = " + gender + " to kerbal gender = " + kerbal.gender);
                             if (trait == null || trait.Contains(kerbal.trait))
                             {
-                                Debug.Log(GetType().Name + ".GetFor", "Matched trait = " + trait + " to kerbal trait = " + kerbal.trait);
+                                Debug.Log(GetType().Name + ".GetFor", "Matched " + (trait?.Length ?? 0) + " trait(s) to kerbal trait = " + kerbal.trait);
                                 if (veteran == null || veteran == kerbal.veteran)
                                 {
                                     Debug.Log(GetType().Name + ".GetFor", "Matched veteran = " + veteran + " to kerbal veteran = " + kerbal.veteran);
@@ -87,8 +95,24 @@ namespace SigmaReplacements
                                                 if (minStupidity <= kerbal.stupidity && maxStupidity >= kerbal.stupidity)
                                                 {
                                                     Debug.Log(GetType().Name + ".GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
-                                                    Debug.Log(GetType().Name + ".GetFor", "Return this Info");
-                                                    return this;
+                                                    if (CheckTech(researchRequired))
+                                                    {
+                                                        Debug.Log(GetType().Name + ".GetFor", "Matched " + (researchRequired?.Length ?? 0) + " researchRequired");
+                                                        if (CheckParts(partPurchased))
+                                                        {
+                                                            Debug.Log(GetType().Name + ".GetFor", "Matched " + (partPurchased?.Length ?? 0) + " partPurchased");
+                                                            if (CheckUpgrades(upgradeUnlocked))
+                                                            {
+                                                                Debug.Log(GetType().Name + ".GetFor", "Matched " + (upgradeUnlocked?.Length ?? 0) + " upgradeUnlocked");
+                                                                if (CheckBuildings(Building))
+                                                                {
+                                                                    Debug.Log(GetType().Name + ".GetFor", "Matched levels of " + (Building?.Count ?? 0) + " building(s)");
+                                                                    Debug.Log(GetType().Name + ".GetFor", "Return this Info");
+                                                                    return this;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -137,7 +161,10 @@ namespace SigmaReplacements
             experienceLevel = Parse(requirements.GetValue("level"), experienceLevel);
             courage = Parse(requirements.GetValue("courage"), courage);
             stupidity = Parse(requirements.GetValue("stupidity"), stupidity);
-
+            // Additional Requirements
+            researchRequired = requirements.GetValues("researchRequired");
+            partPurchased = requirements.GetValues("partPurchased");
+            Building = Parse(requirements.GetNodes("Building"), Building);
 
             // Parse Collection
             collection = info.GetValue("collection");
@@ -217,6 +244,32 @@ namespace SigmaReplacements
             return defaultValue;
         }
 
+        internal Dictionary<string, Building> Parse(ConfigNode[] buildings, Dictionary<string, Building> defaultValue)
+        {
+            defaultValue = defaultValue ?? new Dictionary<string, Building>();
+
+            for (int i = 0; i < buildings?.Length; i++)
+            {
+                string name = buildings[i].GetValue("name");
+                if (string.IsNullOrEmpty(name)) continue;
+
+                if (!defaultValue.ContainsKey(name))
+                    defaultValue.Add(name, new Building());
+
+                defaultValue[name] = Parse(buildings[i], defaultValue[name]);
+            }
+
+            return defaultValue;
+        }
+
+        internal Building Parse(ConfigNode building, Building defaultValue)
+        {
+            defaultValue.minLevel = defaultValue.minLevel ?? Parse(building.GetValue("minLevel"), defaultValue.minLevel);
+            defaultValue.maxLevel = defaultValue.maxLevel ?? Parse(building.GetValue("maxLevel"), defaultValue.maxLevel);
+
+            return defaultValue;
+        }
+
         // Parse Folders
 
         internal List<Texture> ParseFolders(string[] paths, List<Texture> list)
@@ -253,5 +306,82 @@ namespace SigmaReplacements
 
             return list;
         }
+
+        // RequiredResearch
+        bool CheckTech(string[] tech)
+        {
+            for (int i = 0; i < tech?.Length; i++)
+            {
+                if (RAD.GetTechnologyState(tech[i]) != RDTech.State.Available)
+                    return false;
+            }
+
+            return true;
+        }
+
+        // PurchasedParts
+        bool CheckParts(string[] parts)
+        {
+            if (parts?.Length > 0)
+            {
+                List<AvailablePart> allParts = PartLoader.Instance?.loadedParts;
+
+                for (int i = 0; i < allParts?.Count; i++)
+                {
+                    if (parts.Contains(allParts[i].name) && !RAD.PartModelPurchased(allParts[i]))
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        // UnlockedUpgrades
+        bool CheckUpgrades(string[] upgrades)
+        {
+            if (upgrades?.Length > 0 && PartUpgradeManager.Handler != null)
+            {
+                foreach (PartUpgradeHandler.Upgrade upgrade in PartUpgradeManager.Handler)
+                {
+                    if (upgrades.Contains(upgrade.name) && !PartUpgradeManager.Handler.IsUnlocked(upgrade.name))
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+
+        // Building Levels
+        bool CheckBuildings(Dictionary<string, Building> buildings)
+        {
+            if (buildings?.Count > 0)
+            {
+                SpaceCenterBuilding[] facilities = Resources.FindObjectsOfTypeAll<SpaceCenterBuilding>();
+
+                for (int i = 0; i < facilities?.Length; i++)
+                {
+                    string name = facilities[i]?.name;
+
+                    if (buildings.ContainsKey(name))
+                    {
+                        Building building = buildings[name];
+                        int? level = facilities[i]?.Facility?.FacilityLevel;
+
+                        if (level < building?.minLevel || level > building?.maxLevel) return false;
+
+                        Debug.Log(GetType().Name + ".GetFor", "Matched " + name + " minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to " + name + " level = " + level);
+                    }
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class Building
+    {
+        internal int? minLevel;
+        internal int? maxLevel;
     }
 }
