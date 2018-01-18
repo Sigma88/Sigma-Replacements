@@ -37,8 +37,8 @@ namespace SigmaReplacements
             List<Mode> mode = new List<Mode>();
 
             // SkyBox Settings
-            internal bool? rotate = null;
-            internal bool? mirror = null;
+            internal bool rotate = false;
+            internal bool mirror = false;
 
             // Textures
             internal Texture[] SkyBox = null;

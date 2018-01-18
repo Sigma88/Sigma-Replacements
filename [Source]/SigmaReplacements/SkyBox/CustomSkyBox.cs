@@ -10,8 +10,8 @@ namespace SigmaReplacements
         public class CustomSkyBox
         {
             // Settings
-            bool? rotate = null;
-            bool? mirror = null;
+            bool rotate = false;
+            bool mirror = false;
 
             // Textures
             Texture[] SkyBox = null;
@@ -20,6 +20,7 @@ namespace SigmaReplacements
             {
                 Debug.Log("new CustomSkyBox", "Generating new CustomSkyBox for game mode = " + gameMode);
 
+                seed = Math.Abs(seed.ToString().GetHashCode());
                 int? useChance = null;
                 List<SkyBoxInfo> SkyBoxList = new List<SkyBoxInfo>();
 
@@ -32,7 +33,7 @@ namespace SigmaReplacements
                         if (info.useChance != 1)
                         {
                             useChance = Math.Abs(seed % 100);
-                            seed = seed.ToString().GetHashCode();
+                            seed = Math.Abs(seed.ToString().GetHashCode());
                         }
 
                         if (info.useChance == 1 || useChance < info.useChance * 100)
@@ -49,8 +50,8 @@ namespace SigmaReplacements
                 if (ActiveSkyBox != null)
                 {
                     // Settings
-                    rotate = rotate ?? ActiveSkyBox.rotate;
-                    mirror = mirror ?? ActiveSkyBox.mirror == true ? (Math.Abs(seed % 2) == 1) : ActiveSkyBox.mirror;
+                    rotate = ActiveSkyBox.rotate;
+                    mirror = ActiveSkyBox.mirror ? (Math.Abs(seed % 2) == 1) : ActiveSkyBox.mirror;
 
                     // Textures
                     SkyBox = ActiveSkyBox.SkyBox;
