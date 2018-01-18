@@ -40,8 +40,8 @@ namespace SigmaReplacements
             internal bool? rotate = null;
             internal bool? mirror = null;
 
-            // Textures Lists
-            internal List<Texture[]> SkyBox = new List<Texture[]>();
+            // Textures
+            internal Texture[] SkyBox = null;
 
 
             // Get
@@ -77,10 +77,7 @@ namespace SigmaReplacements
                 mirror = Parse(info.GetValue("mirror"), mirror);
 
                 // Parse Textures
-                SkyBox = Parse(info.GetValues("SkyBox"), SkyBox);
-
-                // Parse Folders
-                SkyBox = ParseFolders(info?.GetNode("Folders")?.GetValues("SkyBox"), SkyBox);
+                SkyBox = Parse(info.GetValue("SkyBox"), SkyBox);
             }
 
 
@@ -129,45 +126,6 @@ namespace SigmaReplacements
                 }
 
                 return SkyBox.Contains(null) ? defaultValue : SkyBox;
-            }
-
-
-            // Parse Folders
-            List<Texture[]> ParseFolders(string[] paths, List<Texture[]> list)
-            {
-                if (paths == null) return list;
-                list = list ?? new List<Texture[]>();
-
-                for (int i = 0; i < paths?.Length; i++)
-                {
-                    list = ParseFolder(paths[i], list);
-                }
-
-                return list;
-            }
-
-            List<Texture[]> ParseFolder(string path, List<Texture[]> list)
-            {
-                if (string.IsNullOrEmpty(path)) return list;
-                list = list ?? new List<Texture[]>();
-
-                List<Texture> files = ParseFolder(path);
-                List<string> names = new List<string>();
-
-                for (int i = 0; i < files?.Count; i++)
-                {
-                    string name = files[i]?.name;
-
-                    if (name?.Length > 3 && sides.Contains(name.Substring(name.Length - 2)))
-                    {
-                        name = name.TrimEnd(new[] { 'P', 'N', 'X', 'Y', 'Z' });
-                        names.AddUnique(name);
-                    }
-                }
-
-                list = Parse(names.ToArray(), list);
-
-                return list;
             }
         }
     }

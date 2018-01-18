@@ -21,8 +21,7 @@ namespace SigmaReplacements
                 Debug.Log("new CustomSkyBox", "Generating new CustomSkyBox for game mode = " + gameMode);
 
                 int? useChance = null;
-                string collection = "";
-                List<Texture[]> SkyBoxList = new List<Texture[]>();
+                List<SkyBoxInfo> SkyBoxList = new List<SkyBoxInfo>();
 
                 for (int i = 0; i < SkyBoxInfo.DataBase?.Count; i++)
                 {
@@ -30,36 +29,34 @@ namespace SigmaReplacements
 
                     if (info != null)
                     {
-                        if (string.IsNullOrEmpty(collection) || collection == info.collection)
+                        if (info.useChance != 1)
                         {
-                            if (info.useChance != 1)
-                            {
-                                useChance = Math.Abs(seed % 100);
-                                seed = seed.ToString().GetHashCode();
-                            }
+                            useChance = Math.Abs(seed % 100);
+                            seed = seed.ToString().GetHashCode();
+                        }
 
-                            if (info.useChance == 1 || useChance < info.useChance * 100)
-                            {
-                                Debug.Log("new CustomSkyBox", "SkyBoxInfo nr. " + i + ", matched useChance = " + info.useChance + " to generated chance = " + useChance + " %");
-                                Debug.Log("new CustomSkyBox", "SkyBoxInfo nr. " + i + ", matched collection = " + info.collection + " to current collection = " + collection);
+                        if (info.useChance == 1 || useChance < info.useChance * 100)
+                        {
+                            Debug.Log("new CustomSkyBox", "SkyBoxInfo nr. " + i + ", matched useChance = " + info.useChance + " to generated chance = " + useChance + " %");
 
-                                // Collection
-                                collection = info.collection;
-
-                                // Settings
-                                rotate = rotate ?? info.rotate;
-                                mirror = mirror ?? info.mirror == true ? (Math.Abs(seed % 2) == 1) : info.mirror;
-
-                                // Textures
-                                if (info.SkyBox?.Count > 0)
-                                    SkyBoxList.AddRange(info.SkyBox);
-                            }
+                            SkyBoxList.Add(info);
                         }
                     }
                 }
 
-                SkyBox = SkyBoxList.Pick();
-                Debug.Log("new CustomSkyBox", "Generated new CustomSkyBox. rotate = " + rotate + ", mirror = " + (mirror == true) + ", SkyBox = " + (SkyBox == null ? "STOCK" : ((SkyBoxList.IndexOf(SkyBox) + 1) + "/" + SkyBoxList.Count)));
+                SkyBoxInfo ActiveSkyBox = SkyBoxList.Pick();
+
+                if (ActiveSkyBox != null)
+                {
+                    // Settings
+                    rotate = rotate ?? ActiveSkyBox.rotate;
+                    mirror = mirror ?? ActiveSkyBox.mirror == true ? (Math.Abs(seed % 2) == 1) : ActiveSkyBox.mirror;
+
+                    // Textures
+                    SkyBox = ActiveSkyBox.SkyBox;
+                }
+
+                Debug.Log("new CustomSkyBox", "Generated new CustomSkyBox. rotate = " + rotate + ", mirror = " + (mirror == true) + ", SkyBox = " + (SkyBox == null ? "STOCK" : SkyBox?[0]?.name));
             }
 
             internal void ApplyTo(GameObject skybox)
