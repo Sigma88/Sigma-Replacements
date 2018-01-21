@@ -5,7 +5,7 @@ namespace SigmaReplacements
 {
     namespace Suits
     {
-        class NyanSuit : CustomObject
+        class NyanSuit
         {
             internal static void ApplyTo(ProtoCrewMember kerbal, CustomSuit suit)
             {
@@ -20,14 +20,14 @@ namespace SigmaReplacements
                     if (material == null) continue;
 
 
-                    if (name == "body01" || name == "mesh_female_kerbalAstronaut01_body01")
+                    if (name == "body01" || name == "mesh_female_kerbalAstronaut01_body01" || name == "coat01" || name == "pants01" || name == "mesh_bowTie01")
                     {
                         material.SetTexture(Nyan.nyanSuit);
                     }
 
                     else
 
-                    if (name == "helmet" || name == "mesh_female_kerbalAstronaut01_helmet")
+                    if (name == "helmet" || name == "mesh_female_kerbalAstronaut01_helmet" || name == "mesh_backpack" || name == "mesh_hazm_helmet" || name == "mesh_helmet_support")
                     {
                         material.SetTexture(Nyan.nyanHelmet);
                     }

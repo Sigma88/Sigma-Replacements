@@ -41,6 +41,20 @@ namespace SigmaReplacements
     internal class UIKerbalGene : MonoBehaviour
     {
         internal CrewMember crewMember { get { return UIKerbals.instructors[0]; } }
+
+        internal void Apply()
+        {
+            CustomObject[] objs = GetComponents<CustomObject>();
+
+            for (int i = 0; i < objs?.Length; i++)
+            {
+                if (objs[i] != null)
+                {
+                    objs[i].LoadFor(crewMember);
+                    objs[i].ApplyTo(crewMember);
+                }
+            }
+        }
     }
 
     internal class UIKerbalStrategy : MonoBehaviour
@@ -62,47 +76,61 @@ namespace SigmaReplacements
 
         internal void Apply()
         {
-            CustomObject obj = GetComponent<CustomObject>();
-            if (obj != null) obj.Apply();
+            CustomObject[] objs = GetComponents<CustomObject>();
+
+            for (int i = 0; i < objs?.Length; i++)
+            {
+                if (objs[i] != null)
+                {
+                    objs[i].LoadFor(crewMember);
+                    objs[i].ApplyTo(crewMember);
+                }
+            }
         }
     }
 
     [KSPAddon(KSPAddon.Startup.MainMenu, true)]
     internal class UIKerbalLoader : MonoBehaviour
     {
+        static bool loaded = false;
+
         void Awake()
         {
-            Debug.Log("UIKerbalLoader", "Awake");
-
-            ConfigNode[] MenuKerbals = UserSettings.ConfigNode.GetNodes("MenuKerbal");
-
-            for (int i = 0; i < MenuKerbals?.Length; i++)
+            if (!loaded)
             {
-                if (int.TryParse(MenuKerbals[i]?.GetValue("index"), out int index) && index < UIKerbals.menuKerbals?.Length)
+                loaded = true;
+                Debug.Log("UIKerbalLoader", "Awake");
+
+                ConfigNode[] MenuKerbals = UserSettings.ConfigNode.GetNodes("MenuKerbal");
+
+                for (int i = 0; i < MenuKerbals?.Length; i++)
                 {
-                    UIKerbals.menuKerbals.Load(MenuKerbals[i], index);
+                    if (int.TryParse(MenuKerbals[i]?.GetValue("index"), out int index) && index < UIKerbals.menuKerbals?.Length)
+                    {
+                        UIKerbals.menuKerbals.Load(MenuKerbals[i], index);
+                    }
                 }
-            }
 
 
-            ConfigNode[] Instructors = UserSettings.ConfigNode.GetNodes("Instructor");
+                ConfigNode[] Instructors = UserSettings.ConfigNode.GetNodes("Instructor");
 
-            for (int i = 0; i < Instructors?.Length; i++)
-            {
-                if (int.TryParse(Instructors[i]?.GetValue("index"), out int index) && index < UIKerbals.instructors?.Length)
+                for (int i = 0; i < Instructors?.Length; i++)
                 {
-                    UIKerbals.instructors.Load(Instructors[i], index);
+                    if (int.TryParse(Instructors[i]?.GetValue("index"), out int index) && index < UIKerbals.instructors?.Length)
+                    {
+                        UIKerbals.instructors.Load(Instructors[i], index);
+                    }
                 }
-            }
 
 
-            ConfigNode[] StrategyKerbals = UserSettings.ConfigNode.GetNodes("StrategyKerbal");
+                ConfigNode[] StrategyKerbals = UserSettings.ConfigNode.GetNodes("StrategyKerbal");
 
-            for (int i = 0; i < StrategyKerbals?.Length; i++)
-            {
-                if (int.TryParse(StrategyKerbals[i]?.GetValue("index"), out int index) && index < UIKerbals.strategy?.Length)
+                for (int i = 0; i < StrategyKerbals?.Length; i++)
                 {
-                    UIKerbals.strategy.Load(StrategyKerbals[i], index);
+                    if (int.TryParse(StrategyKerbals[i]?.GetValue("index"), out int index) && index < UIKerbals.strategy?.Length)
+                    {
+                        UIKerbals.strategy.Load(StrategyKerbals[i], index);
+                    }
                 }
             }
         }
