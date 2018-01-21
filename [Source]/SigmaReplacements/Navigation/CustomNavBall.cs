@@ -65,7 +65,7 @@ namespace SigmaReplacements
                 ApplyTo(FlightUIModeController.Instance);
             }
 
-            void LoadFor(ProtoCrewMember kerbal)
+            internal override void LoadFor(ProtoCrewMember kerbal)
             {
                 Debug.Log("CustomNavBall.LoadFor", "kerbal = " + kerbal);
 
