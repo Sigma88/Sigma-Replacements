@@ -1,3 +1,9 @@
+**v0.2.0**
+
+- Fixed SkyBox rotation in the KSC scene
+- Fixed config loading from SkyBox nodes
+
+
 **v0.1.4**
 
 - "-nyan-sky" option detection for the selective believers
