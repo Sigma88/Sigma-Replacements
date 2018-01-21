@@ -11,7 +11,7 @@ namespace SigmaReplacements
 
         public CrewMember(Type type, Roster rosterStatus, string name, Gender gender, string trait, bool veteran, bool isBadass, float courage, float stupidity, int experienceLevel, int activity = 0) : base(type, name)
         {
-            Debug.Log("CrewMember", "new CrewMember from stats");
+            Debug.Log("CrewMember", "new CrewMember (" + name + ") from stats");
 
             this.type = type;
             this.rosterStatus = rosterStatus;

@@ -65,21 +65,26 @@ namespace SigmaReplacements
 
                     if (info != null)
                     {
+                        Debug.Log("CustomDescription.LoadFor", "Matching description index = " + info.index + " to current index = " + index);
+
                         if (info.index == null || info.index == index)
                         {
-                            Debug.Log("CustomDescription.LoadFor", "Matched description index = " + info.index + " to current index = " + index);
+                            Debug.Log("CustomDescription.LoadFor", "Matching description collection = " + info.collection + " to current collection = " + collection);
 
                             if (string.IsNullOrEmpty(collection) || collection == info.collection)
                             {
                                 if (info.useChance != 1 && indexChance == null)
                                     indexChance = kerbal.Hash(info.useGameSeed) % 100;
 
+                                Debug.Log("CustomDescription.LoadFor", "Matching description useChance = " + info.useChance + " to current index chance = " + indexChance + " %");
+
                                 if (info.useChance == 1 || indexChance < info.useChance * 100)
                                 {
-                                    Debug.Log("CustomDescription.LoadFor", "Matched description useChance = " + info.useChance + " to current index chance = " + indexChance + " %");
-                                    Debug.Log("CustomDescription.LoadFor", "Matched description collection = " + info.collection + " to current collection = " + collection);
+                                    Debug.Log("CustomDescription.LoadFor", "Matched all requirements.");
+
                                     // Collection
                                     collection = info.collection;
+                                    Debug.Log("CustomDescription.LoadFor", "Current collection = " + collection);
 
 
                                     // Unique
@@ -111,13 +116,14 @@ namespace SigmaReplacements
                                             informations += info.informations[kerbal.Hash(info.useGameSeed) % info.informations.Length];
 
                                         Debug.Log("CustomDescription.LoadFor", "Updated informations field = " + informations);
-
-                                        if (info.unique || info.last)
-                                            break;
-
-                                        index++;
-                                        indexChance = null;
                                     }
+
+                                    if (info.unique || info.last)
+                                        break;
+
+                                    index++;
+                                    indexChance = null;
+                                    Debug.Log("CustomDescription.LoadFor", "Index bumped to = " + index);
                                 }
                             }
                         }

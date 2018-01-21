@@ -21,7 +21,7 @@ namespace SigmaReplacements
                 GameObject galaxy = GameObject.Find("MainMenuGalaxy");
                 Debug.Log("MenuTriggers.Start", "MainMenuGalaxy = " + galaxy);
 
-                CustomSkyBox skybox = new CustomSkyBox(Mode.MAINMENU, "Menu".GetHashCode());
+                CustomSkyBox skybox = new CustomSkyBox(Mode.MAINMENU, Math.Abs(DateTime.Today.GetHashCode()));
                 skybox.ApplyTo(galaxy);
             }
         }

@@ -57,7 +57,7 @@ namespace SigmaReplacements
             void Start()
             {
                 ProtoCrewMember kerbal = Apply();
-                Debug.Log("CustomSuit.Start", "kerbal = " + kerbal + " (" + kerbal.GetType() + ")");
+                Debug.Log("CustomSuit.Start", "kerbal = " + kerbal + " (" + kerbal?.GetType() + ")");
                 if (kerbal == null) return;
 
                 eva = GetComponent<KerbalEVA>();
@@ -126,9 +126,11 @@ namespace SigmaReplacements
                     TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, RainbowJets);
             }
 
-            void LoadFor(ProtoCrewMember kerbal)
+            internal override void LoadFor(ProtoCrewMember kerbal)
             {
                 Debug.Log("CustomSuit.LoadFor", "kerbal = " + kerbal);
+
+                if (kerbal == null) return;
 
                 Info.hash = "";
                 int? useChance = null;
@@ -228,9 +230,11 @@ namespace SigmaReplacements
                 }
             }
 
-            void ApplyTo(ProtoCrewMember kerbal)
+            internal override void ApplyTo(ProtoCrewMember kerbal)
             {
                 Debug.Log("CustomHead.ApplyTo", "kerbal = " + kerbal);
+
+                if (kerbal == null) return;
 
                 if (Nyan.nyan)
                 {

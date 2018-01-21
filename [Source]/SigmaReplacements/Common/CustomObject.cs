@@ -19,5 +19,9 @@ namespace SigmaReplacements
 
             return kerbal;
         }
+
+        internal virtual void LoadFor(ProtoCrewMember kerbal) { }
+
+        internal virtual void ApplyTo(ProtoCrewMember kerbal) { }
     }
 }

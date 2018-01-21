@@ -13,8 +13,8 @@ namespace SigmaReplacements
             static Texture YN;
             static Texture ZP;
             static Texture ZN;
-            static QuaternionD initRot;
-            static Vector3 initScale;
+            static QuaternionD? initRot = null;
+            static Vector3? initScale = null;
 
             public static void Reset(this GalaxyCubeControl skybox)
             {
@@ -31,7 +31,7 @@ namespace SigmaReplacements
                     }
                     else
                     {
-                        skybox.initRot = initRot;
+                        skybox.initRot = (QuaternionD)initRot;
                         Debug.Log("DefaultSkyBox.Reset", "Loaded initRot = " + skybox.initRot);
                     }
 
@@ -46,7 +46,7 @@ namespace SigmaReplacements
                         }
                         else
                         {
-                            cube.transform.localScale = initScale;
+                            cube.transform.localScale = (Vector3)initScale;
                             Debug.Log("DefaultSkyBox.Reset", "Loaded initScale = " + cube.transform.localScale);
                         }
                     }
