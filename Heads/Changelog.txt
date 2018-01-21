@@ -1,3 +1,13 @@
+**v0.2.0**
+
+- Fixed CTDs caused by rapid scene changes
+- Added new settings to the Requirements node:
+  > researchRequired (string)
+  > partPurchased (string)
+  > upgradeUnlocked (string)
+  > Building (node) containing [name (string), minLevel (int), maxLevel (int)]
+
+
 **v0.1.8**
 
 - Fixed status requirements
