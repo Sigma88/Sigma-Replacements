@@ -352,7 +352,7 @@ namespace SigmaReplacements
 
             return h;
         }
-        
+
         internal static Texture2D ToDDS(this byte[] bytes)
         {
             try

@@ -9,7 +9,6 @@ namespace SigmaReplacements
         class TextureInfo : Info
         {
             internal static Dictionary<Texture, Texture> Database = new Dictionary<Texture, Texture>();
-            static Texture2D empty;
 
             internal TextureInfo(ConfigNode[] InfoNodes) : base(new ConfigNode(), new ConfigNode())
             {
