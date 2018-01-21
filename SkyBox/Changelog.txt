@@ -2,11 +2,6 @@
 
 - Fixed SkyBox rotation in the KSC scene
 - Fixed config loading from SkyBox nodes
-- Added new settings to the Requirements node:
-  > researchRequired (string)
-  > partPurchased (string)
-  > upgradeUnlocked (string)
-  > Building (node) containing [name (string), minLevel (int), maxLevel (int)]
 
 
 **v0.1.4**
