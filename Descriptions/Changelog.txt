@@ -1,3 +1,12 @@
+**v0.2.0**
+
+- Added new settings to the Requirements node:
+  > researchRequired (string)
+  > partPurchased (string)
+  > upgradeUnlocked (string)
+  > Building (node) containing [name (string), minLevel (int), maxLevel (int)]
+
+
 **v0.2.1**
 
 - Fixed behaviour of the parameters: "index", "last" and "unique"
