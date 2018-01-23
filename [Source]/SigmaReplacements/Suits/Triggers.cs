@@ -57,16 +57,16 @@ namespace SigmaReplacements
 
                     if (names.Contains(transform?.name))
                     {
-                        UIKerbalStrategy strategy = transform?.GetComponent<UIKerbalStrategy>() ?? transform?.gameObject?.AddComponent<UIKerbalStrategy>();
-                        CustomSuit suit = transform?.GetComponent<CustomSuit>() ?? transform?.gameObject?.AddComponent<CustomSuit>();
+                        UIKerbalStrategy strategy = transform?.gameObject?.AddOrGetComponent<UIKerbalStrategy>();
+                        CustomSuit suit = transform?.gameObject?.AddOrGetComponent<CustomSuit>();
                     }
 
                     if (transform?.name == "instructor_Gene")
                     {
                         if (transform?.parent?.gameObject?.name == "Instructor_Gene")
                         {
-                            UIKerbalGene strategy = transform?.GetComponent<UIKerbalGene>() ?? transform?.gameObject?.AddComponent<UIKerbalGene>();
-                            CustomSuit suit = transform?.GetComponent<CustomSuit>() ?? transform?.gameObject?.AddComponent<CustomSuit>();
+                            UIKerbalGene strategy = transform?.gameObject?.AddOrGetComponent<UIKerbalGene>();
+                            CustomSuit suit = transform?.gameObject?.AddOrGetComponent<CustomSuit>();
                         }
                     }
                 }
@@ -80,34 +80,25 @@ namespace SigmaReplacements
             {
                 Debug.Log("KSCTriggers", "Start");
 
-                Administration admin = Resources.FindObjectsOfTypeAll<Administration>().FirstOrDefault();
-
-                if (admin?.gameObject != null)
+                if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                 {
-                    UIKerbalsTrigger component = admin.GetComponent<UIKerbalsTrigger>() ?? admin.gameObject.AddComponent<UIKerbalsTrigger>();
+                    GameObject admin = Resources.FindObjectsOfTypeAll<Administration>().FirstOrDefault().gameObject;
+                    UIKerbalsTrigger suits = admin.AddOrGetComponent<UIKerbalsTrigger>();
+
+                    GameObject gene = Resources.FindObjectsOfTypeAll<MCAvatarController>().FirstOrDefault().gameObject.GetChild("instructor_Gene");
+                    GeneSuit suit = gene.AddOrGetComponent<GeneSuit>();
                 }
-
-                MissionControl mc = Resources.FindObjectsOfTypeAll<MissionControl>().FirstOrDefault();
-
-                if (mc?.gameObject != null)
-                {
-                    UIKerbalsTrigger component = mc.GetComponent<UIKerbalsTrigger>() ?? mc.gameObject.AddComponent<UIKerbalsTrigger>();
-                }
-
-                UIKerbalsTrigger.MissionGene.Add(GeneSuit);
             }
+        }
 
-            void GeneSuit(GameObject gene)
+        class GeneSuit : MonoBehaviour
+        {
+            void Start()
             {
                 ProtoCrewMember kerbal = UIKerbals.instructors[0];
-                CustomSuit suit = gene?.GetComponent<CustomSuit>() ?? gene?.AddComponent<CustomSuit>();
-                suit.LoadFor(kerbal);
-                suit.ApplyTo(kerbal);
-            }
-
-            void OnDestroy()
-            {
-                UIKerbalsTrigger.MissionGene.Remove(GeneSuit);
+                CustomSuit head = gameObject.AddOrGetComponent<CustomSuit>();
+                head.LoadFor(kerbal);
+                head.ApplyTo(kerbal);
             }
         }
 
