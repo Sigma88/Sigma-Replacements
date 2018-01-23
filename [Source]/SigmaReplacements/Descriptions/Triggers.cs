@@ -11,7 +11,7 @@ namespace SigmaReplacements
     namespace Descriptions
     {
         [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
-        class Triggers : MonoBehaviour
+        class KSCTriggers : MonoBehaviour
         {
             static ProtoCrewMember newCrew = null;
 
@@ -62,6 +62,16 @@ namespace SigmaReplacements
                 CustomDescription.UpdateAll(applicants);
                 Debug.Log("FIRE_UPDATE_FINISH");
                 TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, FireCrew);
+            }
+        }
+
+        [KSPAddon(KSPAddon.Startup.EditorAny, false)]
+        class EditorTriggers : MonoBehaviour
+        {
+            void Start()
+            {
+                // Crew Assignment Dialog
+                Resources.FindObjectsOfTypeAll<CrewAssignmentDialog>().FirstOrDefault().gameObject.AddComponent<AssignmentFix>();
             }
         }
 
