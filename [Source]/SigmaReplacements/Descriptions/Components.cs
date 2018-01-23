@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using KSP.UI;
 using KSP.UI.Screens;
 using KSP.UI.Screens.SpaceCenter.MissionSummaryDialog;
-
 
 
 namespace SigmaReplacements
@@ -55,15 +55,37 @@ namespace SigmaReplacements
 
                 MonoBehaviour dialog = (MonoBehaviour)GetComponent<CrewAssignmentDialog>() ?? GetComponent<MissionRecoveryDialog>();
 
+                Debug.Log("AssigmentFix.Start", "dialog = " + dialog);
+
                 if (dialog == null)
                 {
                     Debug.Log("AssigmentFix.Start", "Couldn't find CrewAssignmentDialog.");
                     DestroyImmediate(this);
                 }
+
+                GameObject.Find("ButtonPanelCrew")?.GetComponent<Button>()?.onClick?.AddListener(ButtonPanelCrew);
+            }
+
+            void ButtonPanelCrew()
+            {
+                available = 0;
+                assigned = 0;
             }
 
             void Update()
             {
+                if
+                (
+                    CrewAssignmentDialog.Instance?.scrollListAvail?.enabled != true ||
+                    CrewAssignmentDialog.Instance?.scrollListCrew?.enabled != true
+                )
+                {
+                    available = 0;
+                    assigned = 0;
+                }
+
+                else
+
                 if
                 (
                     CrewAssignmentDialog.Instance?.scrollListAvail?.Count != available ||
