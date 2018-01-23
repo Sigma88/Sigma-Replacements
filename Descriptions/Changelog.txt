@@ -1,4 +1,9 @@
-**v0.2.0**
+**v0.2.3**
+
+- Fixed Kerbal descriptions in VAB and SPH
+
+
+**v0.2.2**
 
 - Added new settings to the Requirements node:
   > researchRequired (string)
