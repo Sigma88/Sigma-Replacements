@@ -73,20 +73,36 @@ namespace SigmaReplacements
             }
         }
 
+        [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+        class ResetTriggers : MonoBehaviour
+        {
+            void Start()
+            {
+                KSCTriggers.trigger = true;
+            }
+        }
+
         [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
         class KSCTriggers : MonoBehaviour
         {
+            internal static bool trigger = true;
+
             void Start()
             {
                 Debug.Log("KSCTriggers", "Start");
 
-                if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                if (trigger)
                 {
-                    GameObject admin = Resources.FindObjectsOfTypeAll<Administration>().FirstOrDefault().gameObject;
-                    UIKerbalsTrigger suits = admin.AddOrGetComponent<UIKerbalsTrigger>();
+                    trigger = false;
 
-                    GameObject gene = Resources.FindObjectsOfTypeAll<MCAvatarController>().FirstOrDefault().gameObject.GetChild("instructor_Gene");
-                    GeneSuit suit = gene.AddOrGetComponent<GeneSuit>();
+                    if (trigger && HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                    {
+                        GameObject admin = Resources.FindObjectsOfTypeAll<Administration>().FirstOrDefault().gameObject;
+                        UIKerbalsTrigger suits = admin.AddOrGetComponent<UIKerbalsTrigger>();
+
+                        GameObject gene = Resources.FindObjectsOfTypeAll<MCAvatarController>().FirstOrDefault().gameObject.GetChild("instructor_Gene");
+                        GeneSuit suit = gene.AddOrGetComponent<GeneSuit>();
+                    }
                 }
             }
         }
