@@ -128,6 +128,10 @@ namespace SigmaReplacements
             return null;
         }
 
+        // New Empty Info
+        internal Info()
+        {
+        }
 
         // New Info
         internal Info(ConfigNode requirements, ConfigNode info)
