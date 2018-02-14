@@ -195,18 +195,18 @@ namespace SigmaReplacements
             void OnMouseOver()
             {
                 // ROTATION
-                if (Input.GetKeyDown(KeyCode.Z))
-                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 1) % 360);
-                else if (Input.GetKeyDown(KeyCode.A))
-                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 359) % 360);
-                else if (Input.GetKeyDown(KeyCode.X))
+                if (Input.GetKeyDown(KeyCode.W))
                     transform.localRotation = Quaternion.Euler((transform.localEulerAngles.x + 1) % 360, transform.localEulerAngles.y, transform.localEulerAngles.z);
-                else if (Input.GetKeyDown(KeyCode.C))
+                else if (Input.GetKeyDown(KeyCode.S))
                     transform.localRotation = Quaternion.Euler((transform.localEulerAngles.x + 359) % 360, transform.localEulerAngles.y, transform.localEulerAngles.z);
-                else if (Input.GetKeyDown(KeyCode.Y))
+                else if (Input.GetKeyDown(KeyCode.A))
                     transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, (transform.localEulerAngles.y + 1) % 360, transform.localEulerAngles.z);
-                else if (Input.GetKeyDown(KeyCode.Alpha7))
+                else if (Input.GetKeyDown(KeyCode.D))
                     transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, (transform.localEulerAngles.y + 359) % 360, transform.localEulerAngles.z);
+                else if (Input.GetKeyDown(KeyCode.Q))
+                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 1) % 360);
+                else if (Input.GetKeyDown(KeyCode.E))
+                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 359) % 360);
 
                 // POSITION
                 else if (Input.GetKeyDown(KeyCode.LeftArrow))
