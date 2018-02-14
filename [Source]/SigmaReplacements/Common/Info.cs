@@ -218,6 +218,12 @@ namespace SigmaReplacements
             catch { return defaultValue; }
         }
 
+        internal Vector3? Parse(string s, Vector3? defaultValue)
+        {
+            try { return ConfigNode.ParseVector3(s); }
+            catch { return defaultValue; }
+        }
+
         internal List<Color?> Parse(string[] s, List<Color?> defaultValue)
         {
             for (int i = 0; i < s.Length; i++)
