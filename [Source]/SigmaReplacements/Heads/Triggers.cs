@@ -8,51 +8,59 @@ namespace SigmaReplacements
 {
     namespace Heads
     {
+        [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+        internal class MenuKerbals : MonoBehaviour
+        {
+            void Awake()
+            {
+                GameObject orbitScene = GameObject.Find("OrbitScene").GetChild("Kerbals");
+
+                int? kerbals = orbitScene?.transform?.childCount;
+                if (kerbals > 4) kerbals = 4;
+
+                for (int i = 0; i < kerbals; i++)
+                {
+                    Transform child = orbitScene.transform.GetChild(i);
+
+                    UIKerbalMenu kerbal = child.gameObject.AddOrGetComponent<UIKerbalMenu>();
+                    kerbal.crewMember = UIKerbals.menuKerbals[i + 1];
+
+                    child.gameObject.AddOrGetComponent<CustomHead>();
+                }
+
+                GameObject munScene = GameObject.Find("MunScene").GetChild("Kerbals");
+
+                if (munScene?.transform?.childCount > 0)
+                {
+                    Transform child = munScene.transform.GetChild(0);
+
+                    UIKerbalMenu kerbal = child.gameObject.AddOrGetComponent<UIKerbalMenu>();
+                    kerbal.crewMember = UIKerbals.menuKerbals[0];
+
+                    child.gameObject.AddOrGetComponent<CustomHead>();
+                }
+            }
+        }
+
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-        class MenuTriggers : MonoBehaviour
+        internal class MenuTriggers : MonoBehaviour
         {
             static string[] names = new string[] { "Strategy_Mortimer", "Strategy_ScienceGuy", "Strategy_PRGuy", "Strategy_MechanicGuy" };
 
-            void Start()
+            void Awake()
             {
-                Debug.Log("MenuTriggers", "Start");
+                Debug.Log("MenuTriggers", "Awake");
 
                 Transform[] transforms = Resources.FindObjectsOfTypeAll<Transform>();
-
-                int menu = 0;
 
                 for (int i = 0; i < transforms?.Length; i++)
                 {
                     Transform transform = transforms[i];
 
-                    if (transform?.name == "Kerbals")
-                    {
-                        int? kerbals = transform?.childCount;
-                        if (kerbals > 4) kerbals = 4;
-
-                        for (int j = 0; j < kerbals; j++)
-                        {
-                            Transform child = transform.GetChild(j);
-
-                            if (child?.gameObject != null && child?.GetComponent<UIKerbalMenu>() == null)
-                                child.gameObject.AddComponent<UIKerbalMenu>();
-
-                            UIKerbalMenu kerbal = child.GetComponent<UIKerbalMenu>();
-                            kerbal.crewMember = UIKerbals.menuKerbals[menu];
-                            menu++;
-
-                            if (child?.gameObject != null && child?.GetComponent<CustomHead>() == null)
-                                child.gameObject.AddComponent<CustomHead>();
-                        }
-                    }
-
                     if (transform?.name == "WernerVonKerman")
                     {
-                        if (transform?.gameObject != null && transform?.GetComponent<UIKerbalWerner>() == null)
-                            transform.gameObject.AddComponent<UIKerbalWerner>();
-
-                        if (transform?.gameObject != null && transform?.GetComponent<CustomHead>() == null)
-                            transform.gameObject.AddComponent<CustomHead>();
+                        transform.gameObject.AddOrGetComponent<UIKerbalWerner>();
+                        transform.gameObject.AddOrGetComponent<CustomHead>();
                     }
 
                     if (names.Contains(transform?.name))
