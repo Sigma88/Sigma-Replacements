@@ -6,7 +6,7 @@ namespace SigmaReplacements
 {
     namespace Textures
     {
-        class TextureInfo : Info
+        internal class TextureInfo : Info
         {
             internal static Dictionary<Texture, Texture> Database = new Dictionary<Texture, Texture>();
 

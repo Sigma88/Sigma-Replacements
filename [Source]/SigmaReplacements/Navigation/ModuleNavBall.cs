@@ -5,7 +5,7 @@ namespace SigmaReplacements
 {
     namespace Navigation
     {
-        public class ModuleNavBall : PartModule
+        internal class ModuleNavBall : PartModule
         {
             internal static Dictionary<string, CustomNavBall> DataBase = new Dictionary<string, CustomNavBall>();
 
@@ -15,7 +15,7 @@ namespace SigmaReplacements
                 {
                     ConfigNode NavBallNode = node.GetNode("NavBall");
 
-                    CustomNavBall NavBall = gameObject.AddComponent<CustomNavBall>();
+                    CustomNavBall NavBall = gameObject.AddOrGetComponent<CustomNavBall>();
 
                     NavBallInfo info = new NavBallInfo(new ConfigNode(), NavBallNode ?? new ConfigNode());
 

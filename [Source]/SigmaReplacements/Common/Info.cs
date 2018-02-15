@@ -218,6 +218,26 @@ namespace SigmaReplacements
             catch { return defaultValue; }
         }
 
+        internal Vector3? Parse(string s, Vector3? defaultValue)
+        {
+            try { return ConfigNode.ParseVector3(s); }
+            catch { return defaultValue; }
+        }
+
+        internal Quaternion? Parse(string s, Quaternion? defaultValue, bool euler = true)
+        {
+            if (euler)
+            {
+                try { return Quaternion.Euler(ConfigNode.ParseVector3(s)); }
+                catch { return defaultValue; }
+            }
+            else
+            {
+                try { return ConfigNode.ParseQuaternion(s); }
+                catch { return defaultValue; }
+            }
+        }
+
         internal List<Color?> Parse(string[] s, List<Color?> defaultValue)
         {
             for (int i = 0; i < s.Length; i++)
@@ -383,7 +403,7 @@ namespace SigmaReplacements
         }
     }
 
-    class Building
+    internal class Building
     {
         internal int? minLevel;
         internal int? maxLevel;

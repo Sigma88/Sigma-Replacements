@@ -7,7 +7,7 @@ namespace SigmaReplacements
 {
     namespace SkyBox
     {
-        public class CustomSkyBox
+        internal class CustomSkyBox
         {
             // Settings
             bool rotate = false;

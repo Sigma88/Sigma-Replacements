@@ -7,7 +7,7 @@ namespace SigmaReplacements
 {
     namespace Navigation
     {
-        public class CustomNavBall : CustomObject
+        internal class CustomNavBall : CustomObject
         {
             // Colors
             internal Color? NavBall = null;

@@ -6,7 +6,7 @@ namespace SigmaReplacements
     namespace Suits
     {
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        public class Version : MonoBehaviour
+        internal class Version : MonoBehaviour
         {
             public static readonly System.Version number = new System.Version("0.2.1");
 
