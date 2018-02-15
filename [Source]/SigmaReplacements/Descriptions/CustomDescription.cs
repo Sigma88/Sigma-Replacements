@@ -9,7 +9,7 @@ namespace SigmaReplacements
 {
     namespace Descriptions
     {
-        class CustomDescription
+        internal class CustomDescription
         {
             // Descriptions
             static string displayName = "";

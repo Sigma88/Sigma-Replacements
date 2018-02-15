@@ -8,7 +8,7 @@ namespace SigmaReplacements
     namespace Textures
     {
         [KSPAddon(KSPAddon.Startup.EveryScene, false)]
-        class SceneTrigger : MonoBehaviour
+        internal class SceneTrigger : MonoBehaviour
         {
             static bool update = false;
 
@@ -78,7 +78,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        class NyanSettings : MonoBehaviour
+        internal class NyanSettings : MonoBehaviour
         {
             static Texture2D empty;
 

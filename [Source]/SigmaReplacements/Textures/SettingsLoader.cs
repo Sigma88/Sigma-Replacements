@@ -6,7 +6,7 @@ namespace SigmaReplacements
     namespace Textures
     {
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        class FirstSettingsLoader : MonoBehaviour
+        internal class FirstSettingsLoader : MonoBehaviour
         {
             void OnDestroy()
             {
@@ -22,7 +22,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-        class SecondSettingsLoader : MonoBehaviour
+        internal class SecondSettingsLoader : MonoBehaviour
         {
             void Start()
             {

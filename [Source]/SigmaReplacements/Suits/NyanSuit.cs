@@ -5,7 +5,7 @@ namespace SigmaReplacements
 {
     namespace Suits
     {
-        class NyanSuit
+        internal class NyanSuit
         {
             internal static void ApplyTo(ProtoCrewMember kerbal, CustomSuit suit)
             {
