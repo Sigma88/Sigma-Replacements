@@ -5,7 +5,7 @@ namespace SigmaReplacements
 {
     namespace Heads
     {
-        class NyanHead
+        internal class NyanHead
         {
             internal static void ApplyTo(ProtoCrewMember kerbal, CustomHead head)
             {

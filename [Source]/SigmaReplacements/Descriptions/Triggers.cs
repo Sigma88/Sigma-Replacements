@@ -11,28 +11,27 @@ namespace SigmaReplacements
     namespace Descriptions
     {
         [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
-        class Triggers : MonoBehaviour
+        internal class KSCTriggers : MonoBehaviour
         {
             static ProtoCrewMember newCrew = null;
 
             void Start()
             {
                 // Crew Assignment Dialog
-                Resources.FindObjectsOfTypeAll<CrewAssignmentDialog>().FirstOrDefault().gameObject.AddComponent<AssignmentFix>();
+                Resources.FindObjectsOfTypeAll<CrewAssignmentDialog>().FirstOrDefault().gameObject.AddOrGetComponent<AssignmentFix>();
 
                 // Mission Recovery Dialog
-                Resources.FindObjectsOfTypeAll<MissionRecoveryDialog>().FirstOrDefault().gameObject.AddComponent<AssignmentFix>();
+                Resources.FindObjectsOfTypeAll<MissionRecoveryDialog>().FirstOrDefault().gameObject.AddOrGetComponent<AssignmentFix>();
 
                 // TEST
                 CrewWidget[] widgets = Resources.FindObjectsOfTypeAll<CrewWidget>();
                 for (int i = 0; i < widgets?.Length; i++)
                 {
-                    if (widgets[i]?.gameObject != null && widgets[i]?.GetComponent<RecoveryFix>() == null)
-                        widgets[i].gameObject.AddComponent<RecoveryFix>();
+                        widgets[i].gameObject.AddOrGetComponent<RecoveryFix>();
                 }
 
                 // Astronaut Complex
-                Resources.FindObjectsOfTypeAll<AstronautComplex>().FirstOrDefault().gameObject.AddComponent<AstronautComplexFix>();
+                Resources.FindObjectsOfTypeAll<AstronautComplex>().FirstOrDefault().gameObject.AddOrGetComponent<AstronautComplexFix>();
                 GameEvents.OnCrewmemberHired.Add(HireApplicant);
                 GameEvents.OnCrewmemberSacked.Add(FireCrew);
             }
@@ -65,8 +64,18 @@ namespace SigmaReplacements
             }
         }
 
+        [KSPAddon(KSPAddon.Startup.EditorAny, false)]
+        internal class EditorTriggers : MonoBehaviour
+        {
+            void Start()
+            {
+                // Crew Assignment Dialog
+                Resources.FindObjectsOfTypeAll<CrewAssignmentDialog>().FirstOrDefault().gameObject.AddOrGetComponent<AssignmentFix>();
+            }
+        }
+
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        class NyanSettings : MonoBehaviour
+        internal class NyanSettings : MonoBehaviour
         {
             void Start()
             {

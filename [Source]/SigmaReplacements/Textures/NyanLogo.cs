@@ -7,7 +7,7 @@ namespace SigmaReplacements
     namespace Textures
     {
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-        class NyanMenu : MonoBehaviour
+        internal class NyanMenu : MonoBehaviour
         {
             static int frame = 0;
             static float wait = 0;

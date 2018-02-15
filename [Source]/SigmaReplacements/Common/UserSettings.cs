@@ -23,14 +23,17 @@ namespace SigmaReplacements
 
         void Awake()
         {
-            string path = Assembly.GetExecutingAssembly().Location.Replace('\\', '/');
-            while (path.Substring(1).Contains("GameData/"))
-                path = path.Substring(1 + path.Substring(1).IndexOf("GameData/"));
+            string path = Assembly.GetExecutingAssembly().Location;
+
+            if (!folder.StartsWith(Path.GetFullPath(folder)))
+            {
+                UnityEngine.Debug.Log(Debug.Tag + " WARNING: Incorrect plugin location => " + path);
+            }
 
             if (!Directory.Exists(folder))
             {
                 UnityEngine.Debug.Log(Debug.Tag + " WARNING: Missing folder => " + folder);
-                return;
+                Directory.CreateDirectory(folder);
             }
 
             if (!File.Exists(folder + file + ".cfg"))
