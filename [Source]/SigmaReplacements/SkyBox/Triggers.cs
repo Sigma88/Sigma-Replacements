@@ -8,7 +8,7 @@ namespace SigmaReplacements
     namespace SkyBox
     {
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-        class MenuTriggers : MonoBehaviour
+        internal class MenuTriggers : MonoBehaviour
         {
             void Start()
             {
@@ -27,7 +27,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
-        class KSCTriggers : MonoBehaviour
+        internal class KSCTriggers : MonoBehaviour
         {
             internal static bool skip = false;
 
@@ -46,7 +46,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        class NyanSettings : MonoBehaviour
+        internal class NyanSettings : MonoBehaviour
         {
             void Start()
             {

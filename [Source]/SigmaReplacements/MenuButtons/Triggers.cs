@@ -9,7 +9,7 @@ namespace SigmaReplacements
     namespace MenuButtons
     {
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-        class MainMenuTrigger : MonoBehaviour
+        internal class MainMenuTrigger : MonoBehaviour
         {
             void Start()
             {
@@ -19,21 +19,21 @@ namespace SigmaReplacements
 
                     for (int i = 0; i < meshes.Length; i++)
                     {
-                        meshes[i].gameObject.AddComponent<CustomMenuButton>();
+                        meshes[i].gameObject.AddOrGetComponent<CustomMenuButton>();
                     }
 
                     GameObject logo = GameObject.Find("logo");
 
                     if (logo != null)
                     {
-                        logo.AddComponent<CustomMenuButton>();
+                        logo.AddOrGetComponent<CustomMenuButton>();
                     }
                 }
             }
         }
 
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        class NyanSettings : MonoBehaviour
+        internal class NyanSettings : MonoBehaviour
         {
             void Start()
             {

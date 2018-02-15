@@ -6,7 +6,7 @@ namespace SigmaReplacements
 {
     namespace Textures
     {
-        class Nyan
+        internal class Nyan
         {
             internal static bool nyan = false;
             internal static bool forever = false;

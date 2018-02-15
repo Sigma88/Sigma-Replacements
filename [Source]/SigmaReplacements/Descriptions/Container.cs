@@ -13,7 +13,7 @@ namespace SigmaReplacements
 {
     namespace Descriptions
     {
-        class ListItemContainer
+        internal class ListItemContainer
         {
             CrewListItem listItem = null;
             CrewWidget widget = null;

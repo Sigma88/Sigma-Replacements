@@ -74,7 +74,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-        class ResetTriggers : MonoBehaviour
+        internal class ResetTriggers : MonoBehaviour
         {
             void Start()
             {
@@ -83,7 +83,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
-        class KSCTriggers : MonoBehaviour
+        internal class KSCTriggers : MonoBehaviour
         {
             internal static bool trigger = true;
 
@@ -107,7 +107,7 @@ namespace SigmaReplacements
             }
         }
 
-        class GeneHead : MonoBehaviour
+        internal class GeneHead : MonoBehaviour
         {
             void Start()
             {
@@ -119,7 +119,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-        class FlightTriggers : MonoBehaviour
+        internal class FlightTriggers : MonoBehaviour
         {
             void Start()
             {
@@ -140,16 +140,14 @@ namespace SigmaReplacements
 
                 for (int i = 0; i < kerbalEVAs?.Length; i++)
                 {
-                    if (kerbalEVAs[i]?.GetComponent<CustomHead>() == null)
-                        kerbalEVAs[i].gameObject.AddComponent<CustomHead>();
+                    CustomHead customHead = kerbalEVAs[i].gameObject.AddOrGetComponent<CustomHead>();
                 }
 
                 kerbalExpressionSystem[] kerbalIVAs = Resources.FindObjectsOfTypeAll<kerbalExpressionSystem>();
 
                 for (int i = 0; i < kerbalIVAs?.Length; i++)
                 {
-                    if (kerbalIVAs[i]?.GetComponent<CustomHead>() == null)
-                        kerbalIVAs[i].gameObject.AddComponent<CustomHead>();
+                    CustomHead customHead = kerbalIVAs[i].gameObject.AddOrGetComponent<CustomHead>();
                 }
             }
 
@@ -158,13 +156,12 @@ namespace SigmaReplacements
                 Debug.Log("FlightTriggers.OnCrewOnEva", "Part = " + action.to);
 
                 KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
-                if (kerbalEVA.GetComponent<CustomHead>() == null)
-                    kerbalEVA.gameObject.AddComponent<CustomHead>();
+                CustomHead customHead = kerbalEVA.gameObject.AddOrGetComponent<CustomHead>();
             }
         }
 
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        class NyanSettings : MonoBehaviour
+        internal class NyanSettings : MonoBehaviour
         {
             void Start()
             {

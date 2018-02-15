@@ -74,7 +74,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-        class ResetTriggers : MonoBehaviour
+        internal class ResetTriggers : MonoBehaviour
         {
             void Start()
             {
@@ -83,7 +83,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
-        class KSCTriggers : MonoBehaviour
+        internal class KSCTriggers : MonoBehaviour
         {
             internal static bool trigger = true;
 
@@ -107,7 +107,7 @@ namespace SigmaReplacements
             }
         }
 
-        class GeneSuit : MonoBehaviour
+        internal class GeneSuit : MonoBehaviour
         {
             void Start()
             {
@@ -119,7 +119,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-        class FlightTriggers : MonoBehaviour
+        internal class FlightTriggers : MonoBehaviour
         {
             void Start()
             {
@@ -140,16 +140,14 @@ namespace SigmaReplacements
 
                 for (int i = 0; i < kerbalEVAs?.Length; i++)
                 {
-                    if (kerbalEVAs[i]?.GetComponent<CustomSuit>() == null)
-                        kerbalEVAs[i].gameObject.AddComponent<CustomSuit>();
+                    kerbalEVAs[i].gameObject.AddOrGetComponent<CustomSuit>();
                 }
 
                 kerbalExpressionSystem[] kerbalIVAs = Resources.FindObjectsOfTypeAll<kerbalExpressionSystem>();
 
                 for (int i = 0; i < kerbalIVAs?.Length; i++)
                 {
-                    if (kerbalIVAs[i]?.GetComponent<CustomSuit>() == null)
-                        kerbalIVAs[i].gameObject.AddComponent<CustomSuit>();
+                    kerbalIVAs[i].gameObject.AddOrGetComponent<CustomSuit>();
                 }
             }
 
@@ -158,13 +156,12 @@ namespace SigmaReplacements
                 Debug.Log("FlightTriggers.OnCrewOnEva", "Part = " + action.to);
 
                 KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
-                if (kerbalEVA.GetComponent<CustomSuit>() == null)
-                    kerbalEVA.gameObject.AddComponent<CustomSuit>();
+                kerbalEVA.gameObject.AddOrGetComponent<CustomSuit>();
             }
         }
 
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        class NyanSettings : MonoBehaviour
+        internal class NyanSettings : MonoBehaviour
         {
             void Start()
             {

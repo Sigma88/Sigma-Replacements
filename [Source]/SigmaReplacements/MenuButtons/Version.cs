@@ -6,7 +6,7 @@ namespace SigmaReplacements
     namespace MenuButtons
     {
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        public class Version : MonoBehaviour
+        internal class Version : MonoBehaviour
         {
             public static readonly System.Version number = new System.Version("0.1.0");
 

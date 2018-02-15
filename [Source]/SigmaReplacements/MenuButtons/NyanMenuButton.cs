@@ -8,7 +8,7 @@ namespace SigmaReplacements
     namespace MenuButtons
     {
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-        class NyanMenusButton : MonoBehaviour
+        internal class NyanMenusButton : MonoBehaviour
         {
             static Color[] rainbow = new[] { new Color(1, 0.5f, 0.5f, 1), new Color(1, 0.8f, 0.5f, 1), new Color(1, 1, 0.5f, 1), new Color(0.6f, 1, 0.5f, 1), new Color(0.5f, 0.8f, 1, 1), new Color(0.7f, 0.6f, 1, 1) };
             TextProButton3D[] ordered = new TextProButton3D[11];

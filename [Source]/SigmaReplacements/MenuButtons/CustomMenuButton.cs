@@ -7,7 +7,7 @@ namespace SigmaReplacements
 {
     namespace MenuButtons
     {
-        public class CustomMenuButton : MonoBehaviour
+        internal class CustomMenuButton : MonoBehaviour
         {
             // Colors
             internal Color? normalColor = null;
