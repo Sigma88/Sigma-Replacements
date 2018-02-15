@@ -43,9 +43,7 @@
     <Compile Include="Common\DebugLogger.cs" />
     <Compile Include="MenuButtons\MenuButtonInfo.cs" />
     <Compile Include="MenuButtons\Triggers.cs" />
-    <Compile Include="MenuButtons\Nyan.cs">
-      <DependentUpon>Nyan.resx</DependentUpon>
-    </Compile>
+	<Compile Include="MenuButtons\Nyan.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -60,9 +58,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.UI.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="MenuButtons\Nyan.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
