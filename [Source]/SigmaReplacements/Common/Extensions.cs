@@ -6,8 +6,6 @@ using UnityEngine.UI;
 using KSP.UI;
 using IState = KSP.UI.UIStateImage.ImageState;
 using BState = KSP.UI.UIStateToggleButton.ButtonState;
-using Type = ProtoCrewMember.KerbalType;
-using Roster = ProtoCrewMember.RosterStatus;
 
 
 namespace SigmaReplacements
