@@ -32,7 +32,7 @@ namespace SigmaReplacements
         CrewMember(Game.Modes mode, ConfigNode node, Type crewType = Type.Crew) : base(mode, node, crewType) { }
     }
 
-    public static class CrewMemberExtensions
+    internal static class CrewMemberExtensions
     {
         internal static void Load(this CrewMember[] array, ConfigNode node, int index)
         {

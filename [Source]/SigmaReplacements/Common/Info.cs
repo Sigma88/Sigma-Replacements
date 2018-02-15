@@ -403,7 +403,7 @@ namespace SigmaReplacements
         }
     }
 
-    class Building
+    internal class Building
     {
         internal int? minLevel;
         internal int? maxLevel;
