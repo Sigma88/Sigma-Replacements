@@ -6,7 +6,7 @@ namespace SigmaReplacements
 {
     namespace Navigation
     {
-        class NyanNavBall
+        internal class NyanNavBall
         {
             internal static void ApplyTo(FlightUIModeController controller)
             {

@@ -1,3 +1,18 @@
+**v0.2.2**
+
+- Improved modularity
+
+
+**v0.2.1**
+
+- Minor fix for database loading
+
+
+**v0.2.0**
+
+- Improved modularity
+
+
 **v0.1.1**
 
 - "-nyan-tex" option detection for the selective believers

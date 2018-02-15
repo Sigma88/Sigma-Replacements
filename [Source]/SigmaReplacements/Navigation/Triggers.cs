@@ -8,7 +8,7 @@ namespace SigmaReplacements
     namespace Navigation
     {
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-        class FlightTriggers : MonoBehaviour
+        internal class FlightTriggers : MonoBehaviour
         {
             void Start()
             {
@@ -26,7 +26,7 @@ namespace SigmaReplacements
                 {
                     if (internals[i] == null) continue;
 
-                    IVAnavball iva = internals[i]?.gameObject?.GetComponent<IVAnavball>() ?? internals[i].gameObject.AddComponent<IVAnavball>();
+                    IVAnavball iva = internals[i].gameObject.AddOrGetComponent<IVAnavball>();
                 }
             }
 
@@ -98,7 +98,7 @@ namespace SigmaReplacements
                 {
                     Debug.Log("FlightTriggers.KerbalNavBall", "Loading CustomNavBall for Kerbal = " + kerbal);
 
-                    CustomNavBall evaNavBall = kerbal?.gameObject?.GetComponent<CustomNavBall>() ?? FlightGlobals.ActiveVessel?.evaController?.gameObject?.AddComponent<CustomNavBall>();
+                    CustomNavBall evaNavBall = kerbal?.gameObject?.AddOrGetComponent<CustomNavBall>();
                     if (evaNavBall != null) evaNavBall.OnStart();
                     DestroyImmediate(evaNavBall);
                 }
@@ -106,7 +106,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        class NyanSettings : MonoBehaviour
+        internal class NyanSettings : MonoBehaviour
         {
             void Start()
             {
@@ -118,7 +118,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-        class NyanTriggers : MonoBehaviour
+        internal class NyanTriggers : MonoBehaviour
         {
             void Start()
             {

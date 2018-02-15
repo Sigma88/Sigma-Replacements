@@ -6,7 +6,7 @@ namespace SigmaReplacements
     namespace Descriptions
     {
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-        class SettingsLoader : MonoBehaviour
+        internal class SettingsLoader : MonoBehaviour
         {
             void Start()
             {

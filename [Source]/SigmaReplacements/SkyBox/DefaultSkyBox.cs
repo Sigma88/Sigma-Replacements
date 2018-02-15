@@ -5,7 +5,7 @@ namespace SigmaReplacements
 {
     namespace SkyBox
     {
-        public static class DefaultSkyBox
+        internal static class DefaultSkyBox
         {
             internal static Texture XP;
             internal static Texture XN;
