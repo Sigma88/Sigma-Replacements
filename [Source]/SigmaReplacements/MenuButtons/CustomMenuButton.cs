@@ -194,44 +194,47 @@ namespace SigmaReplacements
 
             void OnMouseOver()
             {
-                // ROTATION
-                if (Input.GetKeyDown(KeyCode.W))
-                    transform.localRotation = Quaternion.Euler((transform.localEulerAngles.x + 1) % 360, transform.localEulerAngles.y, transform.localEulerAngles.z);
-                else if (Input.GetKeyDown(KeyCode.S))
-                    transform.localRotation = Quaternion.Euler((transform.localEulerAngles.x + 359) % 360, transform.localEulerAngles.y, transform.localEulerAngles.z);
-                else if (Input.GetKeyDown(KeyCode.A))
-                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, (transform.localEulerAngles.y + 1) % 360, transform.localEulerAngles.z);
-                else if (Input.GetKeyDown(KeyCode.D))
-                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, (transform.localEulerAngles.y + 359) % 360, transform.localEulerAngles.z);
-                else if (Input.GetKeyDown(KeyCode.Q))
-                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 1) % 360);
-                else if (Input.GetKeyDown(KeyCode.E))
-                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 359) % 360);
+                if (Debug.debug)
+                {
+                    // ROTATION
+                    if (Input.GetKeyDown(KeyCode.W))
+                        transform.localRotation = Quaternion.Euler((transform.localEulerAngles.x + 1) % 360, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                    else if (Input.GetKeyDown(KeyCode.S))
+                        transform.localRotation = Quaternion.Euler((transform.localEulerAngles.x + 359) % 360, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                    else if (Input.GetKeyDown(KeyCode.A))
+                        transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, (transform.localEulerAngles.y + 1) % 360, transform.localEulerAngles.z);
+                    else if (Input.GetKeyDown(KeyCode.D))
+                        transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, (transform.localEulerAngles.y + 359) % 360, transform.localEulerAngles.z);
+                    else if (Input.GetKeyDown(KeyCode.Q))
+                        transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 1) % 360);
+                    else if (Input.GetKeyDown(KeyCode.E))
+                        transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 359) % 360);
 
-                // POSITION
-                else if (Input.GetKeyDown(KeyCode.LeftArrow))
-                    transform.localPosition = new Vector3(transform.localPosition.x - 0.05f, transform.localPosition.y, transform.localPosition.z);
-                else if (Input.GetKeyDown(KeyCode.RightArrow))
-                    transform.localPosition = new Vector3(transform.localPosition.x + 0.05f, transform.localPosition.y, transform.localPosition.z);
-                else if (Input.GetKeyDown(KeyCode.DownArrow))
-                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.05f, transform.localPosition.z);
-                else if (Input.GetKeyDown(KeyCode.UpArrow))
-                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + 0.05f, transform.localPosition.z);
-                else if (Input.GetKeyDown(KeyCode.RightControl))
-                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - 0.05f);
-                else if (Input.GetKeyDown(KeyCode.RightShift))
-                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + 0.05f);
+                    // POSITION
+                    else if (Input.GetKeyDown(KeyCode.LeftArrow))
+                        transform.localPosition = new Vector3(transform.localPosition.x - 0.05f, transform.localPosition.y, transform.localPosition.z);
+                    else if (Input.GetKeyDown(KeyCode.RightArrow))
+                        transform.localPosition = new Vector3(transform.localPosition.x + 0.05f, transform.localPosition.y, transform.localPosition.z);
+                    else if (Input.GetKeyDown(KeyCode.DownArrow))
+                        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - 0.05f, transform.localPosition.z);
+                    else if (Input.GetKeyDown(KeyCode.UpArrow))
+                        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + 0.05f, transform.localPosition.z);
+                    else if (Input.GetKeyDown(KeyCode.RightControl))
+                        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - 0.05f);
+                    else if (Input.GetKeyDown(KeyCode.RightShift))
+                        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + 0.05f);
 
-                // SCALE
-                else if (Input.GetKeyDown(KeyCode.KeypadMinus))
-                    transform.localScale = transform.localScale * 0.95f;
-                else if (Input.GetKeyDown(KeyCode.KeypadPlus))
-                    transform.localScale = transform.localScale * 1.05f;
+                    // SCALE
+                    else if (Input.GetKeyDown(KeyCode.KeypadMinus))
+                        transform.localScale = transform.localScale * 0.95f;
+                    else if (Input.GetKeyDown(KeyCode.KeypadPlus))
+                        transform.localScale = transform.localScale * 1.05f;
 
-                // NOTHING
-                else return;
+                    // NOTHING
+                    else return;
 
-                Save();
+                    Save();
+                }
             }
 
             string Print(Color? color)
