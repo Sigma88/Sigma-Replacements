@@ -9,7 +9,7 @@ namespace SigmaReplacements
 {
     namespace Descriptions
     {
-        class RecoveryFix : MonoBehaviour
+        internal class RecoveryFix : MonoBehaviour
         {
             static bool skip = true;
 
@@ -43,7 +43,7 @@ namespace SigmaReplacements
             }
         }
 
-        class AssignmentFix : MonoBehaviour
+        internal class AssignmentFix : MonoBehaviour
         {
             static int available;
             static int assigned;
@@ -111,7 +111,7 @@ namespace SigmaReplacements
             }
         }
 
-        class AstronautComplexFix : MonoBehaviour
+        internal class AstronautComplexFix : MonoBehaviour
         {
             static int count = 0;
 

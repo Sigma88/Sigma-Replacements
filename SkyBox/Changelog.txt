@@ -1,3 +1,8 @@
+**v0.2.1**
+
+- Improved modularity
+
+
 **v0.2.0**
 
 - Fixed SkyBox rotation in the KSC scene

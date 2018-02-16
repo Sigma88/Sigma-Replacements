@@ -33,7 +33,6 @@
     <BaseIntermediateOutputPath>Textures\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Common\CrewMember.cs" />
     <Compile Include="Common\DebugLogger.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />

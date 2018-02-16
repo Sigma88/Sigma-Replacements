@@ -26,7 +26,7 @@ namespace SigmaReplacements
     }
 
     [KSPAddon(KSPAddon.Startup.Instantly, true)]
-    class DebugLoader : MonoBehaviour
+    internal class DebugLoader : MonoBehaviour
     {
         void OnDestroy()
         {
@@ -36,7 +36,7 @@ namespace SigmaReplacements
     }
 
     [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-    class DebugWarning : MonoBehaviour
+    internal class DebugWarning : MonoBehaviour
     {
         void Start()
         {
