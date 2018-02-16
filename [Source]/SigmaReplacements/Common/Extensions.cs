@@ -6,8 +6,6 @@ using UnityEngine.UI;
 using KSP.UI;
 using IState = KSP.UI.UIStateImage.ImageState;
 using BState = KSP.UI.UIStateToggleButton.ButtonState;
-using Type = ProtoCrewMember.KerbalType;
-using Roster = ProtoCrewMember.RosterStatus;
 
 
 namespace SigmaReplacements
@@ -28,26 +26,6 @@ namespace SigmaReplacements
             Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Valid count = " + DataBase?.Count);
 
             return DataBase;
-        }
-
-        internal static void Load(this CrewMember[] array, ConfigNode node, int index)
-        {
-            CrewMember kerbal = array[index];
-            Info stats = new Info(node.GetNode("Stats") ?? new ConfigNode(), new ConfigNode());
-
-            array[index] = new CrewMember
-            (
-                (int?)stats?.status > 3 ? 0 : (Type?)(int?)stats?.status ?? kerbal.type,
-                (int?)stats?.status > 3 ? (Roster)((int)stats.status - 4) : kerbal.rosterStatus,
-                !string.IsNullOrEmpty(stats?.name) ? stats.name : kerbal.name,
-                stats?.gender ?? kerbal.gender,
-                stats?.trait?.Length > 0 && !string.IsNullOrEmpty(stats.trait[0]) ? stats.trait[0] : kerbal.trait,
-                stats?.veteran ?? kerbal.veteran,
-                stats?.isBadass ?? kerbal.isBadass,
-                stats?.courage ?? kerbal.courage,
-                stats?.stupidity ?? kerbal.stupidity,
-                stats?.experienceLevel ?? kerbal.experienceLevel
-            );
         }
 
         internal static void SetColor(this Material material, Color? color)

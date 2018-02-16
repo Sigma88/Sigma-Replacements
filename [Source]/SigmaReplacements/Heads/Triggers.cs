@@ -8,157 +8,126 @@ namespace SigmaReplacements
 {
     namespace Heads
     {
+        [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+        internal class MenuKerbals : MonoBehaviour
+        {
+            void Awake()
+            {
+                GameObject orbitScene = GameObject.Find("OrbitScene").GetChild("Kerbals");
+
+                int? kerbals = orbitScene?.transform?.childCount;
+                if (kerbals > 4) kerbals = 4;
+
+                for (int i = 0; i < kerbals; i++)
+                {
+                    Transform child = orbitScene.transform.GetChild(i);
+
+                    UIKerbalMenu kerbal = child.gameObject.AddOrGetComponent<UIKerbalMenu>();
+                    kerbal.crewMember = UIKerbals.menuKerbals[i + 1];
+
+                    child.gameObject.AddOrGetComponent<CustomHead>();
+                }
+
+                GameObject munScene = GameObject.Find("MunScene").GetChild("Kerbals");
+
+                if (munScene?.transform?.childCount > 0)
+                {
+                    Transform child = munScene.transform.GetChild(0);
+
+                    UIKerbalMenu kerbal = child.gameObject.AddOrGetComponent<UIKerbalMenu>();
+                    kerbal.crewMember = UIKerbals.menuKerbals[0];
+
+                    child.gameObject.AddOrGetComponent<CustomHead>();
+                }
+            }
+        }
+
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-        class MenuTriggers : MonoBehaviour
+        internal class MenuTriggers : MonoBehaviour
         {
             static string[] names = new string[] { "Strategy_Mortimer", "Strategy_ScienceGuy", "Strategy_PRGuy", "Strategy_MechanicGuy" };
 
-            void Start()
+            void Awake()
             {
-                Debug.Log("MenuTriggers", "Start");
+                Debug.Log("MenuTriggers", "Awake");
 
                 Transform[] transforms = Resources.FindObjectsOfTypeAll<Transform>();
-
-                int menu = 0;
 
                 for (int i = 0; i < transforms?.Length; i++)
                 {
                     Transform transform = transforms[i];
 
-                    if (transform?.name == "Kerbals")
-                    {
-                        int? kerbals = transform?.childCount;
-                        if (kerbals > 4) kerbals = 4;
-
-                        for (int j = 0; j < kerbals; j++)
-                        {
-                            Transform child = transform.GetChild(j);
-
-                            if (child?.gameObject != null && child?.GetComponent<UIKerbalMenu>() == null)
-                                child.gameObject.AddComponent<UIKerbalMenu>();
-
-                            UIKerbalMenu kerbal = child.GetComponent<UIKerbalMenu>();
-                            kerbal.crewMember = UIKerbals.menuKerbals[menu];
-                            menu++;
-
-                            if (child?.gameObject != null && child?.GetComponent<CustomHead>() == null)
-                                child.gameObject.AddComponent<CustomHead>();
-                        }
-                    }
-
                     if (transform?.name == "WernerVonKerman")
                     {
-                        if (transform?.gameObject != null && transform?.GetComponent<UIKerbalWerner>() == null)
-                            transform.gameObject.AddComponent<UIKerbalWerner>();
-
-                        if (transform?.gameObject != null && transform?.GetComponent<CustomHead>() == null)
-                            transform.gameObject.AddComponent<CustomHead>();
+                        transform.gameObject.AddOrGetComponent<UIKerbalWerner>();
+                        transform.gameObject.AddOrGetComponent<CustomHead>();
                     }
 
                     if (names.Contains(transform?.name))
                     {
-                        UIKerbalStrategy strategy = transform?.GetComponent<UIKerbalStrategy>() ?? transform?.gameObject?.AddComponent<UIKerbalStrategy>();
-                        CustomHead suit = transform?.GetComponent<CustomHead>() ?? transform?.gameObject?.AddComponent<CustomHead>();
+                        UIKerbalStrategy strategy = transform?.gameObject?.AddOrGetComponent<UIKerbalStrategy>();
+                        CustomHead head = transform?.gameObject?.AddOrGetComponent<CustomHead>();
                     }
 
                     if (transform?.name == "instructor_Gene")
                     {
                         if (transform?.parent?.gameObject?.name == "Instructor_Gene")
                         {
-                            UIKerbalGene strategy = transform?.GetComponent<UIKerbalGene>() ?? transform?.gameObject?.AddComponent<UIKerbalGene>();
-                            CustomHead suit = transform?.GetComponent<CustomHead>() ?? transform?.gameObject?.AddComponent<CustomHead>();
+                            UIKerbalGene strategy = transform?.gameObject?.AddOrGetComponent<UIKerbalGene>();
+                            CustomHead head = transform?.gameObject?.AddOrGetComponent<CustomHead>();
                         }
                     }
                 }
             }
         }
-        /*
-                [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
-                class KSCTriggers : MonoBehaviour
-                {
-                    void Start()
-                    {
-                        Debug.Log("KSCTriggers", "Start");
 
-                        Administration admin = Resources.FindObjectsOfTypeAll<Administration>().FirstOrDefault();
-
-                        if (admin?.gameObject != null && admin.GetComponent<UIKerbalsTrigger>() == null)
-                        {
-                            admin.gameObject.AddComponent<UIKerbalsTrigger>();
-                        }
-
-
-                        string[] names = new string[] { "Strategy_Mortimer", "Strategy_ScienceGuy", "Strategy_PRGuy", "Strategy_MechanicGuy" };
-
-                        Transform[] transforms = Resources.FindObjectsOfTypeAll<Transform>();
-
-                        for (int i = 0; i < transforms?.Length; i++)
-                        {
-                            Transform transform = transforms[i];
-
-                            if (names.Contains(transform?.name))
-                            {
-                                int index = names.IndexOf(transform?.name);
-
-                                if (transform?.gameObject != null && transform?.GetComponent<UIKerbalStrategy>() == null)
-                                    transform.gameObject.AddComponent<UIKerbalStrategy>();
-
-                                if (transform?.gameObject != null && transform?.GetComponent<CustomHead>() == null)
-                                    transform.gameObject.AddComponent<CustomHead>();
-                            }
-
-                            if (transform?.name == "instructor_Gene")
-                            {
-                                if (transform?.gameObject != null && transform?.GetComponent<UIKerbalGene>() == null)
-                                    transform.gameObject.AddComponent<UIKerbalGene>();
-
-                                if (transform?.gameObject != null && transform?.GetComponent<CustomHead>() == null)
-                                    transform.gameObject.AddComponent<CustomHead>();
-                            }
-                        }
-                    }
-                }
-                */
-        [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
-        class KSCTriggers : MonoBehaviour
+        [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+        internal class ResetTriggers : MonoBehaviour
         {
+            void Start()
+            {
+                KSCTriggers.trigger = true;
+            }
+        }
+
+        [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
+        internal class KSCTriggers : MonoBehaviour
+        {
+            internal static bool trigger = true;
+
             void Start()
             {
                 Debug.Log("KSCTriggers", "Start");
 
-                Administration admin = Resources.FindObjectsOfTypeAll<Administration>().FirstOrDefault();
-
-                if (admin?.gameObject != null)
+                if (trigger)
                 {
-                    UIKerbalsTrigger component = admin.GetComponent<UIKerbalsTrigger>() ?? admin.gameObject.AddComponent<UIKerbalsTrigger>();
+                    trigger = false;
+
+                    if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                    {
+                        GameObject admin = Resources.FindObjectsOfTypeAll<Administration>().FirstOrDefault().gameObject;
+                        UIKerbalsTrigger heads = admin.AddOrGetComponent<UIKerbalsTrigger>();
+
+                        GameObject gene = Resources.FindObjectsOfTypeAll<MCAvatarController>().FirstOrDefault().gameObject.GetChild("instructor_Gene");
+                        GeneHead head = gene.AddOrGetComponent<GeneHead>();
+                    }
                 }
-
-                MissionControl mc = Resources.FindObjectsOfTypeAll<MissionControl>().FirstOrDefault();
-
-                if (mc?.gameObject != null)
-                {
-                    UIKerbalsTrigger component = mc.GetComponent<UIKerbalsTrigger>() ?? mc.gameObject.AddComponent<UIKerbalsTrigger>();
-                }
-
-                UIKerbalsTrigger.MissionGene.Add(GeneHead);
             }
+        }
 
-            void GeneHead(GameObject gene)
+        internal class GeneHead : MonoBehaviour
+        {
+            void Start()
             {
                 ProtoCrewMember kerbal = UIKerbals.instructors[0];
-                CustomHead suit = gene?.GetComponent<CustomHead>() ?? gene?.AddComponent<CustomHead>();
-                suit.LoadFor(kerbal);
-                suit.ApplyTo(kerbal);
-            }
-
-            void OnDestroy()
-            {
-                UIKerbalsTrigger.MissionGene.Remove(GeneHead);
+                CustomHead head = gameObject.AddOrGetComponent<CustomHead>();
+                head.LoadFor(kerbal);
+                head.ApplyTo(kerbal);
             }
         }
 
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-        class FlightTriggers : MonoBehaviour
+        internal class FlightTriggers : MonoBehaviour
         {
             void Start()
             {
@@ -179,16 +148,14 @@ namespace SigmaReplacements
 
                 for (int i = 0; i < kerbalEVAs?.Length; i++)
                 {
-                    if (kerbalEVAs[i]?.GetComponent<CustomHead>() == null)
-                        kerbalEVAs[i].gameObject.AddComponent<CustomHead>();
+                    CustomHead customHead = kerbalEVAs[i].gameObject.AddOrGetComponent<CustomHead>();
                 }
 
                 kerbalExpressionSystem[] kerbalIVAs = Resources.FindObjectsOfTypeAll<kerbalExpressionSystem>();
 
                 for (int i = 0; i < kerbalIVAs?.Length; i++)
                 {
-                    if (kerbalIVAs[i]?.GetComponent<CustomHead>() == null)
-                        kerbalIVAs[i].gameObject.AddComponent<CustomHead>();
+                    CustomHead customHead = kerbalIVAs[i].gameObject.AddOrGetComponent<CustomHead>();
                 }
             }
 
@@ -197,13 +164,12 @@ namespace SigmaReplacements
                 Debug.Log("FlightTriggers.OnCrewOnEva", "Part = " + action.to);
 
                 KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
-                if (kerbalEVA.GetComponent<CustomHead>() == null)
-                    kerbalEVA.gameObject.AddComponent<CustomHead>();
+                CustomHead customHead = kerbalEVA.gameObject.AddOrGetComponent<CustomHead>();
             }
         }
 
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        class NyanSettings : MonoBehaviour
+        internal class NyanSettings : MonoBehaviour
         {
             void Start()
             {

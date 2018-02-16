@@ -7,7 +7,7 @@ namespace SigmaReplacements
     namespace SkyBox
     {
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
-        class NyanMenu : MonoBehaviour
+        internal class NyanMenu : MonoBehaviour
         {
             static GameObject nyanMenu;
             static int frame = 0;
@@ -88,7 +88,7 @@ namespace SigmaReplacements
         }
 
         [KSPAddon(KSPAddon.Startup.EveryScene, false)]
-        class NyanSkyBox : MonoBehaviour
+        internal class NyanSkyBox : MonoBehaviour
         {
             static GameObject nyanMenu;
             static int frame = 0;
