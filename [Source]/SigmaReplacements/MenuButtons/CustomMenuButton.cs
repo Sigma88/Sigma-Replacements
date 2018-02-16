@@ -45,6 +45,16 @@ namespace SigmaReplacements
                 }
             }
 
+            void OnDisable()
+            {
+                TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, Load);
+            }
+
+            void OnDestroy()
+            {
+                TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, Load);
+            }
+
             void LoadFor()
             {
                 Debug.Log("CustomMenuButton.LoadFor", "object = " + name);
