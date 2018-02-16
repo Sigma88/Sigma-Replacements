@@ -5,7 +5,7 @@ namespace SigmaReplacements
 {
     namespace Navigation
     {
-        class IVAnavball : MonoBehaviour
+        internal class IVAnavball : MonoBehaviour
         {
             void Start()
             {

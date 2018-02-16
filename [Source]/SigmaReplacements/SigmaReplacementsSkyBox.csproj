@@ -32,11 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Common\CrewMember.cs" />
-    <Compile Include="Common\CustomObject.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />
-    <Compile Include="Common\UIKerbals.cs" />
     <Compile Include="SkyBox\CustomSkyBox.cs" />
     <Compile Include="SkyBox\DefaultSkyBox.cs" />
     <Compile Include="SkyBox\NyanSkyBox.cs" />

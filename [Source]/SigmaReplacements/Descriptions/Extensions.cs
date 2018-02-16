@@ -11,7 +11,7 @@ namespace SigmaReplacements
 {
     namespace Descriptions
     {
-        static class Extensions
+        internal static class Extensions
         {
             internal static int crewLimit(this AstronautComplex complex)
             {

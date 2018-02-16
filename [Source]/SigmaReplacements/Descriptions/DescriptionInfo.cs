@@ -7,7 +7,7 @@ namespace SigmaReplacements
 {
     namespace Descriptions
     {
-        class DescriptionInfo : Info
+        internal class DescriptionInfo : Info
         {
             // Static
             internal static List<DescriptionInfo> List = new List<DescriptionInfo>();

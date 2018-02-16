@@ -6,9 +6,9 @@ namespace SigmaReplacements
     namespace Textures
     {
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
-        public class Version : MonoBehaviour
+        internal class Version : MonoBehaviour
         {
-            public static readonly System.Version number = new System.Version("0.2.0");
+            public static readonly System.Version number = new System.Version("0.2.2");
 
             void Awake()
             {
