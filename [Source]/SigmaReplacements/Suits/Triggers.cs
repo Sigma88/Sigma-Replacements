@@ -13,22 +13,25 @@ namespace SigmaReplacements
         {
             void Awake()
             {
-                GameObject orbitScene = GameObject.Find("OrbitScene").GetChild("Kerbals");
+                GameObject orbitScene = GameObject.Find("OrbitScene")?.GetChild("Kerbals");
 
-                int? kerbals = orbitScene?.transform?.childCount;
-                if (kerbals > 4) kerbals = 4;
-
-                for (int i = 0; i < kerbals; i++)
+                if (orbitScene != null)
                 {
-                    Transform child = orbitScene.transform.GetChild(i);
+                    int? kerbals = orbitScene?.transform?.childCount;
+                    if (kerbals > 4) kerbals = 4;
 
-                    UIKerbalMenu kerbal = child.gameObject.AddOrGetComponent<UIKerbalMenu>();
-                    kerbal.crewMember = UIKerbals.menuKerbals[i + 1];
+                    for (int i = 0; i < kerbals; i++)
+                    {
+                        Transform child = orbitScene.transform.GetChild(i);
 
-                    child.gameObject.AddOrGetComponent<CustomSuit>();
+                        UIKerbalMenu kerbal = child.gameObject.AddOrGetComponent<UIKerbalMenu>();
+                        kerbal.crewMember = UIKerbals.menuKerbals[i + 1];
+
+                        child.gameObject.AddOrGetComponent<CustomSuit>();
+                    }
                 }
 
-                GameObject munScene = GameObject.Find("MunScene").GetChild("Kerbals");
+                GameObject munScene = GameObject.Find("MunScene")?.GetChild("Kerbals");
 
                 if (munScene?.transform?.childCount > 0)
                 {
