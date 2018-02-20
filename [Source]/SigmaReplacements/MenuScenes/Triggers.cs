@@ -63,26 +63,25 @@ namespace SigmaReplacements
 
         internal static class PseudoRandom
         {
+            static int max = 3;
             static double type = 0.5;
+            static double[] chances = null;
 
             internal static int Scene(int hash)
             {
                 if (Math.Pow(hash, 0.5) % 1 < type)
                 {
-                    type = Math.Max(0, type - 0.1);
+                    type = Math.Max(0, type - 1d / max);
 
                     return 0;
                 }
                 else
                 {
-                    type = Math.Min(1, type + 0.1);
+                    type = Math.Min(1, type + 1d / max);
 
                     return 1;
                 }
             }
-
-            static int max = 3;
-            static double[] chances = null;
 
             internal static int Choose(this List<MenuSceneInfo> list, int hash)
             {
