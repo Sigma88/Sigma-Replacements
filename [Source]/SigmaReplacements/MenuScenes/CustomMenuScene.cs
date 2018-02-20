@@ -487,7 +487,32 @@ namespace SigmaReplacements
 
                     Mesh output = null;
 
+                    if (s.StartsWith("BUILTIN/"))
+                    {
+                        string[] path = s.Split('/');
+
+                        if (path.Length > 4)
+                        {
+                            CelestialBody planet = FlightGlobals.Bodies.FirstOrDefault(b => b.transform.name == path[1]);
+
+                            if (path[2] == "PQSLandControl" && path[3] == "scatters")
+                            {
+                                PQSLandControl landControl = planet?.pqsController?.GetComponentsInChildren<PQSLandControl>(true)?.FirstOrDefault();
+
+                                for (int i = 0; i < landControl?.scatters?.Length; i++)
+                                {
+                                    if (landControl.scatters[i].scatterName == path[4])
+                                    {
+                                        output = landControl.scatters[i].baseMesh;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
                         output = Resources.FindObjectsOfTypeAll<Mesh>().FirstOrDefault(m => m.name == s);
+                    }
 
                     return output ?? defaultValue;
                 }
