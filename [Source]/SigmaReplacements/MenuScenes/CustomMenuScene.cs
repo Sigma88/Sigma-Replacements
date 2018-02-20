@@ -474,14 +474,29 @@ namespace SigmaReplacements
                     normal1 = Parse(node.GetValue("normal1"), normal1);
                     normal2 = Parse(node.GetValue("normal2"), normal2);
 
-                    if (!string.IsNullOrEmpty(node.GetValue("shader")))
-                        shader = Resources.FindObjectsOfTypeAll<Shader>().FirstOrDefault(s => s.name == node.GetValue("shader"));
-
-                    if (!string.IsNullOrEmpty(node.GetValue("mesh")))
-                        mesh = Resources.FindObjectsOfTypeAll<Mesh>().FirstOrDefault(s => s.name == node.GetValue("mesh"));
+                    mesh = Parse(node.GetValue("mesh"), mesh);
+                    shader = Parse(node.GetValue("shader"), shader);
 
                     bool.TryParse(node.GetValue("adjustScale"), out adjustScale);
                     bool.TryParse(node.GetValue("removeHelmet"), out removeHelmet);
+                }
+
+                Mesh Parse(string s, Mesh defaultValue)
+                {
+                    if (string.IsNullOrEmpty(s)) return defaultValue;
+
+                    Mesh output = null;
+
+                        output = Resources.FindObjectsOfTypeAll<Mesh>().FirstOrDefault(m => m.name == s);
+
+                    return output ?? defaultValue;
+                }
+
+                Shader Parse(string s, Shader defaultValue)
+                {
+                    if (string.IsNullOrEmpty(s)) return defaultValue;
+
+                    return Resources.FindObjectsOfTypeAll<Shader>().FirstOrDefault(h => h.name == s) ?? defaultValue;
                 }
             }
         }
