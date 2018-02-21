@@ -28,9 +28,7 @@ namespace SigmaReplacements
 
                 if (i == 0)
                 {
-                    UnityEngine.Debug.Log("SigmaLog: db count = " + MenuSceneInfo.DataBase.Count);
                     int index = MenuSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
-                    UnityEngine.Debug.Log("SigmaLog: chosen = " + index);
                     CustomMenuScene scene = new CustomMenuScene(MenuSceneInfo.DataBase[index]);
                     scene.ApplyTo(scenes[0]);
                 }
@@ -49,9 +47,7 @@ namespace SigmaReplacements
                     count++;
 
                     s1 = s;
-                    UnityEngine.Debug.Log("SigmaLog: s1 = " + Math.Abs(s1.GetHashCode()) + " -- " + PseudoRandom.Scene(Math.Abs(s1.GetHashCode())));
                     string s2 = Math.Abs(s1.GetHashCode()).ToString();
-                    UnityEngine.Debug.Log("SigmaLog: s2 = " + Math.Abs(s2.GetHashCode()) + " -- " + MenuSceneInfo.DataBase.Choose(Math.Abs(s2.GetHashCode())));
 
                     if (count == 1000)
                     {
