@@ -279,14 +279,16 @@ namespace SigmaReplacements
                         scatter.transform.transform.localScale *= (0.25f + (new Vector3(0.7814472f, -0.7841411f, 2.28511f) - scatter.transform.transform.position).magnitude / 100);
 
                     // Edit Appearances
+                    Renderer renderer = scatter.transform.GetComponent<Renderer>();
+                    renderer.material = info.material ?? renderer.material;
+                    renderer.material.shader = info.shader ?? renderer.material.shader;
+
                     MeshFilter meshFilter = scatter.transform.GetComponent<MeshFilter>();
                     meshFilter.mesh = info.mesh ?? meshFilter.mesh;
 
-                    Renderer renderer = scatter.transform.GetComponent<Renderer>();
-                    renderer.material.shader = info.shader ?? renderer.material.shader;
                     renderer.material.SetTexture(info.texture1);
-                    renderer.material.SetNormal(info.normal1);
                     renderer.material.SetColor(info.color1);
+                    renderer.material.SetNormal(info.normal1);
                 }
             }
 
