@@ -34,6 +34,7 @@
   <ItemGroup>
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />
+    <Compile Include="MenuScenes\MenuObject.cs" />
     <Compile Include="MenuScenes\CustomMenuScene.cs" />
     <Compile Include="MenuScenes\Nyan.cs" />
     <Compile Include="MenuScenes\NyanMenuScene.cs" />
