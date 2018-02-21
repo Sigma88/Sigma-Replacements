@@ -33,28 +33,6 @@ namespace SigmaReplacements
                     scene.ApplyTo(scenes[0]);
                 }
             }
-
-            static string s1 = "";
-
-            static int count = 0;
-
-            void Update()
-            {
-                string s = DateTime.Now.ToLongTimeString();
-
-                if (s != s1)
-                {
-                    count++;
-
-                    s1 = s;
-                    string s2 = Math.Abs(s1.GetHashCode()).ToString();
-
-                    if (count == 1000)
-                    {
-                        Application.Quit();
-                    }
-                }
-            }
         }
 
         internal static class PseudoRandom
