@@ -32,26 +32,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Common\UserSettings.cs" />
+    <Compile Include="MenuScenes\SettingsLoader.cs" />
+    <Compile Include="Common\DebugLogger.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />
-    <Compile Include="MenuScenes\PseudoRandom.cs" />
+    <Compile Include="MenuScenes\Utility\LiveDebug.cs" />
+    <Compile Include="MenuScenes\Utility\PseudoRandom.cs" />
     <Compile Include="MenuScenes\CustomMenuScene.cs" />
     <Compile Include="MenuScenes\MenuObject.cs" />
     <Compile Include="MenuScenes\MenuSceneInfo.cs" />
     <Compile Include="MenuScenes\MunScenes\CustomMunScene.cs" />
     <Compile Include="MenuScenes\MunScenes\MunSceneInfo.cs" />
-    <Compile Include="MenuScenes\Nyan.cs" />
-    <Compile Include="MenuScenes\NyanMenuScene.cs" />
-    <Compile Include="MenuScenes\Extensions.cs" />
+    <Compile Include="MenuScenes\[Nyan]\Nyan.cs" />
+    <Compile Include="MenuScenes\[Nyan]\NyanMenuScene.cs" />
+    <Compile Include="MenuScenes\Utility\Extensions.cs" />
     <Compile Include="MenuScenes\OrbitScenes\CustomOrbitScene.cs" />
     <Compile Include="MenuScenes\OrbitScenes\OrbitSceneInfo.cs" />
     <Compile Include="MenuScenes\Properties\AssemblyInfo.cs" />
     <Compile Include="MenuScenes\Version.cs" />
-    <Compile Include="Common\UserSettings.cs" />
-    <Compile Include="MenuScenes\SettingsLoader.cs" />
-    <Compile Include="Common\DebugLogger.cs" />
     <Compile Include="MenuScenes\Triggers.cs" />
-    <Compile Include="MenuScenes\KopernicusFixer.cs" />
+    <Compile Include="MenuScenes\Utility\KopernicusFixer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
