@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.IO;
 using UnityEngine;
 
 
@@ -9,18 +8,31 @@ namespace SigmaReplacements
     {
         internal class MenuObject : Info
         {
-            internal bool debug = false;
-            internal bool enabled = true;
+            // Settings
             internal int? index = null;
+            internal bool enabled = true;
+            internal bool debug = false;
+            internal bool adjustScale = false;
+            internal bool removeHelmet = false;
 
+
+            // Physical Parameters
             internal Vector3? position = null;
             internal Quaternion? rotation = null;
             internal Vector3? scale = null;
-            internal float? rotatoSpeed = null;
 
-            internal Material material = null;
+            internal float? rotatoSpeed = null;
+            internal string pivotAround = null;
+            internal Vector3? pivotPosition = null;
+            internal Quaternion? pivotRotation = null;
+            internal Vector3? pivotScale = null;
+            internal float? pivotRotatoSpeed = null;
 
             internal Mesh mesh = null;
+
+
+            // Visual Parameters
+            internal Material material = null;
             internal Shader shader = null;
 
             internal Color? color1 = null;
@@ -33,22 +45,20 @@ namespace SigmaReplacements
             internal Texture normal2 = null;
 
 
-            internal bool adjustScale = false;
-
-            internal bool removeHelmet = false;
-
+            // New MenuObject from cfg
             internal MenuObject(ConfigNode node)
             {
+                // Settings
                 name = node.GetValue("name");
 
                 index = Parse(node.GetValue("index"), index);
-
-                bool.TryParse(node.GetValue("debug"), out debug);
 
                 if (!bool.TryParse(node.GetValue("enabled"), out enabled))
                 {
                     enabled = true;
                 }
+
+                bool.TryParse(node.GetValue("debug"), out debug);
 
                 useChance = Parse(node.GetValue("useChance"), useChance);
 
@@ -57,15 +67,28 @@ namespace SigmaReplacements
                     enabled = false;
                 }
 
+                bool.TryParse(node.GetValue("adjustScale"), out adjustScale);
+                bool.TryParse(node.GetValue("removeHelmet"), out removeHelmet);
+
+
+                // Physical Parameters
                 position = Parse(node.GetValue("position"), position);
                 rotation = Parse(node.GetValue("rotation"), rotation);
                 scale = Parse(node.GetValue("scale"), scale);
-                
-                rotatoSpeed = Parse(node.GetValue("rotatoSpeed"), rotatoSpeed);
 
+                rotatoSpeed = Parse(node.GetValue("rotatoSpeed"), rotatoSpeed);
+                pivotAround = node.GetValue("pivotAround");
+                pivotPosition = Parse(node.GetValue("pivotPosition"), pivotPosition);
+                pivotRotation = Parse(node.GetValue("pivotRotation"), pivotRotation);
+                pivotScale = Parse(node.GetValue("pivotScale"), pivotScale);
+                pivotRotatoSpeed = Parse(node.GetValue("pivotRotatoSpeed"), pivotRotatoSpeed);
+
+                mesh = Parse(node.GetValue("mesh"), mesh);
+
+
+                // Visual Parameters
                 material = Parse(node.GetValue("material"), material);
                 shader = Parse(node.GetValue("shader"), shader);
-                mesh = Parse(node.GetValue("mesh"), mesh);
 
                 color1 = Parse(node.GetValue("color1"), color1);
                 color2 = Parse(node.GetValue("color2"), color2);
@@ -73,11 +96,82 @@ namespace SigmaReplacements
                 texture2 = Parse(node.GetValue("texture2"), texture2);
                 normal1 = Parse(node.GetValue("normal1"), normal1);
                 normal2 = Parse(node.GetValue("normal2"), normal2);
-
-                bool.TryParse(node.GetValue("adjustScale"), out adjustScale);
-                bool.TryParse(node.GetValue("removeHelmet"), out removeHelmet);
             }
 
+            // Apply MenuObject to GameObject
+            internal void ApplyTo(GameObject obj, float scaleMult = 1)
+            {
+                if (obj == null) return;
+                if (debug) obj.AddOrGetComponent<LiveDebug>();
+
+                // Edit Position/Rotation/Scale
+                obj.transform.position = position ?? obj.transform.position;
+                obj.transform.rotation = rotation ?? obj.transform.rotation;
+                if (scale != null)
+                    obj.transform.localScale = (Vector3)scale * scaleMult;
+
+                // Adjust Scale by Distance
+                if (adjustScale)
+                    obj.transform.transform.localScale *= (0.25f + (new Vector3(0.7814472f, -0.7841411f, 2.28511f) - obj.transform.transform.position).magnitude / 100);
+
+                // Edit Appearances
+                MeshFilter meshFilter = obj.transform.GetComponent<MeshFilter>();
+                meshFilter.mesh = mesh ?? meshFilter.mesh;
+
+                Renderer renderer = obj.transform.GetComponent<Renderer>();
+                renderer.material = material ?? renderer.material;
+                renderer.material.shader = shader ?? renderer.material.shader;
+
+                renderer.material.SetTexture(texture1);
+                renderer.material.SetColor(color1);
+                renderer.material.SetNormal(normal1);
+
+                // Rotato
+                if (rotatoSpeed != null)
+                {
+                    Rotato rotato = obj.AddOrGetComponent<Rotato>();
+                    rotato.speed = (float)rotatoSpeed;
+                }
+
+                // Pivot
+                if (!string.IsNullOrEmpty(pivotAround))
+                {
+                    GameObject scene = obj;
+
+                    while (scene != null && scene.name != "OrbitScene" && scene.name != "MunScene")
+                    {
+                        scene = scene?.transform?.parent?.gameObject;
+                    }
+
+                    if (scene == null) return;
+
+                    GameObject parent = scene.GetChild(pivotAround);
+
+                    if (parent != null)
+                    {
+                        GameObject pivot = new GameObject(obj.name + "_Pivot");
+
+                        pivot.transform.SetParent(parent.transform);
+
+                        pivot.transform.position = pivotPosition ?? parent.transform.position;
+                        pivot.transform.rotation = pivotRotation ?? Quaternion.identity;
+                        pivot.transform.localScale = pivotScale ?? Vector3.one;
+
+                        obj.transform.SetParent(pivot.transform);
+                    }
+                }
+
+                if (pivotRotatoSpeed != null)
+                {
+                    if (obj?.transform?.parent?.gameObject != null)
+                    {
+                        Rotato pivotRotato = obj.transform.parent.gameObject.AddOrGetComponent<Rotato>();
+                        pivotRotato.speed = (float)pivotRotatoSpeed;
+                    }
+                }
+            }
+
+            // Parsers
             Mesh Parse(string s, Mesh defaultValue)
             {
                 if (string.IsNullOrEmpty(s)) return defaultValue;
