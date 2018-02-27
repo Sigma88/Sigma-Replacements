@@ -7,7 +7,7 @@ namespace SigmaReplacements
 {
     namespace MenuScenes
     {
-        internal class CustomMunScene
+        internal class CustomMunScene : CustomMenuScene
         {
             // Sky
             MenuObject atmosphere = null;
@@ -33,6 +33,7 @@ namespace SigmaReplacements
                 // Sky
                 if (info.atmosphere != null)
                     atmosphere = new MenuObject(info.atmosphere);
+
                 bodies = Parse(info.bodies, bodies);
 
                 // Terrain
@@ -98,7 +99,7 @@ namespace SigmaReplacements
 
                     // Create Atmosphere SkyBox
                     GameObject sky = GameObject.Find("MainMenuGalaxy");
-                    GameObject atmosphere = Object.Instantiate(sky);
+                    GameObject atmosphere = Instantiate(sky);
 
                     atmosphere.GetChild("XN").GetComponent<Renderer>().material.mainTexture = gradient;
                     atmosphere.GetChild("XP").GetComponent<Renderer>().material.mainTexture = gradient;
@@ -114,13 +115,13 @@ namespace SigmaReplacements
 
             void EditBodies(MenuObject[] bodies, GameObject scene)
             {
-                if (bodies == null) return;
+                if (!(bodies?.Length > 0)) return;
 
                 // Get Stock Body
                 GameObject kerbin = scene.GetChild("Kerbin");
                 Debug.Log("EditBodies", "Kerbin position = " + (Vector3d)kerbin.transform.position);
-                Debug.Log("EditBodies", "Kerbin rotation = " + kerbin.transform.eulerAngles);
-                Debug.Log("EditBodies", "Kerbin scale = " + (Vector3d.one * 1.2695035));
+                Debug.Log("EditBodies", "Kerbin rotation = " + (Vector3d)kerbin.transform.eulerAngles);
+                Debug.Log("EditBodies", "Kerbin scale = " + (Vector3d)kerbin.transform.localScale);
                 Debug.Log("EditBodies", "Kerbin rotatoSpeed = " + kerbin?.GetComponent<Rotato>()?.speed);
 
                 for (int i = bodies.Length; i > 0; i--)
@@ -133,7 +134,7 @@ namespace SigmaReplacements
                     {
                         if (string.IsNullOrEmpty(info.name)) continue;
 
-                        body = Object.Instantiate(kerbin);
+                        body = Instantiate(kerbin);
                         body.name = "NewBody_" + info.name;
                     }
                     else if (i - 1 == 0)
@@ -147,22 +148,11 @@ namespace SigmaReplacements
                         continue;
                     }
 
-                    // Debug
-                    if (info.debug) body.AddOrGetComponent<LiveDebug>();
-
-                    // Edit Body Position/Rotation/Scale
-                    body.transform.position = info.position ?? body.transform.position;
-                    body.transform.rotation = info.rotation ?? body.transform.rotation;
-                    if (info.scale != null)
-                        body.transform.localScale = (Vector3)info.scale * 0.1483542f;
-
-                    // Edit Body Rotation Speed
-                    Rotato rotato = body.GetComponent<Rotato>();
-                    rotato.speed = info.rotatoSpeed ?? rotato.speed;
-
-                    // Edit Body Appearance
+                    // Edit Visual Parameters
                     Renderer renderer = body.GetComponent<Renderer>();
+
                     GameObject template = FlightGlobals.Bodies?.FirstOrDefault(b => b.transform.name == info.name)?.scaledBody;
+
                     if (template != null)
                     {
                         // Material
@@ -176,6 +166,8 @@ namespace SigmaReplacements
                         meshFilter.mesh = template?.GetComponent<MeshFilter>()?.mesh ?? meshFilter.mesh;
                     }
 
+                    // Edit Physical Parameters
+                    info.ApplyTo(body, 0.188336193561554f);
 
                     // Add Atmospheric Haze
                     if (haze != null)
@@ -221,7 +213,7 @@ namespace SigmaReplacements
                     {
                         Debug.Log("EditBoulders", "boulder index = " + i);
                         Debug.Log("EditBoulders", "     position = " + (Vector3d)boulders[i].transform.position);
-                        Debug.Log("EditBoulders", "     rotation = " + boulders[i].transform.eulerAngles);
+                        Debug.Log("EditBoulders", "     rotation = " + (Vector3d)boulders[i].transform.eulerAngles);
                         Debug.Log("EditBoulders", "        scale = " + (Vector3d)boulders[i].transform.localScale);
                     }
                 }
@@ -268,7 +260,7 @@ namespace SigmaReplacements
                 int? sandcastle = null;
                 GameObject template = scene.GetChild("sandcastle");
                 Debug.Log("AddScatter", "template position = " + (Vector3d)template.transform.position);
-                Debug.Log("AddScatter", "template rotation = " + template.transform.eulerAngles);
+                Debug.Log("AddScatter", "template rotation = " + (Vector3d)template.transform.eulerAngles);
                 Debug.Log("AddScatter", "template scale = " + (Vector3d)template.transform.localScale);
 
                 for (int i = 0; i < scatters?.Length; i++)
@@ -282,16 +274,16 @@ namespace SigmaReplacements
                     }
 
                     MenuObject info = scatters[i];
-                    GameObject scatter = Object.Instantiate(template);
+                    GameObject scatter = Instantiate(template);
                     Object.DestroyImmediate(scatter.GetComponent<SandCastleLogic>());
                     scatter.name = info.name;
 
-                    EditObject(scatter, info);
+                    info.ApplyTo(scatter);
                 }
 
                 if (sandcastle != null)
                 {
-                    EditObject(template, scatters[(int)sandcastle]);
+                    scatters[(int)sandcastle].ApplyTo(template);
                 }
             }
 
@@ -303,12 +295,12 @@ namespace SigmaReplacements
                 if (Debug.debug)
                 {
                     Debug.Log("EditWreck", "wreck position = " + (Vector3d)wreck.transform.position);
-                    Debug.Log("EditWreck", "wreck rotation = " + wreck.transform.eulerAngles);
+                    Debug.Log("EditWreck", "wreck rotation = " + (Vector3d)wreck.transform.eulerAngles);
                     Debug.Log("EditWreck", "wreck scale = " + (Vector3d)wreck.transform.localScale);
 
                     GameObject ground = wreck.GetChild("boulder");
                     Debug.Log("EditWreck", "ground position = " + (Vector3d)ground.transform.position);
-                    Debug.Log("EditWreck", "ground rotation = " + ground.transform.eulerAngles);
+                    Debug.Log("EditWreck", "ground rotation = " + (Vector3d)ground.transform.eulerAngles);
                     Debug.Log("EditWreck", "ground scale = " + (Vector3d)ground.transform.localScale);
                 }
 
@@ -330,7 +322,7 @@ namespace SigmaReplacements
 
                 GameObject ground = scene.GetChild("wreckedShip").GetChild("boulder");
                 Debug.Log("EditGround", "ground position = " + (Vector3d)ground.transform.position);
-                Debug.Log("EditGround", "ground rotation = " + ground.transform.eulerAngles);
+                Debug.Log("EditGround", "ground rotation = " + (Vector3d)ground.transform.eulerAngles);
                 Debug.Log("EditGround", "ground scale = " + (Vector3d)ground.transform.localScale);
 
                 // Enable
@@ -360,7 +352,7 @@ namespace SigmaReplacements
                 // Get Stock Kerbal
                 GameObject template = scene.GetChild("Kerbals").transform.GetChild(0).gameObject;
                 Debug.Log("EditKerbals", "template position = " + (Vector3d)template.transform.position);
-                Debug.Log("EditKerbals", "template rotation = " + template.transform.eulerAngles);
+                Debug.Log("EditKerbals", "template rotation = " + (Vector3d)template.transform.eulerAngles);
                 Debug.Log("EditKerbals", "template scale = " + (Vector3d)template.transform.localScale);
 
                 for (int i = kerbals.Length; i > 0; i--)
@@ -373,7 +365,7 @@ namespace SigmaReplacements
                     {
                         if (string.IsNullOrEmpty(info.name)) continue;
 
-                        kerbal = Object.Instantiate(template);
+                        kerbal = Instantiate(template);
                         kerbal.name = info.name;
                     }
                     else if (i - 1 == 0)
@@ -398,18 +390,6 @@ namespace SigmaReplacements
                 }
             }
 
-            MenuObject[] Parse(ConfigNode[] nodes, MenuObject[] array)
-            {
-                for (int i = 0; i < nodes?.Length; i++)
-                {
-                    if (array == null) array = new MenuObject[nodes.Length];
-
-                    array[i] = new MenuObject(nodes[i]);
-                }
-
-                return array;
-            }
-
             MenuObject[] ParseBoulders(ConfigNode[] input)
             {
                 if (input == null) return null;
@@ -432,32 +412,6 @@ namespace SigmaReplacements
                 }
 
                 return output?.Where(i => i.name != "boulder")?.ToArray();
-            }
-
-            void EditObject(GameObject obj, MenuObject info)
-            {
-                if (info.debug) obj.AddOrGetComponent<LiveDebug>();
-
-                // Edit Position/Rotation/Scale
-                obj.transform.position = info.position ?? obj.transform.position;
-                obj.transform.rotation = info.rotation ?? obj.transform.rotation;
-                obj.transform.localScale = info.scale ?? obj.transform.localScale;
-
-                // Adjust Scale by Distance
-                if (info.adjustScale)
-                    obj.transform.transform.localScale *= (0.25f + (new Vector3(0.7814472f, -0.7841411f, 2.28511f) - obj.transform.transform.position).magnitude / 100);
-
-                // Edit Appearances
-                Renderer renderer = obj.transform.GetComponent<Renderer>();
-                renderer.material = info.material ?? renderer.material;
-                renderer.material.shader = info.shader ?? renderer.material.shader;
-
-                MeshFilter meshFilter = obj.transform.GetComponent<MeshFilter>();
-                meshFilter.mesh = info.mesh ?? meshFilter.mesh;
-
-                renderer.material.SetTexture(info.texture1);
-                renderer.material.SetColor(info.color1);
-                renderer.material.SetNormal(info.normal1);
             }
         }
     }

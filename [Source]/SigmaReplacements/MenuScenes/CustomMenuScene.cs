@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 
@@ -12,8 +10,8 @@ namespace SigmaReplacements
             internal CustomMenuScene()
             {
             }
-            
-            MenuObject[] Parse(ConfigNode[] nodes, MenuObject[] array)
+
+            protected MenuObject[] Parse(ConfigNode[] nodes, MenuObject[] array)
             {
                 for (int i = 0; i < nodes?.Length; i++)
                 {
@@ -25,28 +23,18 @@ namespace SigmaReplacements
                 return array;
             }
 
-            MenuObject[] ParseBoulders(ConfigNode[] input)
+            protected GameObject Instantiate(GameObject original)
             {
-                if (input == null) return null;
+                GameObject clone = null;
 
-                MenuObject[] data = Parse(input, null);
-
-                List<MenuObject> output = data.Where(i => i.name == "boulder" && i.index == null).ToList();
-                output.AddRange(data.Where(i => i.name == "boulder" && i.index != null).OrderBy(i => i.index));
-
-                return output.ToArray();
-            }
-
-            MenuObject[] ParseScatter(ConfigNode[] input)
-            {
-                MenuObject[] output = null;
-
-                if (input != null)
+                if (original != null)
                 {
-                    output = Parse(input, output);
+                    clone = Object.Instantiate(original);
+                    if (original?.transform?.parent != null)
+                        clone.transform.SetParent(original.transform.parent);
                 }
 
-                return output?.Where(i => i.name != "boulder")?.ToArray();
+                return clone;
             }
         }
     }
