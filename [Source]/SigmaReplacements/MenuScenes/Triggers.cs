@@ -25,7 +25,6 @@ namespace SigmaReplacements
                 GameObject[] scenes = FindObjectOfType<MainMenu>().envLogic.areas;
                 scenes[i].SetActive(true);
                 scenes[(i + 1) % 2].SetActive(false);
-
                 if (i == 0)
                 {
                     int index = MunSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
@@ -38,7 +37,7 @@ namespace SigmaReplacements
                     CustomOrbitScene scene = new CustomOrbitScene((OrbitSceneInfo)OrbitSceneInfo.DataBase[index]);
                     scene.ApplyTo(scenes[1]);
                 }
-                
+
                 if (AssemblyLoader.loadedAssemblies.FirstOrDefault(a => a.name == "Kopernicus") != null)
                 {
                     new KopernicusFixer();
