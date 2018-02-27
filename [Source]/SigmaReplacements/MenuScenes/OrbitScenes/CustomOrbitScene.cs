@@ -7,7 +7,7 @@ namespace SigmaReplacements
 {
     namespace MenuScenes
     {
-        internal class CustomOrbitScene
+        internal class CustomOrbitScene : CustomMenuScene
         {
             // Sky
             MenuObject planet = null;
@@ -46,7 +46,7 @@ namespace SigmaReplacements
                 GameObject kerbin = scene.GetChild("Kerbin");
                 Debug.Log("EditMoons", "Kerbin position = " + (Vector3d)kerbin.transform.position);
                 Debug.Log("EditMoons", "Kerbin rotation = " + kerbin.transform.eulerAngles);
-                Debug.Log("EditMoons", "Kerbin scale = " + (Vector3d.one * 1.2695035));
+                Debug.Log("EditMoons", "Kerbin scale = " + kerbin.transform.localScale);
                 Debug.Log("EditMoons", "Kerbin rotatoSpeed = " + kerbin?.GetComponent<Rotato>()?.speed);
 
                 for (int i = moons.Length; i > 0; i--)
@@ -59,7 +59,7 @@ namespace SigmaReplacements
                     {
                         if (string.IsNullOrEmpty(info.name)) continue;
 
-                        body = Object.Instantiate(kerbin);
+                        body = Instantiate(kerbin);
                         body.name = "NewBody_" + info.name;
                     }
                     else if (i - 1 == 0)
@@ -79,8 +79,8 @@ namespace SigmaReplacements
                     // Edit Body Position/Rotation/Scale
                     body.transform.position = info.position ?? body.transform.position;
                     body.transform.rotation = info.rotation ?? body.transform.rotation;
-                    if (info.scale != null)
-                        body.transform.localScale = (Vector3)info.scale * 0.1483542f;
+                    //if (info.scale != null)
+                    //    body.transform.localScale = (Vector3)info.scale * 0.1483542f;
 
                     // Edit Body Rotation Speed
                     Rotato rotato = body.GetComponent<Rotato>();
@@ -103,7 +103,7 @@ namespace SigmaReplacements
                     }
                 }
             }
-            
+
             void EditKerbals(MenuObject[] kerbals, GameObject scene)
             {
                 if (kerbals == null) return;
@@ -124,7 +124,7 @@ namespace SigmaReplacements
                     {
                         if (string.IsNullOrEmpty(info.name)) continue;
 
-                        kerbal = Object.Instantiate(template);
+                        kerbal = Instantiate(template);
                         kerbal.name = info.name;
                     }
                     else if (i - 1 == 0)
