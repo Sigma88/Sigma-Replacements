@@ -14,7 +14,6 @@ namespace SigmaReplacements
             {
                 // Mun Scene Settings
                 ConfigNode[] InfoNodes = UserSettings.ConfigNode.GetNodes("MunScene");
-
                 for (int i = 0; i < InfoNodes?.Length; i++)
                 {
                     MunSceneInfo info = new MunSceneInfo(InfoNodes[i]);
