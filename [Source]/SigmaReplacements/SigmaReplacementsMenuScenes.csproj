@@ -34,23 +34,32 @@
   <ItemGroup>
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />
-    <Compile Include="MenuScenes\MenuObject.cs" />
+    <Compile Include="MenuScenes\PseudoRandom.cs" />
     <Compile Include="MenuScenes\CustomMenuScene.cs" />
+    <Compile Include="MenuScenes\MenuObject.cs" />
+    <Compile Include="MenuScenes\MenuSceneInfo.cs" />
+    <Compile Include="MenuScenes\MunScenes\CustomMunScene.cs" />
+    <Compile Include="MenuScenes\MunScenes\MunSceneInfo.cs" />
     <Compile Include="MenuScenes\Nyan.cs" />
     <Compile Include="MenuScenes\NyanMenuScene.cs" />
     <Compile Include="MenuScenes\Extensions.cs" />
+    <Compile Include="MenuScenes\OrbitScenes\CustomOrbitScene.cs" />
+    <Compile Include="MenuScenes\OrbitScenes\OrbitSceneInfo.cs" />
     <Compile Include="MenuScenes\Properties\AssemblyInfo.cs" />
     <Compile Include="MenuScenes\Version.cs" />
     <Compile Include="Common\UserSettings.cs" />
     <Compile Include="MenuScenes\SettingsLoader.cs" />
     <Compile Include="Common\DebugLogger.cs" />
-    <Compile Include="MenuScenes\MenuSceneInfo.cs" />
     <Compile Include="MenuScenes\Triggers.cs" />
+    <Compile Include="MenuScenes\KopernicusFixer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\[References]\KerbalSpaceProgram\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Kopernicus">
+      <HintPath>..\..\..\[References]\Kopernicus\Kopernicus.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

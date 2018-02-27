@@ -25,7 +25,7 @@ namespace SigmaReplacements
         {
             string path = Assembly.GetExecutingAssembly().Location;
 
-            if (!folder.StartsWith(Path.GetFullPath(folder)))
+            if (!Path.GetFullPath(path).StartsWith(Path.GetFullPath(folder)))
             {
                 UnityEngine.Debug.Log(Debug.Tag + " WARNING: Incorrect plugin location => " + path);
             }

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 
@@ -9,12 +9,14 @@ namespace SigmaReplacements
     {
         internal class MenuObject : Info
         {
+            internal bool debug = false;
             internal bool enabled = true;
             internal int? index = null;
 
             internal Vector3? position = null;
             internal Quaternion? rotation = null;
             internal Vector3? scale = null;
+            internal float? rotatoSpeed = null;
 
             internal Material material = null;
 
@@ -41,6 +43,8 @@ namespace SigmaReplacements
 
                 index = Parse(node.GetValue("index"), index);
 
+                bool.TryParse(node.GetValue("debug"), out debug);
+
                 if (!bool.TryParse(node.GetValue("enabled"), out enabled))
                 {
                     enabled = true;
@@ -56,6 +60,8 @@ namespace SigmaReplacements
                 position = Parse(node.GetValue("position"), position);
                 rotation = Parse(node.GetValue("rotation"), rotation);
                 scale = Parse(node.GetValue("scale"), scale);
+                
+                rotatoSpeed = Parse(node.GetValue("rotatoSpeed"), rotatoSpeed);
 
                 material = Parse(node.GetValue("material"), material);
                 shader = Parse(node.GetValue("shader"), shader);
@@ -107,7 +113,30 @@ namespace SigmaReplacements
                             {
                                 if (mods[i].name == path[3])
                                 {
-                                    output = mods[i].GetComponentInChildren<MeshFilter>(true)?.mesh;
+                                    int index = 0;
+
+                                    if (path.Length > 4) int.TryParse(path[4], out index);
+
+                                    output = mods[i].GetComponentsInChildren<MeshFilter>(true)?.Skip(index)?.FirstOrDefault()?.mesh;
+
+                                    break;
+                                }
+                            }
+                        }
+                        else if (path.Length > 3 && path[2] == "PQSCity2")
+                        {
+                            PQSCity2[] mods = planet?.pqsController?.GetComponentsInChildren<PQSCity2>(true);
+
+                            for (int i = 0; i < mods?.Length; i++)
+                            {
+                                if (mods[i].name == path[3])
+                                {
+                                    int index = 0;
+
+                                    if (path.Length > 4) int.TryParse(path[4], out index);
+
+                                    output = mods[i].GetComponentsInChildren<MeshFilter>(true)?.Skip(index)?.FirstOrDefault()?.mesh;
+
                                     break;
                                 }
                             }
@@ -157,7 +186,30 @@ namespace SigmaReplacements
                             {
                                 if (mods[i].name == path[3])
                                 {
-                                    output = mods[i].GetComponentInChildren<Renderer>(true)?.material?.shader;
+                                    int index = 0;
+
+                                    if (path.Length > 4) int.TryParse(path[4], out index);
+
+                                    output = mods[i].GetComponentsInChildren<Renderer>(true)?.Skip(index)?.FirstOrDefault()?.material?.shader;
+
+                                    break;
+                                }
+                            }
+                        }
+                        else if (path.Length > 3 && path[2] == "PQSCity2")
+                        {
+                            PQSCity2[] mods = planet?.pqsController?.GetComponentsInChildren<PQSCity2>(true);
+
+                            for (int i = 0; i < mods?.Length; i++)
+                            {
+                                if (mods[i].name == path[3])
+                                {
+                                    int index = 0;
+
+                                    if (path.Length > 4) int.TryParse(path[4], out index);
+
+                                    output = mods[i].GetComponentsInChildren<Renderer>(true)?.Skip(index)?.FirstOrDefault()?.material?.shader;
+
                                     break;
                                 }
                             }
@@ -207,7 +259,29 @@ namespace SigmaReplacements
                             {
                                 if (mods[i].name == path[3])
                                 {
-                                    output = mods[i].GetComponentInChildren<Renderer>(true)?.material;
+                                    int index = 0;
+
+                                    if (path.Length > 4) int.TryParse(path[4], out index);
+
+                                    output = mods[i].GetComponentsInChildren<Renderer>(true)?.Skip(index)?.FirstOrDefault()?.material;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (path.Length > 3 && path[2] == "PQSCity2")
+                        {
+                            PQSCity2[] mods = planet?.pqsController?.GetComponentsInChildren<PQSCity2>(true);
+
+                            for (int i = 0; i < mods?.Length; i++)
+                            {
+                                if (mods[i].name == path[3])
+                                {
+                                    int index = 0;
+
+                                    if (path.Length > 4) int.TryParse(path[4], out index);
+
+                                    output = mods[i].GetComponentsInChildren<Renderer>(true)?.Skip(index)?.FirstOrDefault()?.material;
+
                                     break;
                                 }
                             }
@@ -216,6 +290,72 @@ namespace SigmaReplacements
                 }
 
                 return output ?? defaultValue;
+            }
+        }
+
+        internal class LiveDebug : MonoBehaviour
+        {
+            static double time = 0.1;
+            static float moveby = 0.05f;
+
+            void Update()
+            {
+                time += Time.deltaTime;
+
+                if (time < 0.1) return;
+                else time = 0;
+
+                // POSITION
+                if (Input.GetKey(KeyCode.LeftArrow))
+                    transform.localPosition = new Vector3(transform.localPosition.x - moveby, transform.localPosition.y, transform.localPosition.z);
+                else if (Input.GetKey(KeyCode.RightArrow))
+                    transform.localPosition = new Vector3(transform.localPosition.x + moveby, transform.localPosition.y, transform.localPosition.z);
+                else if (Input.GetKey(KeyCode.DownArrow))
+                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - moveby, transform.localPosition.z);
+                else if (Input.GetKey(KeyCode.UpArrow))
+                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + moveby, transform.localPosition.z);
+                else if (Input.GetKey(KeyCode.RightControl))
+                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - moveby);
+                else if (Input.GetKey(KeyCode.RightShift))
+                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + moveby);
+
+                // ROTATION
+                else if (Input.GetKey(KeyCode.W))
+                    transform.localRotation = Quaternion.Euler((transform.localEulerAngles.x + 1) % 360, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                else if (Input.GetKey(KeyCode.S))
+                    transform.localRotation = Quaternion.Euler((transform.localEulerAngles.x + 359) % 360, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                else if (Input.GetKey(KeyCode.A))
+                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, (transform.localEulerAngles.y + 1) % 360, transform.localEulerAngles.z);
+                else if (Input.GetKey(KeyCode.D))
+                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, (transform.localEulerAngles.y + 359) % 360, transform.localEulerAngles.z);
+                else if (Input.GetKey(KeyCode.Q))
+                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 1) % 360);
+                else if (Input.GetKey(KeyCode.E))
+                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 359) % 360);
+
+                // SCALE
+                else if (Input.GetKey(KeyCode.KeypadMinus))
+                    transform.localScale = transform.localScale * 0.95f;
+                else if (Input.GetKey(KeyCode.KeypadPlus))
+                    transform.localScale = transform.localScale * 1.05f;
+
+                // NOTHING
+                else return;
+
+                Save();
+            }
+
+            void Save()
+            {
+                Directory.CreateDirectory("GameData/Sigma/Replacements/MenuScenes/Debug/");
+
+                string[] data = new string[3];
+
+                data[0] = "position = " + (Vector3d)transform.position;
+                data[1] = "rotation = " + (Vector3d)transform.eulerAngles;
+                data[2] = "scale = " + (Vector3d)transform.localScale;
+
+                File.WriteAllLines("GameData/Sigma/Replacements/MenuScenes/Debug/" + name + ".txt", data);
             }
         }
     }

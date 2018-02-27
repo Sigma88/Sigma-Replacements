@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 
 namespace SigmaReplacements
@@ -16,22 +17,22 @@ namespace SigmaReplacements
 
                 for (int i = 0; i < InfoNodes?.Length; i++)
                 {
-                    MenuSceneInfo info = new MenuSceneInfo(InfoNodes[i]);
-                    AddUnique(info);
+                    MunSceneInfo info = new MunSceneInfo(InfoNodes[i]);
+                    AddUnique(MunSceneInfo.DataBase, info);
                 }
 
                 // Add Stock MunScene
-                AddUnique(new MenuSceneInfo("MunScene"));
+                AddUnique(MunSceneInfo.DataBase, new MunSceneInfo("MunScene"));
 
                 // Removed Non-Enabled
-                MenuSceneInfo.DataBase.RemoveAll(i => !i.enabled);
+                MunSceneInfo.DataBase.RemoveAll(i => !i.enabled);
             }
 
-            void AddUnique(MenuSceneInfo info)
+            static void AddUnique(List<MenuSceneInfo> list, MenuSceneInfo info)
             {
                 if (string.IsNullOrEmpty(info.name)) return;
-                if (MenuSceneInfo.DataBase.Any(i => i.name == info.name)) return;
-                MenuSceneInfo.DataBase.Add(info);
+                if (list.Any(i => i.name == info.name)) return;
+                list.Add(info);
             }
         }
     }
