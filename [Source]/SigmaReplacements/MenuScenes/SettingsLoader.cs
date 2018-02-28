@@ -12,11 +12,22 @@ namespace SigmaReplacements
         {
             void Awake()
             {
-                // Mun Scene Settings
-                ConfigNode[] InfoNodes = UserSettings.ConfigNode.GetNodes("MunScene");
-                for (int i = 0; i < InfoNodes?.Length; i++)
+                // Orbit Scene Settings
+                ConfigNode[] OrbitInfoNodes = UserSettings.ConfigNode?.GetNodes("OrbitScene");
+                for (int i = 0; i < OrbitInfoNodes?.Length; i++)
                 {
-                    MunSceneInfo info = new MunSceneInfo(InfoNodes[i]);
+                    if (OrbitSceneInfo.DataBase == null)
+                        OrbitSceneInfo.DataBase = new List<MenuSceneInfo>();
+
+                    OrbitSceneInfo info = new OrbitSceneInfo(OrbitInfoNodes[i]);
+                    AddUnique(OrbitSceneInfo.DataBase, info);
+                }
+
+                // Mun Scene Settings
+                ConfigNode[] MunInfoNodes = UserSettings.ConfigNode?.GetNodes("MunScene");
+                for (int i = 0; i < MunInfoNodes?.Length; i++)
+                {
+                    MunSceneInfo info = new MunSceneInfo(MunInfoNodes[i]);
                     AddUnique(MunSceneInfo.DataBase, info);
                 }
 
@@ -24,7 +35,10 @@ namespace SigmaReplacements
                 AddUnique(MunSceneInfo.DataBase, new MunSceneInfo("MunScene"));
 
                 // Removed Non-Enabled
-                MunSceneInfo.DataBase.RemoveAll(i => !i.enabled);
+                if (OrbitSceneInfo.DataBase?.Count > 0)
+                    OrbitSceneInfo.DataBase.RemoveAll(i => !i.enabled);
+                if (MunSceneInfo.DataBase?.Count > 0)
+                    MunSceneInfo.DataBase.RemoveAll(i => !i.enabled);
             }
 
             static void AddUnique(List<MenuSceneInfo> list, MenuSceneInfo info)
