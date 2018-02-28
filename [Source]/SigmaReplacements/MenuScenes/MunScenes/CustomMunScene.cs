@@ -152,7 +152,8 @@ namespace SigmaReplacements
                     // Edit Visual Parameters
                     Renderer renderer = body.GetComponent<Renderer>();
 
-                    GameObject template = FlightGlobals.Bodies?.FirstOrDefault(b => b.transform.name == info.name)?.scaledBody;
+                    CelestialBody cb = FlightGlobals.Bodies?.FirstOrDefault(b => b.transform.name == info.name);
+                    GameObject template = cb?.scaledBody;
 
                     if (template != null)
                     {
@@ -168,7 +169,9 @@ namespace SigmaReplacements
                     }
 
                     // Edit Physical Parameters
-                    info.ApplyTo(body, 0.188336193561554f);
+                    info.scale = info.scale ?? Vector3.one;
+                    float mult = (float)((cb?.Radius ?? 600000) / 600000);
+                    info.ApplyTo(body, 0.188336193561554f * mult);
 
                     // Add Atmospheric Haze
                     if (haze != null)
