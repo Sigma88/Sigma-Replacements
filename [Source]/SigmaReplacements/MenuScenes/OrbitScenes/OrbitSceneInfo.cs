@@ -8,7 +8,18 @@ namespace SigmaReplacements
         internal class OrbitSceneInfo : MenuSceneInfo
         {
             // Static
-            internal static List<MenuSceneInfo> DataBase = new List<MenuSceneInfo>();
+            internal static List<MenuSceneInfo> DataBase = null;
+
+            // Bodies
+            internal ConfigNode planet = null;
+            internal ConfigNode[] moons = null;
+
+            // Kerbals
+            internal ConfigNode[] kerbals = null;
+
+            // Scatters
+            internal ConfigNode[] scatter = null;
+
 
             // New MenuScenesInfo From Config
             internal OrbitSceneInfo(ConfigNode info)
@@ -25,11 +36,16 @@ namespace SigmaReplacements
                 }
 
                 if (!enabled) return;
-            }
 
-            // New MenuScenesInfo From Name
-            internal OrbitSceneInfo(string name) : base(name)
-            {
+                // Bodies
+                planet = info?.GetNode("BODIES")?.GetNode("PLANET");
+                moons = info?.GetNode("BODIES")?.GetNodes("MOON");
+
+                // Kerbals
+                kerbals = info?.GetNode("KERBALS")?.GetNodes("KERBAL");
+
+                // Scatter
+                scatter = info?.GetNode("SCATTER")?.GetNodes("OBJECT");
             }
         }
     }
