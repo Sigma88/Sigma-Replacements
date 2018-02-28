@@ -43,7 +43,7 @@ namespace SigmaReplacements
                 {
                     int index = OrbitSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
                     CustomOrbitScene scene = new CustomOrbitScene((OrbitSceneInfo)OrbitSceneInfo.DataBase[index]);
-                    scene.ApplyTo(scenes[1]);
+                    scene.ApplyTo(scenes);
                 }
 
                 if (AssemblyLoader.loadedAssemblies.FirstOrDefault(a => a.name == "Kopernicus") != null)
