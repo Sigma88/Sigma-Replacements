@@ -352,48 +352,53 @@ namespace SigmaReplacements
                 renderer.material.SetColor(info.color1);
             }
 
-            void EditKerbals(MenuObject[] kerbals, GameObject scene)
+            void EditKerbals(MenuObject[] info, GameObject scene)
             {
-                if (kerbals == null) return;
+                if (!(info?.Length > 0)) return;
 
                 // Get Stock Kerbal
-                GameObject template = scene.GetChild("Kerbals").transform.GetChild(0).gameObject;
+                Transform kerbals = scene?.GetChild("Kerbals")?.transform;
+
+                if (kerbals == null || kerbals.childCount != 1) return;
+
+                GameObject template = Instantiate(kerbals.GetChild(0).gameObject);
+
                 Debug.Log("EditKerbals", "template position = " + (Vector3d)template.transform.position);
                 Debug.Log("EditKerbals", "template rotation = " + (Vector3d)template.transform.eulerAngles);
                 Debug.Log("EditKerbals", "template scale = " + (Vector3d)template.transform.localScale);
 
-                for (int i = kerbals.Length; i > 0; i--)
+                for (int i = 0; i < info?.Length; i++)
                 {
-                    MenuObject info = kerbals[i - 1];
                     GameObject kerbal;
 
                     // Clone or Select Stock newGuy
-                    if (i - 1 > 0 && info.enabled)
+                    if (i > 1 && info[i].enabled)
                     {
-                        if (string.IsNullOrEmpty(info.name)) continue;
+                        if (string.IsNullOrEmpty(info[i].name)) continue;
 
                         kerbal = Instantiate(template);
-                        kerbal.name = info.name;
+                        kerbal.name = info[i].name;
                     }
-                    else if (i - 1 == 0)
+                    else if (i == 0)
                     {
-                        kerbal = template;
-                        kerbal.SetActive(info.enabled);
-                        if (!info.enabled) continue;
+                        kerbal = kerbals.GetChild(0).gameObject;
+                        kerbal.SetActive(info[i].enabled);
+                        if (!info[i].enabled) continue;
                     }
                     else
                     {
                         continue;
                     }
 
-
-                    // Edit newGuy Position/Rotation/Scale
-                    kerbal.transform.position = info.position ?? kerbal.transform.position;
-                    kerbal.transform.rotation = info.rotation ?? kerbal.transform.rotation;
-                    kerbal.transform.localScale = info.scale ?? kerbal.transform.localScale;
+                    // Apply Physical Parameters
+                    info[i].ApplyTo(kerbal);
 
                     // Remove Helmet
-                    kerbal.GetChild("helmet01").SetActive(!info.removeHelmet);
+                    GameObject helmet = kerbal?.GetChild("helmet01");
+                    if (helmet != null)
+                    {
+                        helmet.SetActive(!info[i].removeHelmet);
+                    }
                 }
             }
 
