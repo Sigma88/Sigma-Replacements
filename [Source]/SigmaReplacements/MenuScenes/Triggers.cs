@@ -25,6 +25,7 @@ namespace SigmaReplacements
                 GameObject[] scenes = FindObjectOfType<MainMenu>().envLogic.areas;
                 scenes[i].SetActive(true);
                 scenes[(i + 1) % 2].SetActive(false);
+
                 if (i == 0)
                 {
                     int index = MunSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
