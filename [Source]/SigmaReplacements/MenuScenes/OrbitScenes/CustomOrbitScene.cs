@@ -9,20 +9,40 @@ namespace SigmaReplacements
     {
         internal class CustomOrbitScene : CustomMenuScene
         {
-            // Sky
+            // Bodies
             MenuObject planet = null;
             MenuObject[] moons = null;
 
-            // Kerbals
-            MenuObject[] maleKerbals = null;
-            MenuObject[] femaleKerbals = null;
+            // Scatter
+            MenuObject[] scatter = null;
 
-            internal CustomOrbitScene(MenuSceneInfo info)
+            // Kerbals
+            MenuObject[] kerbals = null;
+
+            internal CustomOrbitScene(OrbitSceneInfo info)
             {
+                // Bodies
+                planet = Parse(info.planet, planet);
+                moons = Parse(info.moons, moons);
+
+                // Scatter
+                scatter = Parse(info.scatter, scatter);
+
+                // Kerbals
+                kerbals = Parse(info.kerbals, kerbals);
             }
 
-            internal void ApplyTo(GameObject scene)
+            internal void ApplyTo(GameObject[] scenes)
             {
+                // Bodies
+                EditPlanet(planet, scenes[1]);
+                EditMoons(moons, scenes[1]);
+
+                // Scatter
+                AddScatter(scatter, scenes[1], scenes[0].GetChild("sandcastle"));
+
+                // Kerbals
+                EditKerbals(kerbals, scenes[1]);
             }
 
             void EditPlanet(MenuObject info, GameObject scene)
@@ -34,37 +54,46 @@ namespace SigmaReplacements
                 if (!info.enabled)
                 {
                     planet.GetComponent<Renderer>().enabled = false;
+                    Debug.Log("EditPlanet", "Disabled Kerbin Renderer");
                     return;
                 }
+
+                Debug.Log("EditPlanet", "Kerbin position = " + (Vector3d)planet.transform.position);
+                Debug.Log("EditPlanet", "Kerbin rotation = " + (Vector3d)planet.transform.eulerAngles);
+                Debug.Log("EditPlanet", "Kerbin scale = " + (Vector3d)planet.transform.localScale);
+                Debug.Log("EditPlanet", "Kerbin rotatoSpeed = " + planet?.GetComponent<Rotato>()?.speed);
+
+                info.ApplyTo(planet, 1.4987610578537f);
             }
 
             void EditMoons(MenuObject[] moons, GameObject scene)
             {
-                if (moons == null) return;
+                if (!(moons?.Length > 0)) return;
 
                 // Get Stock Body
-                GameObject kerbin = scene.GetChild("Kerbin");
-                Debug.Log("EditMoons", "Kerbin position = " + (Vector3d)kerbin.transform.position);
-                Debug.Log("EditMoons", "Kerbin rotation = " + kerbin.transform.eulerAngles);
-                Debug.Log("EditMoons", "Kerbin scale = " + kerbin.transform.localScale);
-                Debug.Log("EditMoons", "Kerbin rotatoSpeed = " + kerbin?.GetComponent<Rotato>()?.speed);
+                GameObject mun = scene.GetChild("Mun");
+                GameObject clone = Instantiate(mun);
+                Debug.Log("EditMoons", "Mun position = " + (Vector3d)mun.transform.position);
+                Debug.Log("EditMoons", "Mun rotation = " + (Vector3d)mun.transform.eulerAngles);
+                Debug.Log("EditMoons", "Mun scale = " + (Vector3d)mun.transform.localScale);
+                Debug.Log("EditMoons", "Mun rotatoSpeed = " + mun?.GetComponent<Rotato>()?.speed);
 
-                for (int i = moons.Length; i > 0; i--)
+                for (int i = 0; i < moons.Length; i++)
                 {
-                    MenuObject info = moons[i - 1];
+                    MenuObject info = moons[i];
                     GameObject body;
 
                     // Clone or Select Stock Body
-                    if (i - 1 > 0 && info.enabled)
+                    if (i > 0 && info.enabled)
                     {
                         if (string.IsNullOrEmpty(info.name)) continue;
 
-                        body = Instantiate(kerbin);
-                        body.name = "NewBody_" + info.name;
+                        body = Instantiate(clone);
+                        body.name = "NewMoon_" + info.name;
                     }
-                    else if (i - 1 == 0)
+                    else if (i == 0)
                     {
-                        body = kerbin;
+                        body = mun;
                         body.SetActive(info.enabled);
                         if (!info.enabled) continue;
                     }
@@ -73,22 +102,12 @@ namespace SigmaReplacements
                         continue;
                     }
 
-                    // Debug
-                    if (info.debug) body.AddOrGetComponent<LiveDebug>();
-
-                    // Edit Body Position/Rotation/Scale
-                    body.transform.position = info.position ?? body.transform.position;
-                    body.transform.rotation = info.rotation ?? body.transform.rotation;
-                    //if (info.scale != null)
-                    //    body.transform.localScale = (Vector3)info.scale * 0.1483542f;
-
-                    // Edit Body Rotation Speed
-                    Rotato rotato = body.GetComponent<Rotato>();
-                    rotato.speed = info.rotatoSpeed ?? rotato.speed;
-
-                    // Edit Body Appearance
+                    // Edit Visual Parameters
                     Renderer renderer = body.GetComponent<Renderer>();
-                    GameObject template = FlightGlobals.Bodies?.FirstOrDefault(b => b.transform.name == info.name)?.scaledBody;
+
+                    CelestialBody cb = FlightGlobals.Bodies?.FirstOrDefault(b => b.transform.name == info.name);
+                    GameObject template = cb?.scaledBody;
+
                     if (template != null)
                     {
                         // Material
@@ -101,51 +120,91 @@ namespace SigmaReplacements
                         MeshFilter meshFilter = body.GetComponent<MeshFilter>();
                         meshFilter.mesh = template?.GetComponent<MeshFilter>()?.mesh ?? meshFilter.mesh;
                     }
+
+                    // Edit Physical Parameters
+                    info.scale = info.scale ?? Vector3.one;
+                    float mult = (float)((cb?.Radius ?? 200000) / 200000);
+                    info.ApplyTo(body, 0.209560245275497f * mult);
+
+                    // CleanUp
+                    Object.Destroy(clone);
                 }
             }
 
-            void EditKerbals(MenuObject[] kerbals, GameObject scene)
+            void AddScatter(MenuObject[] scatters, GameObject scene, GameObject template)
             {
-                if (kerbals == null) return;
+                Debug.Log("AddScatter", "template position = " + (Vector3d)template.transform.position);
+                Debug.Log("AddScatter", "template rotation = " + (Vector3d)template.transform.eulerAngles);
+                Debug.Log("AddScatter", "template scale = " + (Vector3d)template.transform.localScale);
+
+                for (int i = 0; i < scatters?.Length; i++)
+                {
+                    if (!scatters[i].enabled) continue;
+
+                    MenuObject info = scatters[i];
+                    GameObject scatter = Object.Instantiate(template);
+                    scatter.transform.SetParent(scene.transform);
+                    Object.DestroyImmediate(scatter.GetComponent<SandCastleLogic>());
+                    scatter.name = info.name;
+
+                    info.ApplyTo(scatter);
+                }
+            }
+
+            void EditKerbals(MenuObject[] info, GameObject scene)
+            {
+                if (!(info?.Length > 0)) return;
 
                 // Get Stock Kerbal
-                GameObject template = scene.GetChild("Kerbals").transform.GetChild(0).gameObject;
-                Debug.Log("EditKerbals", "template position = " + (Vector3d)template.transform.position);
-                Debug.Log("EditKerbals", "template rotation = " + template.transform.eulerAngles);
-                Debug.Log("EditKerbals", "template scale = " + (Vector3d)template.transform.localScale);
+                Transform kerbals = scene.GetChild("Kerbals").transform;
 
-                for (int i = kerbals.Length; i > 0; i--)
+                if (kerbals == null || kerbals.childCount != 4) return;
+
+                GameObject[] templates = new GameObject[] { Instantiate(kerbals.GetChild(0).gameObject), Instantiate(kerbals.GetChild(1).gameObject), Instantiate(kerbals.GetChild(2).gameObject), Instantiate(kerbals.GetChild(3).gameObject) };
+
+                if (Debug.debug)
                 {
-                    MenuObject info = kerbals[i - 1];
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Debug.Log("EditKerbals", "template[" + i + "] position = " + (Vector3d)templates[i].transform.position);
+                        Debug.Log("EditKerbals", "template[" + i + "] rotation = " + (Vector3d)templates[i].transform.eulerAngles);
+                        Debug.Log("EditKerbals", "template[" + i + "] scale = " + (Vector3d)templates[i].transform.localScale);
+                    }
+                }
+
+                for (int i = 0; i < info?.Length; i++)
+                {
                     GameObject kerbal;
 
                     // Clone or Select Stock newGuy
-                    if (i - 1 > 0 && info.enabled)
+                    if (i > 3 && info[i].enabled)
                     {
-                        if (string.IsNullOrEmpty(info.name)) continue;
+                        if (string.IsNullOrEmpty(info[i].name)) continue;
+                        if (!(info[i]?.template >= 0 && info[i]?.template < 4)) continue;
 
-                        kerbal = Instantiate(template);
-                        kerbal.name = info.name;
+                        kerbal = Instantiate(templates[(int)info[i].template]);
+                        kerbal.name = info[i].name;
                     }
-                    else if (i - 1 == 0)
+                    else if (i < 3)
                     {
-                        kerbal = template;
-                        kerbal.SetActive(info.enabled);
-                        if (!info.enabled) continue;
+                        kerbal = kerbals.GetChild(i).gameObject;
+                        kerbal.SetActive(info[i].enabled);
+                        if (!info[i].enabled) continue;
                     }
                     else
                     {
                         continue;
                     }
 
-
-                    // Edit newGuy Position/Rotation/Scale
-                    kerbal.transform.position = info.position ?? kerbal.transform.position;
-                    kerbal.transform.rotation = info.rotation ?? kerbal.transform.rotation;
-                    kerbal.transform.localScale = info.scale ?? kerbal.transform.localScale;
+                    // Apply Physical Parameters
+                    info[i].ApplyTo(kerbal);
 
                     // Remove Helmet
-                    kerbal.GetChild("helmet01").SetActive(!info.removeHelmet);
+                    GameObject helmet = kerbal.GetChild("helmet01") ?? kerbal.GetChild("mesh_female_kerbalAstronaut01_helmet01");
+                    if (helmet != null)
+                    {
+                        helmet.SetActive(!info[i].removeHelmet);
+                    }
                 }
             }
         }
