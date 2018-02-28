@@ -26,6 +26,7 @@ namespace SigmaReplacements
             internal Vector3? pivotPosition = null;
             internal Quaternion? pivotRotation = null;
             internal Vector3? pivotScale = null;
+            internal float? pivotDistance = null;
             internal float? pivotRotatoSpeed = null;
 
             internal Mesh mesh = null;
@@ -81,6 +82,7 @@ namespace SigmaReplacements
                 pivotPosition = Parse(node.GetValue("pivotPosition"), pivotPosition);
                 pivotRotation = Parse(node.GetValue("pivotRotation"), pivotRotation);
                 pivotScale = Parse(node.GetValue("pivotScale"), pivotScale);
+                pivotDistance = Parse(node.GetValue("pivotDistance"), pivotDistance);
                 pivotRotatoSpeed = Parse(node.GetValue("pivotRotatoSpeed"), pivotRotatoSpeed);
 
                 mesh = Parse(node.GetValue("mesh"), mesh);
@@ -154,10 +156,15 @@ namespace SigmaReplacements
                         pivot.transform.SetParent(parent.transform);
 
                         pivot.transform.position = pivotPosition ?? parent.transform.position;
-                        pivot.transform.rotation = pivotRotation ?? Quaternion.identity;
+                        pivot.transform.localRotation = pivotRotation ?? Quaternion.Euler(Vector3.zero);
                         pivot.transform.localScale = pivotScale ?? Vector3.one;
 
                         obj.transform.SetParent(pivot.transform);
+
+                        if (pivotDistance != null)
+                        {
+                            obj.transform.localPosition = Vector3.left * (float)pivotDistance;
+                        }
                     }
                 }
 
