@@ -206,6 +206,12 @@ namespace SigmaReplacements
                         helmet.SetActive(!info[i].removeHelmet);
                     }
                 }
+
+                // CleanUp
+                for (int i = 0; i < 4; i++)
+                {
+                    Object.Destroy(templates[i]);
+                }
             }
         }
     }

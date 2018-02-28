@@ -400,6 +400,9 @@ namespace SigmaReplacements
                         helmet.SetActive(!info[i].removeHelmet);
                     }
                 }
+
+                // CleanUp
+                Object.Destroy(template);
             }
 
             MenuObject[] ParseBoulders(ConfigNode[] input)
