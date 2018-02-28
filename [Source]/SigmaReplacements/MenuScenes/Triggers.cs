@@ -17,8 +17,15 @@ namespace SigmaReplacements
 
                 if (MunSceneInfo.DataBase.Count > 0)
                 {
-                    hash = Math.Abs(hash.GetHashCode()).ToString();
-                    i = PseudoRandom.Scene(Math.Abs(hash.GetHashCode()));
+                    if (OrbitSceneInfo.DataBase?.Count == 0)
+                    {
+                        i = 0;
+                    }
+                    else
+                    {
+                        hash = Math.Abs(hash.GetHashCode()).ToString();
+                        i = PseudoRandom.Scene(Math.Abs(hash.GetHashCode()));
+                    }
                 }
 
                 // Choose Scene
@@ -34,7 +41,7 @@ namespace SigmaReplacements
                 }
                 else if (OrbitSceneInfo.DataBase?.Count > 0)
                 {
-                    int index = MunSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
+                    int index = OrbitSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
                     CustomOrbitScene scene = new CustomOrbitScene((OrbitSceneInfo)OrbitSceneInfo.DataBase[index]);
                     scene.ApplyTo(scenes[1]);
                 }
