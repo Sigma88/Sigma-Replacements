@@ -11,13 +11,23 @@ namespace SigmaReplacements
             {
             }
 
+            protected MenuObject Parse(ConfigNode node, MenuObject defaultValue)
+            {
+                if (node != null)
+                {
+                    defaultValue = new MenuObject(node);
+                }
+
+                return defaultValue;
+            }
+
             protected MenuObject[] Parse(ConfigNode[] nodes, MenuObject[] array)
             {
                 for (int i = 0; i < nodes?.Length; i++)
                 {
                     if (array == null) array = new MenuObject[nodes.Length];
 
-                    array[i] = new MenuObject(nodes[i]);
+                    array[i] = Parse(nodes[i], array[i]);
                 }
 
                 return array;
