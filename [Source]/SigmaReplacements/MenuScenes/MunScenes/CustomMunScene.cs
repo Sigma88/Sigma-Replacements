@@ -119,25 +119,26 @@ namespace SigmaReplacements
 
                 // Get Stock Body
                 GameObject kerbin = scene.GetChild("Kerbin");
+                GameObject clone = Instantiate(kerbin);
                 Debug.Log("EditBodies", "Kerbin position = " + (Vector3d)kerbin.transform.position);
                 Debug.Log("EditBodies", "Kerbin rotation = " + (Vector3d)kerbin.transform.eulerAngles);
                 Debug.Log("EditBodies", "Kerbin scale = " + (Vector3d)kerbin.transform.localScale);
                 Debug.Log("EditBodies", "Kerbin rotatoSpeed = " + kerbin?.GetComponent<Rotato>()?.speed);
 
-                for (int i = bodies.Length; i > 0; i--)
+                for (int i = 0; i < bodies.Length; i++)
                 {
-                    MenuObject info = bodies[i - 1];
+                    MenuObject info = bodies[i];
                     GameObject body;
 
                     // Clone or Select Stock Body
-                    if (i - 1 > 0 && info.enabled)
+                    if (i > 0 && info.enabled)
                     {
                         if (string.IsNullOrEmpty(info.name)) continue;
 
-                        body = Instantiate(kerbin);
+                        body = Instantiate(clone);
                         body.name = "NewBody_" + info.name;
                     }
-                    else if (i - 1 == 0)
+                    else if (i == 0)
                     {
                         body = kerbin;
                         body.SetActive(info.enabled);
@@ -175,6 +176,9 @@ namespace SigmaReplacements
                         renderer.materials = new Material[] { renderer.material, new Material(Shader.Find("KSP/Scenery/Unlit/Transparent")) };
                         renderer.materials[1].color = (Color)haze;
                     }
+
+                    // CleanUp
+                    Object.Destroy(clone);
                 }
             }
 
