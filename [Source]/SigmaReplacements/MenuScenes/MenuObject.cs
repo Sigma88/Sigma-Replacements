@@ -10,6 +10,7 @@ namespace SigmaReplacements
         {
             // Settings
             internal int? index = null;
+            internal int? template = null;
             internal bool enabled = true;
             internal bool debug = false;
             internal bool adjustScale = false;
@@ -53,6 +54,8 @@ namespace SigmaReplacements
                 name = node.GetValue("name");
 
                 index = Parse(node.GetValue("index"), index);
+
+                template = Parse(node.GetValue("template"), template);
 
                 if (!bool.TryParse(node.GetValue("enabled"), out enabled))
                 {
