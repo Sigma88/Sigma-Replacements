@@ -34,12 +34,11 @@ namespace SigmaReplacements
 
     internal static class CrewMemberExtensions
     {
-        internal static void Load(this CrewMember[] array, ConfigNode node, int index)
+        internal static void Load(this CrewMember kerbal, ConfigNode node)
         {
-            CrewMember kerbal = array[index];
             Info stats = new Info(node.GetNode("Stats") ?? new ConfigNode(), new ConfigNode());
 
-            array[index] = new CrewMember
+            kerbal = new CrewMember
             (
                 (int?)stats?.status > 3 ? 0 : (Type?)(int?)stats?.status ?? kerbal.type,
                 (int?)stats?.status > 3 ? (Roster)((int)stats.status - 4) : kerbal.rosterStatus,
@@ -55,3 +54,4 @@ namespace SigmaReplacements
         }
     }
 }
+
