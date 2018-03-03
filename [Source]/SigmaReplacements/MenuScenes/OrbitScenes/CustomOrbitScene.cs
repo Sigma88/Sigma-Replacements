@@ -63,6 +63,25 @@ namespace SigmaReplacements
                 Debug.Log("EditPlanet", "Kerbin scale = " + (Vector3d)planet.transform.localScale);
                 Debug.Log("EditPlanet", "Kerbin rotatoSpeed = " + planet?.GetComponent<Rotato>()?.speed);
 
+                // Edit Visual Parameters
+                Renderer renderer = planet.GetComponent<Renderer>();
+
+                CelestialBody cb = FlightGlobals.Bodies?.FirstOrDefault(b => b.transform.name == info.name);
+                GameObject template = cb?.scaledBody;
+
+                if (template != null)
+                {
+                    // Material
+                    renderer.material = template?.GetComponent<Renderer>()?.material ?? renderer.material;
+                    renderer.material.SetTexture(info.texture1);
+                    renderer.material.SetNormal(info.normal1);
+                    renderer.material.SetColor(info.color1);
+
+                    // Mesh
+                    MeshFilter meshFilter = planet.GetComponent<MeshFilter>();
+                    meshFilter.mesh = template?.GetComponent<MeshFilter>()?.mesh ?? meshFilter.mesh;
+                }
+
                 info.ApplyTo(planet, 1.4987610578537f);
             }
 
