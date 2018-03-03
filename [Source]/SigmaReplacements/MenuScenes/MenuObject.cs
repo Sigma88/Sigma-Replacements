@@ -18,19 +18,10 @@ namespace SigmaReplacements
 
 
             // Physical Parameters
+            internal Mesh mesh = null;
             internal Vector3? position = null;
             internal Quaternion? rotation = null;
             internal Vector3? scale = null;
-
-            internal float? rotatoSpeed = null;
-            internal string pivotAround = null;
-            internal Vector3? pivotPosition = null;
-            internal Quaternion? pivotRotation = null;
-            internal Vector3? pivotScale = null;
-            internal float? pivotDistance = null;
-            internal float? pivotRotatoSpeed = null;
-
-            internal Mesh mesh = null;
 
 
             // Visual Parameters
@@ -45,6 +36,21 @@ namespace SigmaReplacements
 
             internal Texture normal1 = null;
             internal Texture normal2 = null;
+
+
+            // Movements
+            internal float? rotatoSpeed = null;
+
+            internal string pivotAround = null;
+            internal Vector3? pivotPosition = null;
+            internal Quaternion? pivotRotation = null;
+            internal Vector3? pivotScale = null;
+            internal float? pivotDistance = null;
+            internal float? pivotRotatoSpeed = null;
+
+            internal float? bobberSeed = null;
+            internal Vector3? bobberOFS = null;
+            internal Vector3? bobberVAL = null;
 
 
             // New MenuObject from cfg
@@ -76,19 +82,11 @@ namespace SigmaReplacements
 
 
                 // Physical Parameters
+                mesh = Parse(node.GetValue("mesh"), mesh);
+
                 position = Parse(node.GetValue("position"), position);
                 rotation = Parse(node.GetValue("rotation"), rotation);
                 scale = Parse(node.GetValue("scale"), scale);
-
-                rotatoSpeed = Parse(node.GetValue("rotatoSpeed"), rotatoSpeed);
-                pivotAround = node.GetValue("pivotAround");
-                pivotPosition = Parse(node.GetValue("pivotPosition"), pivotPosition);
-                pivotRotation = Parse(node.GetValue("pivotRotation"), pivotRotation);
-                pivotScale = Parse(node.GetValue("pivotScale"), pivotScale);
-                pivotDistance = Parse(node.GetValue("pivotDistance"), pivotDistance);
-                pivotRotatoSpeed = Parse(node.GetValue("pivotRotatoSpeed"), pivotRotatoSpeed);
-
-                mesh = Parse(node.GetValue("mesh"), mesh);
 
 
                 // Visual Parameters
@@ -104,6 +102,14 @@ namespace SigmaReplacements
 
 
                 // Movements
+                rotatoSpeed = Parse(node.GetValue("rotatoSpeed"), rotatoSpeed);
+
+                pivotAround = node.GetValue("pivotAround");
+                pivotPosition = Parse(node.GetValue("pivotPosition"), pivotPosition);
+                pivotRotation = Parse(node.GetValue("pivotRotation"), pivotRotation);
+                pivotScale = Parse(node.GetValue("pivotScale"), pivotScale);
+                pivotDistance = Parse(node.GetValue("pivotDistance"), pivotDistance);
+                pivotRotatoSpeed = Parse(node.GetValue("pivotRotatoSpeed"), pivotRotatoSpeed);
 
                 bobberSeed = Parse(node.GetValue("bobberSeed"), bobberSeed);
                 bobberOFS = Parse(node.GetValue("bobberOFS"), bobberOFS);
@@ -126,17 +132,25 @@ namespace SigmaReplacements
                 if (adjustScale)
                     obj.transform.transform.localScale *= (0.25f + (new Vector3(0.7814472f, -0.7841411f, 2.28511f) - obj.transform.transform.position).magnitude / 100);
 
+
                 // Edit Appearances
                 MeshFilter meshFilter = obj.transform.GetComponent<MeshFilter>();
-                meshFilter.mesh = mesh ?? meshFilter.mesh;
+                if (meshFilter != null)
+                {
+                    meshFilter.mesh = mesh ?? meshFilter.mesh;
+                }
 
                 Renderer renderer = obj.transform.GetComponent<Renderer>();
-                renderer.material = material ?? renderer.material;
-                renderer.material.shader = shader ?? renderer.material.shader;
+                if (renderer != null)
+                {
+                    renderer.material = material ?? renderer.material;
+                    renderer.material.shader = shader ?? renderer.material.shader;
 
-                renderer.material.SetTexture(texture1);
-                renderer.material.SetColor(color1);
-                renderer.material.SetNormal(normal1);
+                    renderer.material.SetTexture(texture1);
+                    renderer.material.SetColor(color1);
+                    renderer.material.SetNormal(normal1);
+                }
+
 
                 // Rotato
                 if (rotatoSpeed != null)
@@ -144,6 +158,7 @@ namespace SigmaReplacements
                     Rotato rotato = obj.AddOrGetComponent<Rotato>();
                     rotato.speed = (float)rotatoSpeed;
                 }
+
 
                 // Pivot
                 if (!string.IsNullOrEmpty(pivotAround))
@@ -157,7 +172,13 @@ namespace SigmaReplacements
 
                     if (scene == null) return;
 
-                    GameObject parent = scene.GetChild(pivotAround);
+                    GameObject parent = null;
+
+                    if (pivotAround != null)
+                        parent = scene.GetChild(pivotAround);
+
+                    parent = parent ?? obj?.transform?.parent?.gameObject;
+
 
                     if (parent != null)
                     {
