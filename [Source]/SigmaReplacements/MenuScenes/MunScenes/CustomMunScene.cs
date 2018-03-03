@@ -372,7 +372,7 @@ namespace SigmaReplacements
                     GameObject kerbal;
 
                     // Clone or Select Stock newGuy
-                    if (i > 1 && info[i].enabled)
+                    if (i > 0 && info[i].enabled)
                     {
                         if (string.IsNullOrEmpty(info[i].name)) continue;
 

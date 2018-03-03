@@ -220,9 +220,9 @@ namespace SigmaReplacements
                     bobber.ofs2 = bobberOFS?.y ?? bobber.ofs2;
                     bobber.ofs3 = bobberOFS?.z ?? bobber.ofs3;
 
-                    bobber.val1 = bobberOFS?.x ?? bobber.val1;
-                    bobber.val2 = bobberOFS?.y ?? bobber.val2;
-                    bobber.val3 = bobberOFS?.z ?? bobber.val3;
+                    bobber.val1 = bobberVAL?.x ?? bobber.val1;
+                    bobber.val2 = bobberVAL?.y ?? bobber.val2;
+                    bobber.val3 = bobberVAL?.z ?? bobber.val3;
                 }
             }
 
