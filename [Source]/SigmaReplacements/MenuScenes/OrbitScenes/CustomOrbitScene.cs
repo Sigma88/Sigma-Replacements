@@ -204,19 +204,18 @@ namespace SigmaReplacements
                     GameObject kerbal;
 
                     // Clone or Select Stock newGuy
-                    if (i > 3 && info[i].enabled)
-                    {
-                        if (string.IsNullOrEmpty(info[i].name)) continue;
-                        if (!(info[i]?.template >= 0 && info[i]?.template < 4)) continue;
-
-                        kerbal = Instantiate(templates[(int)info[i].template]);
-                        kerbal.name = info[i].name;
-                    }
-                    else if (i < 3)
+                    if (info[i].index >= 0 && info[i].index <= 3)
                     {
                         kerbal = kerbals.GetChild(i).gameObject;
                         kerbal.SetActive(info[i].enabled);
                         if (!info[i].enabled) continue;
+                    }
+                    else if (info[i].enabled && info[i].template >= 0 && info[i].template <= 3)
+                    {
+                        if (string.IsNullOrEmpty(info[i].name)) continue;
+
+                        kerbal = Instantiate(templates[(int)info[i].template]);
+                        kerbal.name = info[i].name;
                     }
                     else
                     {
