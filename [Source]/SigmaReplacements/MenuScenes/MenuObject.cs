@@ -50,7 +50,6 @@ namespace SigmaReplacements
 
             internal float? bobberSeed = null;
             internal Vector3? bobberOFS = null;
-            internal Vector3? bobberVAL = null;
 
 
             // New MenuObject from cfg
@@ -113,7 +112,6 @@ namespace SigmaReplacements
 
                 bobberSeed = Parse(node.GetValue("bobberSeed"), bobberSeed);
                 bobberOFS = Parse(node.GetValue("bobberOFS"), bobberOFS);
-                bobberVAL = Parse(node.GetValue("bobberVAL"), bobberVAL);
             }
 
             // Apply MenuObject to GameObject
@@ -210,7 +208,7 @@ namespace SigmaReplacements
 
 
                 // Bobber
-                if (bobberSeed != null || bobberOFS != null || bobberVAL != null)
+                if (bobberSeed != null || bobberOFS != null)
                 {
                     Bobber bobber = obj.AddOrGetComponent<Bobber>();
 
@@ -219,10 +217,6 @@ namespace SigmaReplacements
                     bobber.ofs1 = bobberOFS?.x ?? bobber.ofs1;
                     bobber.ofs2 = bobberOFS?.y ?? bobber.ofs2;
                     bobber.ofs3 = bobberOFS?.z ?? bobber.ofs3;
-
-                    bobber.val1 = bobberVAL?.x ?? bobber.val1;
-                    bobber.val2 = bobberVAL?.y ?? bobber.val2;
-                    bobber.val3 = bobberVAL?.z ?? bobber.val3;
                 }
             }
 
