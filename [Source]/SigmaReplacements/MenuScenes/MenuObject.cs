@@ -101,6 +101,13 @@ namespace SigmaReplacements
                 texture2 = Parse(node.GetValue("texture2"), texture2);
                 normal1 = Parse(node.GetValue("normal1"), normal1);
                 normal2 = Parse(node.GetValue("normal2"), normal2);
+
+
+                // Movements
+
+                bobberSeed = Parse(node.GetValue("bobberSeed"), bobberSeed);
+                bobberOFS = Parse(node.GetValue("bobberOFS"), bobberOFS);
+                bobberVAL = Parse(node.GetValue("bobberVAL"), bobberVAL);
             }
 
             // Apply MenuObject to GameObject
@@ -178,6 +185,23 @@ namespace SigmaReplacements
                         Rotato pivotRotato = obj.transform.parent.gameObject.AddOrGetComponent<Rotato>();
                         pivotRotato.speed = (float)pivotRotatoSpeed;
                     }
+                }
+
+
+                // Bobber
+                if (bobberSeed != null || bobberOFS != null || bobberVAL != null)
+                {
+                    Bobber bobber = obj.AddOrGetComponent<Bobber>();
+
+                    bobber.seed = bobberSeed ?? bobber.seed;
+
+                    bobber.ofs1 = bobberOFS?.x ?? bobber.ofs1;
+                    bobber.ofs2 = bobberOFS?.y ?? bobber.ofs2;
+                    bobber.ofs3 = bobberOFS?.z ?? bobber.ofs3;
+
+                    bobber.val1 = bobberOFS?.x ?? bobber.val1;
+                    bobber.val2 = bobberOFS?.y ?? bobber.val2;
+                    bobber.val3 = bobberOFS?.z ?? bobber.val3;
                 }
             }
 
