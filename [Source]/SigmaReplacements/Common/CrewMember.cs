@@ -30,28 +30,24 @@ namespace SigmaReplacements
         CrewMember(ProtoCrewMember copyOf) : base(copyOf) { }
         CrewMember(Type type, string name) : base(type, name) { }
         CrewMember(Game.Modes mode, ConfigNode node, Type crewType = Type.Crew) : base(mode, node, crewType) { }
-    }
 
-    internal static class CrewMemberExtensions
-    {
-        internal static void Load(this CrewMember kerbal, ConfigNode node)
+        public CrewMember Load(ConfigNode node)
         {
             Info stats = new Info(node.GetNode("Stats") ?? new ConfigNode(), new ConfigNode());
 
-            kerbal = new CrewMember
+            return new CrewMember
             (
-                (int?)stats?.status > 3 ? 0 : (Type?)(int?)stats?.status ?? kerbal.type,
-                (int?)stats?.status > 3 ? (Roster)((int)stats.status - 4) : kerbal.rosterStatus,
-                !string.IsNullOrEmpty(stats?.name) ? stats.name : kerbal.name,
-                stats?.gender ?? kerbal.gender,
-                stats?.trait?.Length > 0 && !string.IsNullOrEmpty(stats.trait[0]) ? stats.trait[0] : kerbal.trait,
-                stats?.veteran ?? kerbal.veteran,
-                stats?.isBadass ?? kerbal.isBadass,
-                stats?.courage ?? kerbal.courage,
-                stats?.stupidity ?? kerbal.stupidity,
-                stats?.experienceLevel ?? kerbal.experienceLevel
+                (int?)stats?.status > 3 ? 0 : (Type?)(int?)stats?.status ?? type,
+                (int?)stats?.status > 3 ? (Roster)((int)stats.status - 4) : rosterStatus,
+                !string.IsNullOrEmpty(stats?.name) ? stats.name : name,
+                stats?.gender ?? gender,
+                stats?.trait?.Length > 0 && !string.IsNullOrEmpty(stats.trait[0]) ? stats.trait[0] : trait,
+                stats?.veteran ?? veteran,
+                stats?.isBadass ?? isBadass,
+                stats?.courage ?? courage,
+                stats?.stupidity ?? stupidity,
+                stats?.experienceLevel ?? experienceLevel
             );
         }
     }
 }
-

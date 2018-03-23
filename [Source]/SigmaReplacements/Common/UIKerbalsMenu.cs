@@ -7,7 +7,7 @@ using Gender = ProtoCrewMember.Gender;
 
 namespace SigmaReplacements
 {
-    public class UIKerbalsMenu : UIKerbalMenu
+    public class UIKerbalsMenu
     {
         // Stock Main Menu Kerbals
         internal static CrewMember[] munKerbals = new CrewMember[] { new CrewMember(Type.Crew, Roster.Assigned, "Bob Kerman", Gender.Male, "Scientist", true, false, 0.3f, 0.1f, 0) };
@@ -24,12 +24,17 @@ namespace SigmaReplacements
         internal static Dictionary<int, CrewMember> orbitSceneKerbals = new Dictionary<int, CrewMember>();
     }
 
-    [KSPAddon(KSPAddon.Startup.MainMenu, true)]
+    [KSPAddon(KSPAddon.Startup.MainMenu, false)]
     internal class UIKerbalMenuLoader : MonoBehaviour
     {
         static bool loaded = false;
 
         void Awake()
+        {
+            loaded = false;
+        }
+
+        void Start()
         {
             if (!loaded)
             {
@@ -70,15 +75,15 @@ namespace SigmaReplacements
                         {
                             if (index < 4)
                             {
-                                UIKerbalsMenu.orbitSceneKerbals.Add(0, UIKerbalsMenu.orbitKerbals[index]);
+                                UIKerbalsMenu.orbitSceneKerbals.Add(index, UIKerbalsMenu.orbitKerbals[index]);
                             }
                             else
                             {
-                                UIKerbalsMenu.orbitSceneKerbals.Add(index, new CrewMember(Type.Crew, Roster.Available, "OrbitKerbal" + index, ProtoCrewMember.Gender.Male, "", false, false, 0.5f, 0.5f, 0));
+                                UIKerbalsMenu.orbitSceneKerbals.Add(index, new CrewMember(Type.Crew, Roster.Available, "OrbitKerbal" + index, Gender.Male, "", false, false, 0.5f, 0.5f, 0));
                             }
                         }
 
-                        UIKerbalsMenu.orbitSceneKerbals[index].Load(OrbitSceneKerbal[i]);
+                        UIKerbalsMenu.orbitSceneKerbals[index] = UIKerbalsMenu.orbitSceneKerbals[index].Load(OrbitSceneKerbal[i]);
                     }
                 }
 
@@ -87,7 +92,7 @@ namespace SigmaReplacements
 
                 for (int i = 0; i < munScene?.transform?.childCount; i++)
                 {
-                    UIKerbalsMenu component = munScene.transform.GetChild(i).gameObject.AddOrGetComponent<UIKerbalsMenu>();
+                    UIKerbalMenu component = munScene.transform.GetChild(i).gameObject.AddOrGetComponent<UIKerbalMenu>();
 
                     if (UIKerbalsMenu.munSceneKerbals.ContainsKey(i))
                         component.crewMember = UIKerbalsMenu.munSceneKerbals[i];
@@ -98,7 +103,7 @@ namespace SigmaReplacements
 
                 for (int i = 0; i < orbitScene?.transform?.childCount; i++)
                 {
-                    UIKerbalsMenu component = orbitScene.transform.GetChild(i).gameObject.AddOrGetComponent<UIKerbalsMenu>();
+                    UIKerbalMenu component = orbitScene.transform.GetChild(i).gameObject.AddOrGetComponent<UIKerbalMenu>();
 
                     if (UIKerbalsMenu.orbitSceneKerbals.ContainsKey(i))
                         component.crewMember = UIKerbalsMenu.orbitSceneKerbals[i];
