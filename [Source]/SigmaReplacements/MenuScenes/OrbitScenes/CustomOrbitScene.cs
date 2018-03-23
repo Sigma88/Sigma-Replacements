@@ -21,6 +21,8 @@ namespace SigmaReplacements
 
             internal CustomOrbitScene(OrbitSceneInfo info)
             {
+                Debug.Log("CustomOrbitScene", "Custom Orbit Scene name = " + info.name);
+
                 // Bodies
                 planet = Parse(info.planet, planet);
                 moons = Parse(info.moons, moons);
@@ -152,6 +154,9 @@ namespace SigmaReplacements
 
             void AddScatter(MenuObject[] scatters, GameObject scene, GameObject template)
             {
+                Debug.Log("AddScatter", "scatters count = " + scatters?.Length);
+                if (!(scatters?.Length > 0)) return;
+
                 Debug.Log("AddScatter", "template position = " + (Vector3d)template.transform.position);
                 Debug.Log("AddScatter", "template rotation = " + (Vector3d)template.transform.eulerAngles);
                 Debug.Log("AddScatter", "template scale = " + (Vector3d)template.transform.localScale);
@@ -172,12 +177,14 @@ namespace SigmaReplacements
 
             void EditKerbals(MenuObject[] info, GameObject scene)
             {
+                Debug.Log("EditKerbals", "info count = " + info?.Length);
                 if (!(info?.Length > 0)) return;
 
                 // Get Stock Kerbal
                 Transform kerbals = scene.GetChild("Kerbals").transform;
+                Debug.Log("EditKerbals", "kerbal templates count = " + kerbals?.childCount);
 
-                if (kerbals == null || kerbals.childCount != 4) return;
+                if (kerbals == null || kerbals.childCount < 4) return;
 
                 GameObject[] templates = new GameObject[] { Instantiate(kerbals.GetChild(0).gameObject), Instantiate(kerbals.GetChild(1).gameObject), Instantiate(kerbals.GetChild(2).gameObject), Instantiate(kerbals.GetChild(3).gameObject) };
 
@@ -236,7 +243,7 @@ namespace SigmaReplacements
                 // CleanUp
                 for (int i = 0; i < 4; i++)
                 {
-                    Object.Destroy(templates[i]);
+                    Object.DestroyImmediate(templates[i]);
                 }
             }
         }
