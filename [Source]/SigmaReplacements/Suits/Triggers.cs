@@ -11,7 +11,7 @@ namespace SigmaReplacements
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
         internal class MenuKerbals : MonoBehaviour
         {
-            void Awake()
+            void Start()
             {
                 GameObject orbitScene = GameObject.Find("OrbitScene")?.GetChild("Kerbals");
 
@@ -25,11 +25,11 @@ namespace SigmaReplacements
 
                 GameObject munScene = GameObject.Find("MunScene")?.GetChild("Kerbals");
 
-                if (orbitScene != null)
+                if (munScene != null)
                 {
-                    for (int i = 0; i < orbitScene?.transform?.childCount; i++)
+                    for (int i = 0; i < munScene?.transform?.childCount; i++)
                     {
-                        orbitScene.transform.GetChild(i).gameObject.AddOrGetComponent<CustomSuit>();
+                        munScene.transform.GetChild(i).gameObject.AddOrGetComponent<CustomSuit>();
                     }
                 }
             }
