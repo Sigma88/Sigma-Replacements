@@ -101,7 +101,7 @@ namespace SigmaReplacements
                 {
                     if (int.TryParse(Instructors[i]?.GetValue("index"), out int index) && index < UIKerbals.instructors?.Length)
                     {
-                        UIKerbals.instructors[index].Load(Instructors[i]);
+                        UIKerbals.instructors[index] = UIKerbals.instructors[index].Load(Instructors[i]);
                     }
                 }
 
@@ -112,7 +112,7 @@ namespace SigmaReplacements
                 {
                     if (int.TryParse(StrategyKerbals[i]?.GetValue("index"), out int index) && index < UIKerbals.strategy?.Length)
                     {
-                        UIKerbals.strategy[index].Load(StrategyKerbals[i]);
+                        UIKerbals.strategy[index] = UIKerbals.strategy[index].Load(StrategyKerbals[i]);
                     }
                 }
             }

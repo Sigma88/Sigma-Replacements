@@ -60,7 +60,7 @@ namespace SigmaReplacements
                             }
                         }
 
-                        UIKerbalsMenu.munSceneKerbals[index].Load(MunSceneKerbal[i]);
+                        UIKerbalsMenu.munSceneKerbals[index] = UIKerbalsMenu.munSceneKerbals[index].Load(MunSceneKerbal[i]);
                     }
                 }
 
