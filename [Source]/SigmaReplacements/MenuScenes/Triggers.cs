@@ -48,7 +48,7 @@ namespace SigmaReplacements
 
                 if (AssemblyLoader.loadedAssemblies.FirstOrDefault(a => a.name == "Kopernicus") != null)
                 {
-                    new KopernicusFixer();
+                    gameObject.AddOrGetComponent<KopernicusFixer>();
                 }
             }
         }

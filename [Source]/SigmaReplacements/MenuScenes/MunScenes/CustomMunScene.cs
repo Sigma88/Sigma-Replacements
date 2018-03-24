@@ -115,7 +115,10 @@ namespace SigmaReplacements
 
             void EditBodies(MenuObject[] bodies, GameObject scene)
             {
-                if (!(bodies?.Length > 0)) return;
+                if (!(bodies?.Length > 0))
+                {
+                    bodies = new MenuObject[] { new MenuObject("Kerbin") };
+                }
 
                 // Get Stock Body
                 GameObject kerbin = scene.GetChild("Kerbin");

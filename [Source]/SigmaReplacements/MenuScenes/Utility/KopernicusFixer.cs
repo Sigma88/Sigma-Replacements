@@ -12,6 +12,7 @@ namespace SigmaReplacements
             {
                 GameObject[] scenes = FindObjectOfType<MainMenu>().envLogic.areas;
                 Templates.kopernicusMainMenu = scenes[1].activeSelf && !(OrbitSceneInfo.DataBase?.Count > 0);
+                Debug.Log("KopernicusFixer", "Kopernicus detected => Kopernicus.Templates.kopernicusMainMenu = " + Templates.kopernicusMainMenu);
             }
         }
     }

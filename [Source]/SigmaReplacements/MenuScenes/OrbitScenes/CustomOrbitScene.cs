@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -49,8 +48,10 @@ namespace SigmaReplacements
 
             void EditPlanet(MenuObject info, GameObject scene)
             {
-                if (info == null) return;
+                // If info is null generate a default one
+                info = info ?? new MenuObject("Kerbin");
 
+                // Find the Planet GameObject
                 GameObject planet = scene.GetChild("Kerbin");
 
                 if (!info.enabled)
@@ -89,7 +90,11 @@ namespace SigmaReplacements
 
             void EditMoons(MenuObject[] moons, GameObject scene)
             {
-                if (!(moons?.Length > 0)) return;
+                if (!(moons?.Length > 0))
+                {
+                    CelestialBody defaultMoon = FlightGlobals.Bodies?.Where(b => b?.referenceBody?.transform?.name == "Kerbin")?.OrderBy(b => b?.Radius)?.LastOrDefault();
+                    moons = new MenuObject[] { new MenuObject(defaultMoon?.name ?? "Mun", defaultMoon != null) };
+                }
 
                 // Get Stock Body
                 GameObject mun = scene.GetChild("Mun");
@@ -116,6 +121,7 @@ namespace SigmaReplacements
                     {
                         body = mun;
                         body.SetActive(info.enabled);
+
                         if (!info.enabled) continue;
                     }
                     else
@@ -146,10 +152,10 @@ namespace SigmaReplacements
                     info.scale = info.scale ?? Vector3.one;
                     float mult = (float)((cb?.Radius ?? 200000) / 200000);
                     info.ApplyTo(body, 0.209560245275497f * mult);
-
-                    // CleanUp
-                    Object.Destroy(clone);
                 }
+
+                // CleanUp
+                Object.DestroyImmediate(clone);
             }
 
             void AddScatter(MenuObject[] scatters, GameObject scene, GameObject template)

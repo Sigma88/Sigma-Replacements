@@ -114,6 +114,15 @@ namespace SigmaReplacements
                 bobberOFS = Parse(node.GetValue("bobberOFS"), bobberOFS);
             }
 
+            // New MenuObject from name
+            internal MenuObject(string name, bool enabled = true)
+            {
+                // Name
+                this.name = name;
+                this.enabled = enabled;
+            }
+
+
             // Apply MenuObject to GameObject
             internal void ApplyTo(GameObject obj, float scaleMult = 1)
             {
