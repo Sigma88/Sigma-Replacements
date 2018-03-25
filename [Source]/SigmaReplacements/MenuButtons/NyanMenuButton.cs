@@ -23,7 +23,6 @@ namespace SigmaReplacements
 
                     for (int i = 0; i < buttons.Length; i++)
                     {
-                        Debug.Log("SigmaLog: buttons[i].name = " + buttons[i].name);
                         if (buttons[i].name == "Start Game")
                             ordered[0] = buttons[i];
                         else if (buttons[i].name == "Settings")
