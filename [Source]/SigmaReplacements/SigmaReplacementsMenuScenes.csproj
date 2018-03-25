@@ -44,9 +44,6 @@
     <Compile Include="MenuScenes\MenuSceneInfo.cs" />
     <Compile Include="MenuScenes\MunScenes\CustomMunScene.cs" />
     <Compile Include="MenuScenes\MunScenes\MunSceneInfo.cs" />
-    <Compile Include="MenuScenes\[Nyan]\Nyan.cs" />
-    <Compile Include="MenuScenes\[Nyan]\NyanMenuScene.cs" />
-    <Compile Include="MenuScenes\Utility\Extensions.cs" />
     <Compile Include="MenuScenes\OrbitScenes\CustomOrbitScene.cs" />
     <Compile Include="MenuScenes\OrbitScenes\OrbitSceneInfo.cs" />
     <Compile Include="MenuScenes\Properties\AssemblyInfo.cs" />
