@@ -11,36 +11,26 @@ namespace SigmaReplacements
         [KSPAddon(KSPAddon.Startup.MainMenu, false)]
         internal class MenuKerbals : MonoBehaviour
         {
-            void Awake()
+            void Start()
             {
                 GameObject orbitScene = GameObject.Find("OrbitScene")?.GetChild("Kerbals");
 
                 if (orbitScene != null)
                 {
-                    int? kerbals = orbitScene?.transform?.childCount;
-                    if (kerbals > 4) kerbals = 4;
-
-                    for (int i = 0; i < kerbals; i++)
+                    for (int i = 0; i < orbitScene?.transform?.childCount; i++)
                     {
-                        Transform child = orbitScene.transform.GetChild(i);
-
-                        UIKerbalMenu kerbal = child.gameObject.AddOrGetComponent<UIKerbalMenu>();
-                        kerbal.crewMember = UIKerbals.menuKerbals[i + 1];
-
-                        child.gameObject.AddOrGetComponent<CustomSuit>();
+                        orbitScene.transform.GetChild(i).gameObject.AddOrGetComponent<CustomSuit>();
                     }
                 }
 
                 GameObject munScene = GameObject.Find("MunScene")?.GetChild("Kerbals");
 
-                if (munScene?.transform?.childCount > 0)
+                if (munScene != null)
                 {
-                    Transform child = munScene.transform.GetChild(0);
-
-                    UIKerbalMenu kerbal = child.gameObject.AddOrGetComponent<UIKerbalMenu>();
-                    kerbal.crewMember = UIKerbals.menuKerbals[0];
-
-                    child.gameObject.AddOrGetComponent<CustomSuit>();
+                    for (int i = 0; i < munScene?.transform?.childCount; i++)
+                    {
+                        munScene.transform.GetChild(i).gameObject.AddOrGetComponent<CustomSuit>();
+                    }
                 }
             }
         }
