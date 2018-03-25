@@ -3,16 +3,16 @@
 
 namespace SigmaReplacements
 {
-    namespace Heads
+    namespace MenuScenes
     {
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
         internal class Version : MonoBehaviour
         {
-            public static readonly System.Version number = new System.Version("0.2.4");
+            public static readonly System.Version number = new System.Version("0.1.0");
 
             void Awake()
             {
-                UnityEngine.Debug.Log("[SigmaLog] Version Check:   Sigma Replacements: Heads v" + number);
+                UnityEngine.Debug.Log("[SigmaLog] Version Check:   Sigma Replacements: MenuScenes v" + number);
             }
         }
     }
