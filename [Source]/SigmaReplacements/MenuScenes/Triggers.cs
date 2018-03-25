@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using UnityEngine;
 
 
@@ -46,7 +45,7 @@ namespace SigmaReplacements
                     scene.ApplyTo(scenes);
                 }
 
-                if (AssemblyLoader.loadedAssemblies.FirstOrDefault(a => a.name == "Kopernicus") != null)
+                if (KopernicusFixer.detect)
                 {
                     gameObject.AddOrGetComponent<KopernicusFixer>();
                 }

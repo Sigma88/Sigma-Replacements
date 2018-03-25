@@ -74,6 +74,10 @@ namespace SigmaReplacements
 
                 if (template != null)
                 {
+                    // OnDemand
+                    if (KopernicusFixer.detect)
+                        OnDemandFixer.LoadTextures(template);
+
                     // Material
                     renderer.material = template?.GetComponent<Renderer>()?.material ?? renderer.material;
                     renderer.material.SetTexture(info.texture1);
@@ -137,6 +141,10 @@ namespace SigmaReplacements
 
                     if (template != null)
                     {
+                        // OnDemand
+                        if (KopernicusFixer.detect)
+                            OnDemandFixer.LoadTextures(template);
+
                         // Material
                         renderer.material = template?.GetComponent<Renderer>()?.material ?? renderer.material;
                         renderer.material.SetTexture(info.texture1);
