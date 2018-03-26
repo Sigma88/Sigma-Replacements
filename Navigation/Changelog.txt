@@ -1,3 +1,13 @@
+**v0.2.2**
+
+- Improved modularity
+
+
+**v0.2.1**
+
+- Improved modularity
+
+
 **v0.2.0**
 
 - Added new settings to the Requirements node:
