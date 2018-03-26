@@ -1,7 +1,7 @@
 {
 	"NAME": "<b><color=#9B59B6>Sigma Replacements: MenuButtons</color></b>",
 	"URL": "https://raw.githubusercontent.com/Sigma88/Sigma-Replacements/master/MenuButtons/GameData/Sigma/Replacements/MenuButtons/Plugins/SigmaReplacementsMenuButtons.version",
-	"DOWNLOAD": "http://forum.kerbalspaceprogram.com/index.php?/topic/167233-0",
+	"DOWNLOAD": "http://www.github.com/Sigma88/Sigma-Replacements/releases",
 	"CHANGE_LOG_URL": "https://raw.githubusercontent.com/Sigma88/Sigma-Replacements/master/MenuButtons/Changelog.txt",
 	"GITHUB":
 	{
@@ -13,7 +13,7 @@
 	{
 		"MAJOR": 0,
 		"MINOR": 1,
-		"PATCH": 0,
+		"PATCH": 2,
 		"BUILD": 0
 	},
 	"KSP_VERSION":
