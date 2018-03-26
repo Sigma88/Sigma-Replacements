@@ -1,7 +1,7 @@
 {
 	"NAME": "<b><color=#9B59B6>Sigma Replacements: Textures</color></b>",
 	"URL": "https://raw.githubusercontent.com/Sigma88/Sigma-Replacements/master/Textures/GameData/Sigma/Replacements/Textures/Plugins/SigmaReplacementsTextures.version",
-	"DOWNLOAD": "http://forum.kerbalspaceprogram.com/index.php?/topic/167233-0",
+	"DOWNLOAD": "http://www.github.com/Sigma88/Sigma-Replacements/releases",
 	"CHANGE_LOG_URL": "https://raw.githubusercontent.com/Sigma88/Sigma-Replacements/master/Textures/Changelog.txt",
 	"GITHUB":
 	{
@@ -13,7 +13,7 @@
 	{
 		"MAJOR": 0,
 		"MINOR": 2,
-		"PATCH": 2,
+		"PATCH": 3,
 		"BUILD": 0
 	},
 	"KSP_VERSION":
