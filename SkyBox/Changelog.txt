@@ -1,3 +1,8 @@
+**v0.2.2**
+
+- Improved modularity
+
+
 **v0.2.1**
 
 - Improved modularity
