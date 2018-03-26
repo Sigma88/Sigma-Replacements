@@ -8,7 +8,7 @@ namespace SigmaReplacements
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
         internal class Version : MonoBehaviour
         {
-            public static readonly System.Version number = new System.Version("0.1.0");
+            public static readonly System.Version number = new System.Version("0.1.2");
 
             void Awake()
             {
