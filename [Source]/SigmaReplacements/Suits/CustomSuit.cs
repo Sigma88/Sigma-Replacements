@@ -83,7 +83,6 @@ namespace SigmaReplacements
 
             void JetPack()
             {
-                UnityEngine.Debug.Log("SigmaLog: ," + jetpackDeployed + "," + eva.JetpackDeployed + "," + eva.IsChuteState + "," + (FlightGlobals.ship_geeForce > jetpackMaxGravity));
                 if
                 (
                     ((eva.JetpackDeployed || eva.IsChuteState) && !jetpackDeployed) ||
