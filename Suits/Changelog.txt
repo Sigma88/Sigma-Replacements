@@ -1,3 +1,9 @@
+**v0.3.0**
+
+- Updated to KSP 1.4.3
+- Removed KSP-AVC compatibility
+
+
 **v0.2.4**
 
 - Improved modularity
