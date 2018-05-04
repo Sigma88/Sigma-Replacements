@@ -62,6 +62,11 @@ namespace SigmaReplacements
 
                 eva = GetComponent<KerbalEVA>();
 
+                // Ignore the new EVA suits
+                if (eva?.gameObject?.GetChild("EVALight") != null) return;
+                // Ignore the new IVA suits
+                if (GetComponent<kerbalExpressionSystem>()?.gameObject?.GetChild("controlObjects01") != null || GetComponent<kerbalExpressionSystem>()?.gameObject?.GetChild("extraNodes01") != null) return;
+
                 LoadFor(kerbal);
                 ApplyTo(kerbal);
 
@@ -78,21 +83,32 @@ namespace SigmaReplacements
 
             void JetPack()
             {
-                if (eva.JetpackDeployed != jetpackDeployed && FlightGlobals.ship_geeForce > jetpackMaxGravity)
+                if
+                (
+                    ((eva.JetpackDeployed || eva.IsChuteState) && !jetpackDeployed) ||
+                    (!eva.JetpackDeployed && !eva.IsChuteState && jetpackDeployed == FlightGlobals.ship_geeForce > jetpackMaxGravity)
+                )
                 {
-                    jetpackDeployed = eva.JetpackDeployed;
+                    jetpackDeployed = !jetpackDeployed;
 
-                    Renderer[] renderers = eva.gameObject.GetChild("jetpack01").GetComponentsInChildren<Renderer>(true);
+                    Renderer[] jetpackRenderers = eva.gameObject.GetChild("jetpack01").GetComponentsInChildren<Renderer>(true);
+                    Renderer[] chuteRenderers = eva.gameObject.GetChild("model").GetComponentsInChildren<Renderer>(true);
 
-                    for (int i = 0; i < renderers.Length; i++)
+                    for (int i = 0; i < jetpackRenderers.Length; i++)
                     {
-                        if (renderers[i]?.name?.StartsWith("fx_gasJet") == false)
+                        if (jetpackRenderers[i]?.name?.StartsWith("fx_gasJet") == false)
                         {
-                            renderers[i].enabled = jetpackDeployed;
+                            jetpackRenderers[i].enabled = jetpackDeployed;
                         }
                     }
 
-                    eva.gameObject.GetChild("kbEVA_flagDecals").GetComponent<Renderer>().enabled = jetpackDeployed;
+                    for (int i = 0; i < chuteRenderers.Length; i++)
+                    {
+                        if (chuteRenderers[i]?.name?.StartsWith("fx_gasJet") == false)
+                        {
+                            chuteRenderers[i].enabled = jetpackDeployed;
+                        }
+                    }
                 }
             }
 
