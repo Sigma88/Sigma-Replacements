@@ -11,6 +11,7 @@ namespace SigmaReplacements
             float? helmetLowPressure = null;
             float? helmetHighPressure = null;
             float? jetpackMaxGravity = null;
+            bool hideJetPack = false;
             bool jetpackDeployed = true;
             bool helmetHidden = false;
             KerbalEVA eva = null;
@@ -73,7 +74,10 @@ namespace SigmaReplacements
                 if (HighLogic.LoadedScene == GameScenes.FLIGHT && eva != null)
                 {
                     if (jetpackMaxGravity != null)
+                    {
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, JetPack);
+                        hideJetPack = FlightGlobals.ship_geeForce > jetpackMaxGravity;
+                    }
                     if (helmetLowPressure != null || helmetHighPressure != null)
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, Helmet);
                     if (Nyan.forever)
@@ -83,11 +87,7 @@ namespace SigmaReplacements
 
             void JetPack()
             {
-                if
-                (
-                    ((eva.JetpackDeployed || eva.IsChuteState) && !jetpackDeployed) ||
-                    (!eva.JetpackDeployed && !eva.IsChuteState && jetpackDeployed == FlightGlobals.ship_geeForce > jetpackMaxGravity)
-                )
+                if (hideJetPack && jetpackDeployed != (eva.JetpackDeployed || eva.IsChuteState))
                 {
                     jetpackDeployed = !jetpackDeployed;
 
