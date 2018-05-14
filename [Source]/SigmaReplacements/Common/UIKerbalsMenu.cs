@@ -67,17 +67,18 @@ namespace SigmaReplacements
                 // Orbit Scene
                 ConfigNode[] OrbitSceneKerbal = UserSettings.ConfigNode.GetNodes("OrbitSceneKerbal");
 
+                for (int index = 0; index < 4; index++)
+                {
+                    UIKerbalsMenu.orbitSceneKerbals.Add(index, UIKerbalsMenu.orbitKerbals[index]);
+                }
+
                 for (int i = 0; i < OrbitSceneKerbal?.Length; i++)
                 {
                     if (int.TryParse(OrbitSceneKerbal[i]?.GetValue("index"), out int index))
                     {
                         if (!UIKerbalsMenu.orbitSceneKerbals.ContainsKey(index))
                         {
-                            if (index < 4)
-                            {
-                                UIKerbalsMenu.orbitSceneKerbals.Add(index, UIKerbalsMenu.orbitKerbals[index]);
-                            }
-                            else
+                            if (index > 3)
                             {
                                 UIKerbalsMenu.orbitSceneKerbals.Add(index, new CrewMember(Type.Crew, Roster.Available, "OrbitKerbal" + index, Gender.Male, "", false, false, 0.5f, 0.5f, 0));
                             }
