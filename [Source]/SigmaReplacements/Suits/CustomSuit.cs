@@ -63,10 +63,17 @@ namespace SigmaReplacements
 
                 eva = GetComponent<KerbalEVA>();
 
-                // Ignore the new EVA suits
-                if (eva?.gameObject?.GetChild("EVALight") != null) return;
-                // Ignore the new IVA suits
-                if (GetComponent<kerbalExpressionSystem>()?.gameObject?.GetChild("controlObjects01") != null || GetComponent<kerbalExpressionSystem>()?.gameObject?.GetChild("extraNodes01") != null) return;
+                if (HighLogic.LoadedScene == GameScenes.FLIGHT)
+                {
+                    if
+                    (
+                        // Ignore the new EVA suits
+                        eva?.gameObject?.GetChild("EVALight") != null ||
+                        // Ignore the new IVA suits
+                        GetComponent<kerbalExpressionSystem>()?.gameObject?.GetChild("controlObjects01") != null ||
+                        GetComponent<kerbalExpressionSystem>()?.gameObject?.GetChild("extraNodes01") != null
+                    ) return;
+                }
 
                 LoadFor(kerbal);
                 ApplyTo(kerbal);
