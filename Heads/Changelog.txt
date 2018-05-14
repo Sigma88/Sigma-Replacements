@@ -1,3 +1,8 @@
+**v0.3.0**
+
+- Fixed detection of UIKerbalsMenu
+
+
 **v0.2.4**
 
 - Improved modularity
