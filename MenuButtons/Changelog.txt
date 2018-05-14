@@ -1,3 +1,8 @@
+**v0.1.2**
+
+- Improved modularity
+
+
 **v0.1.1**
 
 - Fixed main menu behaviour
