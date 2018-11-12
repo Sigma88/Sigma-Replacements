@@ -32,6 +32,9 @@ namespace SigmaReplacements
         {
             if (material != null && color != null)
             {
+                if (material.shader?.name == "Mobile/Diffuse")
+                    material.shader = Shader.Find("Legacy Shaders/Diffuse");
+
                 material.color = (Color)color;
             }
         }
