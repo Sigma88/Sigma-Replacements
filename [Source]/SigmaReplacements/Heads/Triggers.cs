@@ -135,20 +135,18 @@ namespace SigmaReplacements
 
             void OnVesselLoaded(Vessel vessel)
             {
+                if (vessel == null) return;
+
                 Debug.Log("FlightTriggers.OnVesselLoaded", "Vessel = " + vessel);
 
-                KerbalEVA[] kerbalEVAs = vessel.GetComponentsInChildren<KerbalEVA>(true);
-
-                for (int i = 0; i < kerbalEVAs?.Length; i++)
+                if (vessel.isEVA)
                 {
-                    CustomHead customHead = kerbalEVAs[i].gameObject.AddOrGetComponent<CustomHead>();
+                    KerbalEVA kerbalEVA = vessel?.evaController;//.GetComponentInChildren<KerbalEVA>();
+                    kerbalEVA?.gameObject?.AddOrGetComponent<CustomHead>();
                 }
-
-                kerbalExpressionSystem[] kerbalIVAs = Resources.FindObjectsOfTypeAll<kerbalExpressionSystem>();
-
-                for (int i = 0; i < kerbalIVAs?.Length; i++)
+                else
                 {
-                    CustomHead customHead = kerbalIVAs[i].gameObject.AddOrGetComponent<CustomHead>();
+                    vessel?.gameObject?.AddOrGetComponent<IVAHeadFinder>();
                 }
             }
 
@@ -161,6 +159,15 @@ namespace SigmaReplacements
             }
         }
 
+        internal class IVAHeadFinder : IVAFinder
+        {
+            internal override void AddOrGetComponent(GameObject gameObject)
+            {
+                gameObject.AddOrGetComponent<CustomHead>();
+            }
+        }
+
+        // Nyan Settings
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
         internal class NyanSettings : MonoBehaviour
         {
