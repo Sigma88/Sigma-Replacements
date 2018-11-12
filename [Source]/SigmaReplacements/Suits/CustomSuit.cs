@@ -276,110 +276,99 @@ namespace SigmaReplacements
                     Material material = renderers[i]?.material;
                     if (material == null) continue;
 
-                    if (name == "body01" || name == "mesh_female_kerbalAstronaut01_body01" || name == "coat01" || name == "pants01" || name == "mesh_bowTie01")
+                    switch (name)
                     {
-                        material.SetColor(body);
-                        material.SetTexture(bodyTex);
-                        material.SetNormal(bodyNrm);
+                        case "body01":
+                        case "mesh_female_kerbalAstronaut01_body01":
+                        case "coat01":
+                        case "pants01":
+                        case "mesh_bowTie01":
+                            material.SetColor(body);
+                            material.SetTexture(bodyTex);
+                            material.SetNormal(bodyNrm);
+                            continue;
+
+                        case "helmet":
+                        case "mesh_female_kerbalAstronaut01_helmet":
+                        case "mesh_backpack":
+                        case "mesh_hazm_helmet":
+                        case "mesh_helmet_support":
+                        case "helmetConstr01":
+                            material.SetColor(helmet);
+                            material.SetTexture(helmetTex);
+                            material.SetNormal(helmetNrm);
+                            continue;
+
+                        case "visor":
+                        case "mesh_female_kerbalAstronaut01_visor":
+                        case "mesh_hazm_visor":
+                            material.SetColor(visor);
+                            material.SetTexture(visorTex);
+                            material.SetNormal(visorNrm);
+                            continue;
+
+                        case "flare1":
+                        case "flare2":
+                            if (flares != null)
+                            {
+                                material.shader = Shader.Find("Particles/Alpha Blended");
+                                material.SetTintColor(flares);
+                            }
+
+                            material.SetTexture(flaresTex);
+
+                            if (light != null)
+                            {
+                                Light lights = renderers[i].GetComponentInParent<Light>();
+                                if (lights != null) lights.color = (Color)light;
+                            }
+                            continue;
+
+                        case "kbEVA_flagDecals":
+                            material.SetColor(flag);
+                            material.SetTexture(flagTex);
+                            material.SetNormal(flagNrm);
+                            continue;
+
+                        case "gene_mug_base":
+                        case "gene_mug_handle":
+                            material.SetColor(mug);
+                            material.SetTexture(mugTex);
+                            material.SetNormal(mugNrm);
+                            continue;
+
+                        case "backdrop":
+                            material.SetColor(backdrop);
+                            material.SetTexture(backdropTex);
+                            material.SetNormal(backdropNrm);
+                            continue;
                     }
 
-                    else
-
-                    if (name == "helmet" || name == "mesh_female_kerbalAstronaut01_helmet" || name == "mesh_backpack" || name == "mesh_hazm_helmet" || name == "mesh_helmet_support" || name == "helmetConstr01")
+                    switch (material?.mainTexture?.name)
                     {
-                        material.SetColor(helmet);
-                        material.SetTexture(helmetTex);
-                        material.SetNormal(helmetNrm);
-                    }
+                        case "EVAjetpack":
+                        case "EVAjetpackscondary":
+                            material.SetColor(jetpack);
+                            material.SetTexture(jetpackTex);
+                            material.SetNormal(jetpackNrm);
+                            continue;
 
-                    else
+                        case "fairydust":
+                            material.SetTintColor(gasjets);
+                            material.SetTexture(gasjetsTex);
+                            continue;
 
-                    if (name == "visor" || name == "mesh_female_kerbalAstronaut01_visor" || name == "mesh_hazm_visor")
-                    {
-                        material.SetColor(visor);
-                        material.SetTexture(visorTex);
-                        material.SetNormal(visorNrm);
-                    }
+                        case "kbGeneKerman_headset":
+                            material.SetColor(headset);
+                            material.SetTexture(headsetTex);
+                            material.SetNormal(headsetNrm);
+                            continue;
 
-                    else
-
-                    if (name == "flare1" || name == "flare2")
-                    {
-                        if (flares != null)
-                        {
-                            material.shader = Shader.Find("Particles/Alpha Blended");
-                            material.SetTintColor(flares);
-                        }
-
-                        material.SetTexture(flaresTex);
-
-                        if (light != null)
-                        {
-                            Light lights = renderers[i].GetComponentInParent<Light>();
-                            if (lights != null) lights.color = (Color)light;
-                        }
-                    }
-
-                    else
-
-                    if (material.mainTexture?.name == "EVAjetpack")
-                    {
-                        material.SetColor(jetpack);
-                        material.SetTexture(jetpackTex);
-                        material.SetNormal(jetpackNrm);
-                    }
-
-                    else
-
-                    if (name == "kbEVA_flagDecals")
-                    {
-                        material.SetColor(flag);
-                        material.SetTexture(flagTex);
-                        material.SetNormal(flagNrm);
-                    }
-
-                    else
-
-                    if (material.mainTexture?.name == "fairydust")
-                    {
-                        material.SetTintColor(gasjets);
-                        material.SetTexture(gasjetsTex);
-                    }
-
-                    else
-
-                    if (material.mainTexture?.name == "kbGeneKerman_headset")
-                    {
-                        material.SetColor(headset);
-                        material.SetTexture(headsetTex);
-                        material.SetNormal(headsetNrm);
-                    }
-
-                    else
-
-                    if (name == "gene_mug_base" || name == "gene_mug_handle")
-                    {
-                        material.SetColor(mug);
-                        material.SetTexture(mugTex);
-                        material.SetNormal(mugNrm);
-                    }
-
-                    else
-
-                    if (material.mainTexture?.name == "wernerVonKerman_glasses")
-                    {
-                        material.SetColor(glasses);
-                        material.SetTexture(glassesTex);
-                        material.SetNormal(glassesNrm);
-                    }
-
-                    else
-
-                    if (name == "backdrop")
-                    {
-                        material.SetColor(backdrop);
-                        material.SetTexture(backdropTex);
-                        material.SetNormal(backdropNrm);
+                        case "wernerVonKerman_glasses":
+                            material.SetColor(glasses);
+                            material.SetTexture(glassesTex);
+                            material.SetNormal(glassesNrm);
+                            continue;
                     }
                 }
             }
