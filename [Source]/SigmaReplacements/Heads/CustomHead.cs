@@ -139,10 +139,13 @@ namespace SigmaReplacements
                 }
 
                 Renderer[] renderers = GetComponentsInChildren<Renderer>();
+                Debug.Log("CustomHead.ApplyTo", "renderers.Length = " + renderers?.Length);
 
                 for (int i = 0; i < renderers?.Length; i++)
                 {
                     string name = renderers[i]?.name;
+                    Debug.Log("CustomHead.ApplyTo", "renderers[" + i + "].name = " + name);
+
                     Material material = renderers[i]?.material;
                     if (material == null) continue;
 
