@@ -255,7 +255,7 @@ namespace SigmaReplacements
 
             internal override void ApplyTo(ProtoCrewMember kerbal)
             {
-                Debug.Log("CustomHead.ApplyTo", "kerbal = " + kerbal);
+                Debug.Log("CustomSuit.ApplyTo", "kerbal = " + kerbal);
 
                 if (kerbal == null) return;
 
@@ -269,10 +269,13 @@ namespace SigmaReplacements
                 }
 
                 Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
+                Debug.Log("CustomSuit.ApplyTo", "renderers.Length = " + renderers?.Length);
 
                 for (int i = 0; i < renderers?.Length; i++)
                 {
                     string name = renderers[i]?.name;
+                    Debug.Log("CustomSuit.ApplyTo", "renderers[" + i + "].name = " + name + ", mainTex = " + renderers[i]?.material?.mainTexture?.name);
+
                     Material material = renderers[i]?.material;
                     if (material == null) continue;
 
