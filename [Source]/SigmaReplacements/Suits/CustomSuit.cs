@@ -129,12 +129,12 @@ namespace SigmaReplacements
                 {
                     helmetHidden = !helmetHidden;
 
-                    Renderer[] renderers = eva.gameObject.GetChild("helmet01").GetComponentsInChildren<Renderer>(true);
+                    GameObject helmet = eva?.gameObject?.GetChild("helmet01") ?? eva?.gameObject?.GetChild("mesh_female_kerbalAstronaut01_helmet01");
+                    Renderer[] renderers = helmet?.GetComponentsInChildren<Renderer>(true);
 
-                    for (int i = 0; i < renderers.Length; i++)
+                    for (int i = 0; i < renderers?.Length; i++)
                     {
-                        if (renderers[i]?.name == "helmet" || renderers[i]?.name == "visor" || renderers[i]?.name == "flare1" || renderers[i]?.name == "flare2")
-                            renderers[i].enabled = !helmetHidden;
+                        renderers[i].enabled = !helmetHidden;
                     }
                 }
             }
