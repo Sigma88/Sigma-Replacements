@@ -202,6 +202,7 @@ namespace SigmaReplacements
 
                         case "headMesh":
                         case "headMesh01":
+                        case "headMesh02":
                         case "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_polySurface51":
                             material.SetColor(head);
                             material.SetTexture(headTex);
