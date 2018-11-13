@@ -131,6 +131,7 @@ namespace SigmaReplacements
                 GameEvents.onVesselLoaded.Add(OnVesselLoaded);
                 GameEvents.onVesselCreate.Add(OnVesselLoaded);
                 GameEvents.onCrewOnEva.Add(OnCrewOnEva);
+                GameEvents.onCrewBoardVessel.Add(OnCrewBoardVessel);
             }
 
             void OnVesselLoaded(Vessel vessel)
@@ -138,15 +139,12 @@ namespace SigmaReplacements
                 if (vessel == null) return;
 
                 Debug.Log("FlightTriggers.OnVesselLoaded", "Vessel = " + vessel);
+                vessel?.gameObject?.AddOrGetComponent<IVAHeadFinder>();
 
                 if (vessel.isEVA)
                 {
-                    KerbalEVA kerbalEVA = vessel?.evaController;//.GetComponentInChildren<KerbalEVA>();
+                    KerbalEVA kerbalEVA = vessel?.evaController;
                     kerbalEVA?.gameObject?.AddOrGetComponent<CustomHead>();
-                }
-                else
-                {
-                    vessel?.gameObject?.AddOrGetComponent<IVAHeadFinder>();
                 }
             }
 
@@ -156,6 +154,14 @@ namespace SigmaReplacements
 
                 KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
                 CustomHead customHead = kerbalEVA.gameObject.AddOrGetComponent<CustomHead>();
+            }
+
+            void OnCrewBoardVessel(GameEvents.FromToAction<Part, Part> action)
+            {
+                Debug.Log("FlightTriggers.OnCrewOnEva", "Part = " + action.to);
+
+                Vessel vessel = action.to?.vessel;
+                vessel?.gameObject?.AddOrGetComponent<IVAHeadFinder>()?.UpdateIVAs();
             }
         }
 

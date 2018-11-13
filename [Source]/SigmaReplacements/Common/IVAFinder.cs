@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
 
 
@@ -8,35 +8,22 @@ namespace SigmaReplacements
     {
         void Start()
         {
-            Vessel vessel = GetComponent<Vessel>();
-            Debug.Log("IVAFinder.Start", "vessel = " + vessel);
+            UpdateIVAs();
+        }
 
-            kerbalExpressionSystem[] kerbalIVAs = GetIVAs(vessel);
+        internal void UpdateIVAs()
+        {
+            kerbalExpressionSystem[] kerbalIVAs = Resources.FindObjectsOfTypeAll<kerbalExpressionSystem>();
+            Debug.Log("IVAFinder.UpdateIVAs", "IVAs = " + kerbalIVAs?.Length);
+
             int? n = kerbalIVAs?.Length;
-            Debug.Log("IVAFinder.Start", "IVAs = " + n);
-
             for (int i = 0; i < n; i++)
             {
-                AddOrGetComponent(kerbalIVAs[i]?.gameObject);
+                if (kerbalIVAs[i]?.isActiveAndEnabled == true)
+                    AddOrGetComponent(kerbalIVAs[i]?.gameObject);
             }
         }
 
         internal virtual void AddOrGetComponent(GameObject gameObject) { }
-
-        kerbalExpressionSystem[] GetIVAs(Vessel vessel)
-        {
-            List<kerbalExpressionSystem> list = new List<kerbalExpressionSystem>();
-
-            int? n = vessel?.parts?.Count;
-
-            for (int i = 0; i < n; i++)
-            {
-                kerbalExpressionSystem[] array = vessel?.parts?[i]?.internalModel?.GetComponentsInChildren<kerbalExpressionSystem>(true);
-                if (array?.Length > 0)
-                    list.AddRange(array);
-            }
-
-            return list.ToArray();
-        }
     }
 }
