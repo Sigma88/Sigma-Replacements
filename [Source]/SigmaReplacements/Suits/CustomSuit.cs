@@ -74,20 +74,14 @@ namespace SigmaReplacements
                 {
                     if (jetpackMaxGravity != null)
                     {
+                        JetPack(FlightGlobals.ship_geeForce);
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, JetPack);
-
-                        if (jetpackTime < (jetpackDelay ?? 1))
-                        {
-                            jetpackTime += Time.deltaTime;
-                        }
-                        else
-                        {
-                            jetpackTime = 0;
-                            hideJetPack = FlightGlobals.ship_geeForce > jetpackMaxGravity;
-                        }
                     }
                     if (helmetLowPressure != null || helmetHighPressure != null)
+                    {
+                        Helmet();
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, Helmet);
+                    }
                     if (Nyan.forever)
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, RainbowJets);
                 }
@@ -95,6 +89,21 @@ namespace SigmaReplacements
 
             void JetPack()
             {
+                JetPack(eva?.vessel?.geeForce);
+            }
+
+            void JetPack(double? gravity = null)
+            {
+                if (jetpackTime < (jetpackDelay ?? 1))
+                {
+                    jetpackTime += Time.deltaTime;
+                }
+                else
+                {
+                    jetpackTime = 0;
+                    hideJetPack = gravity > jetpackMaxGravity;
+                }
+
                 if (hideJetPack && jetpackDeployed != (eva.JetpackDeployed || eva.IsChuteState))
                 {
                     jetpackDeployed = !jetpackDeployed;

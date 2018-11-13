@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace SigmaReplacements
@@ -19,7 +18,7 @@ namespace SigmaReplacements
             int? n = kerbalIVAs?.Length;
             for (int i = 0; i < n; i++)
             {
-                if (kerbalIVAs[i]?.isActiveAndEnabled == true)
+                if (kerbalIVAs[i]?.gameObject != null)
                     AddOrGetComponent(kerbalIVAs[i]?.gameObject);
             }
         }
