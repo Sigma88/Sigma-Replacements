@@ -10,7 +10,11 @@ namespace SigmaReplacements
             // Suit Specific Restrictions
             float? helmetLowPressure = null;
             float? helmetHighPressure = null;
+            float? helmetDelay = null;
+            double helmetTime = 1;
             float? jetpackMaxGravity = null;
+            float? jetpackDelay = null;
+            double jetpackTime = 1;
             bool hideJetPack = false;
             bool jetpackDeployed = true;
             bool helmetHidden = false;
@@ -71,7 +75,16 @@ namespace SigmaReplacements
                     if (jetpackMaxGravity != null)
                     {
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, JetPack);
-                        hideJetPack = FlightGlobals.ship_geeForce > jetpackMaxGravity;
+
+                        if (jetpackTime < (jetpackDelay ?? 1))
+                        {
+                            jetpackTime += Time.deltaTime;
+                        }
+                        else
+                        {
+                            jetpackTime = 0;
+                            hideJetPack = FlightGlobals.ship_geeForce > jetpackMaxGravity;
+                        }
                     }
                     if (helmetLowPressure != null || helmetHighPressure != null)
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, Helmet);
@@ -111,18 +124,27 @@ namespace SigmaReplacements
             {
                 if (FlightGlobals.currentMainBody?.atmosphereContainsOxygen != true) return;
 
-                double pressure = FlightGlobals.getStaticPressure();
-
-                if (helmetHidden != !(pressure < helmetLowPressure || pressure > helmetHighPressure || helmetLowPressure == helmetHighPressure))
+                if (helmetTime < (helmetDelay ?? 1))
                 {
-                    helmetHidden = !helmetHidden;
+                    helmetTime += Time.deltaTime;
+                }
+                else
+                {
+                    double pressure = FlightGlobals.getStaticPressure();
 
-                    GameObject helmet = eva?.gameObject?.GetChild("helmet01") ?? eva?.gameObject?.GetChild("mesh_female_kerbalAstronaut01_helmet01");
-                    Renderer[] renderers = helmet?.GetComponentsInChildren<Renderer>(true);
-
-                    for (int i = 0; i < renderers?.Length; i++)
+                    if (helmetHidden != !(pressure < helmetLowPressure || pressure > helmetHighPressure || helmetLowPressure == helmetHighPressure))
                     {
-                        renderers[i].enabled = !helmetHidden;
+                        if (helmetHidden) helmetTime = 0;
+
+                        helmetHidden = !helmetHidden;
+
+                        GameObject helmet = eva?.gameObject?.GetChild("helmet01") ?? eva?.gameObject?.GetChild("mesh_female_kerbalAstronaut01_helmet01");
+                        Renderer[] renderers = helmet?.GetComponentsInChildren<Renderer>(true);
+
+                        for (int i = 0; i < renderers?.Length; i++)
+                        {
+                            renderers[i].enabled = !helmetHidden;
+                        }
                     }
                 }
             }
@@ -186,8 +208,10 @@ namespace SigmaReplacements
                                 {
                                     helmetLowPressure = helmetLowPressure ?? info.helmetLowPressure;
                                     helmetHighPressure = helmetHighPressure ?? info.helmetHighPressure;
+                                    helmetDelay = helmetDelay ?? info.helmetDelay;
                                 }
                                 jetpackMaxGravity = jetpackMaxGravity ?? info.jetpackMaxGravity;
+                                jetpackDelay = jetpackDelay ?? info.jetpackDelay;
 
                                 // Colors
                                 if (useSuit)

@@ -19,7 +19,9 @@ namespace SigmaReplacements
             internal float? suitMaxPressure = null;
             internal float? helmetLowPressure = null;
             internal float? helmetHighPressure = null;
+            internal float? helmetDelay = null;
             internal float? jetpackMaxGravity = null;
+            internal float? jetpackDelay = null;
 
             // Colors Lists
             internal List<Color?> body = new List<Color?>();
@@ -72,7 +74,9 @@ namespace SigmaReplacements
                 suitMaxPressure = Parse(info.GetValue("suitMaxPressure"), suitMaxPressure);
                 helmetLowPressure = Parse(info.GetValue("helmetLowPressure"), helmetLowPressure);
                 helmetHighPressure = Parse(info.GetValue("helmetHighPressure"), helmetHighPressure);
+                helmetDelay = Parse(info.GetValue("helmetDelay"), helmetDelay);
                 jetpackMaxGravity = Parse(info.GetValue("jetpackMaxGravity"), jetpackMaxGravity);
+                jetpackDelay = Parse(info.GetValue("jetpackDelay"), jetpackDelay);
 
                 // Parse SuitInfo Colors
                 body = Parse(info.GetValues("body"), body);
