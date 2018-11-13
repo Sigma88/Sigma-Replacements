@@ -298,19 +298,32 @@ namespace SigmaReplacements
                             material.SetNormal(visorNrm);
                             continue;
 
-                        case "flare1":
-                        case "flare2":
+                        case "flareL1":
+                        case "flareR1":
+                        case "flareL2":
+                        case "flareR2":
+                        case "flare1L":
+                        case "flare1R":
+                        case "flare2L":
+                        case "flare2R":
+                        case "EVALight":
+                        case "lightPlane":
                             if (flares != null)
                             {
-                                material.shader = Shader.Find("Particles/Alpha Blended");
-                                material.SetTintColor(flares);
+                                if (material?.shader?.name == "Particles/Alpha Blended Premultiply")
+                                    material.shader = Shader.Find("Particles/Alpha Blended");
+
+                                if (material.HasProperty("_TintColor"))
+                                    material.SetTintColor(flares);
+                                else
+                                    material.SetColor(flares);
                             }
 
                             material.SetTexture(flaresTex);
 
                             if (light != null)
                             {
-                                Light lights = renderers[i].GetComponentInParent<Light>();
+                                Light lights = renderers[i]?.transform?.parent?.GetComponentInChildren<Light>();
                                 if (lights != null) lights.color = (Color)light;
                             }
                             continue;
