@@ -13,8 +13,6 @@ namespace SigmaReplacements
             float? helmetDelay = null;
             double helmetTime = 1;
             float? jetpackMaxGravity = null;
-            float? jetpackDelay = null;
-            double jetpackTime = 1;
             bool hideJetPack = false;
             bool jetpackVisible = true;
             bool helmetHidden = false;
@@ -207,7 +205,6 @@ namespace SigmaReplacements
                                     helmetDelay = helmetDelay ?? info.helmetDelay;
                                 }
                                 jetpackMaxGravity = jetpackMaxGravity ?? info.jetpackMaxGravity;
-                                jetpackDelay = jetpackDelay ?? info.jetpackDelay;
 
                                 // Colors
                                 if (useSuit)
@@ -261,7 +258,6 @@ namespace SigmaReplacements
                 }
 
                 helmetTime = helmetDelay ?? 1;
-                jetpackTime = jetpackDelay ?? 1;
             }
 
             internal override void ApplyTo(ProtoCrewMember kerbal)
