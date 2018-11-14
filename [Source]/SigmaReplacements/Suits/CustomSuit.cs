@@ -16,7 +16,7 @@ namespace SigmaReplacements
             float? jetpackDelay = null;
             double jetpackTime = 1;
             bool hideJetPack = false;
-            bool jetpackDeployed = true;
+            bool jetpackVisible = true;
             bool helmetHidden = false;
             KerbalEVA eva = null;
 
@@ -72,9 +72,11 @@ namespace SigmaReplacements
 
                 if (HighLogic.LoadedScene == GameScenes.FLIGHT && eva != null)
                 {
-                    if (jetpackMaxGravity != null)
+                    hideJetPack = FlightGlobals.ship_geeForce > jetpackMaxGravity;
+
+                    if (hideJetPack)
                     {
-                        JetPack(FlightGlobals.ship_geeForce);
+                        JetPack();
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, JetPack);
                     }
                     if (helmetLowPressure != null || helmetHighPressure != null)
@@ -89,24 +91,9 @@ namespace SigmaReplacements
 
             void JetPack()
             {
-                JetPack(eva?.vessel?.geeForce);
-            }
-
-            void JetPack(double? gravity = null)
-            {
-                if (jetpackTime < (jetpackDelay ?? 1))
+                if (jetpackVisible != (eva.JetpackDeployed || eva.IsChuteState))
                 {
-                    jetpackTime += Time.deltaTime;
-                }
-                else
-                {
-                    jetpackTime = 0;
-                    hideJetPack = gravity > jetpackMaxGravity;
-                }
-
-                if (hideJetPack && jetpackDeployed != (eva.JetpackDeployed || eva.IsChuteState))
-                {
-                    jetpackDeployed = !jetpackDeployed;
+                    jetpackVisible = !jetpackVisible;
 
                     Renderer[] jetpackRenderers = eva.gameObject.GetChild("jetpack01").GetComponentsInChildren<Renderer>(true);
                     Renderer[] chuteRenderers = eva.gameObject.GetChild("model").GetComponentsInChildren<Renderer>(true);
@@ -115,7 +102,7 @@ namespace SigmaReplacements
                     {
                         if (jetpackRenderers[i]?.name?.StartsWith("fx_gasJet") == false)
                         {
-                            jetpackRenderers[i].enabled = jetpackDeployed;
+                            jetpackRenderers[i].enabled = jetpackVisible;
                         }
                     }
 
@@ -123,7 +110,7 @@ namespace SigmaReplacements
                     {
                         if (chuteRenderers[i]?.name?.StartsWith("fx_gasJet") == false)
                         {
-                            chuteRenderers[i].enabled = jetpackDeployed;
+                            chuteRenderers[i].enabled = jetpackVisible;
                         }
                     }
                 }
@@ -272,6 +259,9 @@ namespace SigmaReplacements
                         }
                     }
                 }
+
+                helmetTime = helmetDelay ?? 1;
+                jetpackTime = jetpackDelay ?? 1;
             }
 
             internal override void ApplyTo(ProtoCrewMember kerbal)
@@ -418,7 +408,7 @@ namespace SigmaReplacements
 
             void RainbowJets()
             {
-                if (wait > 0.1)
+                if (wait > 0.25)
                 {
                     Renderer[] renderers = eva.gameObject.GetChild("jetpack01").GetComponentsInChildren<Renderer>(true);
 
