@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using KSP.UI;
 using KSP.UI.Screens;
 using KSP.UI.Screens.SpaceCenter.MissionSummaryDialog;
@@ -26,6 +27,11 @@ namespace SigmaReplacements
                 Events.onAstronautComplexEnter.Add(UpdateItem);
                 GameEvents.OnCrewmemberHired.Add(CrewHired);
                 GameEvents.OnCrewmemberSacked.Add(CrewFired);
+                Button button = GetComponent<CrewListItem>()?.suitVariantBtn;
+                if (button != null)
+                {
+                    button.onClick.AddListener(UpdateItem);
+                }
             }
 
             void Start()
