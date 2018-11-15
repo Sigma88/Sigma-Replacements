@@ -70,6 +70,12 @@ namespace SigmaReplacements
 
                 if (HighLogic.LoadedScene == GameScenes.FLIGHT && eva != null)
                 {
+                    if (Nyan.forever)
+                    {
+                        TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, RainbowJets);
+                        return;
+                    }
+
                     hideJetPack = FlightGlobals.ship_geeForce > jetpackMaxGravity;
 
                     if (hideJetPack)
@@ -82,8 +88,6 @@ namespace SigmaReplacements
                         Helmet();
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, Helmet);
                     }
-                    if (Nyan.forever)
-                        TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, RainbowJets);
                 }
             }
 
@@ -145,12 +149,19 @@ namespace SigmaReplacements
 
             void OnDestroy()
             {
-                if (jetpackMaxGravity != null)
-                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, JetPack);
-                if (helmetLowPressure != null || helmetHighPressure != null)
-                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, Helmet);
                 if (Nyan.forever)
+                {
                     TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, RainbowJets);
+                    return;
+                }
+                if (jetpackMaxGravity != null)
+                {
+                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, JetPack);
+                }
+                if (helmetLowPressure != null || helmetHighPressure != null)
+                {
+                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, Helmet);
+                }
             }
 
             internal override void LoadFor(ProtoCrewMember kerbal)
@@ -304,9 +315,9 @@ namespace SigmaReplacements
                         case "mesh_hazm_helmet":
                         case "mesh_helmet_support":
                         case "helmetConstr01":
-                            material.SetColor(helmet);
-                            material.SetTexture(helmetTex);
-                            material.SetNormal(helmetNrm);
+                            material.SetColor(helmet ?? body);
+                            material.SetTexture(helmetTex ?? bodyTex);
+                            material.SetNormal(helmetNrm ?? bodyNrm);
                             continue;
 
                         case "visor":
