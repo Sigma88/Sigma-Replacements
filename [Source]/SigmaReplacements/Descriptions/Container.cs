@@ -15,8 +15,16 @@ namespace SigmaReplacements
     {
         internal class ListItemContainer
         {
-            CrewListItem listItem = null;
-            CrewWidget widget = null;
+            CrewListItem listItem;
+            CrewWidget widget;
+
+            internal ProtoCrewMember crew
+            {
+                get
+                {
+                    return listItem?.GetCrewRef() ?? widget?.crew;
+                }
+            }
 
             internal string name
             {
@@ -66,20 +74,15 @@ namespace SigmaReplacements
                 }
             }
 
-            internal ListItemContainer(CrewListItem listItem)
+            internal ListItemContainer(CrewListItem listItem = null, CrewWidget widget = null)
             {
                 this.listItem = listItem;
-            }
-
-            internal ListItemContainer(CrewWidget widget)
-            {
                 this.widget = widget;
             }
 
             Texture NyanSprite()
             {
-                ProtoCrewMember kerbal = listItem?.GetCrewRef() ?? widget.crew;
-                int hash = Math.Abs(kerbal.trait.GetHashCode() + (HighLogic.CurrentGame?.Seed ?? 0));
+                int hash = Math.Abs(crew.trait.GetHashCode() + (HighLogic.CurrentGame?.Seed ?? 0));
 
                 if (Nyan.nyan)
                 {

@@ -2,51 +2,78 @@ using System.Linq;
 using UnityEngine;
 using KSP.UI;
 using KSP.UI.Screens;
+using KSP.UI.Screens.SpaceCenter.MissionSummaryDialog;
 using KSP.UI.TooltipTypes;
+using Type = ProtoCrewMember.KerbalType;
 
 
 namespace SigmaReplacements
 {
     namespace Descriptions
     {
-        internal class CustomDescription
+        internal class CustomDescription : MonoBehaviour
         {
             // Descriptions
-            static string displayName = "";
-            static string tooltipName = "";
-            static string informations = "";
-            static Texture sprite = null;
+            string displayName = "";
+            string tooltipName = "";
+            string informations = "";
+            Texture sprite = null;
+            ProtoCrewMember crew;
 
-
-            // Update item and tooltip
-            internal static void Update(ListItemContainer item, TooltipController_CrewAC tooltip, ProtoCrewMember kerbal)
+            // Update Triggers
+            void Awake()
             {
-                // Missing Kerbal Tooltip
-                if (kerbal == null)
-                {
-                    Debug.Log("Description.Update", "Kerbal not found.");
-                    return;
-                }
+                Events.onAstronautComplexEnter.Add(UpdateItem);
+                GameEvents.OnCrewmemberHired.Add(CrewHired);
+                GameEvents.OnCrewmemberSacked.Add(CrewFired);
+            }
 
-                else
+            void Start()
+            {
+                UpdateItem();
+            }
 
-                if (tooltip == null && item == null)
-                {
-                    Debug.Log("Description.Update", "Couldn't find CrewListItem and Tooltip for Kerbal \"" + kerbal.name + "\".");
-                    return;
-                }
+            void CrewHired(ProtoCrewMember kerbal, int n)
+            {
+                UpdateItem(kerbal, Type.Applicant);
+            }
 
-                // Custom Kerbal ListItem and Tooltip
-                else
+            void CrewFired(ProtoCrewMember kerbal, int n)
+            {
+                UpdateItem(kerbal, Type.Applicant);
+            }
+
+            void UpdateItem()
+            {
+                UpdateItem(null, null);
+            }
+
+            void UpdateItem(ProtoCrewMember kerbal)
+            {
+                UpdateItem(kerbal, null);
+            }
+
+            void UpdateItem(Type? type)
+            {
+                UpdateItem(null, type);
+            }
+
+            void UpdateItem(ProtoCrewMember kerbal, Type? type)
+            {
+                var container = new ListItemContainer(GetComponent<CrewListItem>(), GetComponent<CrewWidget>());
+                crew = container?.crew;
+
+                if (crew == null) return;
+
+                if ((kerbal == null && type == null) || kerbal == crew || type == crew.type)
                 {
-                    LoadFor(kerbal);
-                    ApplyTo(item, tooltip, kerbal);
+                    LoadFor(crew);
+                    ApplyTo(container);
                 }
             }
 
-
             // Load informations
-            static void LoadFor(ProtoCrewMember kerbal)
+            void LoadFor(ProtoCrewMember kerbal)
             {
                 Debug.Log("CustomDescription.LoadFor", "kerbal = " + kerbal);
 
@@ -131,71 +158,60 @@ namespace SigmaReplacements
                 }
             }
 
-
-            // Apply to item and tooltip
-            static void ApplyTo(ListItemContainer item, TooltipController_CrewAC tooltip, ProtoCrewMember kerbal)
+            // Change the List Item
+            void ApplyTo(ListItemContainer container)
             {
-                Debug.Log("CustomDescription.ApplyTo", "item = " + item + ", tooltip = " + tooltip + ", kerbal = " + kerbal);
+                if (container == null) return;
 
-                if (tooltip != null && !string.IsNullOrEmpty(tooltipName))
+                if (!string.IsNullOrEmpty(displayName))
                 {
-                    tooltip.titleString = tooltipName.PrintFor(kerbal);
+                    container.name = displayName.PrintFor(crew);
                 }
 
-                if (item != null && !string.IsNullOrEmpty(displayName))
+                if (sprite != null)
                 {
-                    item.name = displayName.PrintFor(kerbal);
+                    container.sprite = sprite;
                 }
 
-                if (item != null)
+                update = 0;
+                TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, ApplyTooltip);
+            }
+
+            // Wait a few frames before changing the tooltip
+            static int wait = 2;
+            int update = 0;
+            void ApplyTooltip()
+            {
+                if (update++ == wait)
                 {
-                    item.sprite = sprite;
+                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, ApplyTooltip);
+                    ApplyTo(GetComponent<TooltipController_CrewAC>());
+                }
+            }
+
+            // Change the tooltip
+            void ApplyTo(TooltipController_CrewAC tooltip)
+            {
+                if (tooltip == null) return;
+
+                if (!string.IsNullOrEmpty(tooltipName))
+                {
+                    tooltip.titleString = tooltipName.PrintFor(crew);
                 }
 
-                if (tooltip != null && !string.IsNullOrEmpty(informations))
+                if (!string.IsNullOrEmpty(informations))
                 {
-                    tooltip.descriptionString = informations.PrintFor(kerbal);
+                    tooltip.descriptionString = informations.PrintFor(crew);
 
-                    if (kerbal.type == ProtoCrewMember.KerbalType.Applicant)
+                    if (crew.type == ProtoCrewMember.KerbalType.Applicant)
                         tooltip.descriptionString += CheckForErrors();
 
                     UIMasterController.Instance.DespawnTooltip(tooltip);
                 }
             }
 
-
-            // Update kerbals
-            internal static void UpdateAll(KerbalRoster kerbals)
-            {
-                for (int i = 0; i < kerbals?.Count; i++)
-                {
-                    Update(kerbals[i]);
-                }
-            }
-
-            internal static void UpdateAll(ProtoCrewMember[] kerbals)
-            {
-                for (int i = 0; i < kerbals?.Length; i++)
-                {
-                    Update(kerbals[i]);
-                }
-            }
-
-            internal static void Update(ProtoCrewMember kerbal)
-            {
-                Debug.Log("Description.Update", "kerbal = " + kerbal);
-                if (kerbal == null) return;
-
-                CrewListItem item = kerbal.crewListItem();
-                Debug.Log("Description.Update", "item = " + item);
-                TooltipController_CrewAC tooltip = item.GetTooltip();
-                Debug.Log("Description.Update", "tooltip = " + tooltip);
-                Update(new ListItemContainer(item), tooltip, kerbal);
-            }
-
-
-            // Check for errors
-            private static string CheckForErrors()
+            // Check for errors (e.g. cannot hire kerbals)
+            static string CheckForErrors()
             {
                 AstronautComplex complex = Resources.FindObjectsOfTypeAll<AstronautComplex>()?.FirstOrDefault();
                 KerbalRoster roster = HighLogic.CurrentGame?.CrewRoster;

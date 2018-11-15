@@ -11,66 +11,31 @@ namespace SigmaReplacements
     namespace Descriptions
     {
         [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
-        internal class KSCTriggers : MonoBehaviour
+        public class KSCTriggers : MonoBehaviour
         {
-            static ProtoCrewMember newCrew = null;
+            static bool skip = false;
 
             void Start()
             {
-                // Crew Assignment Dialog
-                Resources.FindObjectsOfTypeAll<CrewAssignmentDialog>().FirstOrDefault().gameObject.AddOrGetComponent<AssignmentFix>();
-
-                // Mission Recovery Dialog
-                Resources.FindObjectsOfTypeAll<MissionRecoveryDialog>().FirstOrDefault().gameObject.AddOrGetComponent<AssignmentFix>();
-
-                // TEST
-                CrewWidget[] widgets = Resources.FindObjectsOfTypeAll<CrewWidget>();
-                for (int i = 0; i < widgets?.Length; i++)
+                if (!skip)
                 {
-                        widgets[i].gameObject.AddOrGetComponent<RecoveryFix>();
+                    skip = true;
+                    CrewListItem[] items = Resources.FindObjectsOfTypeAll<CrewListItem>();
+                    for (int i = 0; i < items?.Length; i++)
+                    {
+                        items[i].gameObject.AddOrGetComponent<CustomDescription>();
+                    }
+                    
+                    CrewWidget[] widgets = Resources.FindObjectsOfTypeAll<CrewWidget>();
+                    for (int i = 0; i < widgets?.Length; i++)
+                    {
+                        widgets[i].gameObject.AddOrGetComponent<CustomDescription>();
+                    }
                 }
 
-                // Astronaut Complex
-                Resources.FindObjectsOfTypeAll<AstronautComplex>().FirstOrDefault().gameObject.AddOrGetComponent<AstronautComplexFix>();
-                GameEvents.OnCrewmemberHired.Add(HireApplicant);
-                GameEvents.OnCrewmemberSacked.Add(FireCrew);
-            }
-
-            void HireApplicant(ProtoCrewMember kerbal, int n)
-            {
-                newCrew = kerbal;
-                TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, HireApplicant);
-            }
-            void HireApplicant()
-            {
-                Debug.Log("HIRE_UPDATE");
-                CustomDescription.Update(newCrew);
-                CustomDescription.UpdateAll(HighLogic.CurrentGame.CrewRoster.Applicants.ToArray());
-                Debug.Log("HIRE_UPDATE_FINISH");
-                TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, HireApplicant);
-            }
-
-            void FireCrew(ProtoCrewMember kerbal, int n)
-            {
-                TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, FireCrew);
-            }
-            void FireCrew()
-            {
-                Debug.Log("FIRE_UPDATE");
-                ProtoCrewMember[] applicants = HighLogic.CurrentGame.CrewRoster.Applicants.ToArray();
-                CustomDescription.UpdateAll(applicants);
-                Debug.Log("FIRE_UPDATE_FINISH");
-                TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, FireCrew);
-            }
-        }
-
-        [KSPAddon(KSPAddon.Startup.EditorAny, false)]
-        internal class EditorTriggers : MonoBehaviour
-        {
-            void Start()
-            {
-                // Crew Assignment Dialog
-                Resources.FindObjectsOfTypeAll<CrewAssignmentDialog>().FirstOrDefault().gameObject.AddOrGetComponent<AssignmentFix>();
+                AstronautComplex ac = Resources.FindObjectsOfTypeAll<AstronautComplex>()?.FirstOrDefault();
+                if (ac?.gameObject != null)
+                    ac.gameObject.AddOrGetComponent<AstronautComplexFix>();
             }
         }
 
