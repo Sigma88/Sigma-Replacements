@@ -174,10 +174,7 @@ namespace SigmaReplacements
                     container.name = displayName.PrintFor(crew);
                 }
 
-                if (sprite != null)
-                {
-                    container.sprite = sprite;
-                }
+                container.sprite = sprite;
 
                 update = 0;
                 TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, ApplyTooltip);
