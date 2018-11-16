@@ -21,52 +21,54 @@ namespace SigmaReplacements
             Texture sprite = null;
             ProtoCrewMember crew;
 
-            // Update Triggers
+            // Triggers
             void Awake()
             {
-                Events.onAstronautComplexEnter.Add(UpdateItem);
-                GameEvents.OnCrewmemberHired.Add(CrewHired);
-                GameEvents.OnCrewmemberSacked.Add(CrewFired);
-                Button button = GetComponent<CrewListItem>()?.suitVariantBtn;
-                if (button != null)
+                Events.onAstronautComplexEnter.Add(OnAstronautComplexEnter);
+                GameEvents.OnCrewmemberHired.Add(OnCrewHired);
+                GameEvents.OnCrewmemberSacked.Add(OnCrewFired);
+                try
                 {
-                    button.onClick.AddListener(UpdateItem);
+                    Button button = GetComponent<CrewListItem>()?.suitVariantBtn;
+                    if (button != null) button.onClick.AddListener(OnSuitVariantBtnClick);
+                }
+                catch
+                {
+                    Debug.Log("CustomDescription.Awake", "Could not find a valid gameObject for this component.");
                 }
             }
 
             void Start()
             {
-                UpdateItem();
+                UpdateItem(null, null);
             }
 
-            void CrewHired(ProtoCrewMember kerbal, int n)
-            {
-                UpdateItem(kerbal, Type.Applicant);
-            }
-
-            void CrewFired(ProtoCrewMember kerbal, int n)
-            {
-                UpdateItem(kerbal, Type.Applicant);
-            }
-
-            void UpdateItem()
+            void OnAstronautComplexEnter()
             {
                 UpdateItem(null, null);
             }
 
-            void UpdateItem(ProtoCrewMember kerbal)
+            void OnCrewHired(ProtoCrewMember kerbal, int n)
             {
-                UpdateItem(kerbal, null);
+                UpdateItem(kerbal, Type.Applicant);
             }
 
-            void UpdateItem(Type? type)
+            void OnCrewFired(ProtoCrewMember kerbal, int n)
             {
-                UpdateItem(null, type);
+                UpdateItem(kerbal, Type.Applicant);
             }
 
+            void OnSuitVariantBtnClick()
+            {
+                UpdateItem(null, null);
+            }
+
+            // Update Kerbal Button
             void UpdateItem(ProtoCrewMember kerbal, Type? type)
             {
-                var container = new ListItemContainer(GetComponent<CrewListItem>(), GetComponent<CrewWidget>());
+                ListItemContainer container = null;
+                try { container = new ListItemContainer(GetComponent<CrewListItem>(), GetComponent<CrewWidget>()); }
+                catch { Debug.Log("CustomDescription.Awake", "Could not find a valid gameObject for this component."); }
                 crew = container?.crew;
 
                 if (crew == null) return;
@@ -187,8 +189,15 @@ namespace SigmaReplacements
             {
                 if (update++ == wait)
                 {
-                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, ApplyTooltip);
-                    ApplyTo(GetComponent<TooltipController_CrewAC>());
+                    try
+                    {
+                        TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, ApplyTooltip);
+                        ApplyTo(GetComponent<TooltipController_CrewAC>());
+                    }
+                    catch
+                    {
+                        Debug.Log("CustomDescription.Awake", "Could not find a valid gameObject for this component.");
+                    }
                 }
             }
 
@@ -235,6 +244,23 @@ namespace SigmaReplacements
                 }
 
                 return "";
+            }
+
+            // CleanUp
+            void OnDestroy()
+            {
+                Events.onAstronautComplexEnter.Remove(OnAstronautComplexEnter);
+                GameEvents.OnCrewmemberHired.Remove(OnCrewHired);
+                GameEvents.OnCrewmemberSacked.Remove(OnCrewFired);
+                try
+                {
+                    Button button = GetComponent<CrewListItem>()?.suitVariantBtn;
+                    if (button != null) button.onClick.RemoveListener(OnSuitVariantBtnClick);
+                }
+                catch
+                {
+                    Debug.Log("CustomDescription.OnDestroy", "Could not find a valid gameObject for this component.");
+                }
             }
         }
     }

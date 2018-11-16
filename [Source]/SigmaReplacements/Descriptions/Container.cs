@@ -22,7 +22,14 @@ namespace SigmaReplacements
             {
                 get
                 {
-                    return listItem?.GetCrewRef() ?? widget?.crew;
+                    if (listItem != null)
+                    {
+                        return listItem.GetCrewRef();
+                    }
+                    else
+                    {
+                        return widget?.crew;
+                    }
                 }
             }
 
