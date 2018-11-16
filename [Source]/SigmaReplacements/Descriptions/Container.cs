@@ -52,7 +52,7 @@ namespace SigmaReplacements
             {
                 set
                 {
-                    Texture newTex = NyanSprite() ?? value;
+                    Texture newTex = NyanSprite ?? value;
 
                     Debug.Log("ListItemContainer.sprite", "newTex = " + newTex + ", [" + newTex?.width + "x" + newTex?.height + "]");
 
@@ -80,84 +80,87 @@ namespace SigmaReplacements
                 this.widget = widget;
             }
 
-            Texture NyanSprite()
+            Texture NyanSprite
             {
-                int hash = Math.Abs(crew.trait.GetHashCode() + (HighLogic.CurrentGame?.Seed ?? 0));
-
-                if (Nyan.nyan)
+                get
                 {
-                    // Sprites names:
-                    ///
-                    ///  0 = "bob"       6 = "jack"     12 = "pirate"
-                    ///  1 = "bunny"     7 = "jazz"     13 = "stpat"
-                    ///  2 = "cat"       8 = "mex"      14 = "tacnayn"
-                    ///  3 = "coin"      9 = "mummy"    15 = "vday"
-                    ///  4 = "game"     10 = "ninja"    16 = "xmas"
-                    ///  5 = "grumpy"   11 = "party"    17 = "zombie"
-                    Texture[] sprites = Nyan.nyanSprites;
-                    List<Texture> chooseFrom = new List<Texture>();
-                    chooseFrom.Add(sprites[2]);
+                    int hash = Math.Abs(crew.trait.GetHashCode() + (HighLogic.CurrentGame?.Seed ?? 0));
 
-                    if (Nyan.forever)
+                    if (Nyan.nyan)
                     {
-                        chooseFrom.AddRange(new[] { sprites[0], sprites[3], sprites[4], sprites[5], sprites[7], sprites[14] });
+                        // Sprites names:
+                        ///
+                        ///  0 = "bob"       6 = "jack"     12 = "pirate"
+                        ///  1 = "bunny"     7 = "jazz"     13 = "stpat"
+                        ///  2 = "cat"       8 = "mex"      14 = "tacnayn"
+                        ///  3 = "coin"      9 = "mummy"    15 = "vday"
+                        ///  4 = "game"     10 = "ninja"    16 = "xmas"
+                        ///  5 = "grumpy"   11 = "party"    17 = "zombie"
+                        Texture[] sprites = Nyan.nyanSprites;
+                        List<Texture> chooseFrom = new List<Texture>();
+                        chooseFrom.Add(sprites[2]);
 
-                        DateTime today = DateTime.Today;
-
-                        // New Year's Day
-                        if (today.Month == 1 && today.Day == 1)
+                        if (Nyan.forever)
                         {
-                            chooseFrom.Clear();
-                            chooseFrom.Add(sprites[11]);
+                            chooseFrom.AddRange(new[] { sprites[0], sprites[3], sprites[4], sprites[5], sprites[7], sprites[14] });
+
+                            DateTime today = DateTime.Today;
+
+                            // New Year's Day
+                            if (today.Month == 1 && today.Day == 1)
+                            {
+                                chooseFrom.Clear();
+                                chooseFrom.Add(sprites[11]);
+                            }
+
+                            // St. Valentine's Day
+                            if (today.Month == 2 && today.Day == 14)
+                            {
+                                chooseFrom.Clear();
+                                chooseFrom.Add(sprites[15]);
+                            }
+
+                            // St. Patrick's Day
+                            if (today.Month == 3 && today.Day == 17)
+                            {
+                                chooseFrom.Clear();
+                                chooseFrom.Add(sprites[13]);
+                            }
+
+                            // Easter
+                            if (easter.Contains(today))
+                            {
+                                chooseFrom.Clear();
+                                chooseFrom.Add(sprites[1]);
+                            }
+
+                            // Cinco de Mayo
+                            if (today.Month == 5 && today.Day == 5)
+                            {
+                                chooseFrom.Clear();
+                                chooseFrom.Add(sprites[8]);
+                            }
+
+                            // Halloween
+                            if (today.Month == 10 && today.Day == 31)
+                            {
+                                chooseFrom.Clear();
+                                chooseFrom.AddRange(new[] { sprites[6], sprites[9], sprites[10], sprites[12], sprites[17] });
+                            }
+
+                            // Christmas
+                            if (today.Month == 12 && today.Day == 25)
+                            {
+                                chooseFrom.Clear();
+                                chooseFrom.Add(sprites[16]);
+                            }
                         }
 
-                        // St. Valentine's Day
-                        if (today.Month == 2 && today.Day == 14)
-                        {
-                            chooseFrom.Clear();
-                            chooseFrom.Add(sprites[15]);
-                        }
-
-                        // St. Patrick's Day
-                        if (today.Month == 3 && today.Day == 17)
-                        {
-                            chooseFrom.Clear();
-                            chooseFrom.Add(sprites[13]);
-                        }
-
-                        // Easter
-                        if (easter.Contains(today))
-                        {
-                            chooseFrom.Clear();
-                            chooseFrom.Add(sprites[1]);
-                        }
-
-                        // Cinco de Mayo
-                        if (today.Month == 5 && today.Day == 5)
-                        {
-                            chooseFrom.Clear();
-                            chooseFrom.Add(sprites[8]);
-                        }
-
-                        // Halloween
-                        if (today.Month == 10 && today.Day == 31)
-                        {
-                            chooseFrom.Clear();
-                            chooseFrom.AddRange(new[] { sprites[6], sprites[9], sprites[10], sprites[12], sprites[17] });
-                        }
-
-                        // Christmas
-                        if (today.Month == 12 && today.Day == 25)
-                        {
-                            chooseFrom.Clear();
-                            chooseFrom.Add(sprites[16]);
-                        }
+                        return chooseFrom[hash % chooseFrom.Count];
                     }
 
-                    return chooseFrom[hash % chooseFrom.Count];
+                    return null;
                 }
-
-                return null;
             }
 
             static DateTime[] easter = new DateTime[]
