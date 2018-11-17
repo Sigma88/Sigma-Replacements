@@ -238,7 +238,7 @@ namespace SigmaReplacements
                                 if (useSuit)
                                 {
                                     bodyTex = bodyTex ?? info.bodyTex.Pick(kerbal, info.useGameSeed);
-                                    helmetTex = helmetTex ?? info.helmetTex.Pick(kerbal, info.useGameSeed);
+                                    helmetTex = helmetTex ?? info.helmetTex.At(bodyTex, info.bodyTex, kerbal, info.useGameSeed);
                                     visorTex = visorTex ?? info.visorTex.Pick(kerbal, info.useGameSeed);
                                     flaresTex = flaresTex ?? info.flaresTex.Pick(kerbal, info.useGameSeed);
                                 }
