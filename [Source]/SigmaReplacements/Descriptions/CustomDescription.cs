@@ -40,35 +40,42 @@ namespace SigmaReplacements
 
             void Start()
             {
+                Debug.Log("CustomDescription.Start");
                 UpdateItem(null, null);
             }
 
             void OnAstronautComplexEnter()
             {
+                Debug.Log("CustomDescription.OnAstronautComplexEnter");
                 UpdateItem(null, null);
             }
 
             void OnCrewHired(ProtoCrewMember kerbal, int n)
             {
+                Debug.Log("CustomDescription.OnCrewHired");
                 UpdateItem(kerbal, Type.Applicant);
             }
 
             void OnCrewFired(ProtoCrewMember kerbal, int n)
             {
+                Debug.Log("CustomDescription.OnCrewFired");
                 UpdateItem(kerbal, Type.Applicant);
             }
 
             void OnSuitVariantBtnClick()
             {
+                Debug.Log("CustomDescription.OnSuitVariantBtnClick");
                 UpdateItem(null, null);
             }
 
             // Update Kerbal Button
             void UpdateItem(ProtoCrewMember kerbal, Type? type)
             {
+                Debug.Log("CustomDescription.UpdateItem");
+
                 ListItemContainer container = null;
                 try { container = new ListItemContainer(GetComponent<CrewListItem>(), GetComponent<CrewWidget>()); }
-                catch { Debug.Log("CustomDescription.Awake", "Could not find a valid gameObject for this component."); }
+                catch { Debug.Log("CustomDescription.UpdateItem", "Could not find a valid gameObject for this component."); }
                 crew = container?.crew;
 
                 if (crew == null) return;
@@ -196,7 +203,7 @@ namespace SigmaReplacements
                     }
                     catch
                     {
-                        Debug.Log("CustomDescription.Awake", "Could not find a valid gameObject for this component.");
+                        Debug.Log("CustomDescription.ApplyTooltip", "Could not find a valid gameObject for this component.");
                     }
                 }
             }
