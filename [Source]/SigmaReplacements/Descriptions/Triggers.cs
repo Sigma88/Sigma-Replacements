@@ -10,32 +10,29 @@ namespace SigmaReplacements
 {
     namespace Descriptions
     {
-        [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
-        public class KSCTriggers : MonoBehaviour
+        [KSPAddon(KSPAddon.Startup.FlightEditorAndKSC, false)]
+        internal class KSCTriggers : MonoBehaviour
         {
-            static bool skip = false;
-
             void Start()
             {
-                if (!skip)
+                if (HighLogic.LoadedScene != GameScenes.FLIGHT)
                 {
-                    skip = true;
                     CrewListItem[] items = Resources.FindObjectsOfTypeAll<CrewListItem>();
                     for (int i = 0; i < items?.Length; i++)
                     {
                         items[i].gameObject.AddOrGetComponent<CustomDescription>();
                     }
-                    
+
                     CrewWidget[] widgets = Resources.FindObjectsOfTypeAll<CrewWidget>();
                     for (int i = 0; i < widgets?.Length; i++)
                     {
                         widgets[i].gameObject.AddOrGetComponent<CustomDescription>();
                     }
-                }
 
-                AstronautComplex ac = Resources.FindObjectsOfTypeAll<AstronautComplex>()?.FirstOrDefault();
-                if (ac?.gameObject != null)
-                    ac.gameObject.AddOrGetComponent<AstronautComplexFix>();
+                    AstronautComplex ac = Resources.FindObjectsOfTypeAll<AstronautComplex>()?.FirstOrDefault();
+                    if (ac?.gameObject != null)
+                        ac.gameObject.AddOrGetComponent<AstronautComplexFix>();
+                }
             }
         }
 
