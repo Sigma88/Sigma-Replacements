@@ -14,17 +14,24 @@ namespace SigmaReplacements
     {
         internal static List<Info> Order(this List<Info> List)
         {
-            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Total count = " + List?.Count);
+            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Total Nodes Loaded = " + List?.Count);
 
             List<Info> DataBase = new List<Info>();
+            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Initialized DataBase. Count = " + DataBase.Count);
 
-            DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
-            DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
-            DataBase.AddRange(List.Where(h => string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
-            DataBase.AddRange(List.Where(h => h != null && string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
+            DataBase.AddRange(List.Where(i => !string.IsNullOrEmpty(i?.name) && !string.IsNullOrEmpty(i?.collection)));
+            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Added withName, withCollection to DataBase. New count = " + DataBase.Count);
 
-            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Valid count = " + DataBase?.Count);
+            DataBase.AddRange(List.Where(i => !string.IsNullOrEmpty(i?.name) && string.IsNullOrEmpty(i?.collection)));
+            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Added withName, noCollection to DataBase. New count = " + DataBase.Count);
 
+            DataBase.AddRange(List.Where(i => string.IsNullOrEmpty(i?.name) && !string.IsNullOrEmpty(i?.collection)));
+            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Added noName, withCollection to DataBase. New count = " + DataBase.Count);
+
+            DataBase.AddRange(List.Where(i => i != null && string.IsNullOrEmpty(i?.name) && string.IsNullOrEmpty(i?.collection)));
+            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Added noName, noCollection to DataBase. New count = " + DataBase.Count);
+
+            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Final DataBase count = " + DataBase.Count);
             return DataBase;
         }
 
