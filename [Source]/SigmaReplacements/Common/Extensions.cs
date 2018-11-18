@@ -14,24 +14,19 @@ namespace SigmaReplacements
     {
         internal static List<Info> Order(this List<Info> List)
         {
-            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Total Nodes Loaded = " + List?.Count);
-
+            string Method = "List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order";
+            Debug.Log(Method, "Total Nodes Loaded = " + List?.Count);
             List<Info> DataBase = new List<Info>();
-            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Initialized DataBase. Count = " + DataBase.Count);
-
+            Debug.Log(Method, "Initialized DataBase. Count = " + DataBase.Count);
             DataBase.AddRange(List.Where(i => !string.IsNullOrEmpty(i?.name) && !string.IsNullOrEmpty(i?.collection)));
-            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Added withName, withCollection to DataBase. New count = " + DataBase.Count);
-
+            Debug.Log(Method, "Added withName, withCollection to DataBase. New count = " + DataBase.Count);
             DataBase.AddRange(List.Where(i => !string.IsNullOrEmpty(i?.name) && string.IsNullOrEmpty(i?.collection)));
-            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Added withName, noCollection to DataBase. New count = " + DataBase.Count);
-
+            Debug.Log(Method, "Added withName, noCollection to DataBase. New count = " + DataBase.Count);
             DataBase.AddRange(List.Where(i => string.IsNullOrEmpty(i?.name) && !string.IsNullOrEmpty(i?.collection)));
-            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Added noName, withCollection to DataBase. New count = " + DataBase.Count);
-
+            Debug.Log(Method, "Added noName, withCollection to DataBase. New count = " + DataBase.Count);
             DataBase.AddRange(List.Where(i => i != null && string.IsNullOrEmpty(i?.name) && string.IsNullOrEmpty(i?.collection)));
-            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Added noName, noCollection to DataBase. New count = " + DataBase.Count);
-
-            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Final DataBase count = " + DataBase.Count);
+            Debug.Log(Method, "Added noName, noCollection to DataBase. New count = " + DataBase.Count);
+            Debug.Log(Method, "Final DataBase count = " + DataBase.Count);
             return DataBase;
         }
 
