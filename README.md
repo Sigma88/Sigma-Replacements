@@ -4,13 +4,4 @@
 **Handles replacement of various KSP assets**
 
 
-KSP Forum Thread: http://forum.kerbalspaceprogram.com/index.php?/topic/167233-0/
-
-Download Latest Release: https://github.com/Sigma88/Sigma-KerbalReplacements/releases/latest
-
-Dev versions:
-
-- Heads       - https://github.com/Sigma88/Sigma-Replacements/tree/Heads
-- Suits       - https://github.com/Sigma88/Sigma-Replacements/tree/Suits
-- Navigation  - https://github.com/Sigma88/Sigma-Replacements/tree/Navigation
-- SkyBox      - https://github.com/Sigma88/Sigma-Replacements/tree/SkyBox
+Latest Releases: https://github.com/Sigma88/Sigma-Replacements/wiki

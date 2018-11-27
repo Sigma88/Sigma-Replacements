@@ -1,3 +1,16 @@
+**v0.3.0**
+
+- Updated to KSP 1.5.1
+- Removed KSP-AVC compatibility
+- Added new setting to the Requirements node:
+  > vintage (bool)
+
+
+**v0.2.2**
+
+- Improved modularity
+
+
 **v0.2.1**
 
 - Improved modularity
