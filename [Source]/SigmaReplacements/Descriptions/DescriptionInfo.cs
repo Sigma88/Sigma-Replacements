@@ -45,18 +45,17 @@ namespace SigmaReplacements
 
             internal static void OrderDB()
             {
-                Debug.Log("DescriptionInfo.OrderDB", "Total Information Nodes Loaded = " + List.Count);
-                List = List.Where(i => i.informations.Length > 0 || !string.IsNullOrEmpty(i.tooltipName) || !string.IsNullOrEmpty(i.displayName) || i.sprite != null).ToList();
-                Debug.Log("DescriptionInfo.OrderDB", "Valid Information Nodes Loaded = " + List.Count);
+                Debug.Log("DescriptionInfo.OrderDB", "Total Nodes Loaded = " + List.Count);
                 Debug.Log("DescriptionInfo.OrderDB", "Initial DataBase count = " + DataBase.Count);
-                DataBase.AddRange(List.Where(i => i.name != null && i.index != null).OrderBy(i => i.index).ThenBy(i => i.useChance));
-                Debug.Log("DescriptionInfo.OrderDB", "Added withName, withIndex to DataBase count = " + DataBase.Count);
-                DataBase.AddRange(List.Where(i => i.name != null && i.index == null).OrderBy(i => i.index).ThenBy(i => i.useChance));
-                Debug.Log("DescriptionInfo.OrderDB", "Added withName, noIndex to DataBase count = " + DataBase.Count);
-                DataBase.AddRange(List.Where(i => i.name == null && i.index != null).OrderBy(i => i.index).ThenBy(i => i.useChance));
-                Debug.Log("DescriptionInfo.OrderDB", "Added noName, withIndex to DataBase count = " + DataBase.Count);
-                DataBase.AddRange(List.Where(i => i.name == null && i.index == null).OrderBy(i => i.index).ThenBy(i => i.useChance));
-                Debug.Log("DescriptionInfo.OrderDB", "Added noName, noIndex to DataBase count = " + DataBase.Count);
+                DataBase.AddRange(List.Where(i => !string.IsNullOrEmpty(i.name) && i.index != null).OrderBy(i => i.index).ThenBy(i => i.useChance));
+                Debug.Log("DescriptionInfo.OrderDB", "Added withName, withIndex to DataBase. New count = " + DataBase.Count);
+                DataBase.AddRange(List.Where(i => !string.IsNullOrEmpty(i.name) && i.index == null).OrderBy(i => i.index).ThenBy(i => i.useChance));
+                Debug.Log("DescriptionInfo.OrderDB", "Added withName, noIndex to DataBase. New count = " + DataBase.Count);
+                DataBase.AddRange(List.Where(i => string.IsNullOrEmpty(i.name) && i.index != null).OrderBy(i => i.index).ThenBy(i => i.useChance));
+                Debug.Log("DescriptionInfo.OrderDB", "Added noName, withIndex to DataBase. New count = " + DataBase.Count);
+                DataBase.AddRange(List.Where(i => string.IsNullOrEmpty(i.name) && i.index == null).OrderBy(i => i.index).ThenBy(i => i.useChance));
+                Debug.Log("DescriptionInfo.OrderDB", "Added noName, noIndex to DataBase. New count = " + DataBase.Count);
+                Debug.Log("DescriptionInfo.OrderDB", "Final DataBase count = " + DataBase.Count);
             }
         }
     }

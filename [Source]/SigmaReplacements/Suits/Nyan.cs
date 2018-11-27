@@ -11,7 +11,7 @@ namespace SigmaReplacements
             internal static bool nyan = false;
             internal static bool forever = false;
             static Texture suit;
-            static Texture helmet;
+            static Texture suit2;
 
             private static ResourceManager resourceMan;
 
@@ -32,20 +32,6 @@ namespace SigmaReplacements
                 }
             }
 
-            internal static Texture nyanHelmet
-            {
-                get
-                {
-                    if (helmet == null)
-                    {
-                        byte[] bytes = (byte[])ResourceManager.GetObject("nyanHelmet");
-                        helmet = bytes.ToDDS();
-                    }
-
-                    return helmet;
-                }
-            }
-
             internal static Texture nyanSuit
             {
                 get
@@ -57,6 +43,20 @@ namespace SigmaReplacements
                     }
 
                     return suit;
+                }
+            }
+
+            internal static Texture nyanSuit2
+            {
+                get
+                {
+                    if (suit2 == null)
+                    {
+                        byte[] bytes = (byte[])ResourceManager.GetObject("nyanSuit2");
+                        suit2 = bytes.ToDDS();
+                    }
+
+                    return suit2;
                 }
             }
         }
