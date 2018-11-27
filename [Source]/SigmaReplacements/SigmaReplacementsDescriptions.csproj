@@ -40,6 +40,7 @@
     <Compile Include="Descriptions\Container.cs" />
     <Compile Include="Descriptions\CustomDescription.cs" />
     <Compile Include="Descriptions\DescriptionInfo.cs" />
+    <Compile Include="Descriptions\Events.cs" />
     <Compile Include="Descriptions\Extensions.cs" />
     <Compile Include="Descriptions\Properties\AssemblyInfo.cs" />
     <Compile Include="Descriptions\TooltipErrors.cs" />

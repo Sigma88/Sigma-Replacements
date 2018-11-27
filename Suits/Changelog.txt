@@ -1,3 +1,27 @@
+**v0.4.0**
+
+- Updated to KSP 1.5.1
+- Added new setting to the Requirements node:
+  > vintage (bool)
+
+
+**v0.3.2**
+
+- Fixed detection of UIKerbalsMenu
+- Fixed detection of new suits
+
+
+**v0.3.1**
+
+- Fixed JetPacks
+
+
+**v0.3.0**
+
+- Updated to KSP 1.4.3
+- Removed KSP-AVC compatibility
+
+
 **v0.2.4**
 
 - Improved modularity

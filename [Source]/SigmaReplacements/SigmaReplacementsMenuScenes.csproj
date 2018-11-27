@@ -50,6 +50,9 @@
     <Compile Include="MenuScenes\Version.cs" />
     <Compile Include="MenuScenes\Triggers.cs" />
     <Compile Include="MenuScenes\Utility\KopernicusFixer.cs" />
+    <Compile Include="MenuScenes\Nyan.cs">
+      <DependentUpon>Nyan.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -71,6 +74,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.UI.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MenuScenes\Nyan.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="[Nyan]\nyanGround" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

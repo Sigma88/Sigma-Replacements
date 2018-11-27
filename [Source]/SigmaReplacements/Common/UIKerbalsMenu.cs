@@ -39,22 +39,21 @@ namespace SigmaReplacements
             if (!loaded)
             {
                 loaded = true;
-                Debug.Log("UIKerbalLoader", "Awake");
+                Debug.Log("UIKerbalMenuLoader", "Start");
 
                 // Mun Scene
                 ConfigNode[] MunSceneKerbal = UserSettings.ConfigNode.GetNodes("MunSceneKerbal");
 
-                for (int i = 0; i < MunSceneKerbal?.Length; i++)
+                if (!UIKerbalsMenu.munSceneKerbals.ContainsKey(0))
+                    UIKerbalsMenu.munSceneKerbals.Add(0, UIKerbalsMenu.munKerbals[0]);
+
+                for (int i = 1; i < MunSceneKerbal?.Length; i++)
                 {
                     if (int.TryParse(MunSceneKerbal[i]?.GetValue("index"), out int index))
                     {
                         if (!UIKerbalsMenu.munSceneKerbals.ContainsKey(index))
                         {
-                            if (index == 0)
-                            {
-                                UIKerbalsMenu.munSceneKerbals.Add(0, UIKerbalsMenu.munKerbals[0]);
-                            }
-                            else
+                            if (index > 0)
                             {
                                 UIKerbalsMenu.munSceneKerbals.Add(index, new CrewMember(Type.Crew, Roster.Available, "MunKerbal" + index, ProtoCrewMember.Gender.Male, "", false, false, 0.5f, 0.5f, 0));
                             }
@@ -67,17 +66,19 @@ namespace SigmaReplacements
                 // Orbit Scene
                 ConfigNode[] OrbitSceneKerbal = UserSettings.ConfigNode.GetNodes("OrbitSceneKerbal");
 
+                for (int index = 0; index < 4; index++)
+                {
+                    if (!UIKerbalsMenu.orbitSceneKerbals.ContainsKey(index))
+                        UIKerbalsMenu.orbitSceneKerbals.Add(index, UIKerbalsMenu.orbitKerbals[index]);
+                }
+
                 for (int i = 0; i < OrbitSceneKerbal?.Length; i++)
                 {
                     if (int.TryParse(OrbitSceneKerbal[i]?.GetValue("index"), out int index))
                     {
                         if (!UIKerbalsMenu.orbitSceneKerbals.ContainsKey(index))
                         {
-                            if (index < 4)
-                            {
-                                UIKerbalsMenu.orbitSceneKerbals.Add(index, UIKerbalsMenu.orbitKerbals[index]);
-                            }
-                            else
+                            if (index > 3)
                             {
                                 UIKerbalsMenu.orbitSceneKerbals.Add(index, new CrewMember(Type.Crew, Roster.Available, "OrbitKerbal" + index, Gender.Male, "", false, false, 0.5f, 0.5f, 0));
                             }
@@ -97,7 +98,6 @@ namespace SigmaReplacements
                     if (UIKerbalsMenu.munSceneKerbals.ContainsKey(i))
                         component.crewMember = UIKerbalsMenu.munSceneKerbals[i];
                 }
-
 
                 GameObject orbitScene = GameObject.Find("OrbitScene")?.GetChild("Kerbals");
 
