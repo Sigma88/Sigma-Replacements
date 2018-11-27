@@ -14,17 +14,19 @@ namespace SigmaReplacements
     {
         internal static List<Info> Order(this List<Info> List)
         {
-            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Total count = " + List?.Count);
-
+            string Method = "List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order";
+            Debug.Log(Method, "Total Nodes Loaded = " + List?.Count);
             List<Info> DataBase = new List<Info>();
-
-            DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
-            DataBase.AddRange(List.Where(h => !string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
-            DataBase.AddRange(List.Where(h => string.IsNullOrEmpty(h?.name) && !string.IsNullOrEmpty(h?.collection)));
-            DataBase.AddRange(List.Where(h => h != null && string.IsNullOrEmpty(h?.name) && string.IsNullOrEmpty(h?.collection)));
-
-            Debug.Log("List<" + List?.FirstOrDefault()?.GetType()?.Name + ">.Order", "Valid count = " + DataBase?.Count);
-
+            Debug.Log(Method, "Initialized DataBase. Count = " + DataBase.Count);
+            DataBase.AddRange(List.Where(i => !string.IsNullOrEmpty(i?.name) && !string.IsNullOrEmpty(i?.collection)));
+            Debug.Log(Method, "Added withName, withCollection to DataBase. New count = " + DataBase.Count);
+            DataBase.AddRange(List.Where(i => !string.IsNullOrEmpty(i?.name) && string.IsNullOrEmpty(i?.collection)));
+            Debug.Log(Method, "Added withName, noCollection to DataBase. New count = " + DataBase.Count);
+            DataBase.AddRange(List.Where(i => string.IsNullOrEmpty(i?.name) && !string.IsNullOrEmpty(i?.collection)));
+            Debug.Log(Method, "Added noName, withCollection to DataBase. New count = " + DataBase.Count);
+            DataBase.AddRange(List.Where(i => i != null && string.IsNullOrEmpty(i?.name) && string.IsNullOrEmpty(i?.collection)));
+            Debug.Log(Method, "Added noName, noCollection to DataBase. New count = " + DataBase.Count);
+            Debug.Log(Method, "Final DataBase count = " + DataBase.Count);
             return DataBase;
         }
 
@@ -32,6 +34,9 @@ namespace SigmaReplacements
         {
             if (material != null && color != null)
             {
+                if (material.shader?.name == "Mobile/Diffuse")
+                    material.shader = Shader.Find("Legacy Shaders/Diffuse");
+
                 material.color = (Color)color;
             }
         }

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using UnityEngine;
-using KSP.UI;
 using KSP.UI.Screens;
-using KSP.UI.TooltipTypes;
 
 
 namespace SigmaReplacements
@@ -25,35 +22,6 @@ namespace SigmaReplacements
                 {
                     return int.MaxValue;
                 }
-            }
-
-            internal static CrewListItem crewListItem(this ProtoCrewMember kerbal)
-            {
-                AstronautComplex ac = Resources.FindObjectsOfTypeAll<AstronautComplex>().FirstOrDefault();
-                Debug.Log("Kerbal.crewListItem", "AstronautComplex = " + ac);
-                if (ac == null) return null;
-
-                UIList[] list = new[] { ac?.ScrollListApplicants, ac?.ScrollListAssigned, ac?.ScrollListAvailable, ac?.ScrollListKia };
-                CrewListItem item = null;
-
-                for (int i = 0; i < list?.Length; i++)
-                {
-                    var items = list[i]?.GetUiListItems();
-                    for (int j = 0; j < items?.Count; j++)
-                    {
-                        item = items[j]?.GetComponent<CrewListItem>();
-                        if (item.GetCrewRef() == kerbal)
-                            return item;
-                    }
-                }
-
-                Debug.Log("Kerbal.crewListItem", "Item = " + item);
-                return null;
-            }
-
-            internal static TooltipController_CrewAC GetTooltip(this CrewListItem listItem)
-            {
-                return listItem?.GetComponent<TooltipController_CrewAC>();
             }
 
             internal static string PrintFor(this string s, ProtoCrewMember kerbal)

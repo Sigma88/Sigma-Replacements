@@ -39,7 +39,7 @@ namespace SigmaReplacements
             {
                 string[] args = Environment.GetCommandLineArgs();
 
-                Nyan.nyan = (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (args.Contains("-nyan-nyan") && !args.Contains("-nyan-not") || args.Contains("-nyan-buttons"));
+                Nyan.nyan = (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) || (args.Contains("-nyan-nyan") && !args.Contains("-nyan-not")) || args.Contains("-nyan-buttons");
                 Nyan.forever = Nyan.nyan && (args.Contains("-nyan-4ever") || args.Contains("-nyan-buttons"));
             }
         }

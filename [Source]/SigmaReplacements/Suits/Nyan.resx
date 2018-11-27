@@ -62,7 +62,7 @@
   <data name="nyanSuit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\[Nyan]\nyanSuit;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="nyanHelmet" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\[Nyan]\nyanHelmet;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="nyanSuit2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\[Nyan]\nyanSuit2;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
