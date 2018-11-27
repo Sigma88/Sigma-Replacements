@@ -139,81 +139,89 @@ namespace SigmaReplacements
                 }
 
                 Renderer[] renderers = GetComponentsInChildren<Renderer>();
+                Debug.Log("CustomHead.ApplyTo", "renderers.Length = " + renderers?.Length);
 
                 for (int i = 0; i < renderers?.Length; i++)
                 {
                     string name = renderers[i]?.name;
+                    Debug.Log("CustomHead.ApplyTo", "renderers[" + i + "].name = " + name);
+
                     Material material = renderers[i]?.material;
                     if (material == null) continue;
 
-                    if (name == "pupilLeft" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_pupilLeft")
+                    switch (name)
                     {
-                        material.SetColor(pupilLeft);
-                        material.SetTexture(pupilLeftTex);
-                        material.SetNormal(pupilLeftNrm);
-                    }
+                        case "pupilLeft":
+                        case "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_pupilLeft":
+                            material.SetColor(pupilLeft);
+                            material.SetTexture(pupilLeftTex);
+                            material.SetNormal(pupilLeftNrm);
+                            continue;
 
-                    if (name == "pupilRight" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_pupilRight")
-                    {
-                        material.SetColor(pupilRight);
-                        material.SetTexture(pupilRightTex);
-                        material.SetNormal(pupilRightNrm);
-                    }
+                        case "pupilRight":
+                        case "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_pupilRight":
+                            material.SetColor(pupilRight);
+                            material.SetTexture(pupilRightTex);
+                            material.SetNormal(pupilRightNrm);
+                            continue;
 
-                    if (name == "eyeballLeft" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_eyeballLeft")
-                    {
-                        material.SetColor(eyeballLeft);
-                        material.SetTexture(eyeballLeftTex);
-                        material.SetNormal(eyeballLeftNrm);
-                    }
+                        case "eyeballLeft":
+                        case "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_eyeballLeft":
+                            material.SetColor(eyeballLeft);
+                            material.SetTexture(eyeballLeftTex);
+                            material.SetNormal(eyeballLeftNrm);
+                            continue;
 
-                    if (name == "eyeballRight" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_eyeballRight")
-                    {
-                        material.SetColor(eyeballRight);
-                        material.SetTexture(eyeballRightTex);
-                        material.SetNormal(eyeballRightNrm);
-                    }
+                        case "eyeballRight":
+                        case "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_eyeballRight":
+                            material.SetColor(eyeballRight);
+                            material.SetTexture(eyeballRightTex);
+                            material.SetNormal(eyeballRightNrm);
+                            continue;
 
-                    if (name == "upTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_upTeeth01")
-                    {
-                        material.SetColor(upTeeth01);
-                        material.SetTexture(upTeeth01Tex);
-                        material.SetNormal(upTeeth01Nrm);
-                    }
+                        case "upTeeth01":
+                        case "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_upTeeth01":
+                            material.SetColor(upTeeth01);
+                            material.SetTexture(upTeeth01Tex);
+                            material.SetNormal(upTeeth01Nrm);
+                            continue;
 
-                    if (name == "upTeeth02" || name == "downTeeth01" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_downTeeth01")
-                    {
-                        material.SetColor(upTeeth02);
-                        material.SetTexture(upTeeth02Tex);
-                        material.SetNormal(upTeeth02Nrm);
-                    }
+                        case "upTeeth02":
+                        case "downTeeth01":
+                        case "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_downTeeth01":
+                            material.SetColor(upTeeth02);
+                            material.SetTexture(upTeeth02Tex);
+                            material.SetNormal(upTeeth02Nrm);
+                            continue;
 
-                    if (name == "tongue")
-                    {
-                        material.SetColor(tongue);
-                        material.SetTexture(tongueTex);
-                        material.SetNormal(tongueNrm);
-                    }
+                        case "tongue":
+                            material.SetColor(tongue);
+                            material.SetTexture(tongueTex);
+                            material.SetNormal(tongueNrm);
+                            continue;
 
-                    if (name == "headMesh01" || name == "headMesh" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_polySurface51")
-                    {
-                        material.SetColor(head);
-                        material.SetTexture(headTex);
-                        material.SetNormal(headNrm);
-                    }
+                        case "headMesh":
+                        case "headMesh01":
+                        case "headMesh02":
+                        case "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_polySurface51":
+                            material.SetColor(head);
+                            material.SetTexture(headTex);
+                            material.SetNormal(headNrm);
+                            continue;
 
-                    if (name == "ponytail" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_pCube1")
-                    {
-                        material.SetColor(hair);
-                        material.SetTexture(hairTex);
-                        material.SetNormal(hairNrm);
-                    }
+                        case "ponytail":
+                        case "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_pCube1":
+                            material.SetColor(hair);
+                            material.SetTexture(hairTex);
+                            material.SetNormal(hairNrm);
+                            continue;
 
-                    if (name == "hand_left01" || name == "hand_right01")
-                    {
-                        material.SetColor(arm);
-                        material.SetTexture(armTex);
-                        material.SetNormal(armNrm);
+                        case "hand_left01":
+                        case "hand_right01":
+                            material.SetColor(arm);
+                            material.SetTexture(armTex);
+                            material.SetNormal(armNrm);
+                            continue;
                     }
                 }
             }

@@ -5,7 +5,7 @@ namespace SigmaReplacements
 {
     namespace Descriptions
     {
-        internal class TooltipErrors
+        internal static class TooltipErrors
         {
             internal static string AtCapacity = "\n\n<b><color=#ff5b00>" + Localizer.Format("#autoLOC_7001009") + "</color></b>\n<color=#ff5b00>" + Localizer.Format("#autoLOC_7001010") + "</color>";
 

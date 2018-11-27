@@ -59,10 +59,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="nyanSuit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\[Nyan]\nyanSuit;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="nyanSuit2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\[Nyan]\nyanSuit2;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="nyanGround" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\[Nyan]\nyanGround;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

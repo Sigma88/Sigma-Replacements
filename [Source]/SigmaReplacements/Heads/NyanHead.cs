@@ -19,14 +19,20 @@ namespace SigmaReplacements
                     Material material = renderers[i]?.material;
                     if (material == null) continue;
 
-                    if (name == "headMesh01" || name == "headMesh" || name == "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_polySurface51")
+
+                    switch (name)
                     {
-                        material.SetTexture(Nyan.nyanHead);
-                        if (kerbal.gender == ProtoCrewMember.Gender.Female)
-                        {
-                            material.SetTextureOffset("_MainTex", new Vector2(-0.225f, -0.5f));
-                            material.SetTextureScale("_MainTex", new Vector2(1.5f, 1.75f));
-                        }
+                        case "headMesh":
+                        case "headMesh01":
+                        case "headMesh02":
+                        case "mesh_female_kerbalAstronaut01_kerbalGirl_mesh_polySurface51":
+                            material.SetTexture(Nyan.nyanHead);
+                            if (kerbal.gender == ProtoCrewMember.Gender.Female)
+                            {
+                                material.SetTextureOffset("_MainTex", new Vector2(-0.225f, -0.5f));
+                                material.SetTextureScale("_MainTex", new Vector2(1.5f, 1.75f));
+                            }
+                            continue;
                     }
                 }
             }
