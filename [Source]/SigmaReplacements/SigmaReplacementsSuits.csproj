@@ -38,6 +38,7 @@
     <Compile Include="Common\DebugLogger.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />
+    <Compile Include="Common\IVAFinder.cs" />
     <Compile Include="Common\Triggers.cs" />
     <Compile Include="Common\UIKerbals.cs" />
     <Compile Include="Common\UIKerbalsMenu.cs" />
@@ -71,10 +72,10 @@
     <EmbeddedResource Include="Suits\Nyan.resx" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="[Nyan]\nyanHelmet" />
+    <None Include="[Nyan]\nyanSuit" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="[Nyan]\nyanSuit" />
+    <None Include="[Nyan]\nyanSuit2" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

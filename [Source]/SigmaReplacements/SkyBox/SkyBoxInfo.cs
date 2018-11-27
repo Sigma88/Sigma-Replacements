@@ -27,7 +27,7 @@ namespace SigmaReplacements
         internal class SkyBoxInfo : Info
         {
             // CubeMap sides
-            static string[] sides = new[] { "XP", "XN", "YP", "YN", "ZP", "ZN" };
+            static string[] sides = new[] { "_PositiveX", "_NegativeX", "_PositiveY", "_NegativeY", "_PositiveZ", "_NegativeZ" };
 
             // Static
             internal static List<Info> List = new List<Info>();

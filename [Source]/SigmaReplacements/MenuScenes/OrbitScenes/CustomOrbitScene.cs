@@ -147,14 +147,16 @@ namespace SigmaReplacements
 
                         // Material
                         renderer.material = template?.GetComponent<Renderer>()?.material ?? renderer.material;
-                        renderer.material.SetTexture(info.texture1);
-                        renderer.material.SetNormal(info.normal1);
-                        renderer.material.SetColor(info.color1);
 
                         // Mesh
                         MeshFilter meshFilter = body.GetComponent<MeshFilter>();
                         meshFilter.mesh = template?.GetComponent<MeshFilter>()?.mesh ?? meshFilter.mesh;
                     }
+
+                    // Edit Textures
+                    renderer.material.SetTexture(info.texture1);
+                    renderer.material.SetNormal(info.normal1);
+                    renderer.material.SetColor(info.color1);
 
                     // Edit Physical Parameters
                     info.scale = info.scale ?? Vector3.one;
