@@ -131,24 +131,20 @@ namespace SigmaReplacements
                 GameEvents.onVesselLoaded.Add(OnVesselLoaded);
                 GameEvents.onVesselCreate.Add(OnVesselLoaded);
                 GameEvents.onCrewOnEva.Add(OnCrewOnEva);
+                GameEvents.onCrewBoardVessel.Add(OnCrewBoardVessel);
             }
 
             void OnVesselLoaded(Vessel vessel)
             {
+                if (vessel == null) return;
+
                 Debug.Log("FlightTriggers.OnVesselLoaded", "Vessel = " + vessel);
+                vessel?.gameObject?.AddOrGetComponent<IVAHeadFinder>();
 
-                KerbalEVA[] kerbalEVAs = vessel.GetComponentsInChildren<KerbalEVA>(true);
-
-                for (int i = 0; i < kerbalEVAs?.Length; i++)
+                if (vessel.isEVA)
                 {
-                    CustomHead customHead = kerbalEVAs[i].gameObject.AddOrGetComponent<CustomHead>();
-                }
-
-                kerbalExpressionSystem[] kerbalIVAs = Resources.FindObjectsOfTypeAll<kerbalExpressionSystem>();
-
-                for (int i = 0; i < kerbalIVAs?.Length; i++)
-                {
-                    CustomHead customHead = kerbalIVAs[i].gameObject.AddOrGetComponent<CustomHead>();
+                    KerbalEVA kerbalEVA = vessel?.evaController;
+                    kerbalEVA?.gameObject?.AddOrGetComponent<CustomHead>();
                 }
             }
 
@@ -159,8 +155,25 @@ namespace SigmaReplacements
                 KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
                 CustomHead customHead = kerbalEVA.gameObject.AddOrGetComponent<CustomHead>();
             }
+
+            void OnCrewBoardVessel(GameEvents.FromToAction<Part, Part> action)
+            {
+                Debug.Log("FlightTriggers.OnCrewOnEva", "Part = " + action.to);
+
+                Vessel vessel = action.to?.vessel;
+                vessel?.gameObject?.AddOrGetComponent<IVAHeadFinder>()?.UpdateIVAs();
+            }
         }
 
+        internal class IVAHeadFinder : IVAFinder
+        {
+            internal override void AddOrGetComponent(GameObject gameObject)
+            {
+                gameObject.AddOrGetComponent<CustomHead>();
+            }
+        }
+
+        // Nyan Settings
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
         internal class NyanSettings : MonoBehaviour
         {

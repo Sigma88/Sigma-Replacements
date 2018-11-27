@@ -135,20 +135,18 @@ namespace SigmaReplacements
 
             void OnVesselLoaded(Vessel vessel)
             {
+                if (vessel == null) return;
+
                 Debug.Log("FlightTriggers.OnVesselLoaded", "Vessel = " + vessel);
 
-                KerbalEVA[] kerbalEVAs = vessel.GetComponentsInChildren<KerbalEVA>(true);
-
-                for (int i = 0; i < kerbalEVAs?.Length; i++)
+                if (vessel.isEVA)
                 {
-                    kerbalEVAs[i].gameObject.AddOrGetComponent<CustomSuit>();
+                    KerbalEVA kerbalEVA = vessel?.evaController;//.GetComponentInChildren<KerbalEVA>();
+                    kerbalEVA?.gameObject?.AddOrGetComponent<CustomSuit>();
                 }
-
-                kerbalExpressionSystem[] kerbalIVAs = Resources.FindObjectsOfTypeAll<kerbalExpressionSystem>();
-
-                for (int i = 0; i < kerbalIVAs?.Length; i++)
+                else
                 {
-                    kerbalIVAs[i].gameObject.AddOrGetComponent<CustomSuit>();
+                    vessel?.gameObject?.AddOrGetComponent<IVASuitFinder>();
                 }
             }
 
@@ -161,6 +159,15 @@ namespace SigmaReplacements
             }
         }
 
+        internal class IVASuitFinder : IVAFinder
+        {
+            internal override void AddOrGetComponent(GameObject gameObject)
+            {
+                gameObject.AddOrGetComponent<CustomSuit>();
+            }
+        }
+        
+        // Nyan Settings
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
         internal class NyanSettings : MonoBehaviour
         {

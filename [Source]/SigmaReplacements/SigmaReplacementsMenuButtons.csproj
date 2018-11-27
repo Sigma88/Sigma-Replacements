@@ -35,7 +35,7 @@
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />
     <Compile Include="MenuButtons\CustomMenuButton.cs" />
-    <Compile Include="MenuButtons\NyanMenuButton.cs" />
+    <Compile Include="MenuButtons\NyanMenuButtons.cs" />
     <Compile Include="MenuButtons\Properties\AssemblyInfo.cs" />
     <Compile Include="MenuButtons\Version.cs" />
     <Compile Include="Common\UserSettings.cs" />
