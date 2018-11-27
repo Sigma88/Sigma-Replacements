@@ -1,3 +1,18 @@
+**v0.4.0**
+
+- Updated to KSP 1.5.1
+
+
+**v0.3.0**
+
+- Changed syntax to match TR/TRR
+
+
+**v0.2.2**
+
+- Improved modularity
+
+
 **v0.2.1**
 
 - Improved modularity
