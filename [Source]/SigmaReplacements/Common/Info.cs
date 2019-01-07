@@ -175,6 +175,7 @@ namespace SigmaReplacements
             // Additional Requirements
             researchRequired = requirements.GetValues("researchRequired");
             partPurchased = requirements.GetValues("partPurchased");
+            upgradeUnlocked = requirements.GetValues("upgradeUnlocked");
             Building = Parse(requirements.GetNodes("Building"), Building);
 
             // Parse Collection
