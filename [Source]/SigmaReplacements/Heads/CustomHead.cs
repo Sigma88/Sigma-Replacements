@@ -72,7 +72,7 @@ namespace SigmaReplacements
                     {
                         if (string.IsNullOrEmpty(collection) || collection == info.collection)
                         {
-                            if (info.useChance != 1)
+                            if (useChance == null && info.useChance != 1)
                                 useChance = kerbal.Hash(info.useGameSeed) % 100;
 
                             Debug.Log("CustomHead.LoadFor", "Matching head useChance = " + info.useChance + " to generated chance = " + useChance + " %");
