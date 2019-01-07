@@ -77,8 +77,8 @@ namespace SigmaReplacements
 
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
-                                Debug.Log("CustomSuit.LoadFor", "Matched suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
-                                Debug.Log("CustomSuit.LoadFor", "Matched suit collection = " + info.collection + " to current collection = " + collection);
+                                Debug.Log("CustomHead.LoadFor", "Matched head useChance = " + info.useChance + " to generated chance = " + useChance + " %");
+                                Debug.Log("CustomHead.LoadFor", "Matched head collection = " + info.collection + " to current collection = " + collection);
                                 // Collection
                                 collection = info.collection;
 

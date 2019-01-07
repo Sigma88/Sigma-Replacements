@@ -51,20 +51,20 @@ namespace SigmaReplacements
                     {
                         case "WernerVonKerman":
                             UIKerbalWerner werner = transform.gameObject.AddOrGetComponent<UIKerbalWerner>();
-                            CustomHead wernerSuit = transform.gameObject.AddOrGetComponent<CustomHead>();
+                            CustomHead wernerHead = transform.gameObject.AddOrGetComponent<CustomHead>();
                             break;
                         case "Strategy_Mortimer":
                         case "Strategy_ScienceGuy":
                         case "Strategy_PRGuy":
                         case "Strategy_MechanicGuy":
                             UIKerbalStrategy strategy = transform?.gameObject?.AddOrGetComponent<UIKerbalStrategy>();
-                            CustomHead adminSuit = transform?.gameObject?.AddOrGetComponent<CustomHead>();
+                            CustomHead adminHead = transform?.gameObject?.AddOrGetComponent<CustomHead>();
                             break;
                         case "instructor_Gene":
                             if (transform?.parent?.gameObject?.name == "Instructor_Gene")
                             {
                                 UIKerbalGene gene = transform?.gameObject?.AddOrGetComponent<UIKerbalGene>();
-                                CustomHead geneSuit = transform?.gameObject?.AddOrGetComponent<CustomHead>();
+                                CustomHead geneHead = transform?.gameObject?.AddOrGetComponent<CustomHead>();
                             }
                             break;
                     }
