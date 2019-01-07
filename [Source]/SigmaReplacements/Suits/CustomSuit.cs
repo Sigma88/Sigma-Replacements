@@ -134,15 +134,9 @@ namespace SigmaReplacements
                     {
                         if (helmetHidden) helmetTime = 0;
 
-                        helmetHidden = !helmetHidden;
+                        helmetHidden = eva.CanSafelyRemoveHelmet() && !helmetHidden;
 
-                        GameObject helmet = eva?.gameObject?.GetChild("helmet01") ?? eva?.gameObject?.GetChild("mesh_female_kerbalAstronaut01_helmet01");
-                        Renderer[] renderers = helmet?.GetComponentsInChildren<Renderer>(true);
-
-                        for (int i = 0; i < renderers?.Length; i++)
-                        {
-                            renderers[i].enabled = !helmetHidden;
-                        }
+                        eva.ToggleHelmetAndNeckRing(!helmetHidden, !helmetHidden);
                     }
                 }
             }
