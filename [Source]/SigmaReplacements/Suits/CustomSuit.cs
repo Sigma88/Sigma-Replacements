@@ -195,10 +195,13 @@ namespace SigmaReplacements
                             if (info.useChance != 1)
                                 useChance = kerbal.Hash(info.useGameSeed) % 100;
 
+                            Debug.Log("CustomSuit.LoadFor", "Matching suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
+                            Debug.Log("CustomSuit.LoadFor", "Matching suit collection = " + info.collection + " to current collection = " + collection);
+
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
-                                Debug.Log("CustomSuit.LoadFor", "Matched suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
-                                Debug.Log("CustomSuit.LoadFor", "Matched suit collection = " + info.collection + " to current collection = " + collection);
+                                Debug.Log("CustomSuit.LoadFor", "Loading informations");
+
                                 // Collection
                                 collection = info.collection;
 
@@ -258,6 +261,10 @@ namespace SigmaReplacements
                                 glassesNrm = glassesNrm ?? info.glassesNrm.At(glassesTex, info.glassesTex, kerbal, info.useGameSeed);
                                 backdropNrm = backdropNrm ?? info.backdropNrm.At(backdropTex, info.backdropTex, kerbal, info.useGameSeed);
                             }
+                            else
+                            {
+                                Debug.Log("CustomSuit.LoadFor", "Ignoring informations");
+                            }
                         }
                     }
                 }
@@ -282,7 +289,7 @@ namespace SigmaReplacements
 
                 Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
                 Debug.Log("CustomSuit.ApplyTo", "renderers.Length = " + renderers?.Length);
-               
+
                 for (int i = 0; i < renderers?.Length; i++)
                 {
                     string name = renderers[i]?.name;
