@@ -288,121 +288,130 @@ namespace SigmaReplacements
 
                 Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
                 Debug.Log("CustomSuit.ApplyTo", "renderers.Length = " + renderers?.Length);
-
+               
                 for (int i = 0; i < renderers?.Length; i++)
                 {
                     string name = renderers[i]?.name;
-                    Debug.Log("CustomSuit.ApplyTo", "renderers[" + i + "].name = " + name + ", mainTex = " + renderers[i]?.material?.mainTexture?.name);
+                    Debug.Log("CustomSuit.ApplyTo", "renderers[" + i + "].name = " + name + ", mainTex = " + renderers[i]?.sharedMaterial?.mainTexture?.name);
 
-                    Material material = renderers[i]?.material;
-                    if (material == null) continue;
-
-                    switch (name)
+                    if (name == "backdrop")
                     {
-                        case "body01":
-                        case "mesh_female_kerbalAstronaut01_body01":
-                        case "coat01":
-                        case "pants01":
-                        case "mesh_bowTie01":
-                            material.SetColor(body);
-                            material.SetTexture(bodyTex);
-                            material.SetNormal(bodyNrm);
-                            continue;
+                        if (backdropTex != null)
+                        {
+                            Material material = renderers[i]?.material;
 
-                        case "helmet":
-                        case "mesh_female_kerbalAstronaut01_helmet":
-                        case "mesh_backpack":
-                        case "mesh_hazm_helmet":
-                        case "mesh_helmet_support":
-                        case "helmetConstr01":
-                            material.SetColor(helmet ?? body);
-                            material.SetTexture(helmetTex ?? bodyTex);
-                            material.SetNormal(helmetNrm ?? bodyNrm);
-                            continue;
-
-                        case "visor":
-                        case "mesh_female_kerbalAstronaut01_visor":
-                        case "mesh_hazm_visor":
-                            material.SetColor(visor);
-                            material.SetTexture(visorTex);
-                            material.SetNormal(visorNrm);
-                            continue;
-
-                        case "flareL1":
-                        case "flareR1":
-                        case "flareL2":
-                        case "flareR2":
-                        case "flare1L":
-                        case "flare1R":
-                        case "flare2L":
-                        case "flare2R":
-                        case "EVALight":
-                        case "lightPlane":
-                            if (flares != null)
-                            {
-                                if (material?.shader?.name == "Particles/Alpha Blended Premultiply")
-                                    material.shader = Shader.Find("Particles/Alpha Blended");
-
-                                if (material.HasProperty("_TintColor"))
-                                    material.SetTintColor(flares);
-                                else
-                                    material.SetColor(flares);
-                            }
-
-                            material.SetTexture(flaresTex);
-
-                            if (light != null)
-                            {
-                                Light lights = renderers[i]?.transform?.parent?.GetComponentInChildren<Light>();
-                                if (lights != null) lights.color = (Color)light;
-                            }
-                            continue;
-
-                        case "kbEVA_flagDecals":
-                            material.SetColor(flag);
-                            material.SetTexture(flagTex);
-                            material.SetNormal(flagNrm);
-                            continue;
-
-                        case "gene_mug_base":
-                        case "gene_mug_handle":
-                            material.SetColor(mug);
-                            material.SetTexture(mugTex);
-                            material.SetNormal(mugNrm);
-                            continue;
-
-                        case "backdrop":
                             material.SetColor(backdrop);
                             material.SetTexture(backdropTex);
                             material.SetNormal(backdropNrm);
-                            continue;
+                        }
                     }
-
-                    switch (material?.mainTexture?.name)
+                    else
                     {
-                        case "EVAjetpack":
-                        case "EVAjetpackscondary":
-                            material.SetColor(jetpack);
-                            material.SetTexture(jetpackTex);
-                            material.SetNormal(jetpackNrm);
-                            continue;
+                        Material material = renderers[i]?.material;
+                        if (material == null) continue;
 
-                        case "fairydust":
-                            material.SetTintColor(gasjets);
-                            material.SetTexture(gasjetsTex);
-                            continue;
+                        switch (name)
+                        {
+                            case "body01":
+                            case "mesh_female_kerbalAstronaut01_body01":
+                            case "coat01":
+                            case "pants01":
+                            case "mesh_bowTie01":
+                                material.SetColor(body);
+                                material.SetTexture(bodyTex);
+                                material.SetNormal(bodyNrm);
+                                continue;
 
-                        case "kbGeneKerman_headset":
-                            material.SetColor(headset);
-                            material.SetTexture(headsetTex);
-                            material.SetNormal(headsetNrm);
-                            continue;
+                            case "helmet":
+                            case "mesh_female_kerbalAstronaut01_helmet":
+                            case "mesh_backpack":
+                            case "mesh_hazm_helmet":
+                            case "mesh_helmet_support":
+                            case "helmetConstr01":
+                            case "neckRing":
+                                material.SetColor(helmet ?? body);
+                                material.SetTexture(helmetTex ?? bodyTex);
+                                material.SetNormal(helmetNrm ?? bodyNrm);
+                                continue;
 
-                        case "wernerVonKerman_glasses":
-                            material.SetColor(glasses);
-                            material.SetTexture(glassesTex);
-                            material.SetNormal(glassesNrm);
-                            continue;
+                            case "visor":
+                            case "mesh_female_kerbalAstronaut01_visor":
+                            case "mesh_hazm_visor":
+                                material.SetColor(visor);
+                                material.SetTexture(visorTex);
+                                material.SetNormal(visorNrm);
+                                continue;
+
+                            case "flareL1":
+                            case "flareR1":
+                            case "flareL2":
+                            case "flareR2":
+                            case "flare1L":
+                            case "flare1R":
+                            case "flare2L":
+                            case "flare2R":
+                            case "EVALight":
+                            case "lightPlane":
+                                if (flares != null)
+                                {
+                                    if (material?.shader?.name == "Particles/Alpha Blended Premultiply")
+                                        material.shader = Shader.Find("Particles/Alpha Blended");
+
+                                    if (material.HasProperty("_TintColor"))
+                                        material.SetTintColor(flares);
+                                    else
+                                        material.SetColor(flares);
+                                }
+
+                                material.SetTexture(flaresTex);
+
+                                if (light != null)
+                                {
+                                    Light lights = renderers[i]?.transform?.parent?.GetComponentInChildren<Light>();
+                                    if (lights != null) lights.color = (Color)light;
+                                }
+                                continue;
+
+                            case "kbEVA_flagDecals":
+                                material.SetColor(flag);
+                                material.SetTexture(flagTex);
+                                material.SetNormal(flagNrm);
+                                continue;
+
+                            case "gene_mug_base":
+                            case "gene_mug_handle":
+                                material.SetColor(mug);
+                                material.SetTexture(mugTex);
+                                material.SetNormal(mugNrm);
+                                continue;
+                        }
+
+                        switch (material?.mainTexture?.name)
+                        {
+                            case "EVAjetpack":
+                            case "EVAjetpackscondary":
+                                material.SetColor(jetpack);
+                                material.SetTexture(jetpackTex);
+                                material.SetNormal(jetpackNrm);
+                                continue;
+
+                            case "fairydust":
+                                material.SetTintColor(gasjets);
+                                material.SetTexture(gasjetsTex);
+                                continue;
+
+                            case "kbGeneKerman_headset":
+                                material.SetColor(headset);
+                                material.SetTexture(headsetTex);
+                                material.SetNormal(headsetNrm);
+                                continue;
+
+                            case "wernerVonKerman_glasses":
+                                material.SetColor(glasses);
+                                material.SetTexture(glassesTex);
+                                material.SetNormal(glassesNrm);
+                                continue;
+                        }
                     }
                 }
             }

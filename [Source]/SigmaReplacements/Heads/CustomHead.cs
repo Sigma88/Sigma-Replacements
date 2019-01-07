@@ -138,13 +138,15 @@ namespace SigmaReplacements
                     }
                 }
 
-                Renderer[] renderers = GetComponentsInChildren<Renderer>();
+                Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
                 Debug.Log("CustomHead.ApplyTo", "renderers.Length = " + renderers?.Length);
 
                 for (int i = 0; i < renderers?.Length; i++)
                 {
                     string name = renderers[i]?.name;
                     Debug.Log("CustomHead.ApplyTo", "renderers[" + i + "].name = " + name);
+
+                    if (name == "backdrop") continue;
 
                     Material material = renderers[i]?.material;
                     if (material == null) continue;
