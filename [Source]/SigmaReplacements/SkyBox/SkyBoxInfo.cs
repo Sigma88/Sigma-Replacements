@@ -40,6 +40,9 @@ namespace SigmaReplacements
             internal bool rotate = false;
             internal bool mirror = false;
 
+            // Color
+            internal Color? color = null;
+
             // Textures
             internal Texture[] SkyBox = null;
 
@@ -75,6 +78,9 @@ namespace SigmaReplacements
                 // Parse Settings
                 rotate = Parse(info.GetValue("rotate"), rotate);
                 mirror = Parse(info.GetValue("mirror"), mirror);
+
+                // Parse Color
+                color = Parse(info.GetValue("color"), color);
 
                 // Parse Textures
                 SkyBox = Parse(info.GetValue("SkyBox"), SkyBox);
