@@ -91,8 +91,8 @@ namespace SigmaReplacements
                                 upTeeth02 = upTeeth02 ?? info.upTeeth02.At(upTeeth01, info.upTeeth01, kerbal, info.useGameSeed);
                                 tongue = tongue ?? info.tongue.Pick(kerbal, info.useGameSeed);
                                 head = head ?? info.head.Pick(kerbal, info.useGameSeed);
-                                hair = hair ?? info.hair.At(head, info.head, kerbal, info.useGameSeed);
-                                arm = arm ?? info.arm.Pick(kerbal, info.useGameSeed);
+                                hair = hair ?? info.hair.At(head, info.head, kerbal, info.useGameSeed) ?? head;
+                                arm = arm ?? info.arm.At(head, info.head, kerbal, info.useGameSeed) ?? head;
 
                                 // Textures
                                 pupilLeftTex = pupilLeftTex ?? info.pupilLeftTex.Pick(kerbal, info.useGameSeed);
@@ -104,7 +104,7 @@ namespace SigmaReplacements
                                 tongueTex = tongueTex ?? info.tongueTex.Pick(kerbal, info.useGameSeed);
                                 headTex = headTex ?? info.headTex.Pick(kerbal, info.useGameSeed);
                                 hairTex = hairTex ?? info.hairTex.At(headTex, info.headTex, kerbal, info.useGameSeed);
-                                armTex = armTex ?? info.armTex.Pick(kerbal, info.useGameSeed);
+                                armTex = armTex ?? info.armTex.At(headTex, info.headTex, kerbal, info.useGameSeed);
 
                                 // Normals
                                 pupilLeftNrm = pupilLeftNrm ?? info.pupilLeftNrm.At(pupilLeftTex, info.pupilLeftTex, kerbal, info.useGameSeed);
