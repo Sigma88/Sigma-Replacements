@@ -172,35 +172,34 @@ namespace SigmaReplacements
                 {
                     SuitInfo info = (SuitInfo)SuitInfo.DataBase[i].GetFor(kerbal);
 
+                    Debug.Log("CustomSuit.LoadFor", "SuitInfo.DataBase[" + i + "] = " + info);
                     if (info != null)
                     {
                         Type type = Type.IVA;
                         if (eva != null) type = Type.EVA;
                         else if (kerbal.GetType() == typeof(CrewMember) && ((CrewMember)kerbal).activity == 0) type = Type.EVA;
 
+                        Debug.Log("CustomSuit.LoadFor", "Matching suit type = " + info.type + " to current activity = " + type);
                         if (info.type != null && info.type != type) continue;
-                        Debug.Log("CustomSuit.LoadFor", "Matched suit type = " + info.type + " to current activity = " + type);
 
                         bool useSuit = true;
                         if (eva != null)
                         {
                             double pressure = FlightGlobals.getStaticPressure();
                             useSuit = !(pressure < info.suitMinPressure) && !(pressure > info.suitMaxPressure);
-                            if (useSuit) Debug.Log("CustomSuit.LoadFor", "Matched suitMinPressure = " + info.suitMinPressure + ", suitMaxPressure = " + info.suitMaxPressure + " to current atmospheric pressure = " + pressure);
+                            Debug.Log("CustomSuit.LoadFor", "Matching suitMinPressure = " + info.suitMinPressure + ", suitMaxPressure = " + info.suitMaxPressure + " to current atmospheric pressure = " + pressure + ". useSuit = " + useSuit);
                         }
 
-
+                        Debug.Log("CustomSuit.LoadFor", "Matching suit collection = " + info.collection + " to current collection = " + collection);
                         if (string.IsNullOrEmpty(collection) || collection == info.collection)
                         {
                             if (useChance == null && info.useChance != 1)
                                 useChance = kerbal.Hash(info.useGameSeed) % 100;
 
                             Debug.Log("CustomSuit.LoadFor", "Matching suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
-                            Debug.Log("CustomSuit.LoadFor", "Matching suit collection = " + info.collection + " to current collection = " + collection);
-
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
-                                Debug.Log("CustomSuit.LoadFor", "Loading informations");
+                                Debug.Log("CustomSuit.LoadFor", "Loading SuitInfo.DataBase[" + i + "]");
 
                                 // Collection
                                 collection = info.collection;
@@ -260,13 +259,13 @@ namespace SigmaReplacements
                                 mugNrm = mugNrm ?? info.mugNrm.At(mugTex, info.mugTex, kerbal, info.useGameSeed);
                                 glassesNrm = glassesNrm ?? info.glassesNrm.At(glassesTex, info.glassesTex, kerbal, info.useGameSeed);
                                 backdropNrm = backdropNrm ?? info.backdropNrm.At(backdropTex, info.backdropTex, kerbal, info.useGameSeed);
-                            }
-                            else
-                            {
-                                Debug.Log("CustomSuit.LoadFor", "Ignoring informations");
+
+                                continue;
                             }
                         }
                     }
+
+                    Debug.Log("CustomSuit.LoadFor", "Ignoring SuitInfo.DataBase[" + i + "]");
                 }
 
                 helmetTime = helmetDelay ?? 1;
