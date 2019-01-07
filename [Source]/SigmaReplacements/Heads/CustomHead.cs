@@ -75,10 +75,13 @@ namespace SigmaReplacements
                             if (info.useChance != 1)
                                 useChance = kerbal.Hash(info.useGameSeed) % 100;
 
+                            Debug.Log("CustomHead.LoadFor", "Matching head useChance = " + info.useChance + " to generated chance = " + useChance + " %");
+                            Debug.Log("CustomHead.LoadFor", "Matching head collection = " + info.collection + " to current collection = " + collection);
+
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
-                                Debug.Log("CustomHead.LoadFor", "Matched head useChance = " + info.useChance + " to generated chance = " + useChance + " %");
-                                Debug.Log("CustomHead.LoadFor", "Matched head collection = " + info.collection + " to current collection = " + collection);
+                                Debug.Log("CustomHead.LoadFor", "Loading informations");
+
                                 // Collection
                                 collection = info.collection;
 
@@ -117,6 +120,10 @@ namespace SigmaReplacements
                                 headNrm = headNrm ?? info.headNrm.At(headTex, info.headTex, kerbal, info.useGameSeed);
                                 hairNrm = hairNrm ?? info.hairNrm.At(hairTex, info.hairTex, kerbal, info.useGameSeed);
                                 armNrm = armNrm ?? info.armNrm.At(armTex, info.armTex, kerbal, info.useGameSeed);
+                            }
+                            else
+                            {
+                                Debug.Log("CustomHead.LoadFor", "Ignoring informations");
                             }
                         }
                     }
