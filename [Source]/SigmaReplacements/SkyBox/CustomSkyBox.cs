@@ -13,9 +13,6 @@ namespace SigmaReplacements
             bool rotate = false;
             bool mirror = false;
 
-            // Color
-            Color? color = null;
-
             // Textures
             Texture[] SkyBox = null;
 
@@ -54,10 +51,7 @@ namespace SigmaReplacements
                 {
                     // Settings
                     rotate = ActiveSkyBox.rotate;
-                    mirror = ActiveSkyBox.mirror ? (Math.Abs(seed % 2) == 1) : false;
-
-                    // Textures
-                    color = ActiveSkyBox.color;
+                    mirror = ActiveSkyBox.mirror ? (Math.Abs(seed % 2) == 1) : ActiveSkyBox.mirror;
 
                     // Textures
                     SkyBox = ActiveSkyBox.SkyBox;
@@ -81,9 +75,6 @@ namespace SigmaReplacements
                     Material material = renderers[i]?.material;
 
                     if (material == null) continue;
-
-                    // Set Color
-                    material.SetColor(color);
 
                     // Select Texture
                     if (SkyBox != null)
