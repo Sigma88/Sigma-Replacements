@@ -342,6 +342,9 @@ namespace SigmaReplacements
         // RequiredResearch
         bool CheckTech(string[] tech)
         {
+            if (HighLogic.LoadedScene == GameScenes.MAINMENU || HighLogic.CurrentGame?.Mode == Game.Modes.SANDBOX)
+                return true;
+
             for (int i = 0; i < tech?.Length; i++)
             {
                 if (RAD.GetTechnologyState(tech[i]) != RDTech.State.Available)
@@ -354,6 +357,9 @@ namespace SigmaReplacements
         // PurchasedParts
         bool CheckParts(string[] parts)
         {
+            if (HighLogic.LoadedScene == GameScenes.MAINMENU || HighLogic.CurrentGame?.Mode == Game.Modes.SANDBOX)
+                return true;
+
             if (parts?.Length > 0)
             {
                 List<AvailablePart> allParts = PartLoader.Instance?.loadedParts;
@@ -371,6 +377,9 @@ namespace SigmaReplacements
         // UnlockedUpgrades
         bool CheckUpgrades(string[] upgrades)
         {
+            if (HighLogic.LoadedScene == GameScenes.MAINMENU || HighLogic.CurrentGame?.Mode == Game.Modes.SANDBOX)
+                return true;
+
             if (upgrades?.Length > 0 && PartUpgradeManager.Handler != null)
             {
                 foreach (PartUpgradeHandler.Upgrade upgrade in PartUpgradeManager.Handler)
@@ -387,6 +396,9 @@ namespace SigmaReplacements
         // Building Levels
         bool CheckBuildings(Dictionary<string, Building> buildings)
         {
+            if (HighLogic.LoadedScene == GameScenes.MAINMENU || HighLogic.CurrentGame?.Mode == Game.Modes.SANDBOX)
+                return true;
+
             if (buildings?.Count > 0)
             {
                 SpaceCenterBuilding[] facilities = Resources.FindObjectsOfTypeAll<SpaceCenterBuilding>();
