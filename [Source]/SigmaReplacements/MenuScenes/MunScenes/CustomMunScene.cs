@@ -109,7 +109,8 @@ namespace SigmaReplacements
                     atmosphere.GetChild("ZN").GetComponent<Renderer>().material.mainTexture = gradient;
 
                     atmosphere.transform.position = sky.transform.position;
-                    atmosphere.transform.localScale = sky.transform.localScale * 0.9f;
+                    atmosphere.transform.localScale = sky.transform.localScale * 0.577f;
+                    atmosphere.transform.eulerAngles = Vector3.zero;
                 }
             }
 
