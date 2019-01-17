@@ -22,16 +22,21 @@ namespace SigmaReplacements
                     {
                         items[i].gameObject.AddOrGetComponent<CustomDescription>();
                     }
+                    items = null;
 
                     CrewWidget[] widgets = Resources.FindObjectsOfTypeAll<CrewWidget>();
                     for (int i = 0; i < widgets?.Length; i++)
                     {
                         widgets[i].gameObject.AddOrGetComponent<CustomDescription>();
                     }
+                    widgets = null;
 
                     AstronautComplex ac = Resources.FindObjectsOfTypeAll<AstronautComplex>()?.FirstOrDefault();
                     if (ac?.gameObject != null)
+                    {
                         ac.gameObject.AddOrGetComponent<AstronautComplexFix>();
+                    }
+                    ac = null;
                 }
             }
         }
