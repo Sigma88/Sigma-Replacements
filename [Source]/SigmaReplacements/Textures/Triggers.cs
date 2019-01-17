@@ -50,7 +50,10 @@ namespace SigmaReplacements
                             Debug.Log(HighLogic.LoadedScene + ".Start", "Replaced old _MainTexture = " + oldTex + " with new _MainTexture = " + material.GetTexture("_MainTexture"));
                         }
                     }
-                    else if (material.HasProperty("_MainTex"))
+
+                    else
+
+                    if (material.HasProperty("_MainTex"))
                     {
                         oldTex = material.GetTexture("_MainTex");
                         if (oldTex != null && TextureInfo.Database.ContainsKey(oldTex))
@@ -74,6 +77,8 @@ namespace SigmaReplacements
                         }
                     }
                 }
+
+                materials = null;
             }
         }
 
