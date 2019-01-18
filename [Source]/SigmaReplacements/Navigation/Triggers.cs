@@ -39,19 +39,29 @@ namespace SigmaReplacements
 
             void OnCrewOnIva(GameEvents.FromToAction<Part, Part> action)
             {
-                Debug.Log("FlightTriggers.OnCrewOnIva", "Part = " + action.to);
+                Vessel vessel = FlightGlobals.ActiveVessel;
 
-                PartNavBall(action.to);
+                Debug.Log("FlightTriggers.OnCrewOnIva", "ActiveVessel = " + vessel);
+
+                OnChangeVessel(vessel);
             }
 
             void OnControlSwitch(Transform from, Transform to)
             {
-                Part part = to?.GetComponent<Part>();
-                if (part?.vessel == FlightGlobals.ActiveVessel)
-                {
-                    Debug.Log("FlightTriggers.OnControlSwitch", "Part = " + part);
-                    PartNavBall(part);
-                }
+                TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, OnControlSwitch2);
+            }
+
+            void OnControlSwitch2()
+            {
+                TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, OnControlSwitch2);
+
+                Vessel vessel = FlightGlobals.ActiveVessel;
+                Debug.Log("FlightTriggers.OnControlSwitch", "ActiveVessel = " + vessel);
+
+                Part part = vessel?.GetReferenceTransformPart();
+                Debug.Log("FlightTriggers.OnControlSwitch", "Part = " + part);
+
+                PartNavBall(part);
             }
 
             void OnChangeVessel(Vessel vessel)
@@ -68,6 +78,7 @@ namespace SigmaReplacements
                 else
                 {
                     Part part = vessel?.GetReferenceTransformPart();
+
                     Debug.Log("FlightTriggers.OnChangeVessel", "Part = " + part);
 
                     PartNavBall(part);
