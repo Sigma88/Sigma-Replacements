@@ -29,15 +29,12 @@ namespace SigmaReplacements
                 {
                     Renderer mun = scenes[1].GetChild("Mun").GetComponent<Renderer>();
                     mun.material.SetTexture(Nyan.nyanGround);
-                    mun = null;
 
                     Terrain terrain = scenes[0].GetChild("Terrain").GetComponent<Terrain>();
                     SplatPrototype[] splats = terrain.terrainData.splatPrototypes;
                     splats[0].texture = (Texture2D)Nyan.nyanGround;
                     splats[1].texture = (Texture2D)Nyan.nyanGround;
                     terrain.terrainData.splatPrototypes = splats;
-                    terrain = null;
-                    splats = null;
                     return;
                 }
 
@@ -58,17 +55,13 @@ namespace SigmaReplacements
                     int index = MunSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
                     CustomMunScene scene = new CustomMunScene((MunSceneInfo)MunSceneInfo.DataBase[index]);
                     scene.ApplyTo(scenes[0]);
-                    scene = null;
                 }
                 else if (OrbitSceneInfo.DataBase?.Count > 0)
                 {
                     int index = OrbitSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
                     CustomOrbitScene scene = new CustomOrbitScene((OrbitSceneInfo)OrbitSceneInfo.DataBase[index]);
                     scene.ApplyTo(scenes);
-                    scene = null;
                 }
-
-                scenes = null;
 
                 if (KopernicusFixer.detect)
                 {
