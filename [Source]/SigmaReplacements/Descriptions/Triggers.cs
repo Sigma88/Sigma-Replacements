@@ -18,25 +18,47 @@ namespace SigmaReplacements
                 if (HighLogic.LoadedScene != GameScenes.FLIGHT)
                 {
                     CrewListItem[] items = Resources.FindObjectsOfTypeAll<CrewListItem>();
-                    for (int i = 0; i < items?.Length; i++)
+                    int? n1 = items?.Length;
+                    for (int i = 0; i < n1; i++)
                     {
-                        items[i].gameObject.AddOrGetComponent<CustomDescription>();
+                        CrewListItem item = items[i];
+                        GameObject gameObject = item?.gameObject;
+                        if (gameObject != null)
+                        {
+                            if (gameObject.GetComponent<CustomDescription>() != null)
+                            {
+                                gameObject.AddComponent<CustomDescription>();
+                            }
+                        }
                     }
-                    items = null;
 
                     CrewWidget[] widgets = Resources.FindObjectsOfTypeAll<CrewWidget>();
-                    for (int i = 0; i < widgets?.Length; i++)
+                    int? n2 = widgets?.Length;
+                    for (int i = 0; i < n2; i++)
                     {
-                        widgets[i].gameObject.AddOrGetComponent<CustomDescription>();
+                        CrewWidget widget = widgets[i];
+                        GameObject gameObject = widget?.gameObject;
+                        if (gameObject != null)
+                        {
+                            if (gameObject.GetComponent<CustomDescription>() != null)
+                            {
+                                gameObject.AddComponent<CustomDescription>();
+                            }
+                        }
                     }
-                    widgets = null;
 
                     AstronautComplex ac = Resources.FindObjectsOfTypeAll<AstronautComplex>()?.FirstOrDefault();
-                    if (ac?.gameObject != null)
+                    if (ac != null)
                     {
-                        ac.gameObject.AddOrGetComponent<AstronautComplexFix>();
+                        GameObject gameObject = ac?.gameObject;
+                        if (gameObject != null)
+                        {
+                            if (gameObject.GetComponent<AstronautComplexFix>() != null)
+                            {
+                                gameObject.AddComponent<AstronautComplexFix>();
+                            }
+                        }
                     }
-                    ac = null;
                 }
             }
         }
