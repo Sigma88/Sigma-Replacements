@@ -77,8 +77,6 @@ namespace SigmaReplacements
                         }
                     }
                 }
-
-                materials = null;
             }
         }
 
