@@ -20,19 +20,19 @@ namespace SigmaReplacements
                     CrewListItem[] items = FindObjectsOfType<CrewListItem>();
                     for (int i = 0; i < items?.Length; i++)
                     {
-                        items[i]?.gameObject?.AddComponent<CustomDescription>();
+                        items[i]?.gameObject?.AddOrGetComponent<CustomDescription>();
                     }
 
                     CrewWidget[] widgets = FindObjectsOfType<CrewWidget>();
                     for (int i = 0; i < widgets?.Length; i++)
                     {
-                        widgets[i]?.gameObject?.AddComponent<CustomDescription>();
+                        widgets[i]?.gameObject?.AddOrGetComponent<CustomDescription>();
                     }
 
                     AstronautComplex ac = FindObjectOfType<AstronautComplex>();
                     if (ac != null)
                     {
-                        ac?.gameObject?.AddComponent<AstronautComplexFix>();
+                        ac?.gameObject?.AddOrGetComponent<AstronautComplexFix>();
                     }
                 }
             }
