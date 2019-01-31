@@ -30,9 +30,9 @@ namespace SigmaReplacements
                     }
 
                     AstronautComplex ac = FindObjectOfType<AstronautComplex>();
-                    if (ac != null)
+                    if (ac?.gameObject != null)
                     {
-                        ac?.gameObject?.AddOrGetComponent<AstronautComplexFix>();
+                        ac.gameObject.AddOrGetComponent<AstronautComplexFix>();
                     }
                 }
             }
