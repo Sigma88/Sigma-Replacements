@@ -20,11 +20,15 @@ namespace SigmaReplacements
 
             // Colors
             Color? body = null;
+            Color? neckRing = null;
             Color? helmet = null;
             Color? visor = null;
             Color? flares = null;
             Color? light = null;
             Color? jetpack = null;
+            Color? parachute = null;
+            Color? canopy = null;
+            Color? backpack = null;
             Color? flag = null;
             Color? gasjets = null;
             Color? headset = null;
@@ -34,10 +38,14 @@ namespace SigmaReplacements
 
             // Textures
             Texture bodyTex = null;
+            Texture neckRingTex = null;
             Texture helmetTex = null;
             Texture visorTex = null;
             Texture flaresTex = null;
             Texture jetpackTex = null;
+            Texture parachuteTex = null;
+            Texture canopyTex = null;
+            Texture backpackTex = null;
             Texture flagTex = null;
             Texture gasjetsTex = null;
             Texture headsetTex = null;
@@ -47,9 +55,13 @@ namespace SigmaReplacements
 
             // Normals
             Texture bodyNrm = null;
+            Texture neckRingNrm = null;
             Texture helmetNrm = null;
             Texture visorNrm = null;
             Texture jetpackNrm = null;
+            Texture parachuteNrm = null;
+            Texture canopyNrm = null;
+            Texture backpackNrm = null;
             Texture flagNrm = null;
             Texture headsetNrm = null;
             Texture mugNrm = null;
@@ -217,12 +229,16 @@ namespace SigmaReplacements
                                 if (useSuit)
                                 {
                                     body = body ?? info.body.Pick(kerbal, info.useGameSeed);
+                                    neckRing = neckRing ?? info.neckRing.Pick(kerbal, info.useGameSeed);
                                     helmet = helmet ?? info.helmet.Pick(kerbal, info.useGameSeed);
                                     visor = visor ?? info.visor.Pick(kerbal, info.useGameSeed);
                                     flares = flares ?? info.flares.Pick(kerbal, info.useGameSeed);
                                     light = light ?? info.light.Pick(kerbal, info.useGameSeed);
                                 }
                                 jetpack = jetpack ?? info.jetpack.Pick(kerbal, info.useGameSeed);
+                                parachute = parachute ?? info.parachute.Pick(kerbal, info.useGameSeed);
+                                canopy = canopy ?? info.canopy.Pick(kerbal, info.useGameSeed);
+                                backpack = backpack ?? info.backpack.Pick(kerbal, info.useGameSeed);
                                 flag = flag ?? info.flag.Pick(kerbal, info.useGameSeed);
                                 gasjets = gasjets ?? info.gasjets.Pick(kerbal, info.useGameSeed);
                                 headset = headset ?? info.headset.Pick(kerbal, info.useGameSeed);
@@ -234,11 +250,15 @@ namespace SigmaReplacements
                                 if (useSuit)
                                 {
                                     bodyTex = bodyTex ?? info.bodyTex.Pick(kerbal, info.useGameSeed);
+                                    neckRingTex = neckRingTex ?? info.neckRingTex.At(bodyTex, info.bodyTex, kerbal, info.useGameSeed);
                                     helmetTex = helmetTex ?? info.helmetTex.At(bodyTex, info.bodyTex, kerbal, info.useGameSeed);
                                     visorTex = visorTex ?? info.visorTex.Pick(kerbal, info.useGameSeed);
                                     flaresTex = flaresTex ?? info.flaresTex.Pick(kerbal, info.useGameSeed);
                                 }
                                 jetpackTex = jetpackTex ?? info.jetpackTex.Pick(kerbal, info.useGameSeed);
+                                parachuteTex = parachuteTex ?? info.parachuteTex.Pick(kerbal, info.useGameSeed);
+                                canopyTex = canopyTex ?? info.canopyTex.Pick(kerbal, info.useGameSeed);
+                                backpackTex = backpackTex ?? info.backpackTex.Pick(kerbal, info.useGameSeed);
                                 flagTex = flagTex ?? info.flagTex.Pick(kerbal, info.useGameSeed);
                                 gasjetsTex = gasjetsTex ?? info.gasjetsTex.Pick(kerbal, info.useGameSeed);
                                 headsetTex = headsetTex ?? info.headsetTex.Pick(kerbal, info.useGameSeed);
@@ -250,10 +270,14 @@ namespace SigmaReplacements
                                 if (useSuit)
                                 {
                                     bodyNrm = bodyNrm ?? info.bodyNrm.At(bodyTex, info.bodyTex, kerbal, info.useGameSeed);
+                                    neckRingNrm = neckRingNrm ?? info.neckRingNrm.At(neckRingTex, info.neckRingTex, kerbal, info.useGameSeed);
                                     helmetNrm = helmetNrm ?? info.helmetNrm.At(helmetTex, info.helmetTex, kerbal, info.useGameSeed);
                                     visorNrm = visorNrm ?? info.visorNrm.At(visorTex, info.visorTex, kerbal, info.useGameSeed);
                                 }
                                 jetpackNrm = jetpackNrm ?? info.jetpackNrm.At(jetpackTex, info.jetpackTex, kerbal, info.useGameSeed);
+                                parachuteNrm = parachuteNrm ?? info.parachuteNrm.At(parachuteTex, info.parachuteTex, kerbal, info.useGameSeed);
+                                canopyNrm = canopyNrm ?? info.canopyNrm.At(canopyTex, info.canopyTex, kerbal, info.useGameSeed);
+                                backpackNrm = backpackNrm ?? info.backpackNrm.At(backpackTex, info.backpackTex, kerbal, info.useGameSeed);
                                 flagNrm = flagNrm ?? info.flagNrm.At(flagTex, info.flagTex, kerbal, info.useGameSeed);
                                 headsetNrm = headsetNrm ?? info.headsetNrm.At(headsetTex, info.headsetTex, kerbal, info.useGameSeed);
                                 mugNrm = mugNrm ?? info.mugNrm.At(mugTex, info.mugTex, kerbal, info.useGameSeed);
@@ -328,10 +352,15 @@ namespace SigmaReplacements
                             case "mesh_hazm_helmet":
                             case "mesh_helmet_support":
                             case "helmetConstr01":
-                            case "neckRing":
                                 material.SetColor(helmet ?? body);
                                 material.SetTexture(helmetTex ?? bodyTex);
                                 material.SetNormal(helmetNrm ?? bodyNrm);
+                                continue;
+
+                            case "neckRing":
+                                material.SetColor(neckRing ?? helmet ?? body);
+                                material.SetTexture(neckRingTex ?? helmetTex ?? bodyTex);
+                                material.SetNormal(neckRingNrm ?? helmetNrm ?? bodyNrm);
                                 continue;
 
                             case "visor":
@@ -342,6 +371,8 @@ namespace SigmaReplacements
                                 material.SetNormal(visorNrm);
                                 continue;
 
+                            case "flare1":
+                            case "flare2":
                             case "flareL1":
                             case "flareR1":
                             case "flareL2":
@@ -365,10 +396,10 @@ namespace SigmaReplacements
 
                                 material.SetTexture(flaresTex);
 
-                                if (light != null)
+                                if (light.HasValue)
                                 {
                                     Light lights = renderers[i]?.transform?.parent?.GetComponentInChildren<Light>();
-                                    if (lights != null) lights.color = (Color)light;
+                                    if (lights != null) lights.color = light.Value;
                                 }
                                 continue;
 
@@ -390,6 +421,7 @@ namespace SigmaReplacements
                         {
                             case "EVAjetpack":
                             case "EVAjetpackscondary":
+                            case "ksp_ig_jetpack_diffuse":
                                 material.SetColor(jetpack);
                                 material.SetTexture(jetpackTex);
                                 material.SetNormal(jetpackNrm);
@@ -398,6 +430,24 @@ namespace SigmaReplacements
                             case "fairydust":
                                 material.SetTintColor(gasjets);
                                 material.SetTexture(gasjetsTex);
+                                continue;
+
+                            case "backpack_Diff":
+                                material.SetColor(parachute);
+                                material.SetTexture(parachuteTex);
+                                material.SetNormal(parachuteNrm);
+                                continue;
+
+                            case "canopy_Diff":
+                                material.SetColor(canopy);
+                                material.SetTexture(canopyTex);
+                                material.SetNormal(canopyNrm);
+                                continue;
+
+                            case "cargoContainerPack_diffuse":
+                                material.SetColor(backpack);
+                                material.SetTexture(backpackTex);
+                                material.SetNormal(backpackNrm);
                                 continue;
 
                             case "kbGeneKerman_headset":

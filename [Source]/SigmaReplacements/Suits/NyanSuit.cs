@@ -26,21 +26,25 @@ namespace SigmaReplacements
                         case "coat01":
                         case "pants01":
                         case "mesh_bowTie01":
-                            if (kerbal?.suit == ProtoCrewMember.KerbalSuit.Vintage)
-                                material.SetTexture(Nyan.nyanSuit2);
-                            else
-                                material.SetTexture(Nyan.nyanSuit);
-                            continue;
-
                         case "helmet":
                         case "mesh_female_kerbalAstronaut01_helmet":
                         case "mesh_backpack":
                         case "mesh_hazm_helmet":
                         case "mesh_helmet_support":
                         case "helmetConstr01":
-                            if (kerbal?.suit != ProtoCrewMember.KerbalSuit.Vintage)
-                                material.SetTexture(Nyan.nyanSuit);
-                            continue;
+                        case "neckRing":
+                            switch (kerbal?.suit)
+                            {
+                                default:
+                                    material.SetTexture(Nyan.nyanSuit);
+                                    continue;
+                                case ProtoCrewMember.KerbalSuit.Vintage:
+                                    material.SetTexture(Nyan.nyanSuit2);
+                                    continue;
+                                case ProtoCrewMember.KerbalSuit.Future:
+                                    material.SetTexture(Nyan.nyanSuit3);
+                                    continue;
+                            }
 
                         case "visor":
                         case "mesh_female_kerbalAstronaut01_visor":
@@ -48,6 +52,8 @@ namespace SigmaReplacements
                             material.SetColor(new Color(0, 0, 0, 0));
                             continue;
 
+                        case "flare1":
+                        case "flare2":
                         case "flareL1":
                         case "flareR1":
                         case "flareL2":
@@ -69,6 +75,10 @@ namespace SigmaReplacements
                     {
                         case "EVAjetpack":
                         case "EVAjetpackscondary":
+                        case "ksp_ig_jetpack_diffuse":
+                        case "backpack_Diff":
+                        case "canopy_Diff":
+                        case "cargoContainerPack_diffuse":
                             material.SetColor(new Color(1, 0.2f, 0.6f, 1));
                             continue;
 
