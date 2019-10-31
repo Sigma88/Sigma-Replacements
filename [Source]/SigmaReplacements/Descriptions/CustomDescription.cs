@@ -29,7 +29,7 @@ namespace SigmaReplacements
                 GameEvents.OnCrewmemberSacked.Add(OnCrewFired);
                 try
                 {
-                    Button button = GetComponent<CrewListItem>()?.suitVariantBtn;
+                    Button button = GetComponent<CrewListItem>()?.suitVariantBtn();
                     if (button != null) button.onClick.AddListener(OnSuitVariantBtnClick);
                 }
                 catch
@@ -261,7 +261,7 @@ namespace SigmaReplacements
                 GameEvents.OnCrewmemberSacked.Remove(OnCrewFired);
                 try
                 {
-                    Button button = GetComponent<CrewListItem>()?.suitVariantBtn;
+                    Button button = GetComponent<CrewListItem>()?.suitVariantBtn();
                     if (button != null) button.onClick.RemoveListener(OnSuitVariantBtnClick);
                 }
                 catch

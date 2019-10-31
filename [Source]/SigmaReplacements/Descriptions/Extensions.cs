@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using UnityEngine.UI;
+using KSP.UI;
 using KSP.UI.Screens;
 
 
@@ -74,6 +76,13 @@ namespace SigmaReplacements
                     }
                 }
                 return s;
+            }
+
+            internal static Button suitVariantBtn(this CrewListItem item)
+            {
+                FieldInfo suitVariantBtn = typeof(CrewListItem).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault(f => f.Name == "suitVariantBtn");
+
+                return suitVariantBtn?.GetValue(item) as Button;
             }
         }
     }
