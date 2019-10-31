@@ -80,7 +80,7 @@ namespace SigmaReplacements
                 LoadFor(kerbal);
                 ApplyTo(kerbal);
 
-                if (HighLogic.LoadedScene == GameScenes.FLIGHT && eva != null)
+                if (HighLogic.LoadedSceneIsFlight && eva != null)
                 {
                     if (Nyan.forever)
                     {
@@ -88,17 +88,27 @@ namespace SigmaReplacements
                         return;
                     }
 
-                    hideJetPack = FlightGlobals.ship_geeForce > jetpackMaxGravity;
+                    TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, CheckGee);
 
-                    if (hideJetPack)
-                    {
-                        JetPack();
-                        TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, JetPack);
-                    }
                     if (helmetLowPressure != null || helmetHighPressure != null)
                     {
                         Helmet();
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, Helmet);
+                    }
+                }
+            }
+
+            void CheckGee()
+            {
+                if (eva.vessel.geeForce > 0)
+                {
+                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, CheckGee);
+
+                    hideJetPack = (eva.vessel.acceleration_immediate - eva.vessel.graviticAcceleration).magnitude / 9.80665 > jetpackMaxGravity;
+
+                    if (hideJetPack)
+                    {
+                        TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, JetPack);
                     }
                 }
             }
@@ -162,6 +172,7 @@ namespace SigmaReplacements
                 }
                 if (jetpackMaxGravity != null)
                 {
+                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, CheckGee);
                     TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, JetPack);
                 }
                 if (helmetLowPressure != null || helmetHighPressure != null)
