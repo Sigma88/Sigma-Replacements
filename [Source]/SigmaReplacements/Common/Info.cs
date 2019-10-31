@@ -40,7 +40,7 @@ namespace SigmaReplacements
         internal string[] trait = null;
         internal bool? veteran = null;
         internal bool? isBadass = null;
-        internal bool? vintage = null;
+        internal Suit? suitVersion = null;
         int minLevel = 0;
         int maxLevel = 5;
         float minCourage = 0;
@@ -86,8 +86,8 @@ namespace SigmaReplacements
                                     Debug.Log(GetType().Name + ".GetFor", "Matching isBadass = " + isBadass + " to kerbal isBadass = " + kerbal.isBadass ?? "<null>");
                                     if (isBadass == null || isBadass == kerbal.isBadass)
                                     {
-                                        Debug.Log(GetType().Name + ".GetFor", "Matching vintage = " + vintage + " to kerbal.suit = " + kerbal?.suit);
-                                        if (vintage == null || vintage == (kerbal?.suit == Suit.Vintage))
+                                        Debug.Log(GetType().Name + ".GetFor", "Matching suitVersion = " + suitVersion + " to kerbal.suit = " + kerbal?.suit);
+                                        if (suitVersion == null || suitVersion == kerbal?.suit)
                                         {
                                             Debug.Log(GetType().Name + ".GetFor", "Matching minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to kerbal level = " + kerbal.experienceLevel);
                                             if (minLevel <= kerbal.experienceLevel && maxLevel >= kerbal.experienceLevel)
@@ -159,7 +159,7 @@ namespace SigmaReplacements
             trait = requirements.HasValue("trait") ? requirements.GetValues("trait") : null;
             veteran = Parse(requirements.GetValue("veteran"), veteran);
             isBadass = Parse(requirements.GetValue("isBadass"), isBadass);
-            vintage = Parse(requirements.GetValue("vintage"), vintage);
+            suitVersion = Parse(requirements.GetValue("suitVersion"), suitVersion);
             minLevel = Parse(requirements.GetValue("minLevel"), minLevel);
             maxLevel = Parse(requirements.GetValue("maxLevel"), maxLevel);
             minCourage = Parse(requirements.GetValue("minCourage"), minCourage);
@@ -204,6 +204,12 @@ namespace SigmaReplacements
         internal Gender? Parse(string s, Gender? defaultValue)
         {
             try { return (Gender)Enum.Parse(typeof(Gender), s); }
+            catch { return defaultValue; }
+        }
+
+        internal Suit? Parse(string s, Suit? defaultValue)
+        {
+            try { return (Suit)Enum.Parse(typeof(Suit), s); }
             catch { return defaultValue; }
         }
 
