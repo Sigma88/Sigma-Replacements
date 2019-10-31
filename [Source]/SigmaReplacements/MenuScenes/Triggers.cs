@@ -31,10 +31,10 @@ namespace SigmaReplacements
                     mun.material.SetTexture(Nyan.nyanGround);
 
                     Terrain terrain = scenes[0].GetChild("Terrain").GetComponent<Terrain>();
-                    SplatPrototype[] splats = terrain.terrainData.splatPrototypes;
-                    splats[0].texture = (Texture2D)Nyan.nyanGround;
-                    splats[1].texture = (Texture2D)Nyan.nyanGround;
-                    terrain.terrainData.splatPrototypes = splats;
+                    TerrainLayer[] layers = terrain.terrainData.terrainLayers;
+                    layers[0].diffuseTexture = layers[1].diffuseTexture = (Texture2D)Nyan.nyanGround;
+                    layers[0].normalMapTexture = layers[1].normalMapTexture = null;
+                    terrain.terrainData.terrainLayers = layers;
                     return;
                 }
 
