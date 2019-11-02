@@ -138,7 +138,7 @@ namespace SigmaReplacements
 
                 if (Nyan.nyan)
                 {
-                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || Nyan.forever)
+                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || (Nyan.forever && HighLogic.LoadedSceneIsFlight))
                     {
                         NyanHead.ApplyTo(kerbal, this);
                         return;
