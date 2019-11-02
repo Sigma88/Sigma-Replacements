@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Situations = Vessel.Situations;
 
 
 namespace SigmaReplacements
@@ -21,6 +22,8 @@ namespace SigmaReplacements
             internal float? helmetHighPressure = null;
             internal float? helmetDelay = null;
             internal float? jetpackMaxGravity = null;
+            internal bool? breathable = null;
+            internal Situations?[] situation = null;
 
             // Colors Lists
             internal List<Color?> body = new List<Color?>();
@@ -80,6 +83,8 @@ namespace SigmaReplacements
                 Parse(requirements, info);
 
                 // Suit Specific Requirements
+                breathable = Parse(requirements.GetValue("breathable"), breathable);
+                situation = Parse(requirements.GetValues("situation"), situation);
                 type = Parse(info.GetValue("type"), type);
                 suitMinPressure = Parse(info.GetValue("suitMinPressure"), suitMinPressure);
                 suitMaxPressure = Parse(info.GetValue("suitMaxPressure"), suitMaxPressure);
@@ -147,6 +152,29 @@ namespace SigmaReplacements
             internal Type? Parse(string s, Type? defaultValue)
             {
                 try { return (Type)Enum.Parse(typeof(Type), s); }
+                catch { return defaultValue; }
+            }
+
+            internal Situations?[] Parse(string[] s, Situations?[] defaultValue)
+            {
+                if (s?.Length > 0)
+                {
+                    Situations?[] output = new Situations?[s.Length];
+
+                    for (int i = 0; i < s?.Length; i++)
+                    {
+                        output[i] = Parse(s[i], output[i]);
+                    }
+
+                    return output;
+                }
+
+                return defaultValue;
+            }
+
+            internal Situations? Parse(string s, Situations? defaultValue)
+            {
+                try { return (Situations)Enum.Parse(typeof(Situations), s); }
                 catch { return defaultValue; }
             }
 

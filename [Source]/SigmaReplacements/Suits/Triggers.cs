@@ -136,8 +136,8 @@ namespace SigmaReplacements
 
                 if (vessel.isEVA)
                 {
-                    KerbalEVA kerbalEVA = vessel?.evaController;//.GetComponentInChildren<KerbalEVA>();
-                    kerbalEVA?.gameObject?.AddOrGetComponent<CustomSuit>();
+                    KerbalEVA kerbalEVA = vessel?.evaController;
+                    kerbalEVA.gameObject.AddOrGetComponent<CustomSuit>().situation = vessel?.situation;
                 }
                 else
                 {
@@ -150,7 +150,7 @@ namespace SigmaReplacements
                 Debug.Log("FlightTriggers.OnCrewOnEva", "Part = " + action.to);
 
                 KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
-                kerbalEVA.gameObject.AddOrGetComponent<CustomSuit>();
+                kerbalEVA.gameObject.AddOrGetComponent<CustomSuit>().situation = action.from?.vessel?.situation;
             }
         }
 

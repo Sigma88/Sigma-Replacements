@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Linq;
+using Situations = Vessel.Situations;
 
 
 namespace SigmaReplacements
@@ -17,6 +19,7 @@ namespace SigmaReplacements
             bool jetpackVisible = true;
             bool helmetHidden = false;
             KerbalEVA eva = null;
+            internal Situations? situation = null;
 
             // Colors
             Color? body = null;
@@ -200,17 +203,29 @@ namespace SigmaReplacements
                     {
                         Type type = Type.IVA;
                         if (eva != null) type = Type.EVA;
-                        else if (kerbal.GetType() == typeof(CrewMember) && ((CrewMember)kerbal).activity == 0) type = Type.EVA;
+                        else if (kerbal is CrewMember && (kerbal as CrewMember)?.activity == 0) type = Type.EVA;
 
                         Debug.Log("CustomSuit.LoadFor", "Matching suit type = " + info.type + " to current activity = " + type);
                         if (info.type != null && info.type != type) continue;
 
                         bool useSuit = true;
-                        if (eva != null)
+                        if (info.situation != null || info.breathable != null || info.suitMinPressure != null || info.suitMaxPressure != null)
                         {
-                            double pressure = FlightGlobals.getStaticPressure();
-                            useSuit = !(pressure < info.suitMinPressure) && !(pressure > info.suitMaxPressure);
-                            Debug.Log("CustomSuit.LoadFor", "Matching suitMinPressure = " + info.suitMinPressure + ", suitMaxPressure = " + info.suitMaxPressure + " to current atmospheric pressure = " + pressure + ". useSuit = " + useSuit);
+                            useSuit = false;
+                            if (eva != null)
+                            {
+                                Debug.Log("CustomSuit.LoadFor", "Matching " + (info?.situation?.Length ?? 0) + " situation(s) to kerbal situation = " + situation);
+                                if (info.situation == null || info.situation.Contains(situation))
+                                {
+                                    Debug.Log("CustomSuit.LoadFor", "Matching atmosphereContainsOxygen = " + eva?.vessel?.mainBody?.atmosphereContainsOxygen + " to suit breathable = " + info.breathable);
+                                    if (info.breathable == null || info.breathable == eva?.vessel?.mainBody?.atmosphereContainsOxygen)
+                                    {
+                                        double pressure = FlightGlobals.getStaticPressure();
+                                        useSuit = !(pressure < info.suitMinPressure) && !(pressure > info.suitMaxPressure);
+                                        Debug.Log("CustomSuit.LoadFor", "Matching suitMinPressure = " + info.suitMinPressure + ", suitMaxPressure = " + info.suitMaxPressure + " to current atmospheric pressure = " + pressure + ". useSuit = " + useSuit);
+                                    }
+                                }
+                            }
                         }
 
                         Debug.Log("CustomSuit.LoadFor", "Matching suit collection = " + info.collection + " to current collection = " + collection);
