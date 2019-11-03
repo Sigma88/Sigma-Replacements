@@ -84,6 +84,18 @@ namespace SigmaReplacements
 
                 return suitVariantBtn?.GetValue(item) as Button;
             }
+
+            internal static CrewListItem Get_widgetApplicants(this AstronautComplex complex)
+            {
+                FieldInfo widgetApplicants = typeof(AstronautComplex).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault(f => f.Name == "widgetApplicants");
+                return widgetApplicants.GetValue(complex) as CrewListItem;
+            }
+
+            internal static CrewListItem Get_widgetEnlisted(this AstronautComplex complex)
+            {
+                FieldInfo widgetEnlisted = typeof(AstronautComplex).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault(f => f.Name == "widgetEnlisted");
+                return widgetEnlisted.GetValue(complex) as CrewListItem;
+            }
         }
     }
 }
