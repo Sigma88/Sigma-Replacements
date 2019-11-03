@@ -4,6 +4,8 @@
 - Changes in the Requirements node:
   > vintage (bool) REMOVED
   > suitVersion (enum) ADDED
+  > breathable (bool) ADDED
+  > situation (enum) ADDED (multiple 'situation' allowed per 'Requirements' node)
 
 
 **v0.4.0**
