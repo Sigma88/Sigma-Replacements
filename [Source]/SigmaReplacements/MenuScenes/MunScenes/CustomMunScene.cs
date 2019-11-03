@@ -109,7 +109,8 @@ namespace SigmaReplacements
                     atmosphere.GetChild("ZN").GetComponent<Renderer>().material.mainTexture = gradient;
 
                     atmosphere.transform.position = sky.transform.position;
-                    atmosphere.transform.localScale = sky.transform.localScale * 0.9f;
+                    atmosphere.transform.localScale = sky.transform.localScale * 0.577f;
+                    atmosphere.transform.eulerAngles = Vector3.zero;
                 }
             }
 
@@ -194,23 +195,22 @@ namespace SigmaReplacements
 
                 // Select Terrain
                 Terrain terrain = scene.GetChild("Terrain").GetComponent<Terrain>();
-                SplatPrototype[] splats = terrain.terrainData.splatPrototypes;
-
+                TerrainLayer[] layers = terrain.terrainData.terrainLayers;
 
                 // Change Terrain Textures
                 if (info.texture1 != null)
-                    splats[0].texture = (Texture2D)info.texture1;
-                if (info.normal1 != null)
-                    splats[0].normalMap = (Texture2D)info.normal1;
+                    layers[0].diffuseTexture = (Texture2D)info.texture1;
+                if (info.texture2 != null)
+                    layers[1].diffuseTexture = (Texture2D)info.texture2;
 
                 // Change Terrain Normals
-                if (info.texture2 != null)
-                    splats[1].texture = (Texture2D)info.texture2;
+                if (info.normal1 != null)
+                    layers[0].normalMapTexture = (Texture2D)info.normal1;
                 if (info.normal2 != null)
-                    splats[1].normalMap = (Texture2D)info.normal2;
+                    layers[1].normalMapTexture = (Texture2D)info.normal2;
 
                 // Save Terrain Changes
-                terrain.terrainData.splatPrototypes = splats;
+                terrain.terrainData.terrainLayers = layers;
             }
 
             void EditBoulders(MenuObject[] info, GameObject scene)

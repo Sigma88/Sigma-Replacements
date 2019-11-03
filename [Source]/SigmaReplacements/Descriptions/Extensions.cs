@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using UnityEngine.UI;
+using KSP.UI;
 using KSP.UI.Screens;
 
 
@@ -74,6 +76,25 @@ namespace SigmaReplacements
                     }
                 }
                 return s;
+            }
+
+            internal static Button suitVariantBtn(this CrewListItem item)
+            {
+                FieldInfo suitVariantBtn = typeof(CrewListItem).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault(f => f.Name == "suitVariantBtn");
+
+                return suitVariantBtn?.GetValue(item) as Button;
+            }
+
+            internal static CrewListItem Get_widgetApplicants(this AstronautComplex complex)
+            {
+                FieldInfo widgetApplicants = typeof(AstronautComplex).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault(f => f.Name == "widgetApplicants");
+                return widgetApplicants.GetValue(complex) as CrewListItem;
+            }
+
+            internal static CrewListItem Get_widgetEnlisted(this AstronautComplex complex)
+            {
+                FieldInfo widgetEnlisted = typeof(AstronautComplex).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault(f => f.Name == "widgetEnlisted");
+                return widgetEnlisted.GetValue(complex) as CrewListItem;
             }
         }
     }

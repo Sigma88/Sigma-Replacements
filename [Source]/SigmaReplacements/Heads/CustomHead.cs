@@ -68,17 +68,20 @@ namespace SigmaReplacements
                 {
                     HeadInfo info = (HeadInfo)HeadInfo.DataBase[i].GetFor(kerbal);
 
+                    Debug.Log("CustomHead.LoadFor", "HeadInfo.DataBase[" + i + "] = " + info);
                     if (info != null)
                     {
+                        Debug.Log("CustomHead.LoadFor", "Matching head collection = " + info.collection + " to current collection = " + collection);
                         if (string.IsNullOrEmpty(collection) || collection == info.collection)
                         {
-                            if (info.useChance != 1)
+                            if (useChance == null && info.useChance != 1)
                                 useChance = kerbal.Hash(info.useGameSeed) % 100;
 
+                            Debug.Log("CustomHead.LoadFor", "Matching head useChance = " + info.useChance + " to generated chance = " + useChance + " %");
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
-                                Debug.Log("CustomSuit.LoadFor", "Matched suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
-                                Debug.Log("CustomSuit.LoadFor", "Matched suit collection = " + info.collection + " to current collection = " + collection);
+                                Debug.Log("CustomHead.LoadFor", "Loading HeadInfo.DataBase[" + i + "] = " + info);
+
                                 // Collection
                                 collection = info.collection;
 
@@ -91,8 +94,8 @@ namespace SigmaReplacements
                                 upTeeth02 = upTeeth02 ?? info.upTeeth02.At(upTeeth01, info.upTeeth01, kerbal, info.useGameSeed);
                                 tongue = tongue ?? info.tongue.Pick(kerbal, info.useGameSeed);
                                 head = head ?? info.head.Pick(kerbal, info.useGameSeed);
-                                hair = hair ?? info.hair.At(head, info.head, kerbal, info.useGameSeed);
-                                arm = arm ?? info.arm.Pick(kerbal, info.useGameSeed);
+                                hair = hair ?? info.hair.At(head, info.head, kerbal, info.useGameSeed) ?? head;
+                                arm = arm ?? info.arm.At(head, info.head, kerbal, info.useGameSeed) ?? head;
 
                                 // Textures
                                 pupilLeftTex = pupilLeftTex ?? info.pupilLeftTex.Pick(kerbal, info.useGameSeed);
@@ -104,7 +107,7 @@ namespace SigmaReplacements
                                 tongueTex = tongueTex ?? info.tongueTex.Pick(kerbal, info.useGameSeed);
                                 headTex = headTex ?? info.headTex.Pick(kerbal, info.useGameSeed);
                                 hairTex = hairTex ?? info.hairTex.At(headTex, info.headTex, kerbal, info.useGameSeed);
-                                armTex = armTex ?? info.armTex.Pick(kerbal, info.useGameSeed);
+                                armTex = armTex ?? info.armTex.At(headTex, info.headTex, kerbal, info.useGameSeed);
 
                                 // Normals
                                 pupilLeftNrm = pupilLeftNrm ?? info.pupilLeftNrm.At(pupilLeftTex, info.pupilLeftTex, kerbal, info.useGameSeed);
@@ -117,9 +120,13 @@ namespace SigmaReplacements
                                 headNrm = headNrm ?? info.headNrm.At(headTex, info.headTex, kerbal, info.useGameSeed);
                                 hairNrm = hairNrm ?? info.hairNrm.At(hairTex, info.hairTex, kerbal, info.useGameSeed);
                                 armNrm = armNrm ?? info.armNrm.At(armTex, info.armTex, kerbal, info.useGameSeed);
+
+                                continue;
                             }
                         }
                     }
+
+                    Debug.Log("CustomHead.LoadFor", "Ignoring HeadInfo.DataBase[" + i + "] = " + info);
                 }
             }
 
@@ -131,20 +138,22 @@ namespace SigmaReplacements
 
                 if (Nyan.nyan)
                 {
-                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || Nyan.forever)
+                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || (Nyan.forever && HighLogic.LoadedSceneIsFlight))
                     {
                         NyanHead.ApplyTo(kerbal, this);
                         return;
                     }
                 }
 
-                Renderer[] renderers = GetComponentsInChildren<Renderer>();
+                Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
                 Debug.Log("CustomHead.ApplyTo", "renderers.Length = " + renderers?.Length);
 
                 for (int i = 0; i < renderers?.Length; i++)
                 {
                     string name = renderers[i]?.name;
                     Debug.Log("CustomHead.ApplyTo", "renderers[" + i + "].name = " + name);
+
+                    if (name == "backdrop") continue;
 
                     Material material = renderers[i]?.material;
                     if (material == null) continue;

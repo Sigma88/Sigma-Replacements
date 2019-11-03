@@ -77,26 +77,32 @@ namespace SigmaReplacements
                 {
                     NavBallInfo info = (NavBallInfo)NavBallInfo.DataBase[i].GetFor(kerbal);
 
+                    Debug.Log("CustomNavBall.LoadFor", "NavBallInfo.DataBase[" + i + "]");
                     if (info != null)
                     {
+                        Debug.Log("CustomNavBall.LoadFor", "Matching navball collection = " + info.collection + " to current collection = " + collection);
                         if (string.IsNullOrEmpty(collection) || collection == info.collection)
                         {
-                            if (info.useChance != 1)
+                            if (useChance == null && info.useChance != 1)
                                 useChance = kerbal.Hash(info.useGameSeed) % 100;
 
+                            Debug.Log("CustomNavBall.LoadFor", "Matching navball useChance = " + info.useChance + " to generated chance = " + useChance + " %");
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
-                                Debug.Log("CustomNavBall.LoadFor", "Matched suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
-                                Debug.Log("CustomNavBall.LoadFor", "Matched suit collection = " + info.collection + " to current collection = " + collection);
+                                Debug.Log("CustomNavBall.LoadFor", "Loading NavBallInfo.DataBase[" + i + "]");
 
                                 // Collection
                                 collection = info.collection;
 
                                 // Colors and Textures
                                 Pick(info, kerbal);
+
+                                continue;
                             }
                         }
                     }
+
+                    Debug.Log("CustomNavBall.LoadFor", "Ignoring NavBallInfo.DataBase[" + i + "]");
                 }
             }
 

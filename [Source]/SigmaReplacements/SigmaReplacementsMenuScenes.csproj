@@ -9,7 +9,7 @@
     <AppDesignerFolder>MenuScenes\Properties</AppDesignerFolder>
     <RootNamespace>SigmaReplacements</RootNamespace>
     <AssemblyName>SigmaReplacementsMenuScenes</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <BaseIntermediateOutputPath>MenuScenes\obj\</BaseIntermediateOutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Common\UserSettings.cs" />
@@ -62,13 +64,14 @@
     <Reference Include="Kopernicus">
       <HintPath>..\..\..\[References]\Kopernicus\Kopernicus.dll</HintPath>
     </Reference>
-    <Reference Include="Kopernicus.OnDemand, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\[References]\Kopernicus\Kopernicus.OnDemand.dll</HintPath>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainModule">
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.TerrainModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

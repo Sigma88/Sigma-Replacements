@@ -10,13 +10,16 @@ namespace SigmaReplacements
     public class UIKerbalsMenu
     {
         // Stock Main Menu Kerbals
-        internal static CrewMember[] munKerbals = new CrewMember[] { new CrewMember(Type.Crew, Roster.Assigned, "Bob Kerman", Gender.Male, "Scientist", true, false, 0.3f, 0.1f, 0) };
+        internal static CrewMember[] munKerbals = new CrewMember[]
+        {
+            new CrewMember(Type.Crew, Roster.Assigned, "Bob Kerman", Gender.Male, "Scientist", true, false, 0.3f, 0.1f, 5)
+        };
         internal static CrewMember[] orbitKerbals = new CrewMember[]
         {
-            new CrewMember(Type.Crew, Roster.Assigned, "Bill Kerman", Gender.Male, "Engineer", true, false, 0.5f, 0.8f, 0),
-            new CrewMember(Type.Crew, Roster.Assigned, "Bob Kerman", Gender.Male, "Scientist", true, false, 0.3f, 0.1f, 0),
-            new CrewMember(Type.Crew, Roster.Assigned, "Jebediah Kerman", Gender.Male, "Pilot", true, true, 0.5f, 0.5f, 0),
-            new CrewMember(Type.Crew, Roster.Assigned, "Valentina Kerman", Gender.Female, "Pilot", true, true, 0.55f, 0.4f, 0)
+            new CrewMember(Type.Crew, Roster.Assigned, "Bill Kerman", Gender.Male, "Engineer", true, false, 0.5f, 0.8f, 5),
+            new CrewMember(Type.Crew, Roster.Assigned, "Bob Kerman", Gender.Male, "Scientist", true, false, 0.3f, 0.1f, 5),
+            new CrewMember(Type.Crew, Roster.Assigned, "Jebediah Kerman", Gender.Male, "Pilot", true, true, 0.5f, 0.5f, 5),
+            new CrewMember(Type.Crew, Roster.Assigned, "Valentina Kerman", Gender.Female, "Pilot", true, true, 0.55f, 0.4f, 5)
         };
 
         // Dictionaries

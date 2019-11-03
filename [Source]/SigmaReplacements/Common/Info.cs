@@ -40,7 +40,7 @@ namespace SigmaReplacements
         internal string[] trait = null;
         internal bool? veteran = null;
         internal bool? isBadass = null;
-        internal bool? vintage = null;
+        internal Suit? suitVersion = null;
         int minLevel = 0;
         int maxLevel = 5;
         float minCourage = 0;
@@ -65,53 +65,51 @@ namespace SigmaReplacements
         {
             Debug.Log(GetType().Name + ".GetFor", "Kerbal = " + kerbal);
 
+            Debug.Log(GetType().Name + ".GetFor", "Matching name = " + name + " to kerbal name = " + kerbal.name);
             if (name == null || name == kerbal.name)
             {
-                Debug.Log(GetType().Name + ".GetFor", "Matched name = " + name + " to kerbal name = " + kerbal.name);
+                Debug.Log(GetType().Name + ".GetFor", "Matching status = " + status + " to kerbal type = " + kerbal.type);
                 if (status == null || (Type)status == kerbal.type || (int?)status > 3 && kerbal.type == 0)
                 {
-                    Debug.Log(GetType().Name + ".GetFor", "Matched status = " + status + " to kerbal type = " + kerbal.type);
+                    Debug.Log(GetType().Name + ".GetFor", "Matching status = " + status + " to kerbal rosterStatus = " + kerbal.rosterStatus);
                     if (!((int?)status > 3 && kerbal.type == 0 && (int?)status - 4 != (int)kerbal.rosterStatus))
                     {
-                        if ((int?)status > 3)
-                            Debug.Log(GetType().Name + ".GetFor", "Matched status = " + status + " to kerbal rosterStatus = " + kerbal.rosterStatus);
-
+                        Debug.Log(GetType().Name + ".GetFor", "Matching gender = " + gender + " to kerbal gender = " + kerbal.gender);
                         if (gender == null || gender == kerbal.gender)
                         {
-                            Debug.Log(GetType().Name + ".GetFor", "Matched gender = " + gender + " to kerbal gender = " + kerbal.gender);
+                            Debug.Log(GetType().Name + ".GetFor", "Matching " + (trait?.Length ?? 0) + " trait(s) to kerbal trait = " + kerbal.trait);
                             if (trait == null || trait.Contains(kerbal.trait))
                             {
-                                Debug.Log(GetType().Name + ".GetFor", "Matched " + (trait?.Length ?? 0) + " trait(s) to kerbal trait = " + kerbal.trait);
+                                Debug.Log(GetType().Name + ".GetFor", "Matching veteran = " + veteran + " to kerbal veteran = " + kerbal.veteran);
                                 if (veteran == null || veteran == kerbal.veteran)
                                 {
-                                    Debug.Log(GetType().Name + ".GetFor", "Matched veteran = " + veteran + " to kerbal veteran = " + kerbal.veteran);
+                                    Debug.Log(GetType().Name + ".GetFor", "Matching isBadass = " + isBadass + " to kerbal isBadass = " + kerbal.isBadass ?? "<null>");
                                     if (isBadass == null || isBadass == kerbal.isBadass)
                                     {
-                                        Debug.Log(GetType().Name + ".GetFor", "Matched isBadass = " + isBadass + " to kerbal isBadass = " + kerbal.isBadass ?? "<null>");
-                                        if (vintage == null || vintage == (kerbal?.suit == Suit.Vintage))
+                                        Debug.Log(GetType().Name + ".GetFor", "Matching suitVersion = " + suitVersion + " to kerbal.suit = " + kerbal?.suit);
+                                        if (suitVersion == null || suitVersion == kerbal?.suit)
                                         {
-                                            Debug.Log(GetType().Name + ".GetFor", "Matched vintage = " + vintage + " to kerbal.suit = " + kerbal?.suit);
+                                            Debug.Log(GetType().Name + ".GetFor", "Matching minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to kerbal level = " + kerbal.experienceLevel);
                                             if (minLevel <= kerbal.experienceLevel && maxLevel >= kerbal.experienceLevel)
                                             {
-                                                Debug.Log(GetType().Name + ".GetFor", "Matched minLevel = " + minLevel + ", maxLevel = " + maxLevel + " to kerbal level = " + kerbal.experienceLevel);
+                                                Debug.Log(GetType().Name + ".GetFor", "Matching minCourage = " + minCourage + ", maxCourage = " + maxCourage + " to kerbal courage = " + kerbal.courage);
                                                 if (minCourage <= kerbal.courage && maxCourage >= kerbal.courage)
                                                 {
-                                                    Debug.Log(GetType().Name + ".GetFor", "Matched minCourage = " + minCourage + ", maxCourage = " + maxCourage + " to kerbal courage = " + kerbal.courage);
+                                                    Debug.Log(GetType().Name + ".GetFor", "Matching minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
                                                     if (minStupidity <= kerbal.stupidity && maxStupidity >= kerbal.stupidity)
                                                     {
-                                                        Debug.Log(GetType().Name + ".GetFor", "Matched minStupidity = " + minStupidity + ", maxStupidity = " + maxStupidity + " to kerbal stupidity = " + kerbal.stupidity);
+                                                        Debug.Log(GetType().Name + ".GetFor", "Matching " + (researchRequired?.Length ?? 0) + " researchRequired");
                                                         if (CheckTech(researchRequired))
                                                         {
-                                                            Debug.Log(GetType().Name + ".GetFor", "Matched " + (researchRequired?.Length ?? 0) + " researchRequired");
+                                                            Debug.Log(GetType().Name + ".GetFor", "Matching " + (partPurchased?.Length ?? 0) + " partPurchased");
                                                             if (CheckParts(partPurchased))
                                                             {
-                                                                Debug.Log(GetType().Name + ".GetFor", "Matched " + (partPurchased?.Length ?? 0) + " partPurchased");
+                                                                Debug.Log(GetType().Name + ".GetFor", "Matching " + (upgradeUnlocked?.Length ?? 0) + " upgradeUnlocked");
                                                                 if (CheckUpgrades(upgradeUnlocked))
                                                                 {
-                                                                    Debug.Log(GetType().Name + ".GetFor", "Matched " + (upgradeUnlocked?.Length ?? 0) + " upgradeUnlocked");
+                                                                    Debug.Log(GetType().Name + ".GetFor", "Matching levels of " + (Building?.Count ?? 0) + " building(s)");
                                                                     if (CheckBuildings(Building))
                                                                     {
-                                                                        Debug.Log(GetType().Name + ".GetFor", "Matched levels of " + (Building?.Count ?? 0) + " building(s)");
                                                                         Debug.Log(GetType().Name + ".GetFor", "Return this Info");
                                                                         return this;
                                                                     }
@@ -161,7 +159,7 @@ namespace SigmaReplacements
             trait = requirements.HasValue("trait") ? requirements.GetValues("trait") : null;
             veteran = Parse(requirements.GetValue("veteran"), veteran);
             isBadass = Parse(requirements.GetValue("isBadass"), isBadass);
-            vintage = Parse(requirements.GetValue("vintage"), vintage);
+            suitVersion = Parse(requirements.GetValue("suitVersion"), suitVersion);
             minLevel = Parse(requirements.GetValue("minLevel"), minLevel);
             maxLevel = Parse(requirements.GetValue("maxLevel"), maxLevel);
             minCourage = Parse(requirements.GetValue("minCourage"), minCourage);
@@ -175,6 +173,7 @@ namespace SigmaReplacements
             // Additional Requirements
             researchRequired = requirements.GetValues("researchRequired");
             partPurchased = requirements.GetValues("partPurchased");
+            upgradeUnlocked = requirements.GetValues("upgradeUnlocked");
             Building = Parse(requirements.GetNodes("Building"), Building);
 
             // Parse Collection
@@ -205,6 +204,12 @@ namespace SigmaReplacements
         internal Gender? Parse(string s, Gender? defaultValue)
         {
             try { return (Gender)Enum.Parse(typeof(Gender), s); }
+            catch { return defaultValue; }
+        }
+
+        internal Suit? Parse(string s, Suit? defaultValue)
+        {
+            try { return (Suit)Enum.Parse(typeof(Suit), s); }
             catch { return defaultValue; }
         }
 
@@ -341,6 +346,9 @@ namespace SigmaReplacements
         // RequiredResearch
         bool CheckTech(string[] tech)
         {
+            if (HighLogic.LoadedScene == GameScenes.MAINMENU || HighLogic.CurrentGame?.Mode == Game.Modes.SANDBOX)
+                return true;
+
             for (int i = 0; i < tech?.Length; i++)
             {
                 if (RAD.GetTechnologyState(tech[i]) != RDTech.State.Available)
@@ -353,6 +361,9 @@ namespace SigmaReplacements
         // PurchasedParts
         bool CheckParts(string[] parts)
         {
+            if (HighLogic.LoadedScene == GameScenes.MAINMENU || HighLogic.CurrentGame?.Mode == Game.Modes.SANDBOX)
+                return true;
+
             if (parts?.Length > 0)
             {
                 List<AvailablePart> allParts = PartLoader.Instance?.loadedParts;
@@ -370,6 +381,9 @@ namespace SigmaReplacements
         // UnlockedUpgrades
         bool CheckUpgrades(string[] upgrades)
         {
+            if (HighLogic.LoadedScene == GameScenes.MAINMENU || HighLogic.CurrentGame?.Mode == Game.Modes.SANDBOX)
+                return true;
+
             if (upgrades?.Length > 0 && PartUpgradeManager.Handler != null)
             {
                 foreach (PartUpgradeHandler.Upgrade upgrade in PartUpgradeManager.Handler)
@@ -386,6 +400,9 @@ namespace SigmaReplacements
         // Building Levels
         bool CheckBuildings(Dictionary<string, Building> buildings)
         {
+            if (HighLogic.LoadedScene == GameScenes.MAINMENU || HighLogic.CurrentGame?.Mode == Game.Modes.SANDBOX)
+                return true;
+
             if (buildings?.Count > 0)
             {
                 SpaceCenterBuilding[] facilities = Resources.FindObjectsOfTypeAll<SpaceCenterBuilding>();

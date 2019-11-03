@@ -18,6 +18,7 @@ namespace SigmaReplacements
         static CrewMember walt = new CrewMember(Type.Unowned, Roster.Available, "Walt Kerman", Gender.Male, "StrategyKerbal", false, false, 0.45f, 0.9f, 0);
         static CrewMember gus = new CrewMember(Type.Unowned, Roster.Available, "Gus Kerman", Gender.Male, "StrategyKerbal", false, false, 0.45f, 0.45f, 0);
 
+        // Arrays
         internal static CrewMember[] instructors = new[] { gene, werner };
         internal static CrewMember[] strategy = new[] { mort, linus, walt, gus };
     }
@@ -53,7 +54,7 @@ namespace SigmaReplacements
 
     internal class UIKerbalStrategy : MonoBehaviour
     {
-        static string[] names = new string[] { "Strategy_Mortimer(Clone)", "Strategy_ScienceGuy(Clone)", "Strategy_PRGuy(Clone)", "Strategy_MechanicGuy(Clone)" };
+        static string[] names = new string[] { "Strategy_Mortimer", "Strategy_ScienceGuy", "Strategy_PRGuy", "Strategy_MechanicGuy" };
 
         internal CrewMember crewMember
         {

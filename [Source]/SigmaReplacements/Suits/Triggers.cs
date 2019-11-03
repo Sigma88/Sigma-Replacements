@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
-using KSP.UI.Screens;
 
 
 namespace SigmaReplacements
@@ -38,8 +37,6 @@ namespace SigmaReplacements
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
         internal class MenuTriggers : MonoBehaviour
         {
-            static string[] names = new string[] { "Strategy_Mortimer", "Strategy_ScienceGuy", "Strategy_PRGuy", "Strategy_MechanicGuy" };
-
             void Start()
             {
                 Debug.Log("MenuTriggers", "Start");
@@ -50,25 +47,26 @@ namespace SigmaReplacements
                 {
                     Transform transform = transforms[i];
 
-                    if (transform?.name == "WernerVonKerman")
+                    switch (transform?.name)
                     {
-                        UIKerbalWerner werner = transform.gameObject.AddOrGetComponent<UIKerbalWerner>();
-                        CustomSuit wernerSuit = transform.gameObject.AddOrGetComponent<CustomSuit>();
-                    }
-
-                    if (names.Contains(transform?.name))
-                    {
-                        UIKerbalStrategy strategy = transform?.gameObject?.AddOrGetComponent<UIKerbalStrategy>();
-                        CustomSuit suit = transform?.gameObject?.AddOrGetComponent<CustomSuit>();
-                    }
-
-                    if (transform?.name == "instructor_Gene")
-                    {
-                        if (transform?.parent?.gameObject?.name == "Instructor_Gene")
-                        {
-                            UIKerbalGene strategy = transform?.gameObject?.AddOrGetComponent<UIKerbalGene>();
-                            CustomSuit suit = transform?.gameObject?.AddOrGetComponent<CustomSuit>();
-                        }
+                        case "WernerVonKerman":
+                            UIKerbalWerner werner = transform.gameObject.AddOrGetComponent<UIKerbalWerner>();
+                            CustomSuit wernerSuit = transform.gameObject.AddOrGetComponent<CustomSuit>();
+                            break;
+                        case "Strategy_Mortimer":
+                        case "Strategy_ScienceGuy":
+                        case "Strategy_PRGuy":
+                        case "Strategy_MechanicGuy":
+                            UIKerbalStrategy strategy = transform?.gameObject?.AddOrGetComponent<UIKerbalStrategy>();
+                            CustomSuit adminSuit = transform?.gameObject?.AddOrGetComponent<CustomSuit>();
+                            break;
+                        case "instructor_Gene":
+                            if (transform?.parent?.gameObject?.name == "Instructor_Gene")
+                            {
+                                UIKerbalGene gene = transform?.gameObject?.AddOrGetComponent<UIKerbalGene>();
+                                CustomSuit geneSuit = transform?.gameObject?.AddOrGetComponent<CustomSuit>();
+                            }
+                            break;
                     }
                 }
             }
@@ -98,9 +96,6 @@ namespace SigmaReplacements
 
                     if (trigger && HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                     {
-                        GameObject admin = Resources.FindObjectsOfTypeAll<Administration>().FirstOrDefault().gameObject;
-                        UIKerbalsTrigger suits = admin.AddOrGetComponent<UIKerbalsTrigger>();
-
                         GameObject gene = Resources.FindObjectsOfTypeAll<MCAvatarController>().FirstOrDefault().gameObject.GetChild("instructor_Gene");
                         GeneSuit suit = gene.AddOrGetComponent<GeneSuit>();
                     }
@@ -141,8 +136,8 @@ namespace SigmaReplacements
 
                 if (vessel.isEVA)
                 {
-                    KerbalEVA kerbalEVA = vessel?.evaController;//.GetComponentInChildren<KerbalEVA>();
-                    kerbalEVA?.gameObject?.AddOrGetComponent<CustomSuit>();
+                    KerbalEVA kerbalEVA = vessel?.evaController;
+                    kerbalEVA.gameObject.AddOrGetComponent<CustomSuit>().situation = vessel?.situation;
                 }
                 else
                 {
@@ -155,7 +150,7 @@ namespace SigmaReplacements
                 Debug.Log("FlightTriggers.OnCrewOnEva", "Part = " + action.to);
 
                 KerbalEVA kerbalEVA = action.to.GetComponent<KerbalEVA>();
-                kerbalEVA.gameObject.AddOrGetComponent<CustomSuit>();
+                kerbalEVA.gameObject.AddOrGetComponent<CustomSuit>().situation = action.from?.vessel?.situation;
             }
         }
 
@@ -166,7 +161,7 @@ namespace SigmaReplacements
                 gameObject.AddOrGetComponent<CustomSuit>();
             }
         }
-        
+
         // Nyan Settings
         [KSPAddon(KSPAddon.Startup.Instantly, true)]
         internal class NyanSettings : MonoBehaviour

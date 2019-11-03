@@ -316,13 +316,14 @@ namespace SigmaReplacements
 
             if (string.IsNullOrEmpty(hash)) hash = kerbal.name;
 
-            int h = Math.Abs(hash.GetHashCode());
+            int h = hash.GetHashCode();
 
-            if (useGameSeed && HighLogic.CurrentGame != null) h += Math.Abs(HighLogic.CurrentGame.Seed);
+            if (useGameSeed && HighLogic.CurrentGame?.Seed != null)
+                h += HighLogic.CurrentGame.Seed;
 
             Info.hash = h.ToString();
 
-            return h;
+            return Math.Abs(h);
         }
 
         internal static int Hash(this string name, bool useGameSeed)

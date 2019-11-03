@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Linq;
+using Situations = Vessel.Situations;
 
 
 namespace SigmaReplacements
@@ -17,14 +19,19 @@ namespace SigmaReplacements
             bool jetpackVisible = true;
             bool helmetHidden = false;
             KerbalEVA eva = null;
+            internal Situations? situation = null;
 
             // Colors
             Color? body = null;
+            Color? neckRing = null;
             Color? helmet = null;
             Color? visor = null;
             Color? flares = null;
             Color? light = null;
             Color? jetpack = null;
+            Color? parachute = null;
+            Color? canopy = null;
+            Color? backpack = null;
             Color? flag = null;
             Color? gasjets = null;
             Color? headset = null;
@@ -34,10 +41,14 @@ namespace SigmaReplacements
 
             // Textures
             Texture bodyTex = null;
+            Texture neckRingTex = null;
             Texture helmetTex = null;
             Texture visorTex = null;
             Texture flaresTex = null;
             Texture jetpackTex = null;
+            Texture parachuteTex = null;
+            Texture canopyTex = null;
+            Texture backpackTex = null;
             Texture flagTex = null;
             Texture gasjetsTex = null;
             Texture headsetTex = null;
@@ -47,9 +58,13 @@ namespace SigmaReplacements
 
             // Normals
             Texture bodyNrm = null;
+            Texture neckRingNrm = null;
             Texture helmetNrm = null;
             Texture visorNrm = null;
             Texture jetpackNrm = null;
+            Texture parachuteNrm = null;
+            Texture canopyNrm = null;
+            Texture backpackNrm = null;
             Texture flagNrm = null;
             Texture headsetNrm = null;
             Texture mugNrm = null;
@@ -68,7 +83,7 @@ namespace SigmaReplacements
                 LoadFor(kerbal);
                 ApplyTo(kerbal);
 
-                if (HighLogic.LoadedScene == GameScenes.FLIGHT && eva != null)
+                if (HighLogic.LoadedSceneIsFlight && eva != null)
                 {
                     if (Nyan.forever)
                     {
@@ -76,17 +91,27 @@ namespace SigmaReplacements
                         return;
                     }
 
-                    hideJetPack = FlightGlobals.ship_geeForce > jetpackMaxGravity;
+                    TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, CheckGee);
 
-                    if (hideJetPack)
-                    {
-                        JetPack();
-                        TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, JetPack);
-                    }
                     if (helmetLowPressure != null || helmetHighPressure != null)
                     {
                         Helmet();
                         TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, Helmet);
+                    }
+                }
+            }
+
+            void CheckGee()
+            {
+                if (eva.vessel.geeForce > 0)
+                {
+                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, CheckGee);
+
+                    hideJetPack = (eva.vessel.acceleration_immediate - eva.vessel.graviticAcceleration).magnitude / 9.80665 > jetpackMaxGravity;
+
+                    if (hideJetPack)
+                    {
+                        TimingManager.UpdateAdd(TimingManager.TimingStage.Normal, JetPack);
                     }
                 }
             }
@@ -134,15 +159,9 @@ namespace SigmaReplacements
                     {
                         if (helmetHidden) helmetTime = 0;
 
-                        helmetHidden = !helmetHidden;
+                        helmetHidden = eva.CanSafelyRemoveHelmet() && !helmetHidden;
 
-                        GameObject helmet = eva?.gameObject?.GetChild("helmet01") ?? eva?.gameObject?.GetChild("mesh_female_kerbalAstronaut01_helmet01");
-                        Renderer[] renderers = helmet?.GetComponentsInChildren<Renderer>(true);
-
-                        for (int i = 0; i < renderers?.Length; i++)
-                        {
-                            renderers[i].enabled = !helmetHidden;
-                        }
+                        eva.ToggleHelmetAndNeckRing(!helmetHidden, !helmetHidden);
                     }
                 }
             }
@@ -156,6 +175,7 @@ namespace SigmaReplacements
                 }
                 if (jetpackMaxGravity != null)
                 {
+                    TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, CheckGee);
                     TimingManager.UpdateRemove(TimingManager.TimingStage.Normal, JetPack);
                 }
                 if (helmetLowPressure != null || helmetHighPressure != null)
@@ -178,33 +198,47 @@ namespace SigmaReplacements
                 {
                     SuitInfo info = (SuitInfo)SuitInfo.DataBase[i].GetFor(kerbal);
 
+                    Debug.Log("CustomSuit.LoadFor", "SuitInfo.DataBase[" + i + "] = " + info);
                     if (info != null)
                     {
                         Type type = Type.IVA;
                         if (eva != null) type = Type.EVA;
-                        else if (kerbal.GetType() == typeof(CrewMember) && ((CrewMember)kerbal).activity == 0) type = Type.EVA;
+                        else if (kerbal is CrewMember && (kerbal as CrewMember)?.activity == 0) type = Type.EVA;
 
+                        Debug.Log("CustomSuit.LoadFor", "Matching suit type = " + info.type + " to current activity = " + type);
                         if (info.type != null && info.type != type) continue;
-                        Debug.Log("CustomSuit.LoadFor", "Matched suit type = " + info.type + " to current activity = " + type);
 
                         bool useSuit = true;
-                        if (eva != null)
+                        if (info.situation != null || info.breathable != null || info.suitMinPressure != null || info.suitMaxPressure != null)
                         {
-                            double pressure = FlightGlobals.getStaticPressure();
-                            useSuit = !(pressure < info.suitMinPressure) && !(pressure > info.suitMaxPressure);
-                            if (useSuit) Debug.Log("CustomSuit.LoadFor", "Matched suitMinPressure = " + info.suitMinPressure + ", suitMaxPressure = " + info.suitMaxPressure + " to current atmospheric pressure = " + pressure);
+                            useSuit = false;
+                            if (eva != null)
+                            {
+                                Debug.Log("CustomSuit.LoadFor", "Matching " + (info?.situation?.Length ?? 0) + " situation(s) to kerbal situation = " + situation);
+                                if (info.situation == null || info.situation.Contains(situation))
+                                {
+                                    Debug.Log("CustomSuit.LoadFor", "Matching atmosphereContainsOxygen = " + eva?.vessel?.mainBody?.atmosphereContainsOxygen + " to suit breathable = " + info.breathable);
+                                    if (info.breathable == null || info.breathable == eva?.vessel?.mainBody?.atmosphereContainsOxygen)
+                                    {
+                                        double pressure = FlightGlobals.getStaticPressure();
+                                        useSuit = !(pressure < info.suitMinPressure) && !(pressure > info.suitMaxPressure);
+                                        Debug.Log("CustomSuit.LoadFor", "Matching suitMinPressure = " + info.suitMinPressure + ", suitMaxPressure = " + info.suitMaxPressure + " to current atmospheric pressure = " + pressure + ". useSuit = " + useSuit);
+                                    }
+                                }
+                            }
                         }
 
-
+                        Debug.Log("CustomSuit.LoadFor", "Matching suit collection = " + info.collection + " to current collection = " + collection);
                         if (string.IsNullOrEmpty(collection) || collection == info.collection)
                         {
-                            if (info.useChance != 1)
+                            if (useChance == null && info.useChance != 1)
                                 useChance = kerbal.Hash(info.useGameSeed) % 100;
 
+                            Debug.Log("CustomSuit.LoadFor", "Matching suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
                             if (info.useChance == 1 || useChance < info.useChance * 100)
                             {
-                                Debug.Log("CustomSuit.LoadFor", "Matched suit useChance = " + info.useChance + " to generated chance = " + useChance + " %");
-                                Debug.Log("CustomSuit.LoadFor", "Matched suit collection = " + info.collection + " to current collection = " + collection);
+                                Debug.Log("CustomSuit.LoadFor", "Loading SuitInfo.DataBase[" + i + "]");
+
                                 // Collection
                                 collection = info.collection;
 
@@ -221,12 +255,16 @@ namespace SigmaReplacements
                                 if (useSuit)
                                 {
                                     body = body ?? info.body.Pick(kerbal, info.useGameSeed);
+                                    neckRing = neckRing ?? info.neckRing.Pick(kerbal, info.useGameSeed);
                                     helmet = helmet ?? info.helmet.Pick(kerbal, info.useGameSeed);
                                     visor = visor ?? info.visor.Pick(kerbal, info.useGameSeed);
                                     flares = flares ?? info.flares.Pick(kerbal, info.useGameSeed);
                                     light = light ?? info.light.Pick(kerbal, info.useGameSeed);
                                 }
                                 jetpack = jetpack ?? info.jetpack.Pick(kerbal, info.useGameSeed);
+                                parachute = parachute ?? info.parachute.Pick(kerbal, info.useGameSeed);
+                                canopy = canopy ?? info.canopy.Pick(kerbal, info.useGameSeed);
+                                backpack = backpack ?? info.backpack.Pick(kerbal, info.useGameSeed);
                                 flag = flag ?? info.flag.Pick(kerbal, info.useGameSeed);
                                 gasjets = gasjets ?? info.gasjets.Pick(kerbal, info.useGameSeed);
                                 headset = headset ?? info.headset.Pick(kerbal, info.useGameSeed);
@@ -238,11 +276,15 @@ namespace SigmaReplacements
                                 if (useSuit)
                                 {
                                     bodyTex = bodyTex ?? info.bodyTex.Pick(kerbal, info.useGameSeed);
+                                    neckRingTex = neckRingTex ?? info.neckRingTex.At(bodyTex, info.bodyTex, kerbal, info.useGameSeed);
                                     helmetTex = helmetTex ?? info.helmetTex.At(bodyTex, info.bodyTex, kerbal, info.useGameSeed);
                                     visorTex = visorTex ?? info.visorTex.Pick(kerbal, info.useGameSeed);
                                     flaresTex = flaresTex ?? info.flaresTex.Pick(kerbal, info.useGameSeed);
                                 }
                                 jetpackTex = jetpackTex ?? info.jetpackTex.Pick(kerbal, info.useGameSeed);
+                                parachuteTex = parachuteTex ?? info.parachuteTex.Pick(kerbal, info.useGameSeed);
+                                canopyTex = canopyTex ?? info.canopyTex.Pick(kerbal, info.useGameSeed);
+                                backpackTex = backpackTex ?? info.backpackTex.Pick(kerbal, info.useGameSeed);
                                 flagTex = flagTex ?? info.flagTex.Pick(kerbal, info.useGameSeed);
                                 gasjetsTex = gasjetsTex ?? info.gasjetsTex.Pick(kerbal, info.useGameSeed);
                                 headsetTex = headsetTex ?? info.headsetTex.Pick(kerbal, info.useGameSeed);
@@ -254,18 +296,26 @@ namespace SigmaReplacements
                                 if (useSuit)
                                 {
                                     bodyNrm = bodyNrm ?? info.bodyNrm.At(bodyTex, info.bodyTex, kerbal, info.useGameSeed);
+                                    neckRingNrm = neckRingNrm ?? info.neckRingNrm.At(neckRingTex, info.neckRingTex, kerbal, info.useGameSeed);
                                     helmetNrm = helmetNrm ?? info.helmetNrm.At(helmetTex, info.helmetTex, kerbal, info.useGameSeed);
                                     visorNrm = visorNrm ?? info.visorNrm.At(visorTex, info.visorTex, kerbal, info.useGameSeed);
                                 }
                                 jetpackNrm = jetpackNrm ?? info.jetpackNrm.At(jetpackTex, info.jetpackTex, kerbal, info.useGameSeed);
+                                parachuteNrm = parachuteNrm ?? info.parachuteNrm.At(parachuteTex, info.parachuteTex, kerbal, info.useGameSeed);
+                                canopyNrm = canopyNrm ?? info.canopyNrm.At(canopyTex, info.canopyTex, kerbal, info.useGameSeed);
+                                backpackNrm = backpackNrm ?? info.backpackNrm.At(backpackTex, info.backpackTex, kerbal, info.useGameSeed);
                                 flagNrm = flagNrm ?? info.flagNrm.At(flagTex, info.flagTex, kerbal, info.useGameSeed);
                                 headsetNrm = headsetNrm ?? info.headsetNrm.At(headsetTex, info.headsetTex, kerbal, info.useGameSeed);
                                 mugNrm = mugNrm ?? info.mugNrm.At(mugTex, info.mugTex, kerbal, info.useGameSeed);
                                 glassesNrm = glassesNrm ?? info.glassesNrm.At(glassesTex, info.glassesTex, kerbal, info.useGameSeed);
                                 backdropNrm = backdropNrm ?? info.backdropNrm.At(backdropTex, info.backdropTex, kerbal, info.useGameSeed);
+
+                                continue;
                             }
                         }
                     }
+
+                    Debug.Log("CustomSuit.LoadFor", "Ignoring SuitInfo.DataBase[" + i + "]");
                 }
 
                 helmetTime = helmetDelay ?? 1;
@@ -279,7 +329,7 @@ namespace SigmaReplacements
 
                 if (Nyan.nyan)
                 {
-                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || Nyan.forever)
+                    if (HighLogic.LoadedScene == GameScenes.MAINMENU || (Nyan.forever & HighLogic.LoadedSceneIsFlight))
                     {
                         NyanSuit.ApplyTo(kerbal, this);
                         return;
@@ -292,117 +342,152 @@ namespace SigmaReplacements
                 for (int i = 0; i < renderers?.Length; i++)
                 {
                     string name = renderers[i]?.name;
-                    Debug.Log("CustomSuit.ApplyTo", "renderers[" + i + "].name = " + name + ", mainTex = " + renderers[i]?.material?.mainTexture?.name);
+                    Debug.Log("CustomSuit.ApplyTo", "renderers[" + i + "].name = " + name + ", mainTex = " + renderers[i]?.sharedMaterial?.mainTexture?.name);
 
-                    Material material = renderers[i]?.material;
-                    if (material == null) continue;
-
-                    switch (name)
+                    if (name == "backdrop")
                     {
-                        case "body01":
-                        case "mesh_female_kerbalAstronaut01_body01":
-                        case "coat01":
-                        case "pants01":
-                        case "mesh_bowTie01":
-                            material.SetColor(body);
-                            material.SetTexture(bodyTex);
-                            material.SetNormal(bodyNrm);
-                            continue;
+                        if (backdropTex != null)
+                        {
+                            Material material = renderers[i]?.material;
 
-                        case "helmet":
-                        case "mesh_female_kerbalAstronaut01_helmet":
-                        case "mesh_backpack":
-                        case "mesh_hazm_helmet":
-                        case "mesh_helmet_support":
-                        case "helmetConstr01":
-                            material.SetColor(helmet ?? body);
-                            material.SetTexture(helmetTex ?? bodyTex);
-                            material.SetNormal(helmetNrm ?? bodyNrm);
-                            continue;
-
-                        case "visor":
-                        case "mesh_female_kerbalAstronaut01_visor":
-                        case "mesh_hazm_visor":
-                            material.SetColor(visor);
-                            material.SetTexture(visorTex);
-                            material.SetNormal(visorNrm);
-                            continue;
-
-                        case "flareL1":
-                        case "flareR1":
-                        case "flareL2":
-                        case "flareR2":
-                        case "flare1L":
-                        case "flare1R":
-                        case "flare2L":
-                        case "flare2R":
-                        case "EVALight":
-                        case "lightPlane":
-                            if (flares != null)
-                            {
-                                if (material?.shader?.name == "Particles/Alpha Blended Premultiply")
-                                    material.shader = Shader.Find("Particles/Alpha Blended");
-
-                                if (material.HasProperty("_TintColor"))
-                                    material.SetTintColor(flares);
-                                else
-                                    material.SetColor(flares);
-                            }
-
-                            material.SetTexture(flaresTex);
-
-                            if (light != null)
-                            {
-                                Light lights = renderers[i]?.transform?.parent?.GetComponentInChildren<Light>();
-                                if (lights != null) lights.color = (Color)light;
-                            }
-                            continue;
-
-                        case "kbEVA_flagDecals":
-                            material.SetColor(flag);
-                            material.SetTexture(flagTex);
-                            material.SetNormal(flagNrm);
-                            continue;
-
-                        case "gene_mug_base":
-                        case "gene_mug_handle":
-                            material.SetColor(mug);
-                            material.SetTexture(mugTex);
-                            material.SetNormal(mugNrm);
-                            continue;
-
-                        case "backdrop":
                             material.SetColor(backdrop);
                             material.SetTexture(backdropTex);
                             material.SetNormal(backdropNrm);
-                            continue;
+                        }
                     }
-
-                    switch (material?.mainTexture?.name)
+                    else
                     {
-                        case "EVAjetpack":
-                        case "EVAjetpackscondary":
-                            material.SetColor(jetpack);
-                            material.SetTexture(jetpackTex);
-                            material.SetNormal(jetpackNrm);
-                            continue;
+                        Material material = renderers[i]?.material;
+                        if (material == null) continue;
 
-                        case "fairydust":
-                            material.SetTintColor(gasjets);
-                            material.SetTexture(gasjetsTex);
-                            continue;
+                        switch (name)
+                        {
+                            case "body01":
+                            case "mesh_female_kerbalAstronaut01_body01":
+                            case "coat01":
+                            case "pants01":
+                            case "mesh_bowTie01":
+                                material.SetColor(body);
+                                material.SetTexture(bodyTex);
+                                material.SetNormal(bodyNrm);
+                                continue;
 
-                        case "kbGeneKerman_headset":
-                            material.SetColor(headset);
-                            material.SetTexture(headsetTex);
-                            material.SetNormal(headsetNrm);
-                            continue;
+                            case "helmet":
+                            case "mesh_female_kerbalAstronaut01_helmet":
+                            case "mesh_backpack":
+                            case "mesh_hazm_helmet":
+                            case "mesh_helmet_support":
+                            case "helmetConstr01":
+                                material.SetColor(helmet ?? body);
+                                material.SetTexture(helmetTex ?? bodyTex);
+                                material.SetNormal(helmetNrm ?? bodyNrm);
+                                continue;
 
-                        case "wernerVonKerman_glasses":
-                            material.SetColor(glasses);
-                            material.SetTexture(glassesTex);
-                            material.SetNormal(glassesNrm);
-                            continue;
+                            case "neckRing":
+                                material.SetColor(neckRing ?? helmet ?? body);
+                                material.SetTexture(neckRingTex ?? helmetTex ?? bodyTex);
+                                material.SetNormal(neckRingNrm ?? helmetNrm ?? bodyNrm);
+                                continue;
+
+                            case "visor":
+                            case "mesh_female_kerbalAstronaut01_visor":
+                            case "mesh_hazm_visor":
+                                material.SetColor(visor);
+                                material.SetTexture(visorTex);
+                                material.SetNormal(visorNrm);
+                                continue;
+
+                            case "flare1":
+                            case "flare2":
+                            case "flareL1":
+                            case "flareR1":
+                            case "flareL2":
+                            case "flareR2":
+                            case "flare1L":
+                            case "flare1R":
+                            case "flare2L":
+                            case "flare2R":
+                            case "EVALight":
+                            case "lightPlane":
+                                if (flares != null)
+                                {
+                                    if (material?.shader?.name == "Particles/Alpha Blended Premultiply")
+                                        material.shader = Shader.Find("Particles/Alpha Blended");
+
+                                    if (material.HasProperty("_TintColor"))
+                                        material.SetTintColor(flares);
+                                    else
+                                        material.SetColor(flares);
+                                }
+
+                                material.SetTexture(flaresTex);
+
+                                if (light.HasValue)
+                                {
+                                    Light lights = renderers[i]?.transform?.parent?.GetComponentInChildren<Light>();
+                                    if (lights != null) lights.color = light.Value;
+                                }
+                                continue;
+
+                            case "kbEVA_flagDecals":
+                                material.SetColor(flag);
+                                material.SetTexture(flagTex);
+                                material.SetNormal(flagNrm);
+                                continue;
+
+                            case "gene_mug_base":
+                            case "gene_mug_handle":
+                                material.SetColor(mug);
+                                material.SetTexture(mugTex);
+                                material.SetNormal(mugNrm);
+                                continue;
+                        }
+
+                        switch (material?.mainTexture?.name)
+                        {
+                            case "EVAjetpack":
+                            case "EVAjetpackscondary":
+                            case "ksp_ig_jetpack_diffuse":
+                                material.SetColor(jetpack);
+                                material.SetTexture(jetpackTex);
+                                material.SetNormal(jetpackNrm);
+                                continue;
+
+                            case "fairydust":
+                                material.SetTintColor(gasjets);
+                                material.SetTexture(gasjetsTex);
+                                continue;
+
+                            case "backpack_Diff":
+                                material.SetColor(parachute);
+                                material.SetTexture(parachuteTex);
+                                material.SetNormal(parachuteNrm);
+                                continue;
+
+                            case "canopy_Diff":
+                                material.SetColor(canopy);
+                                material.SetTexture(canopyTex);
+                                material.SetNormal(canopyNrm);
+                                continue;
+
+                            case "cargoContainerPack_diffuse":
+                                material.SetColor(backpack);
+                                material.SetTexture(backpackTex);
+                                material.SetNormal(backpackNrm);
+                                continue;
+
+                            case "kbGeneKerman_headset":
+                                material.SetColor(headset);
+                                material.SetTexture(headsetTex);
+                                material.SetNormal(headsetNrm);
+                                continue;
+
+                            case "wernerVonKerman_glasses":
+                                material.SetColor(glasses);
+                                material.SetTexture(glassesTex);
+                                material.SetNormal(glassesNrm);
+                                continue;
+                        }
                     }
                 }
             }

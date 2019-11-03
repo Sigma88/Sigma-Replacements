@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Situations = Vessel.Situations;
 
 
 namespace SigmaReplacements
@@ -21,14 +22,20 @@ namespace SigmaReplacements
             internal float? helmetHighPressure = null;
             internal float? helmetDelay = null;
             internal float? jetpackMaxGravity = null;
+            internal bool? breathable = null;
+            internal Situations?[] situation = null;
 
             // Colors Lists
             internal List<Color?> body = new List<Color?>();
+            internal List<Color?> neckRing = new List<Color?>();
             internal List<Color?> helmet = new List<Color?>();
             internal List<Color?> visor = new List<Color?>();
             internal List<Color?> flares = new List<Color?>();
             internal List<Color?> light = new List<Color?>();
             internal List<Color?> jetpack = new List<Color?>();
+            internal List<Color?> parachute = new List<Color?>();
+            internal List<Color?> canopy = new List<Color?>();
+            internal List<Color?> backpack = new List<Color?>();
             internal List<Color?> flag = new List<Color?>();
             internal List<Color?> gasjets = new List<Color?>();
             internal List<Color?> headset = new List<Color?>();
@@ -38,10 +45,14 @@ namespace SigmaReplacements
 
             // Textures Lists
             internal List<Texture> bodyTex = new List<Texture>();
+            internal List<Texture> neckRingTex = new List<Texture>();
             internal List<Texture> helmetTex = new List<Texture>();
             internal List<Texture> visorTex = new List<Texture>();
             internal List<Texture> flaresTex = new List<Texture>();
             internal List<Texture> jetpackTex = new List<Texture>();
+            internal List<Texture> parachuteTex = new List<Texture>();
+            internal List<Texture> canopyTex = new List<Texture>();
+            internal List<Texture> backpackTex = new List<Texture>();
             internal List<Texture> flagTex = new List<Texture>();
             internal List<Texture> gasjetsTex = new List<Texture>();
             internal List<Texture> headsetTex = new List<Texture>();
@@ -51,9 +62,13 @@ namespace SigmaReplacements
 
             // Normals Lists
             internal List<Texture> bodyNrm = new List<Texture>();
+            internal List<Texture> neckRingNrm = new List<Texture>();
             internal List<Texture> helmetNrm = new List<Texture>();
             internal List<Texture> visorNrm = new List<Texture>();
             internal List<Texture> jetpackNrm = new List<Texture>();
+            internal List<Texture> parachuteNrm = new List<Texture>();
+            internal List<Texture> canopyNrm = new List<Texture>();
+            internal List<Texture> backpackNrm = new List<Texture>();
             internal List<Texture> flagNrm = new List<Texture>();
             internal List<Texture> headsetNrm = new List<Texture>();
             internal List<Texture> mugNrm = new List<Texture>();
@@ -68,6 +83,8 @@ namespace SigmaReplacements
                 Parse(requirements, info);
 
                 // Suit Specific Requirements
+                breathable = Parse(requirements.GetValue("breathable"), breathable);
+                situation = Parse(requirements.GetValues("situation"), situation);
                 type = Parse(info.GetValue("type"), type);
                 suitMinPressure = Parse(info.GetValue("suitMinPressure"), suitMinPressure);
                 suitMaxPressure = Parse(info.GetValue("suitMaxPressure"), suitMaxPressure);
@@ -78,11 +95,15 @@ namespace SigmaReplacements
 
                 // Parse SuitInfo Colors
                 body = Parse(info.GetValues("body"), body);
+                neckRing = Parse(info.GetValues("neckRing"), neckRing);
                 helmet = Parse(info.GetValues("helmet"), helmet);
                 visor = Parse(info.GetValues("visor"), visor);
                 flares = Parse(info.GetValues("flares"), flares);
                 light = Parse(info.GetValues("light"), light);
                 jetpack = Parse(info.GetValues("jetpack"), jetpack);
+                parachute = Parse(info.GetValues("parachute"), parachute);
+                canopy = Parse(info.GetValues("canopy"), canopy);
+                backpack = Parse(info.GetValues("backpack"), backpack);
                 flag = Parse(info.GetValues("flag"), flag);
                 gasjets = Parse(info.GetValues("gasjets"), gasjets);
                 headset = Parse(info.GetValues("headset"), headset);
@@ -92,10 +113,14 @@ namespace SigmaReplacements
 
                 // Parse SuitInfo Textures
                 bodyTex = Parse(info.GetValues("bodyTex"), bodyTex);
+                neckRingTex = Parse(info.GetValues("neckRingTex"), neckRingTex);
                 helmetTex = Parse(info.GetValues("helmetTex"), helmetTex);
                 visorTex = Parse(info.GetValues("visorTex"), visorTex);
                 flaresTex = Parse(info.GetValues("flaresTex"), flaresTex);
                 jetpackTex = Parse(info.GetValues("jetpackTex"), jetpackTex);
+                parachuteTex = Parse(info.GetValues("parachuteTex"), parachuteTex);
+                canopyTex = Parse(info.GetValues("canopyTex"), canopyTex);
+                backpackTex = Parse(info.GetValues("backpackTex"), backpackTex);
                 flagTex = Parse(info.GetValues("flagTex"), flagTex);
                 gasjetsTex = Parse(info.GetValues("gasjetsTex"), gasjetsTex);
                 headsetTex = Parse(info.GetValues("headsetTex"), headsetTex);
@@ -105,9 +130,13 @@ namespace SigmaReplacements
 
                 // Parse SuitInfo Normals
                 bodyNrm = Parse(info.GetValues("bodyNrm"), bodyNrm);
+                neckRingNrm = Parse(info.GetValues("neckRingNrm"), neckRingNrm);
                 helmetNrm = Parse(info.GetValues("helmetNrm"), helmetNrm);
                 visorNrm = Parse(info.GetValues("visorNrm"), visorNrm);
                 jetpackNrm = Parse(info.GetValues("jetpackNrm"), jetpackNrm);
+                parachuteNrm = Parse(info.GetValues("parachuteNrm"), parachuteNrm);
+                canopyNrm = Parse(info.GetValues("canopyNrm"), canopyNrm);
+                backpackNrm = Parse(info.GetValues("backpackNrm"), backpackNrm);
                 flagNrm = Parse(info.GetValues("flagNrm"), flagNrm);
                 headsetNrm = Parse(info.GetValues("headsetNrm"), headsetNrm);
                 mugNrm = Parse(info.GetValues("mugNrm"), mugNrm);
@@ -123,6 +152,29 @@ namespace SigmaReplacements
             internal Type? Parse(string s, Type? defaultValue)
             {
                 try { return (Type)Enum.Parse(typeof(Type), s); }
+                catch { return defaultValue; }
+            }
+
+            internal Situations?[] Parse(string[] s, Situations?[] defaultValue)
+            {
+                if (s?.Length > 0)
+                {
+                    Situations?[] output = new Situations?[s.Length];
+
+                    for (int i = 0; i < s?.Length; i++)
+                    {
+                        output[i] = Parse(s[i], output[i]);
+                    }
+
+                    return output;
+                }
+
+                return defaultValue;
+            }
+
+            internal Situations? Parse(string s, Situations? defaultValue)
+            {
+                try { return (Situations)Enum.Parse(typeof(Situations), s); }
                 catch { return defaultValue; }
             }
 

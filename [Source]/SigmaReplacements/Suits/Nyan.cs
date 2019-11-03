@@ -12,6 +12,7 @@ namespace SigmaReplacements
             internal static bool forever = false;
             static Texture suit;
             static Texture suit2;
+            static Texture suit3;
 
             private static ResourceManager resourceMan;
 
@@ -57,6 +58,20 @@ namespace SigmaReplacements
                     }
 
                     return suit2;
+                }
+            }
+
+            internal static Texture nyanSuit3
+            {
+                get
+                {
+                    if (suit3 == null)
+                    {
+                        byte[] bytes = (byte[])ResourceManager.GetObject("nyanSuit3");
+                        suit3 = bytes.ToDDS();
+                    }
+
+                    return suit3;
                 }
             }
         }

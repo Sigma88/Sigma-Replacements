@@ -9,7 +9,7 @@
     <AppDesignerFolder>Descriptions\Properties</AppDesignerFolder>
     <RootNamespace>SigmaReplacements</RootNamespace>
     <AssemblyName>SigmaReplacementsDescriptions</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <BaseIntermediateOutputPath>Descriptions\obj\</BaseIntermediateOutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Common\Extensions.cs" />
@@ -56,13 +58,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\[References]\KerbalSpaceProgram\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.UIModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

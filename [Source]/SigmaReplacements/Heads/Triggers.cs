@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
-using KSP.UI.Screens;
 
 
 namespace SigmaReplacements
@@ -38,11 +37,9 @@ namespace SigmaReplacements
         [KSPAddon(KSPAddon.Startup.MainMenu, true)]
         internal class MenuTriggers : MonoBehaviour
         {
-            static string[] names = new string[] { "Strategy_Mortimer", "Strategy_ScienceGuy", "Strategy_PRGuy", "Strategy_MechanicGuy" };
-
-            void Awake()
+            void Start()
             {
-                Debug.Log("MenuTriggers", "Awake");
+                Debug.Log("MenuTriggers", "Start");
 
                 Transform[] transforms = Resources.FindObjectsOfTypeAll<Transform>();
 
@@ -50,25 +47,26 @@ namespace SigmaReplacements
                 {
                     Transform transform = transforms[i];
 
-                    if (transform?.name == "WernerVonKerman")
+                    switch (transform?.name)
                     {
-                        transform.gameObject.AddOrGetComponent<UIKerbalWerner>();
-                        transform.gameObject.AddOrGetComponent<CustomHead>();
-                    }
-
-                    if (names.Contains(transform?.name))
-                    {
-                        UIKerbalStrategy strategy = transform?.gameObject?.AddOrGetComponent<UIKerbalStrategy>();
-                        CustomHead head = transform?.gameObject?.AddOrGetComponent<CustomHead>();
-                    }
-
-                    if (transform?.name == "instructor_Gene")
-                    {
-                        if (transform?.parent?.gameObject?.name == "Instructor_Gene")
-                        {
-                            UIKerbalGene strategy = transform?.gameObject?.AddOrGetComponent<UIKerbalGene>();
-                            CustomHead head = transform?.gameObject?.AddOrGetComponent<CustomHead>();
-                        }
+                        case "WernerVonKerman":
+                            UIKerbalWerner werner = transform.gameObject.AddOrGetComponent<UIKerbalWerner>();
+                            CustomHead wernerHead = transform.gameObject.AddOrGetComponent<CustomHead>();
+                            break;
+                        case "Strategy_Mortimer":
+                        case "Strategy_ScienceGuy":
+                        case "Strategy_PRGuy":
+                        case "Strategy_MechanicGuy":
+                            UIKerbalStrategy strategy = transform?.gameObject?.AddOrGetComponent<UIKerbalStrategy>();
+                            CustomHead adminHead = transform?.gameObject?.AddOrGetComponent<CustomHead>();
+                            break;
+                        case "instructor_Gene":
+                            if (transform?.parent?.gameObject?.name == "Instructor_Gene")
+                            {
+                                UIKerbalGene gene = transform?.gameObject?.AddOrGetComponent<UIKerbalGene>();
+                                CustomHead geneHead = transform?.gameObject?.AddOrGetComponent<CustomHead>();
+                            }
+                            break;
                     }
                 }
             }
@@ -98,9 +96,6 @@ namespace SigmaReplacements
 
                     if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                     {
-                        GameObject admin = Resources.FindObjectsOfTypeAll<Administration>().FirstOrDefault().gameObject;
-                        UIKerbalsTrigger heads = admin.AddOrGetComponent<UIKerbalsTrigger>();
-
                         GameObject gene = Resources.FindObjectsOfTypeAll<MCAvatarController>().FirstOrDefault().gameObject.GetChild("instructor_Gene");
                         GeneHead head = gene.AddOrGetComponent<GeneHead>();
                     }

@@ -15,8 +15,8 @@ namespace SigmaReplacements
             void Awake()
             {
                 GameObject[] scenes = FindObjectOfType<MainMenu>().envLogic.areas;
-                Templates.kopernicusMainMenu = scenes[1].activeSelf && !(OrbitSceneInfo.DataBase?.Count > 0);
-                Debug.Log("KopernicusFixer", "Kopernicus detected => Kopernicus.Templates.kopernicusMainMenu = " + Templates.kopernicusMainMenu);
+                Templates.KopernicusMainMenu = scenes[1].activeSelf && !(OrbitSceneInfo.DataBase?.Count > 0);
+                Debug.Log("KopernicusFixer", "Kopernicus detected => Kopernicus.Templates.KopernicusMainMenu = " + Templates.KopernicusMainMenu);
             }
         }
 
@@ -24,7 +24,7 @@ namespace SigmaReplacements
         {
             internal static void LoadTextures(GameObject body)
             {
-                if (OnDemandStorage.useOnDemand)
+                if (OnDemandStorage.UseOnDemand)
                 {
                     body?.GetComponent<ScaledSpaceOnDemand>()?.LoadTextures();
                 }
