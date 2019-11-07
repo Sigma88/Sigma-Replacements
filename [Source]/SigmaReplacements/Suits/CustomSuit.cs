@@ -409,10 +409,10 @@ namespace SigmaReplacements
                             case "flare2R":
                             case "EVALight":
                             case "lightPlane":
-                                if (flares != null)
+                                if (flares.HasValue)
                                 {
-                                    if (material?.shader?.name == "Particles/Alpha Blended Premultiply")
-                                        material.shader = Shader.Find("Particles/Alpha Blended");
+                                    if (material?.shader?.name == "Legacy Shaders/Particles/Alpha Blended Premultiply")
+                                        material.shader = Shader.Find("Legacy Shaders/Particles/Alpha Blended");
 
                                     if (material.HasProperty("_TintColor"))
                                         material.SetTintColor(flares);
@@ -489,6 +489,13 @@ namespace SigmaReplacements
                                 continue;
                         }
                     }
+                }
+
+                if (flares.HasValue)
+                {
+                    kerbal.lightR = flares.Value.r;
+                    kerbal.lightG = flares.Value.g;
+                    kerbal.lightB = flares.Value.b;
                 }
             }
 

@@ -46,12 +46,6 @@ namespace SigmaReplacements
                                     continue;
                             }
 
-                        case "visor":
-                        case "mesh_female_kerbalAstronaut01_visor":
-                        case "mesh_hazm_visor":
-                            material.SetColor(new Color(0, 0, 0, 0));
-                            continue;
-
                         case "flare1":
                         case "flare2":
                         case "flareL1":
@@ -64,8 +58,14 @@ namespace SigmaReplacements
                         case "flare2R":
                         case "EVALight":
                         case "lightPlane":
-                            material.shader = Shader.Find("Particles/Alpha Blended");
-                            material.SetTintColor(new Color(1, 0.2f, 0.6f, 0.5f));
+                            if (material?.shader?.name == "Legacy Shaders/Particles/Alpha Blended Premultiply")
+                                material.shader = Shader.Find("Legacy Shaders/Particles/Alpha Blended");
+
+                            if (material.HasProperty("_TintColor"))
+                                material.SetTintColor(new Color(1, 0.2f, 0.6f, 0.5f));
+                            else
+                                material.SetColor(new Color(1, 0.2f, 0.6f, 0.5f));
+
                             Light lights = renderers[i]?.transform?.parent?.GetComponentInChildren<Light>();
                             if (lights != null) lights.color = new Color(1, 0.2f, 0.6f, 1);
                             continue;
@@ -86,6 +86,10 @@ namespace SigmaReplacements
                             material.SetTintColor(new Color(1, 0.2f, 0.6f, 0.5f));
                             continue;
                     }
+
+                    kerbal.lightR = 1;
+                    kerbal.lightG = 0.2f;
+                    kerbal.lightB = 0.6f;
                 }
             }
         }
