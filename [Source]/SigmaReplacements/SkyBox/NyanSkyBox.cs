@@ -14,9 +14,13 @@ namespace SigmaReplacements
             static float wait = 0;
             static float angle = 0;
             static Texture[] frames;
-            static Texture2D none = new Texture2D(1, 1);
+            static Texture2D none;
             static Material XP;
 
+            void Awake()
+            {
+                none = new Texture2D(1, 1);
+            }
             void Start()
             {
                 if (Nyan.nyan)
@@ -95,9 +99,14 @@ namespace SigmaReplacements
             static float wait = 0;
             static float angle = 0;
             static Texture[] frames;
-            static Texture2D none = new Texture2D(1, 1);
+            static Texture2D none;
             static Material XP = null;
             static bool initialized = false;
+
+            void Awake()
+            {
+                none = new Texture2D(1, 1);
+            }
 
             void Start()
             {
