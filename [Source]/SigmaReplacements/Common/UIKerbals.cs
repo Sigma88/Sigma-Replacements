@@ -54,7 +54,12 @@ namespace SigmaReplacements
 
     internal class UIKerbalStrategy : MonoBehaviour
     {
-        static string[] names = new string[] { "Strategy_Mortimer", "Strategy_ScienceGuy", "Strategy_PRGuy", "Strategy_MechanicGuy" };
+        static string[] names;
+
+        void Awake()
+        {
+            names = new string[] { "Strategy_Mortimer", "Strategy_ScienceGuy", "Strategy_PRGuy", "Strategy_MechanicGuy" };
+        }
 
         internal CrewMember crewMember
         {
