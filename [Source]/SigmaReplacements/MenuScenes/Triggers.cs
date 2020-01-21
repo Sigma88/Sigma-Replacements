@@ -12,14 +12,22 @@ namespace SigmaReplacements
         {
             void Awake()
             {
+                Debug.Log("MenuTriggers.Awake", "Nyan.nyan = " + Nyan.nyan);
+                Debug.Log("MenuTriggers.Awake", "MunSceneInfo.DataBase.Count = " + MunSceneInfo.DataBase?.Count);
+                Debug.Log("MenuTriggers.Awake", "OrbitSceneInfo.DataBase.Count = " + OrbitSceneInfo.DataBase?.Count);
+                if (!Nyan.nyan && !(MunSceneInfo.DataBase?.Count > 0) && !(OrbitSceneInfo.DataBase?.Count > 0)) return;
+
                 GameObject[] scenes = FindObjectOfType<MainMenu>()?.envLogic?.areas;
 
+                Debug.Log("MenuTriggers.Awake", "scenes = " + scenes?.Length);
                 if (scenes == null) return;
 
                 int i = 1;
                 string hash = DateTime.Now.ToLongTimeString();
                 hash = Math.Abs(hash.GetHashCode()).ToString();
+
                 i = PseudoRandom.Scene(Math.Abs(hash.GetHashCode()));
+                Debug.Log("MenuTriggers.Awake", "random scene = " + i);
 
                 // Choose Scene
                 scenes[i].SetActive(true);
@@ -27,6 +35,8 @@ namespace SigmaReplacements
 
                 if (Nyan.nyan)
                 {
+                    Debug.Log("MenuTriggers.Awake", "Loading nyan scene");
+
                     Renderer mun = scenes[1].GetChild("Mun").GetComponent<Renderer>();
                     mun.material.SetTexture(Nyan.nyanGround);
 
@@ -38,26 +48,19 @@ namespace SigmaReplacements
                     return;
                 }
 
-                if (MunSceneInfo.DataBase.Count > 0)
-                {
-                    if (OrbitSceneInfo.DataBase?.Count == 0)
-                    {
-                        i = 0;
-                    }
-                }
-                else
-                {
-                    i = 1;
-                }
-
+                Debug.Log("MenuTriggers.Awake", "chosen scene = " + i);
                 if (i == 0)
                 {
+                    Debug.Log("MenuTriggers.Awake", "Loading mun scene");
+
                     int index = MunSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
                     CustomMunScene scene = new CustomMunScene((MunSceneInfo)MunSceneInfo.DataBase[index]);
                     scene.ApplyTo(scenes[0]);
                 }
                 else if (OrbitSceneInfo.DataBase?.Count > 0)
                 {
+                    Debug.Log("MenuTriggers.Awake", "Loading orbit scene");
+
                     int index = OrbitSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
                     CustomOrbitScene scene = new CustomOrbitScene((OrbitSceneInfo)OrbitSceneInfo.DataBase[index]);
                     scene.ApplyTo(scenes);
@@ -65,6 +68,8 @@ namespace SigmaReplacements
 
                 if (KopernicusFixer.detect)
                 {
+                    Debug.Log("MenuTriggers.Awake", "Kopernicus has been detected");
+
                     gameObject.AddOrGetComponent<KopernicusFixer>();
                 }
             }

@@ -161,6 +161,10 @@ namespace SigmaReplacements
 
                     if (template != null)
                     {
+                        // OnDemand
+                        if (KopernicusFixer.detect)
+                            OnDemandFixer.LoadTextures(template);
+
                         // Material
                         renderer.material = template?.GetComponent<Renderer>()?.material ?? renderer.material;
                         renderer.material.SetTexture(info.texture1);
@@ -228,7 +232,7 @@ namespace SigmaReplacements
                     }
                 }
 
-                for (int i = 0; i < info.Length; i++)
+                for (int i = 0; i < info?.Length; i++)
                 {
                     if (info[i].index >= boulders.Length) continue;
 
