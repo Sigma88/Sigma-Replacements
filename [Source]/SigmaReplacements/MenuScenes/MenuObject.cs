@@ -12,7 +12,6 @@ namespace SigmaReplacements
             internal int? index = null;
             internal int? template = null;
             internal bool enabled = true;
-            internal bool debug = false;
             internal bool adjustScale = false;
             internal bool removeHelmet = false;
 
@@ -66,8 +65,6 @@ namespace SigmaReplacements
                 {
                     enabled = true;
                 }
-
-                bool.TryParse(node.GetValue("debug"), out debug);
 
                 useChance = Parse(node.GetValue("useChance"), useChance);
 
@@ -127,7 +124,7 @@ namespace SigmaReplacements
             internal void ApplyTo(GameObject obj, float scaleMult = 1)
             {
                 if (obj == null) return;
-                if (debug) obj.AddOrGetComponent<LiveDebug>();
+                if (Debug.debug) obj.AddOrGetComponent<LiveDebug>();
 
                 // Edit Position/Rotation/Scale
                 obj.transform.position = position ?? obj.transform.position;

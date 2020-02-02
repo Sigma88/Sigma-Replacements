@@ -243,7 +243,7 @@ namespace SigmaReplacements
                         if (!boulders[j].gameObject.activeSelf) continue;
 
                         // Debug
-                        if (info[i].debug) boulders[j].gameObject.AddOrGetComponent<LiveDebug>();
+                        if (Debug.debug) boulders[j].gameObject.AddOrGetComponent<LiveDebug>();
 
                         // Edit Body Position/Rotation/Scale
                         boulders[j].position += info[i].position ?? Vector3.zero;
@@ -327,7 +327,7 @@ namespace SigmaReplacements
                 wreck.transform.rotation = info.rotation ?? wreck.transform.rotation;
                 wreck.transform.localScale = info.scale ?? wreck.transform.localScale;
 
-                if (info.debug) wreck.AddComponent<LiveDebug>();
+                if (Debug.debug) wreck.AddComponent<LiveDebug>();
             }
 
             void EditGround(MenuObject info, GameObject scene)

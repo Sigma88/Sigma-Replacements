@@ -8,67 +8,151 @@ namespace SigmaReplacements
     {
         internal class LiveDebug : MonoBehaviour
         {
-            static double time = 0.1;
-            static float moveby = 0.05f;
+            // Debug
+            bool debug = false;
+
+            // Original values
+            Vector3 originalPosition;
+            Quaternion originalRotation;
+            Vector3 originalScale;
+
+            // Settings
+            float moveby;
+            float rotateby;
+            float scaleby;
+
+            void Start()
+            {
+                // Original values
+                originalPosition = transform.position;
+                originalRotation = transform.localRotation;
+                originalScale = transform.localScale;
+
+                // Settings
+                moveby = 500;
+                rotateby = 50;
+                scaleby = 0.5f;
+
+                // SAVE
+                Save();
+            }
 
             void Update()
             {
-                time += Time.deltaTime;
+                if (Input.anyKey)
+                {
+                    // POSITION
+                    if (Input.GetKey(KeyCode.LeftArrow))
+                        transform.position += Vector3.left * moveby * Time.deltaTime;
+                    if (Input.GetKey(KeyCode.RightArrow))
+                        transform.position += Vector3.right * moveby * Time.deltaTime;
+                    if (Input.GetKey(KeyCode.DownArrow))
+                        transform.position += Vector3.down * moveby * Time.deltaTime;
+                    if (Input.GetKey(KeyCode.UpArrow))
+                        transform.position += Vector3.up * moveby * Time.deltaTime;
+                    if (Input.GetKey(KeyCode.RightControl))
+                        transform.position += Vector3.back * moveby * Time.deltaTime;
+                    if (Input.GetKey(KeyCode.RightShift))
+                        transform.position += Vector3.forward * moveby * Time.deltaTime;
 
-                if (time < 0.1) return;
-                else time = 0;
+                    // ROTATION
+                    if (Input.GetKey(KeyCode.S))
+                        transform.Rotate(Vector3.left, rotateby * Time.deltaTime);
+                    if (Input.GetKey(KeyCode.W))
+                        transform.Rotate(Vector3.right, rotateby * Time.deltaTime);
+                    if (Input.GetKey(KeyCode.D))
+                        transform.Rotate(Vector3.down, rotateby * Time.deltaTime);
+                    if (Input.GetKey(KeyCode.A))
+                        transform.Rotate(Vector3.up, rotateby * Time.deltaTime);
+                    if (Input.GetKey(KeyCode.E))
+                        transform.Rotate(Vector3.back, rotateby * Time.deltaTime);
+                    if (Input.GetKey(KeyCode.Q))
+                        transform.Rotate(Vector3.forward, rotateby * Time.deltaTime);
 
-                // POSITION
-                if (Input.GetKey(KeyCode.LeftArrow))
-                    transform.localPosition = new Vector3(transform.localPosition.x - moveby, transform.localPosition.y, transform.localPosition.z);
-                else if (Input.GetKey(KeyCode.RightArrow))
-                    transform.localPosition = new Vector3(transform.localPosition.x + moveby, transform.localPosition.y, transform.localPosition.z);
-                else if (Input.GetKey(KeyCode.DownArrow))
-                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - moveby, transform.localPosition.z);
-                else if (Input.GetKey(KeyCode.UpArrow))
-                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + moveby, transform.localPosition.z);
-                else if (Input.GetKey(KeyCode.RightControl))
-                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z - moveby);
-                else if (Input.GetKey(KeyCode.RightShift))
-                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + moveby);
+                    // SCALE
+                    if (Input.GetKey(KeyCode.Period))
+                        transform.localScale *= 1 + scaleby * Time.deltaTime;
+                    if (Input.GetKey(KeyCode.Comma))
+                        transform.localScale /= 1 + scaleby * Time.deltaTime;
+                }
+                else
+                {
+                    // SAVE
+                    if (Input.GetKeyUp(KeyCode.F5))
+                    {
+                        Save();
+                    }
 
-                // ROTATION
-                else if (Input.GetKey(KeyCode.W))
-                    transform.localRotation = Quaternion.Euler((transform.localEulerAngles.x + 1) % 360, transform.localEulerAngles.y, transform.localEulerAngles.z);
-                else if (Input.GetKey(KeyCode.S))
-                    transform.localRotation = Quaternion.Euler((transform.localEulerAngles.x + 359) % 360, transform.localEulerAngles.y, transform.localEulerAngles.z);
-                else if (Input.GetKey(KeyCode.A))
-                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, (transform.localEulerAngles.y + 1) % 360, transform.localEulerAngles.z);
-                else if (Input.GetKey(KeyCode.D))
-                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, (transform.localEulerAngles.y + 359) % 360, transform.localEulerAngles.z);
-                else if (Input.GetKey(KeyCode.Q))
-                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 1) % 360);
-                else if (Input.GetKey(KeyCode.E))
-                    transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, (transform.localEulerAngles.z + 359) % 360);
+                    // LOAD
+                    else if (Input.GetKeyUp(KeyCode.F9))
+                    {
+                        Load();
+                    }
 
-                // SCALE
-                else if (Input.GetKey(KeyCode.KeypadMinus))
-                    transform.localScale = transform.localScale * 0.95f;
-                else if (Input.GetKey(KeyCode.KeypadPlus))
-                    transform.localScale = transform.localScale * 1.05f;
-
-                // NOTHING
-                else return;
-
-                Save();
+                    // RESET
+                    else if (Input.GetKeyUp(KeyCode.R))
+                    {
+                        Reset();
+                    }
+                }
             }
 
             void Save()
             {
                 Directory.CreateDirectory("GameData/Sigma/Replacements/MenuScenes/Debug/");
 
-                string[] data = new string[3];
-
-                data[0] = "position = " + (Vector3d)transform.position;
-                data[1] = "rotation = " + (Vector3d)transform.eulerAngles;
-                data[2] = "scale = " + (Vector3d)transform.localScale;
+                string[] data = new string[]
+                {
+                    "position = " + transform.position.x + ", "+ transform.position.y + ", "+ transform.position.z,
+                    "rotation = " + transform.localEulerAngles.x + ", "+ transform.localEulerAngles.y + ", "+ transform.localEulerAngles.z,
+                    "scale = " + transform.localScale.x + ", "+ transform.localScale.y + ", "+ transform.localScale.z,
+                    "moveby = " + moveby,
+                    "rotateby = " + rotateby,
+                    "scaleby = " + scaleby,
+                    "enabled = " + debug
+                };
 
                 File.WriteAllLines("GameData/Sigma/Replacements/MenuScenes/Debug/" + name + ".txt", data);
+            }
+
+            void Load()
+            {
+                string path = "GameData/Sigma/Replacements/MenuScenes/Debug/";
+
+                if (Directory.Exists(path))
+                {
+                    if (File.Exists(path + name + ".txt"))
+                    {
+                        string[] data = File.ReadAllLines(path + name + ".txt");
+
+                        if (bool.TryParse(data[6].Replace("enabled", "").Replace("=", ""), out debug) && debug)
+                        {
+                            transform.position = ConfigNode.ParseVector3(data[0].Replace("position", "").Replace("=", ""));
+                            transform.localEulerAngles = ConfigNode.ParseVector3(data[1].Replace("rotation", "").Replace("=", ""));
+                            transform.localScale = ConfigNode.ParseVector3(data[2].Replace("scale", "").Replace("=", ""));
+
+                            if (float.TryParse(data[3].Replace("moveby", "").Replace("=", ""), out float move))
+                            {
+                                moveby = move;
+                            }
+                            if (float.TryParse(data[4].Replace("rotateby", "").Replace("=", ""), out float rotate))
+                            {
+                                rotateby = rotate;
+                            }
+                            if (float.TryParse(data[5].Replace("scaleby", "").Replace("=", ""), out float scale))
+                            {
+                                scaleby = scale;
+                            }
+                        }
+                    }
+                }
+            }
+
+            void Reset()
+            {
+                transform.position = originalPosition;
+                transform.localRotation = originalRotation;
+                transform.localScale = originalScale;
             }
         }
     }
