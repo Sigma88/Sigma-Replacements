@@ -15,7 +15,8 @@ namespace SigmaReplacements
                 Debug.Log("MenuTriggers.Awake", "Nyan.nyan = " + Nyan.nyan);
                 Debug.Log("MenuTriggers.Awake", "MunSceneInfo.DataBase.Count = " + MunSceneInfo.DataBase?.Count);
                 Debug.Log("MenuTriggers.Awake", "OrbitSceneInfo.DataBase.Count = " + OrbitSceneInfo.DataBase?.Count);
-                if (!Nyan.nyan && !(MunSceneInfo.DataBase?.Count > 0) && !(OrbitSceneInfo.DataBase?.Count > 0)) return;
+                if (!Nyan.nyan && MunSceneInfo.DataBase == null && OrbitSceneInfo.DataBase == null) return;
+                if (MunSceneInfo.DataBase.Count == 0 && OrbitSceneInfo.DataBase.Count == 0) return;
 
                 GameObject[] scenes = FindObjectOfType<MainMenu>()?.envLogic?.areas;
 
@@ -29,17 +30,20 @@ namespace SigmaReplacements
                 i = PseudoRandom.Scene(Math.Abs(hash.GetHashCode()));
                 Debug.Log("MenuTriggers.Awake", "random scene = " + i);
 
-                // Choose Scene
-                scenes[i].SetActive(true);
-                scenes[(i + 1) % 2].SetActive(false);
 
                 if (Nyan.nyan)
                 {
                     Debug.Log("MenuTriggers.Awake", "Loading nyan scene");
 
+                    // Activate Scene
+                    scenes[i].SetActive(true);
+                    scenes[(i + 1) % 2].SetActive(false);
+
+                    // Nyan-ify the OrbitScene
                     Renderer mun = scenes[1].GetChild("Mun").GetComponent<Renderer>();
                     mun.material.SetTexture(Nyan.nyanGround);
 
+                    // Nyan-ify the MunScene
                     Terrain terrain = scenes[0].GetChild("Terrain").GetComponent<Terrain>();
                     TerrainLayer[] layers = terrain.terrainData.terrainLayers;
                     layers[0].diffuseTexture = layers[1].diffuseTexture = (Texture2D)Nyan.nyanGround;
@@ -48,22 +52,44 @@ namespace SigmaReplacements
                     return;
                 }
 
+                // Force Mun Scene
+                if (OrbitSceneInfo.DataBase?.Count == 0)
+                {
+                    i = 0;
+                }
+
+                // Force Orbit Scene
+                if (MunSceneInfo.DataBase?.Count == 0)
+                {
+                    i = 1;
+                }
+
+                // Activate Scene
+                scenes[i].SetActive(true);
+                scenes[(i + 1) % 2].SetActive(false);
+
                 Debug.Log("MenuTriggers.Awake", "chosen scene = " + i);
                 if (i == 0)
                 {
                     Debug.Log("MenuTriggers.Awake", "Loading mun scene");
 
-                    int index = MunSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
-                    CustomMunScene scene = new CustomMunScene((MunSceneInfo)MunSceneInfo.DataBase[index]);
-                    scene.ApplyTo(scenes[0]);
+                    if (MunSceneInfo.DataBase != null)
+                    {
+                        int index = MunSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
+                        CustomMunScene scene = new CustomMunScene((MunSceneInfo)MunSceneInfo.DataBase[index]);
+                        scene.ApplyTo(scenes[0]);
+                    }
                 }
-                else if (OrbitSceneInfo.DataBase?.Count > 0)
+                else
                 {
                     Debug.Log("MenuTriggers.Awake", "Loading orbit scene");
 
-                    int index = OrbitSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
-                    CustomOrbitScene scene = new CustomOrbitScene((OrbitSceneInfo)OrbitSceneInfo.DataBase[index]);
-                    scene.ApplyTo(scenes);
+                    if (OrbitSceneInfo.DataBase != null)
+                    {
+                        int index = OrbitSceneInfo.DataBase.Choose(Math.Abs(hash.GetHashCode()));
+                        CustomOrbitScene scene = new CustomOrbitScene((OrbitSceneInfo)OrbitSceneInfo.DataBase[index]);
+                        scene.ApplyTo(scenes);
+                    }
                 }
 
                 if (KopernicusFixer.detect)

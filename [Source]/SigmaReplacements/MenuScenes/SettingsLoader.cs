@@ -27,12 +27,12 @@ namespace SigmaReplacements
                 ConfigNode[] MunInfoNodes = UserSettings.ConfigNode?.GetNodes("MunScene");
                 for (int i = 0; i < MunInfoNodes?.Length; i++)
                 {
+                    if (MunSceneInfo.DataBase == null)
+                        MunSceneInfo.DataBase = new List<MenuSceneInfo>();
+
                     MunSceneInfo info = new MunSceneInfo(MunInfoNodes[i]);
                     AddUnique(MunSceneInfo.DataBase, info);
                 }
-
-                // Add Stock MunScene
-                AddUnique(MunSceneInfo.DataBase, new MunSceneInfo("MunScene"));
 
                 // Removed Non-Enabled
                 if (OrbitSceneInfo.DataBase?.Count > 0)

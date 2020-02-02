@@ -8,7 +8,7 @@ namespace SigmaReplacements
         internal class MunSceneInfo : MenuSceneInfo
         {
             // Static
-            internal static List<MenuSceneInfo> DataBase = new List<MenuSceneInfo>();
+            internal static List<MenuSceneInfo> DataBase = null;
 
             // Sky
             internal ConfigNode atmosphere = null;
