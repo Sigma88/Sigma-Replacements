@@ -135,18 +135,18 @@ namespace SigmaReplacements
                     GameObject body;
 
                     // Clone or Select Stock Body
-                    if (i > 0 && info.enabled)
+                    if (info.name == "Kerbin")
+                    {
+                        body = kerbin;
+                        body.SetActive(info.enabled);
+                        if (!info.enabled) continue;
+                    }
+                    if (info.enabled)
                     {
                         if (string.IsNullOrEmpty(info.name)) continue;
 
                         body = Instantiate(clone);
                         body.name = "NewBody_" + info.name;
-                    }
-                    else if (i == 0)
-                    {
-                        body = kerbin;
-                        body.SetActive(info.enabled);
-                        if (!info.enabled) continue;
                     }
                     else
                     {

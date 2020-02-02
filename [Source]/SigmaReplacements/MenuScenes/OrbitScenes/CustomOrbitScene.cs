@@ -113,20 +113,20 @@ namespace SigmaReplacements
                     MenuObject info = moons[i];
                     GameObject body;
 
-                    // Clone or Select Stock Body
-                    if (i > 0 && info.enabled)
-                    {
-                        if (string.IsNullOrEmpty(info.name)) continue;
-
-                        body = Instantiate(clone);
-                        body.name = "NewMoon_" + info.name;
-                    }
-                    else if (i == 0)
+                    // Clone or Select Stock Body 
+                    if (info.name == "Mun")
                     {
                         body = mun;
                         body.SetActive(info.enabled);
 
                         if (!info.enabled) continue;
+                    }
+                    else if (info.enabled)
+                    {
+                        if (string.IsNullOrEmpty(info.name)) continue;
+
+                        body = Instantiate(clone);
+                        body.name = "NewMoon_" + info.name;
                     }
                     else
                     {
