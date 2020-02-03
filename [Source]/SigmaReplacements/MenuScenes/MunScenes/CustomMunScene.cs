@@ -141,7 +141,7 @@ namespace SigmaReplacements
                         body.SetActive(info.enabled);
                         if (!info.enabled) continue;
                     }
-                    if (info.enabled)
+                    else if (info.enabled)
                     {
                         if (string.IsNullOrEmpty(info.name)) continue;
 
