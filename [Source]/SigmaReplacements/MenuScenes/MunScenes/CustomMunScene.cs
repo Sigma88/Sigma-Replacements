@@ -251,7 +251,7 @@ namespace SigmaReplacements
 
                         // Adjust Scale by Distance
                         if (info[i].adjustScale)
-                            boulders[j].transform.localScale *= (0.5f + (new Vector3(0.7814472f, -0.7841411f, 2.28511f) - boulders[j].transform.position).magnitude / 100);//(0.25f + (new Vector3(0.7814472f, -0.7841411f, 2.28511f) - boulders[j].transform.position).magnitude / 100);
+                            boulders[j].transform.localScale *= (0.5f + (new Vector3(0.7814472f, -0.7841411f, 2.28511f) - boulders[j].transform.position).magnitude / 100);
 
                         // Edit Appearances
                         Renderer renderer = boulders[j].GetComponent<Renderer>();
