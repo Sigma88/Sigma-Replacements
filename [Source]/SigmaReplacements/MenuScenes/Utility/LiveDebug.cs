@@ -127,7 +127,7 @@ namespace SigmaReplacements
                 {
                     if (File.Exists(path + name + index + ".txt"))
                     {
-                        string[] data = File.ReadAllLines(path + name + ".txt");
+                        string[] data = File.ReadAllLines(path + name + index + ".txt");
 
                         if (bool.TryParse(data[6].Replace("enabled", "").Replace("=", ""), out debug) && debug)
                         {
