@@ -12,7 +12,7 @@ namespace SigmaReplacements
             bool debug = false;
 
             // Original values
-            internal int index = 0;
+            internal int? index = null;
             Vector3 originalPosition;
             Quaternion originalRotation;
             Vector3 originalScale;
@@ -35,46 +35,49 @@ namespace SigmaReplacements
                 scaleby = 0.5f;
 
                 // SAVE
-                Save();
+                StartCoroutine(CallbackUtil.DelayedCallback(1, Save));
             }
 
             void Update()
             {
                 if (Input.anyKey)
                 {
-                    // POSITION
-                    if (Input.GetKey(KeyCode.LeftArrow))
-                        transform.position += Vector3.left * moveby * Time.deltaTime;
-                    if (Input.GetKey(KeyCode.RightArrow))
-                        transform.position += Vector3.right * moveby * Time.deltaTime;
-                    if (Input.GetKey(KeyCode.DownArrow))
-                        transform.position += Vector3.down * moveby * Time.deltaTime;
-                    if (Input.GetKey(KeyCode.UpArrow))
-                        transform.position += Vector3.up * moveby * Time.deltaTime;
-                    if (Input.GetKey(KeyCode.RightControl))
-                        transform.position += Vector3.back * moveby * Time.deltaTime;
-                    if (Input.GetKey(KeyCode.RightShift))
-                        transform.position += Vector3.forward * moveby * Time.deltaTime;
+                    if (debug)
+                    {
+                        // POSITION
+                        if (Input.GetKey(KeyCode.LeftArrow))
+                            transform.position += Vector3.left * moveby * Time.deltaTime;
+                        if (Input.GetKey(KeyCode.RightArrow))
+                            transform.position += Vector3.right * moveby * Time.deltaTime;
+                        if (Input.GetKey(KeyCode.DownArrow))
+                            transform.position += Vector3.down * moveby * Time.deltaTime;
+                        if (Input.GetKey(KeyCode.UpArrow))
+                            transform.position += Vector3.up * moveby * Time.deltaTime;
+                        if (Input.GetKey(KeyCode.RightControl))
+                            transform.position += Vector3.back * moveby * Time.deltaTime;
+                        if (Input.GetKey(KeyCode.RightShift))
+                            transform.position += Vector3.forward * moveby * Time.deltaTime;
 
-                    // ROTATION
-                    if (Input.GetKey(KeyCode.S))
-                        transform.Rotate(Vector3.left, rotateby * Time.deltaTime);
-                    if (Input.GetKey(KeyCode.W))
-                        transform.Rotate(Vector3.right, rotateby * Time.deltaTime);
-                    if (Input.GetKey(KeyCode.D))
-                        transform.Rotate(Vector3.down, rotateby * Time.deltaTime);
-                    if (Input.GetKey(KeyCode.A))
-                        transform.Rotate(Vector3.up, rotateby * Time.deltaTime);
-                    if (Input.GetKey(KeyCode.E))
-                        transform.Rotate(Vector3.back, rotateby * Time.deltaTime);
-                    if (Input.GetKey(KeyCode.Q))
-                        transform.Rotate(Vector3.forward, rotateby * Time.deltaTime);
+                        // ROTATION
+                        if (Input.GetKey(KeyCode.S))
+                            transform.Rotate(Vector3.left, rotateby * Time.deltaTime);
+                        if (Input.GetKey(KeyCode.W))
+                            transform.Rotate(Vector3.right, rotateby * Time.deltaTime);
+                        if (Input.GetKey(KeyCode.D))
+                            transform.Rotate(Vector3.down, rotateby * Time.deltaTime);
+                        if (Input.GetKey(KeyCode.A))
+                            transform.Rotate(Vector3.up, rotateby * Time.deltaTime);
+                        if (Input.GetKey(KeyCode.E))
+                            transform.Rotate(Vector3.back, rotateby * Time.deltaTime);
+                        if (Input.GetKey(KeyCode.Q))
+                            transform.Rotate(Vector3.forward, rotateby * Time.deltaTime);
 
-                    // SCALE
-                    if (Input.GetKey(KeyCode.Period))
-                        transform.localScale *= 1 + scaleby * Time.deltaTime;
-                    if (Input.GetKey(KeyCode.Comma))
-                        transform.localScale /= 1 + scaleby * Time.deltaTime;
+                        // SCALE
+                        if (Input.GetKey(KeyCode.Period))
+                            transform.localScale *= 1 + scaleby * Time.deltaTime;
+                        if (Input.GetKey(KeyCode.Comma))
+                            transform.localScale /= 1 + scaleby * Time.deltaTime;
+                    }
                 }
                 else
                 {
@@ -113,7 +116,7 @@ namespace SigmaReplacements
                     "enabled = " + debug
                 };
 
-                File.WriteAllLines("GameData/Sigma/Replacements/MenuScenes/Debug/" + name + ".txt", data);
+                File.WriteAllLines("GameData/Sigma/Replacements/MenuScenes/Debug/" + name + index + ".txt", data);
             }
 
             void Load()
@@ -122,7 +125,7 @@ namespace SigmaReplacements
 
                 if (Directory.Exists(path))
                 {
-                    if (File.Exists(path + name + ".txt"))
+                    if (File.Exists(path + name + index + ".txt"))
                     {
                         string[] data = File.ReadAllLines(path + name + ".txt");
 
@@ -151,9 +154,12 @@ namespace SigmaReplacements
 
             void Reset()
             {
-                transform.position = originalPosition;
-                transform.localRotation = originalRotation;
-                transform.localScale = originalScale;
+                if (debug)
+                {
+                    transform.position = originalPosition;
+                    transform.localRotation = originalRotation;
+                    transform.localScale = originalScale;
+                }
             }
         }
     }
