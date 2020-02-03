@@ -178,8 +178,7 @@ namespace SigmaReplacements
 
                     // Edit Physical Parameters
                     info.scale = info.scale ?? Vector3.one;
-                    float mult = (float)((cb?.Radius ?? 600000) / 600000);
-                    info.ApplyTo(body, 0.188336193561554f * mult);
+                    info.ApplyTo(body, 0.188336193561554f);
 
                     // Add Atmospheric Haze
                     if (haze != null)
