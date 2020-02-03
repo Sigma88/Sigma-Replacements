@@ -160,8 +160,7 @@ namespace SigmaReplacements
 
                     // Edit Physical Parameters
                     info.scale = info.scale ?? Vector3.one;
-                    float mult = (float)((cb?.Radius ?? 200000) / 200000);
-                    info.ApplyTo(body, 0.209560245275497f * mult);
+                    info.ApplyTo(body, 0.209560245275497f);
                 }
 
                 // CleanUp
