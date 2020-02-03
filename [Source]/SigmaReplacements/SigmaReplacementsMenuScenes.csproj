@@ -39,6 +39,7 @@
     <Compile Include="Common\DebugLogger.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />
+    <Compile Include="MenuScenes\Utility\Extensions.cs" />
     <Compile Include="MenuScenes\Utility\LiveDebug.cs" />
     <Compile Include="MenuScenes\Utility\PseudoRandom.cs" />
     <Compile Include="MenuScenes\CustomMenuScene.cs" />
