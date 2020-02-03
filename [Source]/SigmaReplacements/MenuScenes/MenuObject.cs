@@ -230,6 +230,7 @@ namespace SigmaReplacements
             Mesh Parse(string s, Mesh defaultValue)
             {
                 if (string.IsNullOrEmpty(s)) return defaultValue;
+                Debug.Log("Mesh.Parse", "Parsing mesh from string = " + s);
 
                 Mesh output = null;
 
@@ -237,22 +238,26 @@ namespace SigmaReplacements
                 {
                     string[] path = s.Split('/');
 
+                    Debug.Log("Mesh.Parse", "BUILTIN mesh. path.Length = " + path.Length);
                     if (path.Length > 1)
                     {
                         CelestialBody planet = FlightGlobals.Bodies.FirstOrDefault(b => b.transform.name == path[1]);
+                        Debug.Log("Mesh.Parse", "planet = " + planet);
 
                         if (path.Length > 4 && path[2] == "PQSLandControl" && path[3] == "scatters")
                         {
                             PQSLandControl landControl = planet?.pqsController?.GetComponentsInChildren<PQSLandControl>(true)?.FirstOrDefault();
+                            Debug.Log("Mesh.Parse", "landControl = " + landControl);
 
-                            for (int i = 0; i < landControl?.scatters?.Length; i++)
-                            {
-                                if (landControl.scatters[i].scatterName == path[4])
-                                {
-                                    output = landControl.scatters[i].baseMesh;
-                                    break;
-                                }
-                            }
+                            PQSLandControl.LandClassScatter scatter = landControl?.scatters?.FirstOrDefault(i => i.scatterName == path[4]);
+                            Debug.Log("Mesh.Parse", "scatter = " + scatter);
+
+                            Mesh mesh = scatter?.baseMesh;
+                            if (KopernicusFixer.detect)
+                                mesh = planet.GetModularScatterMesh(scatter);
+                            Debug.Log("Mesh.Parse", "mesh = " + mesh);
+
+                            output = mesh;
                         }
                         else if (path.Length > 3 && path[2] == "PQSCity")
                         {
@@ -295,6 +300,7 @@ namespace SigmaReplacements
                 else
                 {
                     output = Resources.FindObjectsOfTypeAll<Mesh>().FirstOrDefault(m => m.name == s);
+                    Debug.Log("Mesh.Parse", "mesh = " + output);
                 }
 
                 return output ?? defaultValue;
