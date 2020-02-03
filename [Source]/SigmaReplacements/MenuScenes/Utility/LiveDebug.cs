@@ -12,6 +12,7 @@ namespace SigmaReplacements
             bool debug = false;
 
             // Original values
+            internal int index = 0;
             Vector3 originalPosition;
             Quaternion originalRotation;
             Vector3 originalScale;

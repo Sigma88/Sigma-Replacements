@@ -242,7 +242,7 @@ namespace SigmaReplacements
                         if (!boulders[j].gameObject.activeSelf) continue;
 
                         // Debug
-                        if (Debug.debug) boulders[j].gameObject.AddOrGetComponent<LiveDebug>();
+                        if (Debug.debug) boulders[j].gameObject.AddOrGetComponent<LiveDebug>().index = j;
 
                         // Edit Body Position/Rotation/Scale
                         boulders[j].position += info[i].position ?? Vector3.zero;
