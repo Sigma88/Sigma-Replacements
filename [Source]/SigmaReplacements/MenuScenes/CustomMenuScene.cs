@@ -39,7 +39,7 @@ namespace SigmaReplacements
 
                 if (original != null)
                 {
-                    clone = (GameObject)Object.Instantiate(original, original?.transform?.parent, true);
+                    clone = Object.Instantiate(original, original?.transform?.parent, true);
                 }
 
                 return clone;

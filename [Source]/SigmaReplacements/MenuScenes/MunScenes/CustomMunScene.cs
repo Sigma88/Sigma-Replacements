@@ -365,31 +365,41 @@ namespace SigmaReplacements
                 // Get Stock Kerbal
                 Transform kerbals = scene?.GetChild("Kerbals")?.transform;
 
-                if (kerbals == null || kerbals.childCount != 1) return;
+                if (kerbals == null || kerbals.childCount < 1) return;
 
-                GameObject template = Instantiate(kerbals.GetChild(0).gameObject);
+                GameObject[] templates = new GameObject[] { Instantiate(kerbals.GetChild(0).gameObject), InstantiateFemale(kerbals.GetChild(0).gameObject) };
 
-                Debug.Log("EditKerbals", "template position = " + (Vector3d)template.transform.position);
-                Debug.Log("EditKerbals", "template rotation = " + (Vector3d)template.transform.eulerAngles);
-                Debug.Log("EditKerbals", "template scale = " + (Vector3d)template.transform.localScale);
+                if (Debug.debug)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Debug.Log("EditKerbals", "template[" + i + "] position = " + (Vector3d)templates[i].transform.position);
+                        Debug.Log("EditKerbals", "template[" + i + "] rotation = " + (Vector3d)templates[i].transform.eulerAngles);
+                        Debug.Log("EditKerbals", "template[" + i + "] scale = " + (Vector3d)templates[i].transform.localScale);
+                    }
+                }
 
                 for (int i = 0; i < info?.Length; i++)
                 {
                     GameObject kerbal;
 
                     // Clone or Select Stock newGuy
-                    if (i > 0 && info[i].enabled)
-                    {
-                        if (string.IsNullOrEmpty(info[i].name)) continue;
-
-                        kerbal = Instantiate(template);
-                        kerbal.name = info[i].name;
-                    }
-                    else if (i == 0)
+                    if (info[i].index == 0)
                     {
                         kerbal = kerbals.GetChild(0).gameObject;
                         kerbal.SetActive(info[i].enabled);
                         if (!info[i].enabled) continue;
+                    }
+                    else if (info[i].enabled)
+                    {
+                        if (string.IsNullOrEmpty(info[i].name)) continue;
+
+                        if (info[i].template == 1)
+                            kerbal = Instantiate(templates[1]);
+                        else
+                            kerbal = Instantiate(templates[0]);
+
+                        kerbal.name = info[i].name;
                     }
                     else
                     {
@@ -408,7 +418,10 @@ namespace SigmaReplacements
                 }
 
                 // CleanUp
-                Object.Destroy(template);
+                for (int i = 0; i < 2; i++)
+                {
+                    Object.DestroyImmediate(templates[i]);
+                }
             }
 
             MenuObject[] ParseBoulders(ConfigNode[] input)
@@ -433,6 +446,76 @@ namespace SigmaReplacements
                 }
 
                 return output?.Where(i => i.name != "boulder")?.ToArray();
+            }
+
+            GameObject InstantiateFemale(GameObject maleEVA)
+            {
+                GameObject[] scenes = Object.FindObjectOfType<MainMenu>()?.envLogic?.areas;
+
+                GameObject femaleEVA = Instantiate(maleEVA);
+                femaleEVA.name = "femaleEVA";
+                GameObject maleHead = femaleEVA.GetChild("head02");
+
+                GameObject valHead = Object.Instantiate(scenes[1].GetChild("mesh_female_kerbalAstronaut01_kerbalGirl_mesh_kerbalGirl_base"), maleHead.transform.parent);
+
+                valHead.SetActive(true);
+                valHead.transform.rotation = maleHead.transform.rotation;
+                valHead.transform.position = maleHead.transform.position;
+                maleHead.SetActive(false);
+
+                GameObject leftEye = null;
+                GameObject rightEye = null;
+
+                foreach (var renderer in valHead.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+                {
+                    if (renderer?.bones?.Length > 0)
+                    {
+                        var newBones = new Transform[renderer.bones.Length];
+
+                        for (int i = 0; i < renderer.bones.Length; i++)
+                        {
+                            newBones[i] = femaleEVA?.GetChild(renderer?.bones?[i]?.name)?.transform;
+
+                            if (newBones[i].name == "jntDrv_l_eye01")
+                            {
+                                if (leftEye == null)
+                                {
+                                    leftEye = new GameObject("jntDrv_l_eye01_pivot");
+                                    leftEye.transform.parent = newBones[i];
+                                    leftEye.transform.localPosition = Vector3.zero;
+                                    leftEye.transform.localEulerAngles = new Vector3(356, 11, 17);
+                                    leftEye.transform.localScale = Vector3.one;
+                                }
+                                newBones[i] = leftEye.transform;
+                            }
+
+                            if (newBones[i].name == "jntDrv_r_eye01")
+                            {
+                                if (rightEye == null)
+                                {
+                                    rightEye = new GameObject("jntDrv_r_eye01_pivot");
+                                    rightEye.transform.parent = newBones[i];
+                                    rightEye.transform.localPosition = Vector3.zero;
+                                    rightEye.transform.localEulerAngles = new Vector3(3, 348, 17);
+                                    rightEye.transform.localScale = Vector3.one;
+                                }
+                                newBones[i] = rightEye.transform;
+                            }
+                        }
+
+                        renderer.rootBone = femaleEVA?.GetChild(renderer?.rootBone?.name)?.transform;
+
+                        if (renderer?.rootBone?.name == "jntDrv_l_eye01")
+                            renderer.rootBone = leftEye.transform;
+
+                        if (renderer?.rootBone?.name == "jntDrv_r_eye01")
+                            renderer.rootBone = rightEye.transform;
+
+                        renderer.bones = newBones;
+                    }
+                }
+
+                return femaleEVA;
             }
         }
     }
