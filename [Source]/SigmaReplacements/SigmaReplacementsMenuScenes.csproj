@@ -34,13 +34,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Common\LiveDebug.cs" />
     <Compile Include="Common\UserSettings.cs" />
     <Compile Include="MenuScenes\SettingsLoader.cs" />
     <Compile Include="Common\DebugLogger.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />
     <Compile Include="MenuScenes\Utility\Extensions.cs" />
-    <Compile Include="MenuScenes\Utility\LiveDebug.cs" />
     <Compile Include="MenuScenes\Utility\PseudoRandom.cs" />
     <Compile Include="MenuScenes\CustomMenuScene.cs" />
     <Compile Include="MenuScenes\MenuObject.cs" />
