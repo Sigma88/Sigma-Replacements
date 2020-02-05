@@ -34,7 +34,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Common\LiveDebug.cs" />
+    <Compile Include="MenuScenes\Utility\LiveDebug.cs" />
     <Compile Include="Common\UserSettings.cs" />
     <Compile Include="MenuScenes\SettingsLoader.cs" />
     <Compile Include="Common\DebugLogger.cs" />
