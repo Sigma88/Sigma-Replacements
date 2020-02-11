@@ -11,28 +11,35 @@ namespace SigmaReplacements
     {
         internal static class FontLoader
         {
-            static Dictionary<string, KeyValuePair<Texture2D, TMP_Glyph[]>> AssetDictionary = new Dictionary<string, KeyValuePair<Texture2D, TMP_Glyph[]>>();
+            static Dictionary<string, FontComponents> AssetDictionary = new Dictionary<string, FontComponents>();
 
-            internal static void ChangeFont(this TextMeshPro text, string newFontName)
+            internal static void ChangeFont(this TextMeshPro text, string newFont)
             {
+                Debug.Log("ChangeFont", "text = " + text + ", newFont = " + newFont);
+
                 if (text?.font == null)
                     return;
 
-                if (text.font.name == newFontName)
+                Debug.Log("ChangeFont", "oldFont = " + text.font.name);
+
+                if (text.font.name == newFont)
                     return;
 
-                Texture2D Atlas = null;
-                TMP_Glyph[] Glyphs = null;
+                GetFontAssets(newFont, out Texture2D Atlas, out FaceInfo FontInfo, out TMP_Glyph[] Glyphs);
 
-                GetFontAssets(newFontName, out Atlas, out Glyphs);
+                Debug.Log("ChangeFont", "Atlas = " + Atlas + ", Glyphs = " + Glyphs?.Length);
 
                 if (Atlas != null && Glyphs?.Length > 0)
                 {
-                    TMP_FontAsset newFont = DuplicateFontAsset(text.font);
-                    newFont.atlas = Atlas;
-                    newFont.AddGlyphInfo(Glyphs);
-                    newFont.material.mainTexture = Atlas;
-                    text.font = newFont;
+                    TMP_FontAsset newFontAsset = DuplicateFontAsset(text.font);
+                    newFontAsset.name = newFont;
+                    newFontAsset.atlas = Atlas;
+                    newFontAsset.material.mainTexture = Atlas;
+                    newFontAsset.AddFaceInfo(FontInfo);
+                    newFontAsset.AddGlyphInfo(Glyphs);
+                    text.font = newFontAsset;
+
+                    Debug.Log("ChangeFont", "New Font = " + text.font.name);
                 }
             }
 
@@ -80,40 +87,44 @@ namespace SigmaReplacements
                 return m;
             }
 
-            static void GetFontAssets(string fontName, out Texture2D Atlas, out TMP_Glyph[] Glyphs)
+            static void GetFontAssets(string newFont, out Texture2D Atlas, out FaceInfo FontInfo, out TMP_Glyph[] Glyphs)
             {
                 Atlas = null;
+                FontInfo = null;
                 Glyphs = null;
 
-                if (AssetDictionary.ContainsKey(fontName))
+                if (AssetDictionary.ContainsKey(newFont))
                 {
-                    Atlas = AssetDictionary[fontName].Key;
-                    Glyphs = AssetDictionary[fontName].Value;
+                    Atlas = AssetDictionary[newFont].Atlas;
+                    FontInfo = AssetDictionary[newFont].FontInfo;
+                    Glyphs = AssetDictionary[newFont].Glyphs;
                 }
 
                 else
 
-                if (Resources.FindObjectsOfTypeAll<TMP_FontAsset>().FirstOrDefault(f => f.name == fontName) is TMP_FontAsset fontAsset)
+                if (Resources.FindObjectsOfTypeAll<TMP_FontAsset>().FirstOrDefault(f => f.name == newFont) is TMP_FontAsset fontAsset)
                 {
                     Atlas = fontAsset.atlas;
+                    FontInfo = fontAsset.fontInfo;
                     Glyphs = fontAsset.characterDictionary.Values.ToArray();
 
-                    AssetDictionary.Add(fontName, new KeyValuePair<Texture2D, TMP_Glyph[]>(Atlas, Glyphs));
+                    AssetDictionary.Add(newFont, new FontComponents(Atlas, FontInfo, Glyphs));
                 }
 
                 else
 
-                if (File.Exists(fontName))
+                if (File.Exists("GameData/" + newFont))
                 {
-                    FontFromStringArray(File.ReadAllLines(fontName), out Atlas, out Glyphs);
+                    FontFromStringArray(File.ReadAllLines("GameData/" + newFont), out Atlas, out FontInfo, out Glyphs);
 
-                    AssetDictionary.Add(fontName, new KeyValuePair<Texture2D, TMP_Glyph[]>(Atlas, Glyphs));
+                    AssetDictionary.Add(newFont, new FontComponents(Atlas, FontInfo, Glyphs));
                 }
             }
 
-            static void FontFromStringArray(string[] asset, out Texture2D Atlas, out TMP_Glyph[] Glyphs)
+            static void FontFromStringArray(string[] asset, out Texture2D Atlas, out FaceInfo FontInfo, out TMP_Glyph[] Glyphs)
             {
                 Atlas = null;
+                FontInfo = null;
                 Glyphs = null;
 
                 List<TMP_Glyph> GlyphsList = new List<TMP_Glyph>();
@@ -125,6 +136,11 @@ namespace SigmaReplacements
                         string hex = asset[i].Replace("  _typelessdata: ", "");
 
                         Atlas = TextureFromString(hex);
+                    }
+
+                    if (asset[i] == "  m_fontInfo:")
+                    {
+                        FontInfo = FaceInfoFromStringArray(asset, i);
                     }
 
                     if (Glyphs == null && asset[i].StartsWith("  - id:"))
@@ -194,6 +210,50 @@ namespace SigmaReplacements
                 };
 
                 return Glyph;
+            }
+
+            static FaceInfo FaceInfoFromStringArray(string[] asset, int i)
+            {
+                FaceInfo FontInfo = new FaceInfo
+                {
+                    Name = asset[i + 1].Split(':')[1],
+                    PointSize = float.Parse(asset[i + 2].Split(':')[1]),
+                    Scale = float.Parse(asset[i + 3].Split(':')[1]),
+                    CharacterCount = int.Parse(asset[i + 4].Split(':')[1]),
+                    LineHeight = float.Parse(asset[i + 5].Split(':')[1]),
+                    Baseline = float.Parse(asset[i + 6].Split(':')[1]),
+                    Ascender = float.Parse(asset[i + 7].Split(':')[1]),
+                    CapHeight = float.Parse(asset[i + 8].Split(':')[1]),
+                    Descender = float.Parse(asset[i + 9].Split(':')[1]),
+                    CenterLine = float.Parse(asset[i + 10].Split(':')[1]),
+                    SuperscriptOffset = float.Parse(asset[i + 11].Split(':')[1]),
+                    SubscriptOffset = float.Parse(asset[i + 12].Split(':')[1]),
+                    SubSize = float.Parse(asset[i + 13].Split(':')[1]),
+                    Underline = float.Parse(asset[i + 14].Split(':')[1]),
+                    UnderlineThickness = float.Parse(asset[i + 15].Split(':')[1]),
+                    strikethrough = float.Parse(asset[i + 16].Split(':')[1]),
+                    strikethroughThickness = float.Parse(asset[i + 17].Split(':')[1]),
+                    TabWidth = float.Parse(asset[i + 18].Split(':')[1]),
+                    Padding = float.Parse(asset[i + 19].Split(':')[1]),
+                    AtlasWidth = float.Parse(asset[i + 20].Split(':')[1]),
+                    AtlasHeight = float.Parse(asset[i + 21].Split(':')[1])
+                };
+
+                return FontInfo;
+            }
+        }
+
+        internal class FontComponents
+        {
+            internal Texture2D Atlas;
+            internal FaceInfo FontInfo;
+            internal TMP_Glyph[] Glyphs;
+
+            internal FontComponents(Texture2D Atlas, FaceInfo FontInfo, TMP_Glyph[] Glyphs)
+            {
+                this.Atlas = Atlas;
+                this.FontInfo = FontInfo;
+                this.Glyphs = Glyphs;
             }
         }
     }

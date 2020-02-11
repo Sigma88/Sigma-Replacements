@@ -1,6 +1,5 @@
-using System.IO;
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 
 namespace SigmaReplacements
@@ -13,9 +12,16 @@ namespace SigmaReplacements
             internal Color? normalColor = null;
             internal Color? hoverColor = null;
             internal Color? downColor = null;
+            internal Color? disabledColor = null;
+
+            // Border
+            internal float? borderSize = null;
+            internal Color? borderColor = null;
 
             // Text
             internal string text = null;
+            internal string font = null;
+            internal float? fontSize = null;
 
             // Vectors
             internal Vector3? position = null;
@@ -69,10 +75,18 @@ namespace SigmaReplacements
                                 normalColor = normalColor ?? info.normalColor;
                                 hoverColor = hoverColor ?? info.hoverColor;
                                 downColor = downColor ?? info.downColor;
+                                disabledColor = disabledColor ?? info.disabledColor;
+
+                                // Border
+                                borderSize = borderSize ?? info.borderSize;
+                                borderColor = borderColor ?? info.borderColor;
 
                                 // Text
                                 if (string.IsNullOrEmpty(text))
                                     text = info.text;
+                                if (string.IsNullOrEmpty(font))
+                                    font = info.font;
+                                fontSize = fontSize ?? info.fontSize;
 
                                 // Vectors
                                 position = position ?? info.position;
@@ -100,6 +114,13 @@ namespace SigmaReplacements
                     if (!string.IsNullOrEmpty(text))
                         mesh.text = text;
 
+                    if (!string.IsNullOrEmpty(font))
+                        mesh.ChangeFont(font);
+
+                    mesh.fontSize = fontSize ?? mesh.fontSize;
+                    mesh.outlineWidth = borderSize ?? mesh.outlineWidth;
+                    mesh.outlineColor = borderColor ?? mesh.outlineColor;
+
                     TextProButton3D button = GetComponent<TextProButton3D>();
                     Debug.Log("CustomMenuButton.ApplyTo", "button = " + button);
 
@@ -112,6 +133,7 @@ namespace SigmaReplacements
                         button.normalColor = normalColor ?? button.normalColor;
                         button.hoverColor = hoverColor ?? button.hoverColor;
                         button.downColor = downColor ?? button.downColor;
+                        button.disabledColor = disabledColor ?? (normalColor.HasValue ? normalColor.Value * 0.5f : button.disabledColor);
 
                         button.OnMouseExit();
                     }

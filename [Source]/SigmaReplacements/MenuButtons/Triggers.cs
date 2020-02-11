@@ -19,6 +19,19 @@ namespace SigmaReplacements
 
                     for (int i = 0; i < meshes.Length; i++)
                     {
+                        if (MenuButtonInfo.Templates.ContainsKey(meshes[i].name))
+                        {
+                            TextMeshPro mesh = meshes[i];
+                            GameObject template = Instantiate(mesh.gameObject, mesh.transform.parent, worldPositionStays: true);
+                            template.name = MenuButtonInfo.Templates[mesh.name];
+                            continue;
+                        }
+                    }
+
+                    meshes = Resources.FindObjectsOfTypeAll<TextMeshPro>();
+
+                    for (int i = 0; i < meshes.Length; i++)
+                    {
                         meshes[i].gameObject.AddOrGetComponent<CustomMenuButton>();
                     }
 

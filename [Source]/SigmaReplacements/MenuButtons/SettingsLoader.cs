@@ -20,7 +20,10 @@ namespace SigmaReplacements
                         MenuButtonInfo.List.Add(new MenuButtonInfo(InfoNodes[i]));
                     }
 
-                    if (MenuButtonInfo.List?.Count > 0) MenuButtonInfo.DataBase = MenuButtonInfo.List.Order();
+                    if (MenuButtonInfo.List?.Count > 0)
+                    {
+                        MenuButtonInfo.DataBase = MenuButtonInfo.List.Order();
+                    }
                 }
             }
         }
