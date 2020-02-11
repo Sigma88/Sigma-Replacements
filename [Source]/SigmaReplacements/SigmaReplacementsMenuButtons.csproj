@@ -40,6 +40,7 @@
     <Compile Include="MenuButtons\Buttons\CustomMenuButton.cs" />
     <Compile Include="MenuButtons\Buttons\NyanMenuButtons.cs" />
     <Compile Include="MenuButtons\Properties\AssemblyInfo.cs" />
+    <Compile Include="MenuButtons\Utility\LiveDebug.cs" />
     <Compile Include="MenuButtons\Version.cs" />
     <Compile Include="Common\UserSettings.cs" />
     <Compile Include="MenuButtons\SettingsLoader.cs" />

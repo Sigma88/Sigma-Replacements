@@ -1,10 +1,11 @@
 ﻿using System.IO;
 using UnityEngine;
+using TMPro;
 
 
 namespace SigmaReplacements
 {
-    namespace MenuScenes
+    namespace MenuButtons
     {
         internal class LiveDebug : MonoBehaviour
         {
@@ -30,7 +31,7 @@ namespace SigmaReplacements
                 originalScale = transform.localScale;
 
                 // Settings
-                moveby = 500;
+                moveby = 1;
                 rotateby = 50;
                 scaleby = 0.5f;
 
@@ -103,49 +104,83 @@ namespace SigmaReplacements
 
             void Save()
             {
-                Directory.CreateDirectory("GameData/Sigma/Replacements/MenuScenes/Debug/");
+                Directory.CreateDirectory("GameData/Sigma/Replacements/MenuButtons/Debug/");
 
-                string[] data = new string[]
+                ConfigNode SaveData = new ConfigNode("LiveDebug");
+
+                SaveData.AddValue("enabled", debug);
+                SaveData.AddValue("position", transform.position);
+                SaveData.AddValue("rotation", transform.localEulerAngles);
+                SaveData.AddValue("scale", transform.localScale);
+                SaveData.AddValue("moveby", moveby);
+                SaveData.AddValue("rotateby", rotateby);
+                SaveData.AddValue("scaleby", scaleby);
+
+                TextMeshPro mesh = GetComponent<TextMeshPro>();
+
+                if (mesh != null)
                 {
-                    "position = " + transform.position.x + ", "+ transform.position.y + ", "+ transform.position.z,
-                    "rotation = " + transform.localEulerAngles.x + ", "+ transform.localEulerAngles.y + ", "+ transform.localEulerAngles.z,
-                    "scale = " + transform.localScale.x + ", "+ transform.localScale.y + ", "+ transform.localScale.z,
-                    "moveby = " + moveby,
-                    "rotateby = " + rotateby,
-                    "scaleby = " + scaleby,
-                    "enabled = " + debug
-                };
+                    SaveData.AddValue("text", mesh.text);
+                    SaveData.AddValue("font", mesh.font.name);
+                    SaveData.AddValue("fontSize", mesh.fontSize);
+                    SaveData.AddValue("borderSize", mesh.outlineWidth);
+                    SaveData.AddValue("borderColor", (Color)mesh.outlineColor);
+                    SaveData.AddValue("normalColor", mesh.color);
+                }
 
-                File.WriteAllLines("GameData/Sigma/Replacements/MenuScenes/Debug/" + name + index + ".txt", data);
+                TextProButton3D button = GetComponent<TextProButton3D>();
+
+                if (button != null)
+                {
+                    SaveData.RemoveValue("normalColor");
+                    SaveData.AddValue("normalColor", button.normalColor);
+                    SaveData.AddValue("hoverColor", button.hoverColor);
+                    SaveData.AddValue("downColor", button.downColor);
+                    SaveData.AddValue("disabledColor", button.disabledColor);
+                }
+
+                SaveData.Save("GameData/Sigma/Replacements/MenuButtons/Debug/" + name + index + ".txt");
             }
 
             void Load()
             {
-                string path = "GameData/Sigma/Replacements/MenuScenes/Debug/";
+                string path = "GameData/Sigma/Replacements/MenuButtons/Debug/";
 
                 if (Directory.Exists(path))
                 {
                     if (File.Exists(path + name + index + ".txt"))
                     {
-                        string[] data = File.ReadAllLines(path + name + index + ".txt");
+                        ConfigNode LoadData = ConfigNode.Load(path + name + index + ".txt");
 
-                        if (bool.TryParse(data[6].Replace("enabled", "").Replace("=", ""), out debug) && debug)
+                        if (bool.TryParse(LoadData.GetValue("enabled"), out debug) && debug)
                         {
-                            transform.position = ConfigNode.ParseVector3(data[0].Replace("position", "").Replace("=", ""));
-                            transform.localEulerAngles = ConfigNode.ParseVector3(data[1].Replace("rotation", "").Replace("=", ""));
-                            transform.localScale = ConfigNode.ParseVector3(data[2].Replace("scale", "").Replace("=", ""));
+                            transform.position = ConfigNode.ParseVector3(LoadData.GetValue("position"));
+                            transform.localEulerAngles = ConfigNode.ParseVector3(LoadData.GetValue("rotation"));
+                            transform.localScale = ConfigNode.ParseVector3(LoadData.GetValue("scale"));
+                            moveby = float.Parse(LoadData.GetValue("moveby"));
+                            rotateby = float.Parse(LoadData.GetValue("rotateby"));
+                            scaleby = float.Parse(LoadData.GetValue("scaleby"));
 
-                            if (float.TryParse(data[3].Replace("moveby", "").Replace("=", ""), out float move))
+                            TextMeshPro mesh = GetComponent<TextMeshPro>();
+
+                            if (mesh != null)
                             {
-                                moveby = move;
+                                mesh.text = LoadData.GetValue("text");
+                                mesh.font.name = LoadData.GetValue("font");
+                                mesh.fontSize = float.Parse(LoadData.GetValue("fontSize"));
+                                mesh.outlineWidth = float.Parse(LoadData.GetValue("borderSize"));
+                                mesh.outlineColor = ConfigNode.ParseColor(LoadData.GetValue("borderColor"));
+                                mesh.color = ConfigNode.ParseColor(LoadData.GetValue("normalColor"));
                             }
-                            if (float.TryParse(data[4].Replace("rotateby", "").Replace("=", ""), out float rotate))
+
+                            TextProButton3D button = GetComponent<TextProButton3D>();
+
+                            if (button != null)
                             {
-                                rotateby = rotate;
-                            }
-                            if (float.TryParse(data[5].Replace("scaleby", "").Replace("=", ""), out float scale))
-                            {
-                                scaleby = scale;
+                                button.normalColor = ConfigNode.ParseColor(LoadData.GetValue("normalColor"));
+                                button.hoverColor = ConfigNode.ParseColor(LoadData.GetValue("hoverColor"));
+                                button.downColor = ConfigNode.ParseColor(LoadData.GetValue("downColor"));
+                                button.disabledColor = ConfigNode.ParseColor(LoadData.GetValue("disabledColor"));
                             }
                         }
                     }
