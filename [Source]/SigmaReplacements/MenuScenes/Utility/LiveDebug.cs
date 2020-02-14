@@ -30,7 +30,7 @@ namespace SigmaReplacements
                 originalScale = transform.localScale;
 
                 // Settings
-                moveby = 500;
+                moveby = 1;
                 rotateby = 50;
                 scaleby = 0.5f;
 
@@ -117,6 +117,21 @@ namespace SigmaReplacements
                 };
 
                 File.WriteAllLines("GameData/Sigma/Replacements/MenuScenes/Debug/" + name + index + ".txt", data);
+
+                Bobber bobber = transform.GetComponent<Bobber>();
+
+                if (bobber?.enabled == false)
+                {
+                    float[] values = new float[] { bobber.ofs1, bobber.ofs2, bobber.ofs3, bobber.seed };
+
+                    DestroyImmediate(bobber);
+
+                    bobber = gameObject.AddComponent<Bobber>();
+                    bobber.ofs1 = values[0];
+                    bobber.ofs2 = values[1];
+                    bobber.ofs3 = values[2];
+                    bobber.seed = values[3];
+                }
             }
 
             void Load()
@@ -131,6 +146,12 @@ namespace SigmaReplacements
 
                         if (bool.TryParse(data[6].Replace("enabled", "").Replace("=", ""), out debug) && debug)
                         {
+                            Bobber bobber = transform.GetComponent<Bobber>();
+                            if (bobber != null)
+                            {
+                                bobber.enabled = false;
+                            }
+
                             transform.position = ConfigNode.ParseVector3(data[0].Replace("position", "").Replace("=", ""));
                             transform.localEulerAngles = ConfigNode.ParseVector3(data[1].Replace("rotation", "").Replace("=", ""));
                             transform.localScale = ConfigNode.ParseVector3(data[2].Replace("scale", "").Replace("=", ""));
@@ -159,6 +180,12 @@ namespace SigmaReplacements
                     transform.position = originalPosition;
                     transform.localRotation = originalRotation;
                     transform.localScale = originalScale;
+
+                    Bobber bobber = transform.GetComponent<Bobber>();
+                    if (bobber != null)
+                    {
+                        bobber.enabled = false;
+                    }
                 }
             }
         }
