@@ -5,6 +5,17 @@ namespace SigmaReplacements
 {
     namespace MenuScenes
     {
+        internal class FlareFixer : MonoBehaviour
+        {
+            internal MenuObject info;
+            internal CelestialBody template;
+
+            void Awake()
+            {
+                StartCoroutine(CallbackUtil.DelayedCallback(1, () => info.AddFlare(gameObject, template)));
+            }
+        }
+
         internal class FlareCamera : MonoBehaviour
         {
             internal LensFlare flare;

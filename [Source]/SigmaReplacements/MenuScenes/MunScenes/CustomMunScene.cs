@@ -179,7 +179,9 @@ namespace SigmaReplacements
                         info.AddCoronas(body, template);
 
                         // Flare
-                        info.AddFlare(body, template);
+                        FlareFixer flare = body.AddComponent<FlareFixer>();
+                        flare.template = cb;
+                        flare.info = info;
                     }
 
                     // Edit Physical Parameters

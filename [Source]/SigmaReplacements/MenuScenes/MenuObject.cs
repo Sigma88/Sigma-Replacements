@@ -249,7 +249,7 @@ namespace SigmaReplacements
             }
 
             // SunFlare
-            internal void AddFlare(GameObject body, GameObject template)
+            internal void AddFlare(GameObject body, CelestialBody template)
             {
                 SunFlare[] flares = Resources.FindObjectsOfTypeAll<SunFlare>();
 
@@ -258,7 +258,7 @@ namespace SigmaReplacements
                     // Flare
                     SunFlare flare = flares[i];
 
-                    if (flare.enabled && flare.sun.transform.name == template.transform.name)
+                    if (flare.enabled && flare.sun == template)
                     {
                         // Disable the original SunFlare component
                         flare.enabled = false;
@@ -298,6 +298,7 @@ namespace SigmaReplacements
 
                         // Activate LensFlare
                         lensFlare.gameObject.SetActive(true);
+                        lensFlare.enabled = true;
 
                         return;
                     }
