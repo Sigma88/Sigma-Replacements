@@ -411,9 +411,19 @@ namespace SigmaReplacements
 
                     // Remove Helmet
                     GameObject helmet = kerbal?.GetChild("helmet01");
-                    if (helmet != null)
+                    if (helmet != null && info[i].removeHelmet)
                     {
-                        helmet.SetActive(!info[i].removeHelmet);
+                        helmet.SetActive(false);
+
+                        MenuRandomKerbalAnims mrka = kerbal.GetComponent<MenuRandomKerbalAnims>();
+                        if (mrka != null)
+                        {
+                            List<string> list = mrka.anims.ToList();
+                            if (list.Remove("idle_c"))
+                            {
+                                mrka.anims = list.ToArray();
+                            }
+                        }
                     }
                 }
 
