@@ -260,9 +260,6 @@ namespace SigmaReplacements
 
                     if (flare.enabled && flare.sun.transform.name == template.transform.name)
                     {
-                        // Add FlareRemover component
-                        flare.sunFlare.gameObject.AddOrGetComponent<FlareRemover>();
-
                         // Disable the original SunFlare component
                         flare.enabled = false;
 
@@ -273,6 +270,9 @@ namespace SigmaReplacements
 
                         // Disable the clone
                         lensFlare.gameObject.SetActive(false);
+
+                        // Add FlareRemover component to the real flare
+                        flare.sunFlare.gameObject.AddOrGetComponent<FlareRemover>();
 
                         // Remove SunFlare component from the clone
                         Object.DestroyImmediate(lensFlare.GetComponent<SunFlare>());
@@ -288,11 +288,10 @@ namespace SigmaReplacements
                         // Change LensFlare rotation
                         lensFlare.transform.rotation = Quaternion.LookRotation(Camera.main.transform.position - GameObject.Find("NewBody_Sun").transform.position, Vector3.up);
 
-                        // Set the brightness
-                        lensFlare.brightness = brightness ?? lensFlare.brightness;
-
-                        // Add FlareMover and FlareCamera components
-                        lensFlare.gameObject.AddOrGetComponent<FlareCamera>();
+                        // Add FlareCamera component
+                        FlareCamera camera = body.AddOrGetComponent<FlareCamera>();
+                        camera.maxBrightness = brightness ?? lensFlare.brightness;
+                        camera.flare = lensFlare;
 
                         // Re-enable the original SunFlare component
                         flare.enabled = true;

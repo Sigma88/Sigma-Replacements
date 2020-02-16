@@ -7,29 +7,14 @@ namespace SigmaReplacements
     {
         internal class FlareCamera : MonoBehaviour
         {
-            LensFlare flare;
-            bool hidden = false;
+            internal LensFlare flare;
             internal float maxBrightness;
+
+            bool hidden = false;
             static int layerMask = 1 << 00 | 1 << 01 | 1 << 02 | 1 << 03 | 1 << 04 | 1 << 05 | 1 << 06 | 1 << 07 | 1 << 08 | 1 << 09 |
                                    1 << 10 | 1 << 11 | 1 << 12 | 1 << 13 | 1 << 14 | 1 << 15 | 1 << 16 | 1 << 17 | 1 << 18 | 1 << 19 |
                                    1 << 20 | 1 << 21 | 1 << 22 | 1 << 23 | 1 << 24 | 1 << 25 | 1 << 26 | 1 << 27 | 1 << 28 | 1 << 29 |
                                    1 << 30 | 1 << 31;
-
-            void Start()
-            {
-                Debug.Log("FlareCamera.Start");
-
-                flare = GetComponent<LensFlare>();
-                maxBrightness = flare.brightness;
-
-                Debug.Log("FlareCamera.Start", "maxBrightness = " + maxBrightness);
-
-                FlareRemover remover = GetComponent<FlareRemover>();
-                if (remover != null)
-                {
-                    DestroyImmediate(remover);
-                }
-            }
 
             void Update()
             {
@@ -94,8 +79,8 @@ namespace SigmaReplacements
                     if (Camera.main?.transform != null)
                         line.SetPosition(0, Camera.main.transform.position + Camera.main.transform.forward.normalized);
 
-                    if (transform != null)
-                        line.SetPosition(1, transform.forward.normalized * -5000);
+                    if (flare.transform != null)
+                        line.SetPosition(1, flare.transform.forward.normalized * -5000);
 
                     line.startColor = line.endColor = hidden ? Color.red : Color.green;
                 }
