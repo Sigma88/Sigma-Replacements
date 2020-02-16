@@ -115,9 +115,9 @@ namespace SigmaReplacements
                 SaveData.AddValue("rotation", transform.localEulerAngles);
                 SaveData.AddValue("scale", transform.localScale);
 
-                if (GetComponent<FlareMover>() is FlareMover mover)
+                if (GetComponent<FlareCamera>() is FlareCamera flare)
                 {
-                    SaveData.AddValue("brightness", mover.flare.maxBrightness);
+                    SaveData.AddValue("brightness", flare.maxBrightness);
                 }
                 if (GetComponent<Bobber>() is Bobber bobber)
                 {
@@ -156,10 +156,9 @@ namespace SigmaReplacements
                             transform.localEulerAngles = ConfigNode.ParseVector3(LoadData.GetValue("rotation"));
                             transform.localScale = ConfigNode.ParseVector3(LoadData.GetValue("scale"));
 
-                            if (GetComponent<FlareMover>() is FlareMover mover)
+                            if (GetComponent<FlareCamera>() is FlareCamera flare)
                             {
-                                mover.enabled = true;
-                                mover.flare.maxBrightness = float.Parse(LoadData.GetValue("brightness"));
+                                flare.maxBrightness = float.Parse(LoadData.GetValue("brightness"));
                             }
                             if (GetComponent<Bobber>() is Bobber bobber)
                             {
@@ -168,10 +167,6 @@ namespace SigmaReplacements
                         }
                         else
                         {
-                            if (GetComponent<FlareMover>() is FlareMover mover)
-                            {
-                                mover.enabled = false;
-                            }
                             if (GetComponent<Bobber>() is Bobber bobber)
                             {
                                 float[] values = new float[] { bobber.ofs1, bobber.ofs2, bobber.ofs3, bobber.seed };
@@ -203,21 +198,6 @@ namespace SigmaReplacements
                         bobber.enabled = false;
                     }
                 }
-            }
-        }
-
-        internal class FlareMover : MonoBehaviour
-        {
-            internal FlareCamera flare;
-
-            void Awake()
-            {
-                enabled = false;
-            }
-
-            void Update()
-            {
-                flare.transform.rotation = Quaternion.LookRotation(Camera.main.transform.position - transform.position);
             }
         }
     }

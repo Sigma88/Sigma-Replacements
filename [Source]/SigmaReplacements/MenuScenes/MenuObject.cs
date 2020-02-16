@@ -292,7 +292,7 @@ namespace SigmaReplacements
                         lensFlare.brightness = brightness ?? lensFlare.brightness;
 
                         // Add FlareMover and FlareCamera components
-                        body.AddOrGetComponent<FlareMover>().flare = lensFlare.gameObject.AddOrGetComponent<FlareCamera>();
+                        lensFlare.gameObject.AddOrGetComponent<FlareCamera>();
 
                         // Re-enable the original SunFlare component
                         flare.enabled = true;

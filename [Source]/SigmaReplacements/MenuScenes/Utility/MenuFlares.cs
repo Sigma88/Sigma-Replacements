@@ -31,6 +31,11 @@ namespace SigmaReplacements
                 }
             }
 
+            void Update()
+            {
+                flare.transform.rotation = Quaternion.LookRotation(Camera.main.transform.position - transform.position);
+            }
+
             void LateUpdate()
             {
                 CheckHidden();
