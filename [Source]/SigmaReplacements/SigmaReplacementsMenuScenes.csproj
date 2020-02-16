@@ -41,6 +41,7 @@
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />
     <Compile Include="MenuScenes\Utility\Extensions.cs" />
+    <Compile Include="MenuScenes\Utility\MenuFlares.cs" />
     <Compile Include="MenuScenes\Utility\PseudoRandom.cs" />
     <Compile Include="MenuScenes\CustomMenuScene.cs" />
     <Compile Include="MenuScenes\MenuObject.cs" />
@@ -70,6 +71,10 @@
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainModule">
       <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.TerrainModule.dll</HintPath>
