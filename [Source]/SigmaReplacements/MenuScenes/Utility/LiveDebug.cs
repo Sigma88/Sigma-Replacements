@@ -105,22 +105,17 @@ namespace SigmaReplacements
             {
                 Directory.CreateDirectory("GameData/Sigma/Replacements/MenuScenes/Debug/");
 
-                string[] data = new string[]
-                {
-                    "position = " + transform.position.x + ", "+ transform.position.y + ", "+ transform.position.z,
-                    "rotation = " + transform.localEulerAngles.x + ", "+ transform.localEulerAngles.y + ", "+ transform.localEulerAngles.z,
-                    "scale = " + transform.localScale.x + ", "+ transform.localScale.y + ", "+ transform.localScale.z,
-                    "moveby = " + moveby,
-                    "rotateby = " + rotateby,
-                    "scaleby = " + scaleby,
-                    "enabled = " + debug
-                };
+                ConfigNode SaveData = new ConfigNode("SaveData");
 
-                File.WriteAllLines("GameData/Sigma/Replacements/MenuScenes/Debug/" + name + index + ".txt", data);
-
-                Bobber bobber = transform.GetComponent<Bobber>();
-
-                if (bobber?.enabled == false)
+                SaveData.AddValue("enabled", debug);
+                SaveData.AddValue("moveby", moveby);
+                SaveData.AddValue("rotateby", rotateby);
+                SaveData.AddValue("scaleby", scaleby);
+                SaveData.AddValue("position", transform.position);
+                SaveData.AddValue("rotation", transform.localEulerAngles);
+                SaveData.AddValue("scale", transform.localScale);
+                
+                if (GetComponent<Bobber>() is Bobber bobber)
                 {
                     float[] values = new float[] { bobber.ofs1, bobber.ofs2, bobber.ofs3, bobber.seed };
 
@@ -132,6 +127,8 @@ namespace SigmaReplacements
                     bobber.ofs3 = values[2];
                     bobber.seed = values[3];
                 }
+
+                SaveData.Save("GameData/Sigma/Replacements/MenuScenes/Debug/" + name + index + ".txt");
             }
 
             void Load()
@@ -140,33 +137,39 @@ namespace SigmaReplacements
 
                 if (Directory.Exists(path))
                 {
-                    if (File.Exists(path + name + index + ".txt"))
-                    {
-                        string[] data = File.ReadAllLines(path + name + index + ".txt");
+                    path += name + index + ".txt";
 
-                        if (bool.TryParse(data[6].Replace("enabled", "").Replace("=", ""), out debug) && debug)
+                    if (File.Exists(path))
+                    {
+                        ConfigNode LoadData = ConfigNode.Load(path);
+
+                        if (bool.TryParse(LoadData.GetValue("enabled"), out debug) && debug)
                         {
-                            Bobber bobber = transform.GetComponent<Bobber>();
-                            if (bobber != null)
+                            moveby = float.Parse(LoadData.GetValue("moveby"));
+                            rotateby = float.Parse(LoadData.GetValue("rotateby"));
+                            scaleby = float.Parse(LoadData.GetValue("scaleby"));
+                            transform.position = ConfigNode.ParseVector3(LoadData.GetValue("position"));
+                            transform.localEulerAngles = ConfigNode.ParseVector3(LoadData.GetValue("rotation"));
+                            transform.localScale = ConfigNode.ParseVector3(LoadData.GetValue("scale"));
+                            
+                            if (GetComponent<Bobber>() is Bobber bobber)
                             {
                                 bobber.enabled = false;
                             }
+                        }
+                        else
+                        {
+                            if (GetComponent<Bobber>() is Bobber bobber)
+                            {
+                                float[] values = new float[] { bobber.ofs1, bobber.ofs2, bobber.ofs3, bobber.seed };
 
-                            transform.position = ConfigNode.ParseVector3(data[0].Replace("position", "").Replace("=", ""));
-                            transform.localEulerAngles = ConfigNode.ParseVector3(data[1].Replace("rotation", "").Replace("=", ""));
-                            transform.localScale = ConfigNode.ParseVector3(data[2].Replace("scale", "").Replace("=", ""));
+                                DestroyImmediate(bobber);
 
-                            if (float.TryParse(data[3].Replace("moveby", "").Replace("=", ""), out float move))
-                            {
-                                moveby = move;
-                            }
-                            if (float.TryParse(data[4].Replace("rotateby", "").Replace("=", ""), out float rotate))
-                            {
-                                rotateby = rotate;
-                            }
-                            if (float.TryParse(data[5].Replace("scaleby", "").Replace("=", ""), out float scale))
-                            {
-                                scaleby = scale;
+                                bobber = gameObject.AddComponent<Bobber>();
+                                bobber.ofs1 = values[0];
+                                bobber.ofs2 = values[1];
+                                bobber.ofs3 = values[2];
+                                bobber.seed = values[3];
                             }
                         }
                     }
