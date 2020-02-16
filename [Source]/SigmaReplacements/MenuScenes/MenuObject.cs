@@ -36,6 +36,7 @@ namespace SigmaReplacements
             internal Texture normal1 = null;
             internal Texture normal2 = null;
 
+            internal float? brightness = null;
 
             // Movements
             internal float? rotatoSpeed = null;
@@ -95,6 +96,7 @@ namespace SigmaReplacements
                 texture2 = Parse(node.GetValue("texture2"), texture2);
                 normal1 = Parse(node.GetValue("normal1"), normal1);
                 normal2 = Parse(node.GetValue("normal2"), normal2);
+                brightness = Parse(node.GetValue("brightness"), brightness);
 
 
                 // Movements
@@ -243,6 +245,63 @@ namespace SigmaReplacements
                     cloneCorona.transform.localRotation = corona.transform.localRotation;
                     cloneCorona.transform.localScale = corona.transform.localScale;
                     cloneCorona.SetLayerRecursive(15);
+                }
+            }
+
+            // SunFlare
+            internal void AddFlare(GameObject body, GameObject template)
+            {
+                SunFlare[] flares = Resources.FindObjectsOfTypeAll<SunFlare>();
+
+                for (int i = 0; i < flares?.Length; i++)
+                {
+                    // Flare
+                    SunFlare flare = flares[i];
+
+                    if (flare.enabled && flare.sun.transform.name == template.transform.name)
+                    {
+                        // Add FlareRemover component
+                        flare.sunFlare.gameObject.AddOrGetComponent<FlareRemover>();
+
+                        // Disable the original SunFlare component
+                        flare.enabled = false;
+
+                        // Instantiate LensFlare
+                        int oldDelegates = Camera.onPreCull?.GetInvocationList()?.Length ?? 0;              // KopernicusSunFlare compatibility
+
+                        LensFlare lensFlare = Object.Instantiate(flare.sunFlare);
+
+                        // Disable the clone
+                        lensFlare.gameObject.SetActive(false);
+
+                        // Remove SunFlare component from the clone
+                        Object.DestroyImmediate(lensFlare.GetComponent<SunFlare>());
+
+                        System.Delegate[] newDelegates = Camera.onPreCull?.GetInvocationList();             // KopernicusSunFlare compatibility
+                        if (newDelegates?.Length == oldDelegates + 1)                                       // KopernicusSunFlare compatibility
+                            Camera.onPreCull -= (Camera.CameraCallback)newDelegates[oldDelegates];          // KopernicusSunFlare compatibility
+
+                        // Reposition the GameObject
+                        lensFlare.transform.SetParent(flare.transform.parent);
+                        lensFlare.transform.position = flare.transform.position;
+
+                        // Change LensFlare rotation
+                        lensFlare.transform.rotation = Quaternion.LookRotation(Camera.main.transform.position - GameObject.Find("NewBody_Sun").transform.position, Vector3.up);
+
+                        // Set the brightness
+                        lensFlare.brightness = brightness ?? lensFlare.brightness;
+
+                        // Add FlareMover and FlareCamera components
+                        body.AddOrGetComponent<FlareMover>().flare = lensFlare.gameObject.AddOrGetComponent<FlareCamera>();
+
+                        // Re-enable the original SunFlare component
+                        flare.enabled = true;
+
+                        // Activate LensFlare
+                        lensFlare.gameObject.SetActive(true);
+
+                        return;
+                    }
                 }
             }
 

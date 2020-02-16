@@ -90,6 +90,9 @@ namespace SigmaReplacements
 
                     // Coronas
                     info.AddCoronas(planet, template);
+
+                    // Flare
+                    info.AddFlare(planet, template);
                 }
 
                 info.ApplyTo(planet, 1.4987610578537f);
@@ -157,6 +160,9 @@ namespace SigmaReplacements
 
                         // Coronas
                         info.AddCoronas(body, template);
+
+                        // Flare
+                        info.AddFlare(body, template);
                     }
 
                     // Edit Textures

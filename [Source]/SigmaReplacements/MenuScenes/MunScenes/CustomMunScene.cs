@@ -177,6 +177,9 @@ namespace SigmaReplacements
 
                         // Coronas
                         info.AddCoronas(body, template);
+
+                        // Flare
+                        info.AddFlare(body, template);
                     }
 
                     // Edit Physical Parameters
