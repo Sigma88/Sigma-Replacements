@@ -176,7 +176,7 @@ namespace SigmaReplacements
                         meshFilter.mesh = template?.GetComponent<MeshFilter>()?.mesh ?? meshFilter.mesh;
 
                         // Coronas
-                        AddCoronas(body, template);
+                        info.AddCoronas(body, template);
                     }
 
                     // Edit Physical Parameters

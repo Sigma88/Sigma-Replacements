@@ -11,24 +11,6 @@ namespace SigmaReplacements
             {
             }
 
-            protected void AddCoronas(GameObject template, GameObject body)
-            {
-                SunCoronas[] coronas = template.GetComponentsInChildren<SunCoronas>();
-
-                for (int i = 0; i < coronas.Length; i++)
-                {
-                    GameObject corona = coronas[i].gameObject;
-                    GameObject cloneCorona = Instantiate(corona.gameObject);
-                    
-                    cloneCorona.name = corona.name;
-                    cloneCorona.transform.SetParent(body.transform);
-                    cloneCorona.transform.localPosition = corona.transform.localPosition;
-                    cloneCorona.transform.localRotation = corona.transform.localRotation;
-                    cloneCorona.transform.localScale = corona.transform.localScale;
-                    cloneCorona.SetLayerRecursive(15);
-                }
-            }
-
             protected MenuObject Parse(ConfigNode node, MenuObject defaultValue)
             {
                 if (node != null)

@@ -87,9 +87,9 @@ namespace SigmaReplacements
                     // Mesh
                     MeshFilter meshFilter = planet.GetComponent<MeshFilter>();
                     meshFilter.mesh = template?.GetComponent<MeshFilter>()?.mesh ?? meshFilter.mesh;
-                    
+
                     // Coronas
-                    AddCoronas(planet, template);
+                    info.AddCoronas(planet, template);
                 }
 
                 info.ApplyTo(planet, 1.4987610578537f);
@@ -156,7 +156,7 @@ namespace SigmaReplacements
                         meshFilter.mesh = template?.GetComponent<MeshFilter>()?.mesh ?? meshFilter.mesh;
 
                         // Coronas
-                        AddCoronas(body, template);
+                        info.AddCoronas(body, template);
                     }
 
                     // Edit Textures
