@@ -223,8 +223,7 @@ namespace SigmaReplacements
                         Debug.Log("EditKerbals", "template[" + i + "] rotation = " + (Vector3d)templates[i].transform.eulerAngles);
                         Debug.Log("EditKerbals", "template[" + i + "] scale = " + (Vector3d)templates[i].transform.localScale);
 
-                        Bobber bobber = templates[i].GetComponent<Bobber>();
-                        if (bobber != null)
+                        if (templates[i].GetComponent<Bobber>() is Bobber bobber)
                         {
                             Debug.Log("EditKerbals", "template[" + i + "] bobberSeed = " + (double)bobber.seed);
                             Debug.Log("EditKerbals", "template[" + i + "] bobberOFS = " + (Vector3d)(new Vector3(bobber.ofs1, bobber.ofs2, bobber.ofs3)));

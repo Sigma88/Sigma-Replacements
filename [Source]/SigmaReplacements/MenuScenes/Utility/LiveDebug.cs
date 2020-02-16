@@ -119,6 +119,7 @@ namespace SigmaReplacements
                 {
                     SaveData.AddValue("brightness", flare.maxBrightness);
                 }
+
                 if (GetComponent<Bobber>() is Bobber bobber)
                 {
                     float[] values = new float[] { bobber.ofs1, bobber.ofs2, bobber.ofs3, bobber.seed };
@@ -160,6 +161,7 @@ namespace SigmaReplacements
                             {
                                 flare.maxBrightness = float.Parse(LoadData.GetValue("brightness"));
                             }
+
                             if (GetComponent<Bobber>() is Bobber bobber)
                             {
                                 bobber.enabled = false;
@@ -192,8 +194,7 @@ namespace SigmaReplacements
                     transform.localRotation = originalRotation;
                     transform.localScale = originalScale;
 
-                    Bobber bobber = transform.GetComponent<Bobber>();
-                    if (bobber != null)
+                    if (transform.GetComponent<Bobber>() is Bobber bobber)
                     {
                         bobber.enabled = false;
                     }
