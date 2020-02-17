@@ -441,10 +441,16 @@ namespace SigmaReplacements
                     {
                         if (string.IsNullOrEmpty(info[i].name)) continue;
 
-                        if (info[i].template == 1)
-                            kerbal = Instantiate(templates[1]);
+                        int? template = info[i].template;
+
+                        if (template >= 0 && template <= 1)
+                        {
+                            kerbal = Instantiate(templates[template.Value]);
+                        }
                         else
-                            kerbal = Instantiate(templates[0]);
+                        {
+                            continue;
+                        }
 
                         kerbal.name = info[i].name;
                     }
