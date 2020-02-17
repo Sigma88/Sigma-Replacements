@@ -230,7 +230,7 @@ namespace SigmaReplacements
 
 
             // Coronas
-            internal void AddCoronas(GameObject template, GameObject body)
+            internal void AddCoronas(GameObject body, GameObject template)
             {
                 SunCoronas[] coronas = template?.GetComponentsInChildren<SunCoronas>();
 
