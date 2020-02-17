@@ -51,6 +51,9 @@ namespace SigmaReplacements
             internal float? bobberSeed = null;
             internal Vector3? bobberOFS = null;
 
+            // Lights
+            internal ConfigNode[] lights = null;
+
 
             // New MenuObject from cfg
             internal MenuObject(ConfigNode node)
@@ -111,6 +114,9 @@ namespace SigmaReplacements
 
                 bobberSeed = Parse(node.GetValue("bobberSeed"), bobberSeed);
                 bobberOFS = Parse(node.GetValue("bobberOFS"), bobberOFS);
+
+                // Lights
+                lights = node.GetNode("LIGHTS")?.GetNodes("LIGHT");
             }
 
             // New MenuObject from name
