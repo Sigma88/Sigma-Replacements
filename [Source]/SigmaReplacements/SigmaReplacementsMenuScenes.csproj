@@ -42,7 +42,7 @@
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Info.cs" />
     <Compile Include="MenuScenes\Utility\Extensions.cs" />
-    <Compile Include="MenuScenes\Utility\MenuFlares.cs" />
+    <Compile Include="MenuScenes\MenuScenes\MenuFlares.cs" />
     <Compile Include="MenuScenes\Utility\PseudoRandom.cs" />
     <Compile Include="MenuScenes\MenuScenes\CustomMenuScene.cs" />
     <Compile Include="MenuScenes\MenuScenes\MenuObject.cs" />
