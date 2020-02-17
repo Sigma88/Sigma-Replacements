@@ -82,7 +82,7 @@ namespace SigmaReplacements
                 // Kerbals
                 EditKerbals(kerbals, scene);
 
-                // Light
+                // Lights
                 EditLights(lights, scene);
                 CleanUpLights();
             }
@@ -211,17 +211,13 @@ namespace SigmaReplacements
                     }
 
                     // Add Lights
-                    Debug.Log("EditBodies", "lights count = " + info.lights?.Length);
                     for (int l = 0; l < info.lights?.Length; l++)
                     {
                         ConfigNode node = info.lights[l];
 
-                        Debug.Log("EditBodies", "lights[" + i + "] = " + node);
                         MenuLight menuLight = new MenuLight(node);
-                        Debug.Log("EditBodies", "menuLight name = " + menuLight?.name + ", template = " + menuLight?.template);
 
                         GameObject lightObj = GetLight(menuLight, scene);
-                        Debug.Log("EditBodies", "lightObj = " + lightObj);
 
                         if (!lightTemplates.ContainsKey(lightObj.name))
                         {
