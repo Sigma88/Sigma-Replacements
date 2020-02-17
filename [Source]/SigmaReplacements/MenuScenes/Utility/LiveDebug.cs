@@ -133,6 +133,22 @@ namespace SigmaReplacements
                     bobber.seed = values[3];
                 }
 
+                if (GetComponent<Light>() is Light light)
+                {
+                    ConfigNode LightNode = new ConfigNode("LIGHT");
+
+                    LightNode.AddValue("color", light.color);
+                    LightNode.AddValue("colorTemperature", light.colorTemperature);
+                    LightNode.AddValue("intensity", light.intensity);
+                    LightNode.AddValue("bounceIntensity", light.bounceIntensity);
+                    LightNode.AddValue("range", light.range);
+                    LightNode.AddValue("spotAngle", light.spotAngle);
+                    LightNode.AddValue("shadowStrength", light.shadowStrength);
+                    LightNode.AddValue("trackCamera", light.gameObject.GetComponent<LightTracker>()?.enabled == true);
+
+                    SaveData.AddNode(LightNode);
+                }
+
                 SaveData.Save("GameData/Sigma/Replacements/MenuScenes/Debug/" + name + index + ".txt");
             }
 
@@ -165,6 +181,21 @@ namespace SigmaReplacements
                             if (GetComponent<Bobber>() is Bobber bobber)
                             {
                                 bobber.enabled = false;
+                            }
+
+                            if (LoadData.GetNode("LIGHT") is ConfigNode LightNode)
+                            {
+                                if (GetComponent<Light>() is Light light)
+                                {
+                                    light.color = ConfigNode.ParseColor(LightNode.GetValue("color"));
+                                    light.colorTemperature = float.Parse(LightNode.GetValue("colorTemperature"));
+                                    light.intensity = float.Parse(LightNode.GetValue("intensity"));
+                                    light.bounceIntensity = float.Parse(LightNode.GetValue("bounceIntensity"));
+                                    light.range = float.Parse(LightNode.GetValue("range"));
+                                    light.spotAngle = float.Parse(LightNode.GetValue("spotAngle"));
+                                    light.shadowStrength = float.Parse(LightNode.GetValue("shadowStrength"));
+                                    light.gameObject.AddOrGetComponent<LightTracker>().enabled = bool.Parse(LightNode.GetValue("trackCamera"));
+                                }
                             }
                         }
                         else
