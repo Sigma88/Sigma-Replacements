@@ -44,9 +44,9 @@
     <Compile Include="MenuScenes\Utility\Extensions.cs" />
     <Compile Include="MenuScenes\Utility\MenuFlares.cs" />
     <Compile Include="MenuScenes\Utility\PseudoRandom.cs" />
-    <Compile Include="MenuScenes\CustomMenuScene.cs" />
-    <Compile Include="MenuScenes\MenuObject.cs" />
-    <Compile Include="MenuScenes\MenuSceneInfo.cs" />
+    <Compile Include="MenuScenes\MenuScenes\CustomMenuScene.cs" />
+    <Compile Include="MenuScenes\MenuScenes\MenuObject.cs" />
+    <Compile Include="MenuScenes\MenuScenes\MenuSceneInfo.cs" />
     <Compile Include="MenuScenes\MunScenes\CustomMunScene.cs" />
     <Compile Include="MenuScenes\MunScenes\MunSceneInfo.cs" />
     <Compile Include="MenuScenes\OrbitScenes\CustomOrbitScene.cs" />
