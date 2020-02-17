@@ -28,6 +28,9 @@ namespace SigmaReplacements
             // Kerbals
             MenuObject[] kerbals = null;
 
+            // Lights
+            MenuLight[] lights = null;
+
             internal CustomMunScene(MunSceneInfo info)
             {
                 // Sky
@@ -52,6 +55,9 @@ namespace SigmaReplacements
 
                 // Kerbals
                 kerbals = Parse(info.kerbals, kerbals);
+
+                // Lights
+                lights = Parse(info.lights, lights);
             }
 
             internal void ApplyTo(GameObject scene)
@@ -73,6 +79,9 @@ namespace SigmaReplacements
 
                 // Kerbals
                 EditKerbals(kerbals, scene);
+
+                // Light
+                EditLight(lights, scene);
             }
 
             void AddAtmosphere(MenuObject info, GameObject scene)
@@ -447,6 +456,71 @@ namespace SigmaReplacements
 
             void EditLight(MenuLight[] info, GameObject scene)
             {
+                if (!(info?.Length > 0)) return;
+
+                // Get Stock Lights
+                if (scene == null) return;
+
+                string[] keys = { "BackLight", "Directional light", "FillLight", "KeyLight" };
+
+                Dictionary<string, GameObject> templates = new Dictionary<string, GameObject>
+                {
+                    { keys[0], Instantiate(scene.GetChild(keys[0])) },
+                    { keys[1], Instantiate(scene.GetChild(keys[1])) },
+                    { keys[2], Instantiate(scene.GetChild(keys[2])) },
+                    { keys[3], Instantiate(scene.GetChild(keys[3])) }
+                };
+
+                if (Debug.debug)
+                {
+                    for (int i = 0; i < keys.Length; i++)
+                    {
+                        GameObject light = templates[keys[i]];
+                        Debug.Log("EditLights", "template[" + i + "] = " + light);
+                        Debug.Log("EditLights", "    position = " + (Vector3d)light.transform.position);
+                        Debug.Log("EditLights", "    rotation = " + (Vector3d)light.transform.eulerAngles);
+                        Debug.Log("EditLights", "    scale = " + (Vector3d)light.transform.localScale);
+                    }
+                }
+
+                for (int i = 0; i < info?.Length; i++)
+                {
+                    GameObject lightObj;
+
+                    // Clone or Select Stock Light
+                    if (templates.ContainsKey(info[i].name))
+                    {
+                        lightObj = scene.GetChild(info[i].name);
+                        lightObj.SetActive(info[i].enabled);
+                        if (!info[i].enabled) continue;
+                    }
+                    else if (info[i].enabled)
+                    {
+                        if (string.IsNullOrEmpty(info[i].name)) continue;
+
+                        if (templates.ContainsKey(info[i].template))
+                        {
+                            lightObj = Instantiate(templates[info[i].template]);
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    // Apply MenuLight
+                    info[i].ApplyTo(lightObj);
+                }
+
+                // CleanUp
+                for (int i = 0; i < keys.Length; i++)
+                {
+                    Object.DestroyImmediate(templates[keys[i]]);
+                }
             }
 
             MenuObject[] ParseBoulders(ConfigNode[] input)
