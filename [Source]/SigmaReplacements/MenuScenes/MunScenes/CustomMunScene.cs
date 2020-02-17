@@ -458,9 +458,9 @@ namespace SigmaReplacements
             {
                 if (!(info?.Length > 0)) return;
 
-                // Get Stock Lights
                 if (scene == null) return;
 
+                // Get Stock Lights
                 string[] keys = { "BackLight", "Directional light", "FillLight", "KeyLight" };
 
                 Dictionary<string, GameObject> templates = new Dictionary<string, GameObject>
