@@ -34,6 +34,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="MenuScenes\MenuScenes\MenuLight.cs" />
     <Compile Include="MenuScenes\Utility\LiveDebug.cs" />
     <Compile Include="Common\UserSettings.cs" />
     <Compile Include="MenuScenes\SettingsLoader.cs" />

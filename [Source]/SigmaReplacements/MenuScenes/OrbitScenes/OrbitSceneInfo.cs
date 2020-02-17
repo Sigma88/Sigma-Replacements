@@ -14,11 +14,14 @@ namespace SigmaReplacements
             internal ConfigNode planet = null;
             internal ConfigNode[] moons = null;
 
+            // Scatters
+            internal ConfigNode[] scatter = null;
+
             // Kerbals
             internal ConfigNode[] kerbals = null;
 
-            // Scatters
-            internal ConfigNode[] scatter = null;
+            // Lights
+            internal ConfigNode[] lights = null;
 
 
             // New MenuScenesInfo From Config
@@ -41,11 +44,14 @@ namespace SigmaReplacements
                 planet = info?.GetNode("BODIES")?.GetNode("PLANET");
                 moons = info?.GetNode("BODIES")?.GetNodes("MOON");
 
+                // Scatter
+                scatter = info?.GetNode("SCATTER")?.GetNodes("OBJECT");
+
                 // Kerbals
                 kerbals = info?.GetNode("KERBALS")?.GetNodes("KERBAL");
 
-                // Scatter
-                scatter = info?.GetNode("SCATTER")?.GetNodes("OBJECT");
+                // Lights
+                lights = info?.GetNode("LIGHTS")?.GetNodes("LIGHT");
             }
         }
     }

@@ -18,6 +18,9 @@ namespace SigmaReplacements
             // Kerbals
             MenuObject[] kerbals = null;
 
+            // Kerbals
+            MenuLight[] lights = null;
+
             internal CustomOrbitScene(OrbitSceneInfo info)
             {
                 Debug.Log("CustomOrbitScene", "Custom Orbit Scene name = " + info.name);
@@ -31,19 +34,27 @@ namespace SigmaReplacements
 
                 // Kerbals
                 kerbals = Parse(info.kerbals, kerbals);
+
+                // Kerbals
+                lights = Parse(info.lights, lights);
             }
 
             internal void ApplyTo(GameObject[] scenes)
             {
+                GameObject scene = scenes[1];
+
                 // Bodies
-                EditPlanet(planet, scenes[1]);
-                EditMoons(moons, scenes[1]);
+                EditPlanet(planet, scene);
+                EditMoons(moons, scene);
 
                 // Scatter
-                AddScatter(scatter, scenes[1], scenes[0].GetChild("sandcastle"));
+                AddScatter(scatter, scene, scenes[0].GetChild("sandcastle"));
 
                 // Kerbals
-                EditKerbals(kerbals, scenes[1]);
+                EditKerbals(kerbals, scene);
+
+                // Light
+                EditLight(lights, scene);
             }
 
             void EditPlanet(MenuObject info, GameObject scene)
@@ -281,6 +292,10 @@ namespace SigmaReplacements
                 {
                     Object.DestroyImmediate(templates[i]);
                 }
+            }
+
+            void EditLight(MenuLight[] info, GameObject scene)
+            {
             }
         }
     }

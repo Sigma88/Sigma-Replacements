@@ -33,6 +33,28 @@ namespace SigmaReplacements
                 return array;
             }
 
+            protected MenuLight Parse(ConfigNode node, MenuLight defaultValue)
+            {
+                if (node != null)
+                {
+                    defaultValue = new MenuLight(node);
+                }
+
+                return defaultValue;
+            }
+
+            protected MenuLight[] Parse(ConfigNode[] nodes, MenuLight[] array)
+            {
+                for (int i = 0; i < nodes?.Length; i++)
+                {
+                    if (array == null) array = new MenuLight[nodes.Length];
+
+                    array[i] = Parse(nodes[i], array[i]);
+                }
+
+                return array;
+            }
+
             protected GameObject Instantiate(GameObject original)
             {
                 GameObject clone = null;

@@ -27,6 +27,9 @@ namespace SigmaReplacements
             // Kerbals
             internal ConfigNode[] kerbals = null;
 
+            // Lights
+            internal ConfigNode[] lights = null;
+
             // New MenuScenesInfo From Config
             internal MunSceneInfo(ConfigNode info)
             {
@@ -59,6 +62,9 @@ namespace SigmaReplacements
 
                 // Kerbals
                 kerbals = info?.GetNode("KERBALS")?.GetNodes("KERBAL");
+
+                // Lights
+                lights = info?.GetNode("LIGHTS")?.GetNodes("LIGHT");
             }
 
             // New MenuScenesInfo From Name

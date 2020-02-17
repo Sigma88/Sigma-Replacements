@@ -445,11 +445,16 @@ namespace SigmaReplacements
                 }
             }
 
+            void EditLight(MenuLight[] info, GameObject scene)
+            {
+            }
+
             MenuObject[] ParseBoulders(ConfigNode[] input)
             {
                 if (input == null) return null;
 
-                MenuObject[] data = Parse(input, null);
+                MenuObject[] data = null;
+                data = Parse(input, data);
 
                 List<MenuObject> output = data.Where(i => i.name == "boulder" && i.index == null).ToList();
                 output.AddRange(data.Where(i => i.name == "boulder" && i.index != null).OrderBy(i => i.index));
