@@ -92,9 +92,12 @@ namespace SigmaReplacements
                     info.AddCoronas(planet, template);
 
                     // Flare
-                    FlareFixer flare = planet.AddComponent<FlareFixer>();
-                    flare.template = cb;
-                    flare.info = info;
+                    if (info.brightness != 0 && !Debug.debug)
+                    {
+                        FlareFixer flare = planet.AddComponent<FlareFixer>();
+                        flare.template = cb;
+                        flare.info = info;
+                    }
                 }
 
                 info.ApplyTo(planet, 1.4987610578537f);
@@ -164,9 +167,12 @@ namespace SigmaReplacements
                         info.AddCoronas(body, template);
 
                         // Flare
-                        FlareFixer flare = body.AddComponent<FlareFixer>();
-                        flare.template = cb;
-                        flare.info = info;
+                        if (info.brightness != 0 && !Debug.debug)
+                        {
+                            FlareFixer flare = body.AddComponent<FlareFixer>();
+                            flare.template = cb;
+                            flare.info = info;
+                        }
                     }
 
                     // Edit Textures
