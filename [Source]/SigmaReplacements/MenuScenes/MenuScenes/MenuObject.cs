@@ -292,13 +292,11 @@ namespace SigmaReplacements
                         lensFlare.transform.SetParent(flare.transform.parent);
                         lensFlare.transform.position = flare.transform.position;
 
-                        // Change LensFlare rotation
-                        lensFlare.transform.rotation = Quaternion.LookRotation(Camera.main.transform.position - GameObject.Find("NewBody_Sun").transform.position, Vector3.up);
-
                         // Add FlareCamera component
                         FlareCamera camera = body.AddOrGetComponent<FlareCamera>();
                         camera.maxBrightness = brightness ?? lensFlare.brightness;
                         camera.flare = lensFlare;
+                        lensFlare.brightness = 0;
 
                         // Re-enable the original SunFlare component
                         flare.enabled = true;
