@@ -80,6 +80,7 @@ namespace SigmaReplacements
 
                 bool.TryParse(node.GetValue("adjustScale"), out adjustScale);
                 bool.TryParse(node.GetValue("removeHelmet"), out removeHelmet);
+                bool.TryParse(node.GetValue("addColliders"), out addColliders);
 
 
                 // Physical Parameters
