@@ -19,8 +19,10 @@ namespace SigmaReplacements
             // Kerbals
             MenuObject[] kerbals = null;
 
-            // Kerbals
+            // Lights
             MenuLight[] lights = null;
+            static string[] lightNames = null;
+            static Dictionary<string, GameObject> lightTemplates = null;
 
             internal CustomOrbitScene(OrbitSceneInfo info)
             {
@@ -33,7 +35,7 @@ namespace SigmaReplacements
                 // Scatter
                 scatter = Parse(info.scatter, scatter);
 
-                // Kerbals
+                // Lights
                 kerbals = Parse(info.kerbals, kerbals);
 
                 // Kerbals
@@ -54,8 +56,9 @@ namespace SigmaReplacements
                 // Kerbals
                 EditKerbals(kerbals, scene);
 
-                // Light
-                EditLight(lights, scene);
+                // Lights
+                EditLights(lights, scene);
+                CleanUpLights();
             }
 
             void EditPlanet(MenuObject info, GameObject scene)
@@ -113,6 +116,26 @@ namespace SigmaReplacements
                 }
 
                 info.ApplyTo(planet, 1.4987610578537f);
+
+                // Add Lights
+                for (int l = 0; l < info.lights?.Length; l++)
+                {
+                    ConfigNode node = info.lights[l];
+
+                    MenuLight menuLight = new MenuLight(node);
+
+                    GameObject lightObj = GetLight(menuLight, scene);
+
+                    if (!lightTemplates.ContainsKey(lightObj.name))
+                    {
+                        lightObj.transform.SetParent(planet.transform);
+                        lightObj.transform.localPosition = Vector3.zero;
+                        lightObj.transform.localRotation = Quaternion.identity;
+                        lightObj.transform.localScale = Vector3.one;
+
+                        menuLight.ApplyTo(lightObj, scene);
+                    }
+                }
             }
 
             void EditMoons(MenuObject[] moons, GameObject scene)
@@ -179,7 +202,7 @@ namespace SigmaReplacements
                         info.AddCoronas(body, template);
 
                         // Flare
-                        if (info.brightness != 0 && !Debug.debug)
+                        if (info.brightness != 0 || Debug.debug)
                         {
                             FlareFixer flare = body.AddComponent<FlareFixer>();
                             flare.template = cb;
@@ -195,6 +218,26 @@ namespace SigmaReplacements
                     // Edit Physical Parameters
                     info.scale = info.scale ?? Vector3.one;
                     info.ApplyTo(body, 0.209560245275497f);
+
+                    // Add Lights
+                    for (int l = 0; l < info.lights?.Length; l++)
+                    {
+                        ConfigNode node = info.lights[l];
+
+                        MenuLight menuLight = new MenuLight(node);
+
+                        GameObject lightObj = GetLight(menuLight, scene);
+
+                        if (!lightTemplates.ContainsKey(lightObj.name))
+                        {
+                            lightObj.transform.SetParent(body.transform);
+                            lightObj.transform.localPosition = Vector3.zero;
+                            lightObj.transform.localRotation = Quaternion.identity;
+                            lightObj.transform.localScale = Vector3.one;
+
+                            menuLight.ApplyTo(lightObj, scene);
+                        }
+                    }
                 }
 
                 // CleanUp

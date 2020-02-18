@@ -226,7 +226,7 @@ namespace SigmaReplacements
                             lightObj.transform.localRotation = Quaternion.identity;
                             lightObj.transform.localScale = Vector3.one;
 
-                            menuLight.ApplyTo(lightObj);
+                            menuLight.ApplyTo(lightObj, scene);
                         }
                     }
 
@@ -494,7 +494,7 @@ namespace SigmaReplacements
                     GameObject lightObj = GetLight(info[i], scene);
 
                     // Apply MenuLight
-                    info[i].ApplyTo(lightObj);
+                    info[i].ApplyTo(lightObj, scene);
                 }
             }
 

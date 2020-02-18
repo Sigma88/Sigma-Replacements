@@ -7,9 +7,19 @@ namespace SigmaReplacements
     {
         internal class LightTracker : MonoBehaviour
         {
+            internal Transform target;
+            internal bool invert = false;
+
             void Update()
             {
-                transform.rotation = Quaternion.LookRotation(Camera.main.transform.position - transform.position);
+                if (invert)
+                {
+                    Quaternion.LookRotation(transform.position - target.position);
+                }
+                else
+                {
+                    Quaternion.LookRotation(target.position - transform.position);
+                }
             }
         }
     }

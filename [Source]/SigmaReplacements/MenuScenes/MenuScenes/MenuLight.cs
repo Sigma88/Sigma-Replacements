@@ -30,7 +30,8 @@ namespace SigmaReplacements
             internal float? shadowStrength = null;
 
             // Movements
-            internal bool? trackCamera = null;
+            internal string track = null;
+            internal bool invert = false;
 
 
             // New MenuLight from cfg
@@ -70,7 +71,8 @@ namespace SigmaReplacements
 
 
                 // Movements
-                trackCamera = Parse(node.GetValue("trackCamera"), trackCamera);
+                track = node.GetValue("track");
+                invert = Parse(node.GetValue("invert"), invert);
             }
 
             // New MenuLight from name
@@ -83,7 +85,7 @@ namespace SigmaReplacements
 
 
             // Apply MenuLight to GameObject
-            internal void ApplyTo(GameObject obj)
+            internal void ApplyTo(GameObject obj, GameObject scene)
             {
                 if (obj == null) return;
                 if (Debug.debug) obj.AddOrGetComponent<LiveDebug>();
@@ -105,9 +107,15 @@ namespace SigmaReplacements
                     light.shadowStrength = shadowStrength ?? light.shadowStrength;
                 }
 
-                if (trackCamera == true)
+                if (track == "Camera")
                 {
-                    obj.AddOrGetComponent<LightTracker>();
+                    LightTracker LT = obj.AddOrGetComponent<LightTracker>();
+                    LT.target = Camera.main.transform;
+                    LT.invert = invert;
+                }
+                else if (scene?.GetChild(track) is GameObject target)
+                {
+                    obj.AddOrGetComponent<LightTracker>().target = target.transform;
                 }
             }
         }
