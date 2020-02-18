@@ -35,10 +35,10 @@ namespace SigmaReplacements
                 // Scatter
                 scatter = Parse(info.scatter, scatter);
 
-                // Lights
+                // Kerbals
                 kerbals = Parse(info.kerbals, kerbals);
 
-                // Kerbals
+                // Lights
                 lights = Parse(info.lights, lights);
             }
 
@@ -338,72 +338,85 @@ namespace SigmaReplacements
                 }
             }
 
-            void EditLight(MenuLight[] info, GameObject scene)
+            void EditLights(MenuLight[] info, GameObject scene)
             {
                 if (!(info?.Length > 0)) return;
 
-                // Get Stock Lights
                 if (scene == null) return;
 
-                string[] keys = { "BackLight", "FillLight", "KeyLight", "PlanetLight" };
-
-                Dictionary<string, GameObject> templates = new Dictionary<string, GameObject>
+                for (int i = 0; i < info?.Length; i++)
                 {
-                    { keys[0], Instantiate(scene.GetChild(keys[0])) },
-                    { keys[1], Instantiate(scene.GetChild(keys[1])) },
-                    { keys[2], Instantiate(scene.GetChild(keys[2])) },
-                    { keys[3], Instantiate(scene.GetChild(keys[3])) }
+                    GameObject lightObj = GetLight(info[i], scene);
+
+                    // Apply MenuLight
+                    info[i].ApplyTo(lightObj, scene);
+                }
+            }
+
+            void CleanUpLights()
+            {
+                if (lightTemplates != null)
+                {
+                    // CleanUp
+                    for (int i = 0; i < lightNames.Length; i++)
+                    {
+                        Object.DestroyImmediate(lightTemplates[lightNames[i]]);
+                    }
+
+                    lightTemplates = null;
+                }
+            }
+
+            GameObject GetLight(MenuLight info, GameObject scene)
+            {
+                GameObject lightObj = null;
+
+                if (lightTemplates == null)
+                    GetLightTemplates(scene);
+
+                // Clone or Select Stock Light
+                if (lightTemplates.ContainsKey(info.name))
+                {
+                    lightObj = scene.GetChild(info.name);
+                    lightObj.SetActive(info.enabled);
+                }
+                else if (info.enabled)
+                {
+                    if (!string.IsNullOrEmpty(info.name))
+                    {
+                        if (lightTemplates.ContainsKey(info.template))
+                        {
+                            lightObj = Instantiate(lightTemplates[info.template]);
+                            lightObj.name = info.name;
+                        }
+                    }
+                }
+
+                return lightObj;
+            }
+
+            void GetLightTemplates(GameObject scene)
+            {
+                lightNames = new string[] { "BackLight", "FillLight", "KeyLight", "PlanetLight" };
+
+                lightTemplates = new Dictionary<string, GameObject>
+                {
+                    { lightNames[0], Instantiate(scene.GetChild(lightNames[0])) },
+                    { lightNames[1], Instantiate(scene.GetChild(lightNames[1])) },
+                    { lightNames[2], Instantiate(scene.GetChild(lightNames[2])) },
+                    { lightNames[3], Instantiate(scene.GetChild(lightNames[3])) }
                 };
 
                 if (Debug.debug)
                 {
-                    for (int i = 0; i < keys.Length; i++)
+                    for (int i = 0; i < lightNames.Length; i++)
                     {
-                        GameObject light = templates[keys[i]];
-                        Debug.Log("EditLights", "template[" + i + "] = " + light);
-                        Debug.Log("EditLights", "    position = " + (Vector3d)light.transform.position);
-                        Debug.Log("EditLights", "    rotation = " + (Vector3d)light.transform.eulerAngles);
-                        Debug.Log("EditLights", "    scale = " + (Vector3d)light.transform.localScale);
+                        GameObject light = lightTemplates[lightNames[i]];
+                        Debug.Log("GetLightTemplates", "template[" + i + "] = " + light);
+                        Debug.Log("GetLightTemplates", "    position = " + (Vector3d)light.transform.position);
+                        Debug.Log("GetLightTemplates", "    rotation = " + (Vector3d)light.transform.eulerAngles);
+                        Debug.Log("GetLightTemplates", "    scale = " + (Vector3d)light.transform.localScale);
                     }
-                }
-
-                for (int i = 0; i < info?.Length; i++)
-                {
-                    GameObject lightObj;
-
-                    // Clone or Select Stock Light
-                    if (templates.ContainsKey(info[i].name))
-                    {
-                        lightObj = scene.GetChild(info[i].name);
-                        lightObj.SetActive(info[i].enabled);
-                        if (!info[i].enabled) continue;
-                    }
-                    else if (info[i].enabled)
-                    {
-                        if (string.IsNullOrEmpty(info[i].name)) continue;
-
-                        if (templates.ContainsKey(info[i].template))
-                        {
-                            lightObj = Instantiate(templates[info[i].template]);
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        continue;
-                    }
-
-                    // Apply MenuLight
-                    info[i].ApplyTo(lightObj);
-                }
-
-                // CleanUp
-                for (int i = 0; i < keys.Length; i++)
-                {
-                    Object.DestroyImmediate(templates[keys[i]]);
                 }
             }
         }
