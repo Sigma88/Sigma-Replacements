@@ -122,15 +122,23 @@ namespace SigmaReplacements
 
                 if (GetComponent<Bobber>() is Bobber bobber)
                 {
-                    float[] values = new float[] { bobber.ofs1, bobber.ofs2, bobber.ofs3, bobber.seed };
+                    float[] values = new float[] { bobber.seed, bobber.ofs1, bobber.ofs2, bobber.ofs3 };
 
                     DestroyImmediate(bobber);
 
                     bobber = gameObject.AddComponent<Bobber>();
-                    bobber.ofs1 = values[0];
-                    bobber.ofs2 = values[1];
-                    bobber.ofs3 = values[2];
-                    bobber.seed = values[3];
+                    bobber.seed = values[0];
+                    bobber.ofs1 = values[1];
+                    bobber.ofs2 = values[2];
+                    bobber.ofs3 = values[3];
+
+                    SaveData.AddValue("bobberSeed", bobber.seed);
+                    SaveData.AddValue("bobberOFS", new Vector3(bobber.ofs1, bobber.ofs2, bobber.ofs3));
+                }
+
+                if (GetComponent<Rotato>() is Rotato rotato)
+                {
+                    SaveData.AddValue("rotatoSpeed", rotato.speed);
                 }
 
                 if (GetComponent<Light>() is Light light)
@@ -180,7 +188,17 @@ namespace SigmaReplacements
 
                             if (GetComponent<Bobber>() is Bobber bobber)
                             {
+                                Vector3 bobberOFS = ConfigNode.ParseVector3(LoadData.GetValue("bobberOFS"));
+
                                 bobber.enabled = false;
+                                bobber.ofs1 = bobberOFS.x;
+                                bobber.ofs2 = bobberOFS.y;
+                                bobber.ofs3 = bobberOFS.z;
+                            }
+
+                            if (GetComponent<Rotato>() is Rotato rotato)
+                            {
+                                rotato.speed = float.Parse(LoadData.GetValue("rotatoSpeed"));
                             }
 
                             if (LoadData.GetNode("LIGHT") is ConfigNode LightNode)

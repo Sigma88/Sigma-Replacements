@@ -197,18 +197,19 @@ namespace SigmaReplacements
                     if (parent != null)
                     {
                         GameObject pivot = new GameObject(obj.name + "_Pivot");
+                        pivot.AddOrGetComponent<LiveDebug>();
 
                         pivot.transform.SetParent(parent.transform);
 
                         pivot.transform.position = pivotPosition ?? parent.transform.position;
-                        pivot.transform.localRotation = pivotRotation ?? Quaternion.Euler(Vector3.zero);
+                        pivot.transform.localRotation = pivotRotation ?? Quaternion.identity;
                         pivot.transform.localScale = pivotScale ?? Vector3.one;
 
                         obj.transform.SetParent(pivot.transform);
 
-                        if (pivotDistance != null)
+                        if (pivotDistance.HasValue)
                         {
-                            obj.transform.localPosition = Vector3.left * (float)pivotDistance;
+                            obj.transform.position = pivot.transform.position + pivot.transform.right * pivotDistance.Value;
                         }
                     }
                 }
