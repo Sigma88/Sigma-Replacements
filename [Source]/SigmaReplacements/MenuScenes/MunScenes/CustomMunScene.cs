@@ -257,6 +257,12 @@ namespace SigmaReplacements
 
                 // Save Terrain Changes
                 terrain.terrainData.terrainLayers = layers;
+
+                // AddColliders
+                if (info.addColliders)
+                {
+                    terrain.gameObject.layer = 15;
+                }
             }
 
             void EditBoulders(MenuObject[] info, GameObject scene)

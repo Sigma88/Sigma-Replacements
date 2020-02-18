@@ -117,6 +117,17 @@ namespace SigmaReplacements
 
                 info.ApplyTo(planet, 1.4987610578537f);
 
+                // Add Colliders
+                if (info.addColliders)
+                {
+                    planet.layer = 15;
+                    if (planet.GetComponent<Collider>() == null)
+                    {
+                        MeshCollider collider = planet.AddComponent<MeshCollider>();
+                        collider.isTrigger = true;
+                    }
+                }
+
                 // Add Lights
                 for (int l = 0; l < info.lights?.Length; l++)
                 {
@@ -218,6 +229,17 @@ namespace SigmaReplacements
                     // Edit Physical Parameters
                     info.scale = info.scale ?? Vector3.one;
                     info.ApplyTo(body, 0.209560245275497f);
+
+                    // Add Colliders
+                    if (info.addColliders)
+                    {
+                        body.layer = 15;
+                        if (body.GetComponent<Collider>() == null)
+                        {
+                            MeshCollider collider = body.AddComponent<MeshCollider>();
+                            collider.isTrigger = true;
+                        }
+                    }
 
                     // Add Lights
                     for (int l = 0; l < info.lights?.Length; l++)

@@ -14,6 +14,7 @@ namespace SigmaReplacements
             internal bool enabled = true;
             internal bool adjustScale = false;
             internal bool removeHelmet = false;
+            internal bool addColliders = false;
 
 
             // Physical Parameters
