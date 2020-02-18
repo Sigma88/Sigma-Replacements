@@ -50,7 +50,7 @@ namespace SigmaReplacements
 
             void CheckHidden()
             {
-                hidden = Physics.Raycast(Camera.main.transform.position, flare.transform.forward.normalized * -5000, Mathf.Infinity, layerMask);
+                hidden = Physics.Raycast(Camera.main.transform.position, flare.transform.forward.normalized * -20000, Mathf.Infinity, layerMask);
             }
 
             void Show()
