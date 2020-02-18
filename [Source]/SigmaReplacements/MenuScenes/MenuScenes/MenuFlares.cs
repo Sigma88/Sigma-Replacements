@@ -21,6 +21,7 @@ namespace SigmaReplacements
             internal LensFlare flare;
             internal float maxBrightness;
 
+            bool start = true;
             bool hidden = false;
             static int layerMask = 1 << 01 | 1 << 02 | 1 << 03 | 1 << 04 | 1 << 05 | 1 << 06 | 1 << 07 | 1 << 08 | 1 << 09 |
                                    1 << 10 | 1 << 11 | 1 << 12 | 1 << 13 | 1 << 14 | 1 << 15 | 1 << 16 | 1 << 17 | 1 << 18 | 1 << 19 |
@@ -66,20 +67,42 @@ namespace SigmaReplacements
 
             void Show()
             {
+                if (start)
+                {
+                    start = false;
+                    flare.brightness = maxBrightness;
+                    return;
+                }
+
                 if (flare.brightness < maxBrightness)
+                {
                     flare.brightness += flare.fadeSpeed * Time.deltaTime;
+                }
 
                 if (flare.brightness > maxBrightness)
+                {
                     flare.brightness = maxBrightness;
+                }
             }
 
             void Hide()
             {
+                if (start)
+                {
+                    start = false;
+                    flare.brightness = 0;
+                    return;
+                }
+
                 if (flare.brightness > 0)
+                {
                     flare.brightness -= flare.fadeSpeed * Time.deltaTime;
+                }
 
                 if (flare.brightness < 0)
+                {
                     flare.brightness = 0;
+                }
             }
 
             LineRenderer line;
