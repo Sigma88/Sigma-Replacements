@@ -36,7 +36,7 @@ namespace SigmaReplacements
             void SceneSwitch(GameEvents.FromToAction<GameScenes, GameScenes> scenes)
             {
                 DestroyImmediate(flare.gameObject);
-                DestroyImmediate(this);
+                Destroy(this);
             }
 
             void Update()
@@ -47,6 +47,13 @@ namespace SigmaReplacements
             void LateUpdate()
             {
                 CheckHidden();
+
+                if (start)
+                {
+                    start = false;
+                    flare.brightness = 0;
+                    return;
+                }
 
                 if (hidden)
                 {
@@ -67,13 +74,6 @@ namespace SigmaReplacements
 
             void Show()
             {
-                if (start)
-                {
-                    start = false;
-                    flare.brightness = maxBrightness;
-                    return;
-                }
-
                 if (flare.brightness < maxBrightness)
                 {
                     flare.brightness += flare.fadeSpeed * Time.deltaTime;
@@ -87,13 +87,6 @@ namespace SigmaReplacements
 
             void Hide()
             {
-                if (start)
-                {
-                    start = false;
-                    flare.brightness = 0;
-                    return;
-                }
-
                 if (flare.brightness > 0)
                 {
                     flare.brightness -= flare.fadeSpeed * Time.deltaTime;
