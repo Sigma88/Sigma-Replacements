@@ -11,6 +11,48 @@ namespace SigmaReplacements
             {
             }
 
+            protected void KerbalColliders(GameObject kerbal, GameObject helmet)
+            {
+                GameObject capsule = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+                capsule.name = "joints01_capsule_collider";
+                capsule.layer = 15;
+                capsule.transform.SetParent(kerbal.GetChild("joints01").transform, true);
+                capsule.transform.localPosition = new Vector3(0, 0.42f, -0.025f);
+                capsule.transform.localScale = new Vector3(0.25f, 0.42f, 0.35f);
+                capsule.transform.localRotation = Quaternion.identity;
+                capsule.GetComponent<Collider>().isTrigger = true;
+
+                if (Debug.debug)
+                {
+                    capsule.GetComponent<Renderer>().material.color = Color.magenta;
+                }
+                else
+                {
+                    Object.DestroyImmediate(capsule.GetComponent<Renderer>());
+                }
+
+                if (helmet?.activeSelf == true)
+                {
+                    GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    sphere.name = "bn_helmet01_sphere_collider";
+                    sphere.layer = 15;
+                    sphere.transform.SetParent(kerbal.GetChild("bn_helmet01").transform, true);
+                    sphere.transform.localPosition = new Vector3(-0.25f, 0.05f, 0);
+                    sphere.transform.localScale = new Vector3(0.58f, 0.58f, 0.58f);
+                    sphere.transform.localRotation = Quaternion.identity;
+                    sphere.GetComponent<Collider>().isTrigger = true;
+
+                    if (Debug.debug)
+                    {
+                        sphere.GetComponent<Renderer>().material.color = Color.magenta;
+                    }
+                    else
+                    {
+                        Object.DestroyImmediate(sphere.GetComponent<Renderer>());
+                    }
+                }
+            }
+
             protected MenuObject Parse(ConfigNode node, MenuObject defaultValue)
             {
                 if (node != null)

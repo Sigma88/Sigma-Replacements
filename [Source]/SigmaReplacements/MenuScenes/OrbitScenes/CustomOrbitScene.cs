@@ -351,6 +351,12 @@ namespace SigmaReplacements
                     {
                         helmet.SetActive(!info[i].removeHelmet);
                     }
+
+                    // Add Colliders
+                    if (info[i].addColliders)
+                    {
+                        KerbalColliders(kerbal, helmet);
+                    }
                 }
 
                 // CleanUp

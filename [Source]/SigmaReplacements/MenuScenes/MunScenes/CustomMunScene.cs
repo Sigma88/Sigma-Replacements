@@ -480,6 +480,12 @@ namespace SigmaReplacements
                             }
                         }
                     }
+
+                    // Add Colliders
+                    if (info[i].addColliders)
+                    {
+                        KerbalColliders(kerbal, helmet);
+                    }
                 }
 
                 // CleanUp
