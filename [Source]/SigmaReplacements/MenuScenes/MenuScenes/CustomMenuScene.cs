@@ -20,6 +20,7 @@ namespace SigmaReplacements
                 capsule.transform.localPosition = new Vector3(0, 0.42f, -0.025f);
                 capsule.transform.localScale = new Vector3(0.25f, 0.42f, 0.35f);
                 capsule.transform.localRotation = Quaternion.identity;
+                capsule.transform.SetParent(kerbal.GetChild("bn_spA01").transform);
                 capsule.GetComponent<Collider>().isTrigger = true;
 
                 if (Debug.debug)
