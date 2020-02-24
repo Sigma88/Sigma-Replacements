@@ -152,7 +152,7 @@ namespace SigmaReplacements
                     LightNode.AddValue("range", light.range);
                     LightNode.AddValue("spotAngle", light.spotAngle);
                     LightNode.AddValue("shadowStrength", light.shadowStrength);
-                    LightNode.AddValue("trackCamera", light.gameObject.GetComponent<LightTracker>()?.enabled == true);
+                    LightNode.AddValue("track", light.gameObject.GetComponent<LightTracker>()?.enabled == true);
 
                     SaveData.AddNode(LightNode);
                 }
