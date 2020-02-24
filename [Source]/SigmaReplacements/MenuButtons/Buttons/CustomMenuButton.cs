@@ -102,7 +102,7 @@ namespace SigmaReplacements
             {
                 Debug.Log("CustomMenuButton.ApplyTo", "object = " + name);
 
-                transform.localPosition = position ?? transform.localPosition;
+                transform.position = position ?? transform.position;
                 transform.localRotation = rotation ?? transform.localRotation;
                 transform.localScale = scale ?? transform.localScale;
 
