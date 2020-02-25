@@ -240,28 +240,62 @@ namespace SigmaReplacements
                 if (info == null) return;
 
                 // Select Terrain
-                Terrain terrain = scene.GetChild("Terrain").GetComponent<Terrain>();
-                TerrainLayer[] layers = terrain.terrainData.terrainLayers;
+                Terrain[] terrains = scene?.GetComponentsInChildren<Terrain>(true);
 
-                // Change Terrain Textures
-                if (info.texture1 != null)
-                    layers[0].diffuseTexture = (Texture2D)info.texture1;
-                if (info.texture2 != null)
-                    layers[1].diffuseTexture = (Texture2D)info.texture2;
-
-                // Change Terrain Normals
-                if (info.normal1 != null)
-                    layers[0].normalMapTexture = (Texture2D)info.normal1;
-                if (info.normal2 != null)
-                    layers[1].normalMapTexture = (Texture2D)info.normal2;
-
-                // Save Terrain Changes
-                terrain.terrainData.terrainLayers = layers;
-
-                // AddColliders
-                if (info.addColliders)
+                for (int i = 0; i < terrains?.Length; i++)
                 {
-                    terrain.gameObject.layer = 15;
+                    Terrain terrain = terrains[i];
+
+                    TerrainLayer[] layers = terrain?.terrainData?.terrainLayers;
+
+                    // Apply Texture1
+                    if (info.texture1 != null)
+                    {
+                        if (layers?.Length > 0)
+                            layers[0].diffuseTexture = (Texture2D)info.texture1;
+                        if (layers?.Length > 2)
+                            layers[1].diffuseTexture = (Texture2D)info.texture1;
+                    }
+
+                    // Apply Normal1
+                    if (info.normal1 != null)
+                    {
+                        if (layers?.Length > 0)
+                            layers[0].normalMapTexture = (Texture2D)info.normal1;
+                        if (layers?.Length > 2)
+                            layers[1].normalMapTexture = (Texture2D)info.normal1;
+                    }
+
+                    // Apply Texture2
+                    if (info.texture2 != null)
+                    {
+                        if (layers?.Length == 2)
+                            layers[1].diffuseTexture = (Texture2D)info.texture2;
+                        if (layers?.Length > 3)
+                            layers[2].diffuseTexture = layers[3].diffuseTexture = (Texture2D)info.texture2;
+                        if (layers?.Length > 4)
+                            layers[4].diffuseTexture = (Texture2D)info.texture2;
+                    }
+
+                    // Apply Normal2
+                    if (info.normal2 != null)
+                    {
+                        if (layers?.Length == 2)
+                            layers[1].normalMapTexture = (Texture2D)info.normal2;
+                        if (layers?.Length > 3)
+                            layers[2].normalMapTexture = layers[3].normalMapTexture = (Texture2D)info.normal2;
+                        if (layers?.Length > 4)
+                            layers[4].normalMapTexture = (Texture2D)info.normal2;
+                    }
+
+                    // Save Terrain Changes
+                    terrain.terrainData.terrainLayers = layers;
+
+                    // AddColliders
+                    if (info.addColliders)
+                    {
+                        terrain.gameObject.layer = 15;
+                    }
                 }
             }
 
