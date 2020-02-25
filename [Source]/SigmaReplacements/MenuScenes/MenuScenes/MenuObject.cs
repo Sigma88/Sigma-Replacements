@@ -78,9 +78,9 @@ namespace SigmaReplacements
                     enabled = false;
                 }
 
-                bool.TryParse(node.GetValue("adjustScale"), out adjustScale);
-                bool.TryParse(node.GetValue("removeHelmet"), out removeHelmet);
-                bool.TryParse(node.GetValue("addColliders"), out addColliders);
+                adjustScale = Parse(node.GetValue("adjustScale"), adjustScale);
+                removeHelmet = Parse(node.GetValue("removeHelmet"), removeHelmet);
+                addColliders = Parse(node.GetValue("addColliders"), addColliders);
 
 
                 // Physical Parameters
