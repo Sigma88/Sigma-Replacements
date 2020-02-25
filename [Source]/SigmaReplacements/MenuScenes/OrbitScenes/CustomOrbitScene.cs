@@ -300,7 +300,8 @@ namespace SigmaReplacements
 
                 if (kerbals == null || kerbals.childCount < 4) return;
 
-                GameObject[] templates = new GameObject[] { Instantiate(kerbals.GetChild(0).gameObject), Instantiate(kerbals.GetChild(1).gameObject), Instantiate(kerbals.GetChild(2).gameObject), Instantiate(kerbals.GetChild(3).gameObject) };
+                GameObject[] templates = GetOrbitKerbals();
+                GameObject[] munTemplates = GetMunKerbals();
 
                 if (Debug.debug)
                 {
@@ -330,11 +331,26 @@ namespace SigmaReplacements
                         kerbal.SetActive(info[i].enabled);
                         if (!info[i].enabled) continue;
                     }
-                    else if (info[i].enabled && info[i].template >= 0 && info[i].template <= 3)
+                    else if (info[i].enabled)
                     {
                         if (string.IsNullOrEmpty(info[i].name)) continue;
 
-                        kerbal = Instantiate(templates[(int)info[i].template]);
+                        int? template = info[i].template;
+
+                        if (template >= 0 && template <= 3)
+                        {
+                            kerbal = Instantiate(templates[template.Value]);
+                        }
+                        else if (template >= -2 && template <= -1)
+                        {
+                            kerbal = Instantiate(munTemplates[-template.Value - 1]);
+                            kerbal.transform.SetParent(templates[0].transform.parent);
+                        }
+                        else
+                        {
+                            continue;
+                        }
+
                         kerbal.name = info[i].name;
                     }
                     else
@@ -363,6 +379,10 @@ namespace SigmaReplacements
                 for (int i = 0; i < 4; i++)
                 {
                     Object.DestroyImmediate(templates[i]);
+                }
+                for (int i = 0; i < 2; i++)
+                {
+                    Object.DestroyImmediate(munTemplates[i]);
                 }
             }
 
