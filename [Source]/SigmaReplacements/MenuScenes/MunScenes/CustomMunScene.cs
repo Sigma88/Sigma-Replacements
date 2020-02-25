@@ -354,7 +354,7 @@ namespace SigmaReplacements
             void AddScatter(MenuObject[] scatters, GameObject scene)
             {
                 int? sandcastle = null;
-                GameObject template = scene.GetChild("sandcastle");
+                GameObject template = scene.GetChild("sandcastle") ?? scene.GetChild("sandcastle_v2_Medium") ?? scene.GetChild("sandcastle_v2_low");
                 Debug.Log("AddScatter", "template position = " + (Vector3d)template.transform.position);
                 Debug.Log("AddScatter", "template rotation = " + (Vector3d)template.transform.eulerAngles);
                 Debug.Log("AddScatter", "template scale = " + (Vector3d)template.transform.localScale);
@@ -512,7 +512,7 @@ namespace SigmaReplacements
                     }
 
                     // Remove Helmet
-                    GameObject helmet = kerbal?.GetChild("helmet01");
+                    GameObject helmet = kerbal?.GetChild("helmet01") ?? kerbal?.GetChild("mesh_female_kerbalAstronaut01_helmet01");
                     if (helmet != null && info[i].removeHelmet)
                     {
                         helmet.SetActive(false);
