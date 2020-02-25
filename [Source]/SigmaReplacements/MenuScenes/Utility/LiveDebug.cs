@@ -216,21 +216,6 @@ namespace SigmaReplacements
                                 }
                             }
                         }
-                        else
-                        {
-                            if (GetComponent<Bobber>() is Bobber bobber)
-                            {
-                                float[] values = new float[] { bobber.ofs1, bobber.ofs2, bobber.ofs3, bobber.seed };
-
-                                DestroyImmediate(bobber);
-
-                                bobber = gameObject.AddComponent<Bobber>();
-                                bobber.ofs1 = values[0];
-                                bobber.ofs2 = values[1];
-                                bobber.ofs3 = values[2];
-                                bobber.seed = values[3];
-                            }
-                        }
                     }
                 }
             }
