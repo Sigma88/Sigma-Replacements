@@ -361,6 +361,13 @@ namespace SigmaReplacements
                     // Apply Physical Parameters
                     info[i].ApplyTo(kerbal);
 
+                    // Remove JetPack
+                    GameObject jetpack = kerbal?.GetChild("jetpack01");
+                    if (jetpack != null && info[i].removeJetpack)
+                    {
+                        jetpack.SetActive(false);
+                    }
+
                     // Remove Helmet
                     GameObject helmet = kerbal.GetChild("helmet01") ?? kerbal.GetChild("mesh_female_kerbalAstronaut01_helmet01");
                     if (helmet != null)

@@ -13,6 +13,7 @@ namespace SigmaReplacements
             internal int? template = null;
             internal bool enabled = true;
             internal bool adjustScale = false;
+            internal bool removeJetpack = false;
             internal bool removeHelmet = false;
             internal bool addColliders = false;
 
@@ -79,6 +80,7 @@ namespace SigmaReplacements
                 }
 
                 adjustScale = Parse(node.GetValue("adjustScale"), adjustScale);
+                removeJetpack = Parse(node.GetValue("removeJetpack"), removeJetpack);
                 removeHelmet = Parse(node.GetValue("removeHelmet"), removeHelmet);
                 addColliders = Parse(node.GetValue("addColliders"), addColliders);
 
