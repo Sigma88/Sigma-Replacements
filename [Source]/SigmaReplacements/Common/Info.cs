@@ -221,7 +221,7 @@ namespace SigmaReplacements
 
         internal Texture Parse(string s, Texture defaultValue)
         {
-            return Resources.FindObjectsOfTypeAll<Texture>().FirstOrDefault(t => t.name == s) ?? defaultValue;
+            return Resources.FindObjectsOfTypeAll<Texture>().FirstOrDefault(t => t.name == s) ?? TextureLoader.Load(s) ?? defaultValue;
         }
 
         internal Vector2? Parse(string s, Vector2? defaultValue)

@@ -34,6 +34,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Common\TextureLoader.cs" />
     <Compile Include="MenuScenes\MenuScenes\MenuLight.cs" />
     <Compile Include="MenuScenes\Utility\LightTracker.cs" />
     <Compile Include="MenuScenes\Utility\LiveDebug.cs" />
@@ -70,6 +71,10 @@
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>..\..\..\[References]\KerbalSpaceProgram\UnityEngine.InputLegacyModule.dll</HintPath>
