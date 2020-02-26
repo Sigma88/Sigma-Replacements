@@ -234,6 +234,11 @@ namespace SigmaReplacements
 
                     }
 
+                    if (map != null)
+                    {
+                        map.Apply();
+                    }
+
                     return map;
                 }
                 else
