@@ -46,6 +46,11 @@ namespace SigmaReplacements
             return null;
         }
 
+        /// This method has been adapted from Kopernicus and it is licensed LPGL.
+        /// (https://github.com/Kopernicus/Kopernicus/blob/master/src/Kopernicus/OnDemand/OnDemandStorage.cs)
+        /// <summary>
+        /// Loads a texture directly from the DDS file.
+        /// </summary>
         static Texture2D LoadDDS(string path)
         {
             try
@@ -54,7 +59,7 @@ namespace SigmaReplacements
                 // Also borrowed the extra bits from Sarbian.
                 BinaryReader binaryReader = new BinaryReader(File.OpenRead(path));
                 UInt32 num = binaryReader.ReadUInt32();
-                
+
                 if (num == DDSValues.uintMagic)
                 {
                     Texture2D map = null;
