@@ -37,6 +37,7 @@ namespace SigmaReplacements
             List<Mode> mode = new List<Mode>();
 
             // SkyBox Settings
+            internal Vector3? rotation = null;
             internal bool rotate = false;
             internal bool mirror = false;
 
@@ -73,6 +74,7 @@ namespace SigmaReplacements
                 mode = Parse(requirements.GetValues("mode"), mode);
 
                 // Parse Settings
+                rotation = Parse(info.GetValue("rotation"), rotation);
                 rotate = Parse(info.GetValue("rotate"), rotate);
                 mirror = Parse(info.GetValue("mirror"), mirror);
 

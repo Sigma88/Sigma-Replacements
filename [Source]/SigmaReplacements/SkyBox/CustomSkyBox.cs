@@ -12,6 +12,7 @@ namespace SigmaReplacements
             // Settings
             bool rotate = false;
             bool mirror = false;
+            Vector3? rotation = null;
 
             // Textures
             Texture[] SkyBox = null;
@@ -50,6 +51,7 @@ namespace SigmaReplacements
                 if (ActiveSkyBox != null)
                 {
                     // Settings
+                    rotation = ActiveSkyBox.rotation;
                     rotate = ActiveSkyBox.rotate;
                     mirror = ActiveSkyBox.mirror ? (Math.Abs(seed % 2) == 1) : ActiveSkyBox.mirror;
 
@@ -119,6 +121,21 @@ namespace SigmaReplacements
 
 
                 // Rotate CubeMap
+                if (rotation.HasValue)
+                {
+                    Debug.Log("CustomSkyBox.ApplyTo", "Rotating SkyBox Transform");
+
+                    Debug.Log("CustomSkyBox.ApplyTo", "Rotatation = " + (Vector3d)rotation);
+
+                    GalaxyCubeControl cube = skybox.GetComponent<GalaxyCubeControl>();
+                    if (cube != null)
+                        cube.initRot = Quaternion.Euler(rotation.Value);
+                    else
+                        skybox.transform.rotation = Quaternion.Euler(rotation.Value);
+                }
+
+                else
+
                 if (rotate == true)
                 {
                     Debug.Log("CustomSkyBox.ApplyTo", "Rotating SkyBox Transform");
@@ -136,7 +153,7 @@ namespace SigmaReplacements
                     int z = hash.GetHashCode();
                     hash = z.ToString();
 
-                    Debug.Log("CustomSkyBox.ApplyTo", "Rotatation = {" + (x % 360) + "°, " + (y % 360) + "°, " + (z % 360) + "°}");
+                    Debug.Log("CustomSkyBox.ApplyTo", "Rotatation = { " + (x % 360) + "°, " + (y % 360) + "°, " + (z % 360) + "° }");
 
                     GalaxyCubeControl cube = skybox.GetComponent<GalaxyCubeControl>();
                     if (cube != null)
