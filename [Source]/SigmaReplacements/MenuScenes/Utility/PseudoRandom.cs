@@ -28,7 +28,7 @@ namespace SigmaReplacements
                 }
             }
 
-            internal static int Choose<T>(this List<T> list, int hash)
+            internal static int Choose(this List<MenuSceneInfo> list, int hash)
             {
                 if (!(list?.Count > 1)) return 0;
 
@@ -38,9 +38,25 @@ namespace SigmaReplacements
 
                     double[] newChances = new double[list.Count];
 
+                    double maxChance = 100;
+                    int adjustedCount = list.Count;
+
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (list[i].useChance > 0)
+                        {
+                            newChances[i] = 100 * list[i].useChance.Value;
+                            maxChance -= 100 * list[i].useChance.Value;
+                            adjustedCount--;
+                        }
+                    }
+
                     for (int i = 0; i < newChances.Length; i++)
                     {
-                        newChances[i] = 100d / newChances.Length;
+                        if (!(list[i].useChance > 0))
+                        {
+                            newChances[i] = maxChance / adjustedCount;
+                        }
                     }
 
                     chances.Add(list, newChances);

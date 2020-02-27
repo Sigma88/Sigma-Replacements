@@ -33,8 +33,10 @@ namespace SigmaReplacements
             // New MenuScenesInfo From Config
             internal MunSceneInfo(ConfigNode info)
             {
+                if (info == null) return;
+
                 // Identifiers
-                name = info?.GetValue("name");
+                name = info.GetValue("name");
 
                 if (string.IsNullOrEmpty(name)) return;
 
@@ -46,25 +48,31 @@ namespace SigmaReplacements
 
                 if (!enabled) return;
 
+                // Use Chance
+                if (double.TryParse(info.GetValue("useChance"), out double chance))
+                {
+                    useChance = chance;
+                }
+
                 // Sky
-                atmosphere = info?.GetNode("SKY")?.GetNode("ATMOSPHERE");
-                bodies = info?.GetNode("SKY")?.GetNodes("BODY");
+                atmosphere = info.GetNode("SKY")?.GetNode("ATMOSPHERE");
+                bodies = info.GetNode("SKY")?.GetNodes("BODY");
 
                 // Terrain
-                terrain = info?.GetNode("TERRAIN");
+                terrain = info.GetNode("TERRAIN");
 
                 // Scatter
-                scatter = info?.GetNode("SCATTER")?.GetNodes("OBJECT");
+                scatter = info.GetNode("SCATTER")?.GetNodes("OBJECT");
 
                 // ShipWreck
-                wreck = info?.GetNode("SHIPWRECK")?.GetNode("SHIP");
-                ground = info?.GetNode("SHIPWRECK")?.GetNode("GROUND");
+                wreck = info.GetNode("SHIPWRECK")?.GetNode("SHIP");
+                ground = info.GetNode("SHIPWRECK")?.GetNode("GROUND");
 
                 // Kerbals
-                kerbals = info?.GetNode("KERBALS")?.GetNodes("KERBAL");
+                kerbals = info.GetNode("KERBALS")?.GetNodes("KERBAL");
 
                 // Lights
-                lights = info?.GetNode("LIGHTS")?.GetNodes("LIGHT");
+                lights = info.GetNode("LIGHTS")?.GetNodes("LIGHT");
             }
 
             // New MenuScenesInfo From Name

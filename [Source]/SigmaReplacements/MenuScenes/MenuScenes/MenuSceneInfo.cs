@@ -7,6 +7,7 @@ namespace SigmaReplacements
             // Requirements
             internal string name = "";
             internal bool enabled = true;
+            internal double? useChance = null;
 
             // New MenuSceneInfo
             internal MenuSceneInfo()
