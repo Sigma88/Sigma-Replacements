@@ -396,6 +396,7 @@ namespace SigmaReplacements
                     if (!info.enabled)
                     {
                         Object.DestroyImmediate(sandcastleOBJ.GetComponent<SandCastleLogic>());
+                        sandcastleOBJ.transform.localScale = Vector3.zero;
                     }
                     else
                     {
