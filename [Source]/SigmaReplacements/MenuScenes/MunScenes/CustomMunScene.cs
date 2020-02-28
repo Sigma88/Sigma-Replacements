@@ -354,9 +354,12 @@ namespace SigmaReplacements
             void AddScatter(MenuObject[] scatters, GameObject scene)
             {
                 int? sandcastle = null;
-                GameObject template = GetSandCastle(scene);
+
+                GameObject template = Instantiate(GetSandCastle(scene)?.GetChild("Castle"));
                 Debug.Log("AddScatter", "template = " + template);
+
                 if (template == null) return;
+
                 Debug.Log("AddScatter", "    position = " + (Vector3d)template.transform.position);
                 Debug.Log("AddScatter", "    rotation = " + (Vector3d)template.transform.eulerAngles);
                 Debug.Log("AddScatter", "    scale = " + (Vector3d)template.transform.localScale);
@@ -373,31 +376,42 @@ namespace SigmaReplacements
 
                     MenuObject info = scatters[i];
                     GameObject scatter = Instantiate(template);
-                    Object.DestroyImmediate(scatter.GetComponent<SandCastleLogic>());
                     scatter.name = info.name;
-                    scatter.SetActive(true);
 
                     info.ApplyTo(scatter);
 
                     Debug.Log("AddScatter", "Created new scatter = " + scatter);
                 }
 
+                // CleanUp
+                Object.DestroyImmediate(template);
+
+                // SandCastle
                 if (sandcastle.HasValue)
                 {
+                    GameObject sandcastleOBJ = GetSandCastle(scene);
+
                     MenuObject info = scatters[sandcastle.Value];
 
                     if (!info.enabled)
                     {
-                        Object.DestroyImmediate(template.GetComponent<SandCastleLogic>());
+                        Object.DestroyImmediate(sandcastleOBJ.GetComponent<SandCastleLogic>());
                     }
                     else
                     {
-                        info.ApplyTo(template);
+                        GameObject sand = sandcastleOBJ.GetChild("SandBase");
+                        GameObject castle = sandcastleOBJ.GetChild("Castle");
+
+                        info.ApplyTo(sand);
+                        info.ApplyTo(castle);
 
                         if (Debug.debug)
                         {
-                            Object.DestroyImmediate(template.GetComponent<SandCastleLogic>());
-                            template.SetActive(true);
+                            Object.DestroyImmediate(sand.GetComponent<LiveDebug>());
+                            Object.DestroyImmediate(castle.GetComponent<LiveDebug>());
+                            Object.DestroyImmediate(sandcastleOBJ.GetComponent<SandCastleLogic>());
+                            sandcastleOBJ.SetActive(true);
+                            sandcastleOBJ.AddOrGetComponent<LiveDebug>();
                         }
                     }
                 }
@@ -607,7 +621,7 @@ namespace SigmaReplacements
                 }
                 else
                 {
-                    return scene?.GetChild("sandcastle");
+                    return scene?.GetChild("sandcastle_v2_High");
                 }
             }
 
