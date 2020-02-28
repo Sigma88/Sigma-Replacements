@@ -10,7 +10,7 @@ namespace SigmaReplacements
         {
             static int max = 3;
             static double type = 0.5;
-            static Dictionary<object, double[]> chances = new Dictionary<object, double[]>();
+            static Dictionary<object, double[][]> chances = new Dictionary<object, double[][]>();
 
             internal static int Scene(int hash)
             {
@@ -36,6 +36,7 @@ namespace SigmaReplacements
                 {
                     Debug.Log("PseudoRandom.Choose", "Adding to dictionary new List<" + list[0].GetType().Name + ">");
 
+                    double[] fixChances = new double[list.Count];
                     double[] newChances = new double[list.Count];
 
                     double maxChance = 100;
@@ -45,7 +46,7 @@ namespace SigmaReplacements
                     {
                         if (list[i].useChance > 0)
                         {
-                            newChances[i] = 100 * list[i].useChance.Value;
+                            fixChances[i] = 100 * list[i].useChance.Value;
                             maxChance -= 100 * list[i].useChance.Value;
                             adjustedCount--;
                         }
@@ -59,26 +60,50 @@ namespace SigmaReplacements
                         }
                     }
 
-                    chances.Add(list, newChances);
+                    chances.Add(list, new[] { fixChances, newChances });
                 }
 
                 double random = Math.Pow(hash, 0.5) % 100d;
                 double sum = 0;
+                int adjustable = list.Count;
 
-                for (int i = 0; i < chances[list].Length; i++)
+                for (int i = 0; i < list.Count; i++)
                 {
-                    sum += chances[list][i];
+                    double num = chances[list][0][i];
+
+                    sum += num;
+
+                    if (num > 0)
+                    {
+                        adjustable--;
+                    }
+
                     if (random < sum)
                     {
-                        double penalty = Math.Min(chances[list][i], (100d / max) / chances[list].Length);
-                        double bonus = penalty / (chances[list].Length - 1);
+                        return i;
+                    }
+                }
 
-                        for (int j = 0; j < chances[list].Length; j++)
+                for (int i = 0; i < list.Count; i++)
+                {
+                    double num = chances[list][1][i];
+
+                    sum += num;
+
+                    if (random < sum)
+                    {
+                        double penalty = Math.Min(num, (100d / max) / adjustable);
+                        double bonus = penalty / (adjustable - 1);
+
+                        for (int j = 0; j < list.Count; j++)
                         {
-                            chances[list][j] += bonus;
+                            if (chances[list][0][j] > 0)
+                                continue;
+
+                            chances[list][1][j] += bonus;
                         }
 
-                        chances[list][i] = chances[list][i] - bonus - penalty;
+                        chances[list][1][i] = num - penalty;
                         return i;
                     }
                 }
