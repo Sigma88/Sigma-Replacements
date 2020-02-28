@@ -354,32 +354,52 @@ namespace SigmaReplacements
             void AddScatter(MenuObject[] scatters, GameObject scene)
             {
                 int? sandcastle = null;
-                GameObject template = scene.GetChild("sandcastle") ?? scene.GetChild("sandcastle_v2_Medium") ?? scene.GetChild("sandcastle_v2_low");
-                Debug.Log("AddScatter", "template position = " + (Vector3d)template.transform.position);
-                Debug.Log("AddScatter", "template rotation = " + (Vector3d)template.transform.eulerAngles);
-                Debug.Log("AddScatter", "template scale = " + (Vector3d)template.transform.localScale);
+                GameObject template = GetSandCastle(scene);
+                Debug.Log("AddScatter", "template = " + template);
+                if (template == null) return;
+                Debug.Log("AddScatter", "    position = " + (Vector3d)template.transform.position);
+                Debug.Log("AddScatter", "    rotation = " + (Vector3d)template.transform.eulerAngles);
+                Debug.Log("AddScatter", "    scale = " + (Vector3d)template.transform.localScale);
 
                 for (int i = 0; i < scatters?.Length; i++)
                 {
-                    if (!scatters[i].enabled) continue;
-
                     if (scatters[i].name == "sandcastle")
                     {
                         sandcastle = sandcastle ?? i;
                         continue;
                     }
 
+                    if (!scatters[i].enabled) continue;
+
                     MenuObject info = scatters[i];
                     GameObject scatter = Instantiate(template);
                     Object.DestroyImmediate(scatter.GetComponent<SandCastleLogic>());
                     scatter.name = info.name;
+                    scatter.SetActive(true);
 
                     info.ApplyTo(scatter);
+
+                    Debug.Log("AddScatter", "Created new scatter = " + scatter);
                 }
 
-                if (sandcastle != null)
+                if (sandcastle.HasValue)
                 {
-                    scatters[(int)sandcastle].ApplyTo(template);
+                    MenuObject info = scatters[sandcastle.Value];
+
+                    if (!info.enabled)
+                    {
+                        Object.DestroyImmediate(template.GetComponent<SandCastleLogic>());
+                    }
+                    else
+                    {
+                        info.ApplyTo(template);
+
+                        if (Debug.debug)
+                        {
+                            Object.DestroyImmediate(template.GetComponent<SandCastleLogic>());
+                            template.SetActive(true);
+                        }
+                    }
                 }
             }
 
@@ -572,6 +592,22 @@ namespace SigmaReplacements
                     }
 
                     lightTemplates = null;
+                }
+            }
+
+            GameObject GetSandCastle(GameObject scene)
+            {
+                if (GameSettings.TERRAIN_SHADER_QUALITY <= 0)
+                {
+                    return scene?.GetChild("sandcastle_v2_low");
+                }
+                else if (GameSettings.TERRAIN_SHADER_QUALITY == 1)
+                {
+                    return scene?.GetChild("sandcastle_v2_Medium");
+                }
+                else
+                {
+                    return scene?.GetChild("sandcastle");
                 }
             }
 
