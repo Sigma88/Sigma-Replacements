@@ -179,9 +179,6 @@ namespace SigmaReplacements
 
                         // Material
                         renderer.material = template?.GetComponent<Renderer>()?.material ?? renderer.material;
-                        renderer.material.SetTexture(info.texture1);
-                        renderer.material.SetNormal(info.normal1);
-                        renderer.material.SetColor(info.color1);
 
                         // Mesh
                         MeshFilter meshFilter = body.GetComponent<MeshFilter>();
@@ -439,12 +436,8 @@ namespace SigmaReplacements
                 wreck.SetActive(info.enabled);
                 if (!wreck.activeSelf) return;
 
-                // Edit Position/Rotation/Scale
-                wreck.transform.position = info.position ?? wreck.transform.position;
-                wreck.transform.rotation = info.rotation ?? wreck.transform.rotation;
-                wreck.transform.localScale = info.scale ?? wreck.transform.localScale;
-
-                if (Debug.debug) wreck.AddComponent<LiveDebug>();
+                // Apply MenuObject
+                info.ApplyTo(wreck);
             }
 
             void EditGround(MenuObject info, GameObject scene)
