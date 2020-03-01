@@ -169,10 +169,10 @@ namespace SigmaReplacements
 
 
                 // Rotato
-                if (rotatoSpeed != null)
+                if (rotatoSpeed.HasValue)
                 {
                     Rotato rotato = obj.AddOrGetComponent<Rotato>();
-                    rotato.speed = (float)rotatoSpeed;
+                    rotato.speed = rotatoSpeed.Value;
                 }
 
 
