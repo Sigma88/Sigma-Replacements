@@ -229,10 +229,10 @@ namespace SigmaReplacements
                             menuLight.ApplyTo(lightObj, scene);
                         }
                     }
-
-                    // CleanUp
-                    Object.Destroy(clone);
                 }
+
+                // CleanUp
+                Object.Destroy(clone);
             }
 
             void EditTerrain(MenuObject info, GameObject scene)
