@@ -89,11 +89,13 @@ namespace SigmaReplacements
 
             void AddAtmosphere(MenuObject info, GameObject scene)
             {
-                if (info?.color1 != null && info?.color2 != null)
+                if (info == null) return;
+
+                if (info.color1.HasValue && info.color2.HasValue)
                 {
                     // Colors
-                    Color from = (Color)info.color1;
-                    Color to = (Color)info.color2;
+                    Color from = info.color1.Value;
+                    Color to = info.color2.Value;
                     haze = Color.Lerp(from, to, 0.5f).A(0.65f);
 
                     // Atmosphere Top
@@ -201,10 +203,10 @@ namespace SigmaReplacements
                     info.ApplyTo(body, 0.188336193561554f);
 
                     // Add Atmospheric Haze
-                    if (haze != null)
+                    if (haze.HasValue)
                     {
                         renderer.materials = new Material[] { renderer.material, new Material(Shader.Find("KSP/Scenery/Unlit/Transparent")) };
-                        renderer.materials[1].color = (Color)haze;
+                        renderer.materials[1].color = haze.Value;
                     }
 
                     // Add Lights
@@ -679,8 +681,8 @@ namespace SigmaReplacements
                 MenuObject[] data = null;
                 data = Parse(input, data);
 
-                List<MenuObject> output = data.Where(i => i.name == "boulder" && i.index == null).ToList();
-                output.AddRange(data.Where(i => i.name == "boulder" && i.index != null).OrderBy(i => i.index));
+                List<MenuObject> output = data.Where(i => i.name == "boulder" && !i.index.HasValue).ToList();
+                output.AddRange(data.Where(i => i.name == "boulder" && i.index.HasValue).OrderBy(i => i.index));
 
                 return output.ToArray();
             }

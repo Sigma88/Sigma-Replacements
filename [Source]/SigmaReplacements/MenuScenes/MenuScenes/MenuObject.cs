@@ -141,8 +141,8 @@ namespace SigmaReplacements
                 // Edit Position/Rotation/Scale
                 obj.transform.position = position ?? obj.transform.position;
                 obj.transform.rotation = rotation ?? obj.transform.rotation;
-                if (scale != null)
-                    obj.transform.localScale = (Vector3)scale * scaleMult;
+                if (scale.HasValue)
+                    obj.transform.localScale = scale.Value * scaleMult;
 
                 // Adjust Scale by Distance
                 if (adjustScale)
@@ -190,7 +190,7 @@ namespace SigmaReplacements
 
                     GameObject parent = null;
 
-                    if (pivotAround != null)
+                    if (!string.IsNullOrEmpty(pivotAround))
                         parent = scene.GetChild(pivotAround);
 
                     parent = parent ?? obj?.transform?.parent?.gameObject;
@@ -216,18 +216,18 @@ namespace SigmaReplacements
                     }
                 }
 
-                if (pivotRotatoSpeed != null)
+                if (pivotRotatoSpeed.HasValue)
                 {
                     if (obj?.transform?.parent?.gameObject != null)
                     {
                         Rotato pivotRotato = obj.transform.parent.gameObject.AddOrGetComponent<Rotato>();
-                        pivotRotato.speed = (float)pivotRotatoSpeed;
+                        pivotRotato.speed = pivotRotatoSpeed.Value;
                     }
                 }
 
 
                 // Bobber
-                if (bobberSeed != null || bobberOFS != null)
+                if (bobberSeed.HasValue || bobberOFS.HasValue)
                 {
                     Bobber bobber = obj.AddOrGetComponent<Bobber>();
 
