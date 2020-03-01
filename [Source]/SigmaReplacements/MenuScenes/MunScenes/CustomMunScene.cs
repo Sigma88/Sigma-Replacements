@@ -158,7 +158,7 @@ namespace SigmaReplacements
                         if (string.IsNullOrEmpty(info.name)) continue;
 
                         body = Instantiate(clone);
-                        body.name = "NewBody_" + info.name;
+                        body.name = info.name;
                     }
                     else
                     {

@@ -183,7 +183,7 @@ namespace SigmaReplacements
                         if (string.IsNullOrEmpty(info.name)) continue;
 
                         body = Instantiate(clone);
-                        body.name = "NewMoon_" + info.name;
+                        body.name = info.name;
                     }
                     else
                     {
