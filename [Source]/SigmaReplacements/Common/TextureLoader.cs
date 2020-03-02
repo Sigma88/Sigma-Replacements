@@ -100,20 +100,17 @@ namespace SigmaReplacements
                     {
                         if (ddsHeader.ddspf.dwFourCC == DDSValues.uintDXT1)
                         {
-                            map = new Texture2D((Int32)ddsHeader.dwWidth, (Int32)ddsHeader.dwHeight,
-                                TextureFormat.DXT1, mipmap);
+                            map = new Texture2D((Int32)ddsHeader.dwWidth, (Int32)ddsHeader.dwHeight, TextureFormat.DXT1, mipmap);
                             map.LoadRawTextureData(data);
                         }
                         else if (ddsHeader.ddspf.dwFourCC == DDSValues.uintDXT3)
                         {
-                            map = new Texture2D((Int32)ddsHeader.dwWidth, (Int32)ddsHeader.dwHeight,
-                                (TextureFormat)11, mipmap);
+                            map = new Texture2D((Int32)ddsHeader.dwWidth, (Int32)ddsHeader.dwHeight, (TextureFormat)11, mipmap);
                             map.LoadRawTextureData(data);
                         }
                         else if (ddsHeader.ddspf.dwFourCC == DDSValues.uintDXT5)
                         {
-                            map = new Texture2D((Int32)ddsHeader.dwWidth, (Int32)ddsHeader.dwHeight,
-                                TextureFormat.DXT5, mipmap);
+                            map = new Texture2D((Int32)ddsHeader.dwWidth, (Int32)ddsHeader.dwHeight, TextureFormat.DXT5, mipmap);
                             map.LoadRawTextureData(data);
                         }
                         else if (ddsHeader.ddspf.dwFourCC == DDSValues.uintDXT2)
@@ -132,50 +129,6 @@ namespace SigmaReplacements
                         {
                             UnityEngine.Debug.Log("[SigmaLog SR] LoadDDS: Magic dds not supported: " + path);
                         }
-                        else if (ddsHeader.ddspf.dwRGBBitCount == 4 || ddsHeader.ddspf.dwRGBBitCount == 8)
-                        {
-                            try
-                            {
-                                Int32 bpp = (Int32)ddsHeader.ddspf.dwRGBBitCount;
-                                Int32 colors = (Int32)Math.Pow(2, bpp);
-                                Int32 width = (Int32)ddsHeader.dwWidth;
-                                Int32 height = (Int32)ddsHeader.dwHeight;
-                                Int64 length = new FileInfo(path).Length;
-                                Int32 pixels = width * height * bpp / 8 + 4 * colors;
-
-                                if (length - 128 >= pixels)
-                                {
-                                    Color[] palette = new Color[colors];
-                                    Color[] image = new Color[width * height];
-
-                                    for (Int32 i = 0; i < 4 * colors; i += 4)
-                                    {
-                                        palette[i / 4] = new Color32(data[i + 0], data[i + 1], data[i + 2],
-                                            data[i + 3]);
-                                    }
-
-                                    for (Int32 i = 4 * colors; i < data.Length; i++)
-                                    {
-                                        image[(i - 4 * colors) * 8 / bpp] = palette[data[i] * colors / 256];
-                                        if (bpp == 4)
-                                        {
-                                            image[(i - 64) * 2 + 1] = palette[data[i] % 16];
-                                        }
-                                    }
-
-                                    map = new Texture2D(width, height, TextureFormat.ARGB32, false);
-                                    map.SetPixels(image);
-                                }
-                                else
-                                {
-                                    fourcc = false;
-                                }
-                            }
-                            catch
-                            {
-                                fourcc = false;
-                            }
-                        }
                         else
                         {
                             fourcc = false;
@@ -185,13 +138,10 @@ namespace SigmaReplacements
                     if (!fourcc)
                     {
                         TextureFormat textureFormat = TextureFormat.ARGB32;
-                        Boolean ok = true;
                         if (rgb && rgb888)
                         {
                             // RGB or RGBA format
-                            textureFormat = alphapixel
-                                ? TextureFormat.RGBA32
-                                : TextureFormat.RGB24;
+                            textureFormat = alphapixel ? TextureFormat.RGBA32 : TextureFormat.RGB24;
                         }
                         else if (rgb && rgb565)
                         {
@@ -223,20 +173,57 @@ namespace SigmaReplacements
                                 textureFormat = TextureFormat.R16;
                             }
                         }
+                        else if (ddsHeader.ddspf.dwRGBBitCount == 4 || ddsHeader.ddspf.dwRGBBitCount == 8)
+                        {
+                            try
+                            {
+                                Int32 bpp = (Int32)ddsHeader.ddspf.dwRGBBitCount;
+                                Int32 colors = (Int32)Math.Pow(2, bpp);
+                                Int32 width = (Int32)ddsHeader.dwWidth;
+                                Int32 height = (Int32)ddsHeader.dwHeight;
+                                Int64 length = new FileInfo(path).Length;
+                                Int32 pixels = width * height * bpp / 8 + 4 * colors;
+
+                                if (length - 128 >= pixels)
+                                {
+                                    Color[] palette = new Color[colors];
+                                    Color[] image = new Color[width * height];
+
+                                    for (Int32 i = 0; i < 4 * colors; i += 4)
+                                    {
+                                        palette[i / 4] = new Color32(data[i + 0], data[i + 1], data[i + 2], data[i + 3]);
+                                    }
+
+                                    for (Int32 i = 4 * colors; i < data.Length; i++)
+                                    {
+                                        image[(i - 4 * colors) * 8 / bpp] = palette[data[i] * colors / 256];
+                                        if (bpp == 4)
+                                        {
+                                            image[(i - 64) * 2 + 1] = palette[data[i] % 16];
+                                        }
+                                    }
+
+                                    map = new Texture2D(width, height, TextureFormat.ARGB32, false);
+                                    map.SetPixels(image);
+                                }
+                                else
+                                {
+                                    fourcc = false;
+                                }
+                            }
+                            catch
+                            {
+                                fourcc = false;
+                            }
+                        }
                         else
                         {
-                            ok = false;
                             UnityEngine.Debug.Log("[SigmaLog SR] LoadDDS: Only DXT1, DXT5, A8, R8, R16, RGB24, RGBA32, RGB565, ARGB4444, RGBA4444, 4bpp palette and 8bpp palette are supported");
                             return null;
                         }
 
-                        if (ok)
-                        {
-                            map = new Texture2D((Int32)ddsHeader.dwWidth, (Int32)ddsHeader.dwHeight,
-                                textureFormat, mipmap);
-                            map.LoadRawTextureData(data);
-                        }
-
+                        map = new Texture2D((Int32)ddsHeader.dwWidth, (Int32)ddsHeader.dwHeight, textureFormat, mipmap);
+                        map.LoadRawTextureData(data);
                     }
 
                     if (map != null)
