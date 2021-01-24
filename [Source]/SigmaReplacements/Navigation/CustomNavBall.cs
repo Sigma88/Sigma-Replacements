@@ -314,8 +314,8 @@ namespace SigmaReplacements
                 }
 
 
-                UIStateImage[] newButtons = controller?.gameObject?.GetComponentsInChildren<UIStateImage>();
-                UIStateImage[] stockButtons = original?.gameObject?.GetComponentsInChildren<UIStateImage>();
+                UIStateImage[] newButtons = controller?.gameObject?.GetChild("IVAEVACollapseGroup")?.GetComponentsInChildren<UIStateImage>(true);
+                UIStateImage[] stockButtons = original?.gameObject?.GetChild("IVAEVACollapseGroup")?.GetComponentsInChildren<UIStateImage>(true);
 
                 for (int i = 0; i < newButtons?.Length; i++)
                 {
