@@ -320,13 +320,21 @@ namespace SigmaReplacements
                 for (int i = 0; i < newButtons?.Length; i++)
                 {
                     string name = newButtons[i]?.name;
-                    if (name == "RCS" || name == "SAS")
+                    if (name == "RCS")
                     {
                         UIStateImage button = newButtons[i];
                         UIStateImage stock = stockButtons?.Length > i ? stockButtons[i] : null;
 
                         button.SetColor(Buttons, stock);
                         button.SetTexture(ButtonsTex, stock);
+                    }
+                    else if (name == "SAS")
+                    {
+                        UIStateImage button = newButtons[i];
+                        UIStateImage stock = stockButtons?.Length > i ? stockButtons[i] : null;
+
+                        button.SetColor(Buttons, stock);
+                        // button.SetTexture(ButtonsTex, stock);
                     }
                 }
 
